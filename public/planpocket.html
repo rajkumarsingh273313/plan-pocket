@@ -1876,7 +1876,8 @@
             x: { grid: { display: false }, ticks: { color: '#172B4D', font: { weight: '600' } },
               title: { display: true, text: 'Scenario outcome', color: '#667085' } },
             y: { beginAtZero: true, grid: { color: '#EEF1F4' }, border: { display: false },
-              ticks: { color: '#667085', callback: v => inr(v) },
+              ...((revenue === 0 && expenses === 0) ? { min: 0, max: 1000 } : {}),
+              ticks: { color: '#667085', precision: 0, callback: v => inr(v) },
               title: { display: true, text: 'Amount per month (₹)', color: '#667085' } }
           }
         }
