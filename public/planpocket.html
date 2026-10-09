@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>PLANPOCKET - Your Financial Planning Companion</title>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="description" content="Your Financial Planning Companion with CFO Helper Agent for budget scenario simulation">
+  <meta name="theme-color" content="#0F766E">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PLANPOCKET">
+  <meta name="msapplication-TileColor" content="#0e1621">
+  <meta name="msapplication-tap-highlight" content="no">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- iOS Icons -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Ccircle cx='90' cy='90' r='90' fill='%234cc9f0'/%3E%3Ctext x='90' y='112' font-size='60' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EP%3C/text%3E%3C/svg%3E">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%234cc9f0'/%3E%3Ctext x='16' y='20' font-size='16' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EP%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #0e1621; --bg2: #111c27; --card: #162232; --accent: #4cc9f0; 
+      --accent2: #4895ef; --text: #e6eef7; --muted: #9fb3c8; 
+      --success: #4caf50; --danger: #ef476f; --warning: #ff9800;
+    }
+    
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(1000px 600px at 20% -10%, #1b2a3a 0%, #0e1621 60%);
+      color: var(--text); min-height: 100vh; overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px; margin: 0 auto; padding: 20px;
+    }
+    
+    .header {
+      text-align: center; margin-bottom: 40px; padding: 40px 20px;
+    }
+    
+    .logo {
+      font-size: 3.5rem; font-weight: bold; margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .tagline {
+      font-size: 1.3rem; color: var(--muted); margin-bottom: 30px;
+      max-width: 600px; margin-left: auto; margin-right: auto;
+    }
+    
+    .description {
+      font-size: 1.1rem; color: var(--text); margin-bottom: 40px;
+      max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6;
+    }
+    
+    .card {
+      background: var(--card); padding: 40px; margin: 20px auto;
+      border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      max-width: 500px;
+    }
+    
+    .auth-card {
+      background: var(--card); padding: 30px; margin: 20px auto;
+      border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.06);
+      max-width: 400px;
+    }
+    
+    .auth-card h2 {
+      text-align: center; margin-bottom: 25px; color: var(--accent);
+      font-size: 1.8rem;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block; margin-bottom: 8px; font-weight: 500;
+      color: var(--text);
+    }
+    
+    .form-group input {
+      width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; background: var(--bg2); color: var(--text);
+      font-size: 1rem; transition: all 0.3s ease;
+    }
+    
+    .form-group input:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.1);
+    }
+    
+    .btn {
+      width: 100%; padding: 14px; border: none; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: white; font-size: 1.1rem; font-weight: 500;
+      cursor: pointer; transition: all 0.3s ease; margin-top: 10px;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .btn-secondary {
+      background: var(--bg2); color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--bg); transform: translateY(-1px);
+    }
+    
+    .link {
+      color: var(--accent); text-decoration: none; cursor: pointer;
+      transition: color 0.3s ease; font-weight: 500;
+    }
+    
+    .link:hover {
+      color: var(--accent2); text-decoration: underline;
+    }
+    
+    .welcome-actions {
+      display: flex; gap: 20px; justify-content: center;
+      margin-top: 30px; flex-wrap: wrap;
+    }
+    
+    .welcome-actions .btn {
+      width: 200px; margin: 0;
+    }
+    
+    .message {
+      text-align: center; margin-top: 15px; padding: 10px;
+      border-radius: 8px; font-weight: 500;
+    }
+    
+    .message.success {
+      background: rgba(76, 175, 80, 0.1); color: var(--success);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+    
+    .message.error {
+      background: rgba(239, 71, 111, 0.1); color: var(--danger);
+      border: 1px solid rgba(239, 71, 111, 0.3);
+    }
+    
+    .otp-container {
+      display: none; margin-top: 20px;
+    }
+    
+    .otp-row {
+      display: flex; gap: 10px; align-items: center;
+    }
+    
+    .otp-row input {
+      flex: 1;
+    }
+    
+    .timer {
+      text-align: center; color: var(--muted); margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    
+    .resend-btn {
+      display: none; width: auto; margin-top: 10px;
+      background: var(--warning); color: white;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    .back-link {
+      text-align: center; margin-top: 20px;
+    }
+    
+    .features {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px; margin: 50px 0;
+    }
+    
+    .feature-card {
+      background: var(--card); padding: 25px; border-radius: 16px;
+      text-align: center; border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem; margin-bottom: 15px;
+    }
+    
+    .feature-title {
+      font-size: 1.3rem; font-weight: bold; margin-bottom: 10px;
+      color: var(--accent);
+    }
+    
+    .feature-desc {
+      color: var(--muted); line-height: 1.5;
+    }
+
+    .dashboard-header {
+      text-align: center; margin: 20px 0 35px;
+    }
+
+    .dashboard-header .logo { font-size: 2.5rem; }
+
+    .dashboard-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; margin: 25px 0;
+    }
+
+    .tool-card {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      background: var(--card); padding: 30px 24px; border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.07); min-height: 245px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .tool-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .tool-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .tool-card h2 { color: var(--accent); font-size: 1.3rem; margin-bottom: 12px; }
+    .tool-card p { color: var(--muted); line-height: 1.5; flex: 1; }
+
+    .tool-link {
+      color: var(--accent); background: none; border: 0; cursor: pointer;
+      font: inherit; font-weight: 700; margin-top: 18px; padding: 8px;
+    }
+
+    .tool-link:hover { color: var(--accent2); }
+
+    .activity-summary {
+      max-width: 650px; margin: 30px auto; padding: 28px;
+      background: var(--card); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 18px; text-align: center;
+    }
+
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px; margin-top: 20px;
+    }
+
+    .summary-value { color: var(--accent); font-size: 1.6rem; font-weight: 700; }
+    .summary-label { color: var(--muted); margin-top: 4px; }
+    .tracker-card { max-width: 850px; }
+    .tracker-card h2 { margin-bottom: 20px; }
+
+    .tracker-form {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 15px; align-items: end; margin: 20px 0;
+    }
+
+    .tracker-form .form-group { margin: 0; }
+    .tracker-form select, .tracker-form input {
+      width: 100%; padding: 12px 14px; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; background: var(--bg2); color: var(--text); font-size: 1rem;
+    }
+
+    .tracker-form .btn { margin: 0; }
+    .tracker-list { display: grid; gap: 12px; margin-top: 20px; }
+
+    .tracker-row {
+      display: flex; gap: 14px; align-items: center; justify-content: space-between;
+      background: var(--bg2); border-radius: 12px; padding: 16px;
+    }
+
+    .tracker-row-main { min-width: 0; flex: 1; }
+    .tracker-row-main strong, .tracker-row-main span { display: block; }
+    .tracker-row-main span { color: var(--muted); margin-top: 4px; }
+    .tracker-row-amount { font-weight: 700; white-space: nowrap; }
+    .tracker-empty { color: var(--muted); text-align: center; padding: 18px; }
+    .progress-track { height: 8px; background: var(--bg); border-radius: 99px; margin-top: 10px; overflow: hidden; }
+    .progress-track span { display: block; height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+
+    .tracker-result {
+      background: var(--bg2); border-radius: 12px; padding: 18px; margin: 18px 0;
+      text-align: center;
+    }
+
+    .tracker-result strong { display: block; color: var(--accent); font-size: 1.7rem; }
+    .tracker-back { display: block; width: fit-content; margin: 0 auto 15px; }
+    .tracker-message { margin: 12px 0; }
+    .budget-overview, .report-metrics {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px; margin: 20px 0;
+    }
+    .budget-stat, .report-metric {
+      background: var(--bg2); padding: 18px; border-radius: 12px;
+    }
+    .budget-stat strong, .report-metric strong {
+      display: block; color: var(--accent); font-size: 1.3rem; margin-top: 6px;
+      overflow-wrap: anywhere;
+    }
+    .budget-stat span, .report-metric span { color: var(--muted); }
+    .budget-row { background: var(--bg2); padding: 16px; border-radius: 12px; }
+    .budget-row-head { display: flex; justify-content: space-between; gap: 12px; }
+    .budget-row-head span { color: var(--muted); text-align: right; }
+    .budget-progress { height: 10px; margin-top: 12px; background: var(--bg); border-radius: 99px; overflow: hidden; }
+    .budget-progress span { display: block; height: 100%; background: var(--success); border-radius: inherit; }
+    .budget-progress.warning span { background: var(--warning); }
+    .budget-progress.over span { background: var(--danger); }
+    .insight-box {
+      padding: 16px 18px; margin: 18px 0; border-radius: 12px;
+      background: rgba(76, 201, 240, 0.08); border: 1px solid rgba(76, 201, 240, 0.2);
+      color: var(--text); line-height: 1.6;
+    }
+    .report-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 14px; margin: 18px 0; }
+    .report-toolbar .form-group { margin: 0; }
+    .report-toolbar input { min-height: 44px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; background: var(--bg2); color: var(--text); }
+    .report-chart { display: grid; gap: 12px; margin: 18px 0; }
+    .report-bar-row { display: grid; grid-template-columns: minmax(90px, 130px) 1fr auto; gap: 12px; align-items: center; }
+    .report-bar-track { height: 12px; background: var(--bg); border-radius: 99px; overflow: hidden; }
+    .report-bar-track span { display: block; height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: inherit; }
+    .report-bar-amount { color: var(--muted); text-align: right; white-space: nowrap; }
+    .budget-action { width: auto; padding: 12px 18px; }
+    
+    /* Mobile Optimizations */
+    @media (max-width: 768px) {
+      .container { padding: 15px; }
+      .logo { font-size: 2.5rem; }
+      .tagline { font-size: 1.1rem; }
+      .welcome-actions { flex-direction: column; align-items: center; }
+      .welcome-actions .btn { width: 100%; max-width: 300px; }
+      .card, .auth-card { margin: 10px; padding: 25px; }
+      
+      /* Mobile-specific improvements */
+      body { 
+        -webkit-text-size-adjust: 100%; 
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      
+      input[type="range"] { 
+        -webkit-appearance: none; 
+        touch-action: pan-x;
+      }
+      
+      button { 
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        min-height: 44px; /* iOS recommended touch target */
+      }
+      
+      .form-group input { 
+        min-height: 44px;
+        font-size: 16px; /* Prevents zoom on iOS */
+      }
+      
+      /* Prevent zoom on input focus */
+      select, textarea, input[type="text"], input[type="password"], input[type="tel"] {
+        font-size: 16px;
+      }
+      
+      /* Mobile-friendly charts */
+      .chart-container { 
+        max-height: 300px; 
+        overflow: hidden;
+      }
+      
+      /* Better mobile navigation */
+      .welcome-actions .btn {
+        min-height: 50px;
+        font-size: 1.1rem;
+        margin: 5px 0;
+      }
+
+      .dashboard-grid { grid-template-columns: 1fr; gap: 16px; }
+      .tool-card { min-height: 0; }
+      .tracker-card { padding: 22px; }
+      .tracker-row { align-items: flex-start; }
+      .report-bar-row { grid-template-columns: 82px 1fr; gap: 8px; }
+      .report-bar-amount { grid-column: 2; text-align: left; }
+      .budget-row-head { flex-direction: column; gap: 5px; }
+      .budget-row-head span { text-align: left; }
+      
+      /* Mobile slider improvements */
+      input[type="range"] {
+        height: 40px;
+        -webkit-appearance: none;
+        background: transparent;
+      }
+      
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 24px;
+        width: 24px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      }
+      
+      input[type="range"]::-moz-range-thumb {
+        height: 24px;
+        width: 24px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      }
+    }
+    
+    /* PWA-specific styles */
+    @media (display-mode: standalone) {
+      body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      
+      .header {
+        padding-top: calc(20px + env(safe-area-inset-top));
+      }
+    }
+    
+    /* Dark mode optimizations */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0e1621;
+        --text: #e6eef7;
+      }
+    }
+  </style>
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style id="pp-redesign">
+    :root{
+      --bg:#F5F7FA; --bg2:#FFFFFF; --card:#FFFFFF; --accent:#0F766E; --accent2:#0F766E;
+      --accent-soft:#DDF3EC; --text:#172B4D; --muted:#667085; --border:#E4E7EC;
+      --success:#15803D; --warning:#B45309; --danger:#B42318;
+      --radius:14px; --shadow:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06);
+      --shadow-lg:0 12px 32px -12px rgba(16,24,40,.18); --side:248px;
+    }
+    @media (prefers-color-scheme: dark){ :root{ --bg:#F5F7FA; --text:#172B4D; } }
+    body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg)!important;color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5}
+    h1,h2,h3{color:var(--text);letter-spacing:-.01em}
+    h2{font-size:1.35rem;font-weight:700} h3{font-size:1.05rem;font-weight:650;margin:18px 0 10px}
+    .container{max-width:1160px;padding:28px 24px}
+    .logo{background:none!important;-webkit-text-fill-color:var(--text)!important;color:var(--text);font-weight:800;letter-spacing:-.02em}
+    .tagline,.description{color:var(--muted)}
+    .card,.auth-card,.tool-card,.feature-card,.activity-summary,.tracker-card,.budget-stat,.tracker-list>*,.report-metrics>*,.summary-grid>div{
+      background:var(--card)!important;border:1px solid var(--border)!important;box-shadow:var(--shadow)!important;border-radius:var(--radius)!important;color:var(--text)}
+    .tool-card,.feature-card{transition:box-shadow .2s ease,transform .2s ease,border-color .2s}
+    .tool-card:hover,.feature-card:hover{box-shadow:var(--shadow-lg)!important;border-color:#C9D7D5!important;transform:translateY(-2px)}
+    .tool-icon,.feature-icon{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;font-size:1.3rem!important;margin-bottom:14px}
+    input,select,textarea,.report-toolbar input{background:#fff!important;color:var(--text)!important;border:1px solid var(--border)!important;border-radius:10px!important;min-height:44px;font:inherit;transition:border-color .15s,box-shadow .15s}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box-shadow:0 0 0 3px rgba(15,118,110,.18)!important}
+    label{color:var(--text)!important;font-weight:600;font-size:.88rem}
+    .btn{background:var(--accent)!important;color:#fff!important;border:1px solid var(--accent)!important;border-radius:10px!important;font-weight:600;min-height:44px;box-shadow:none!important;transition:background .15s,transform .1s}
+    .btn:hover{background:#0B5F58!important;transform:none!important}
+    .btn:active{transform:scale(.98)!important}
+    .btn-secondary{background:#fff!important;color:var(--text)!important;border-color:var(--border)!important}
+    .btn-secondary:hover{background:var(--bg)!important}
+    .btn[style*="--success"]{background:var(--success)!important;border-color:var(--success)!important}
+    .btn[style*="--warning"]{background:var(--warning)!important;border-color:var(--warning)!important}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .link,.tool-link{color:var(--accent)!important;font-weight:600}
+    .tool-link{background:none;border:none;cursor:pointer;padding:6px 0;font:inherit}
+    .tracker-back{margin-bottom:16px}
+    .message.success,.tracker-message.success{background:#E7F5EC!important;color:var(--success)!important;border:1px solid #B7E1C4!important}
+    .message.error,.tracker-message.error{background:#FDECEA!important;color:var(--danger)!important;border:1px solid #F5C2BC!important}
+    .insight-box{background:var(--accent-soft)!important;border:1px solid #B5E3D4!important;color:var(--text)!important;border-radius:12px}
+    .progress-track{background:#EEF1F4!important;border-radius:99px;overflow:hidden}
+    .progress-track span,.report-bar-track span{background:var(--accent)!important;transition:width .5s ease}
+    .report-bar-track{background:#EEF1F4!important}
+    .summary-value{color:var(--text)!important;font-weight:750;font-variant-numeric:tabular-nums}
+    .summary-label{color:var(--muted)!important;font-size:.85rem}
+    .summary-grid>div{padding:18px}
+    [style*="color: var(--accent)"]{color:var(--accent)!important}
+    #dashboardPage .container{display:flex;flex-direction:column}
+    #dashboardPage .dashboard-header{order:-2} #dashboardPage .activity-summary{order:-1;margin:0 0 24px!important;max-width:none!important;text-align:left}
+    .dashboard-header .tagline,#cfoHelperPage .header .tagline{margin:6px 0 0!important;text-align:left;max-width:none}
+    .tool-card{text-align:left!important}
+    /* App shell */
+    #ppNav{display:none}
+    body.pp-app #ppNav{display:flex}
+    body.pp-app{padding-left:var(--side)}
+    #ppNav{position:fixed;inset:0 auto 0 0;width:var(--side);flex-direction:column;gap:4px;padding:22px 14px;background:#fff;border-right:1px solid var(--border);z-index:50}
+    #ppNav .pp-brand{font-weight:800;font-size:1.15rem;padding:4px 12px 20px;display:flex;align-items:center;gap:10px;color:var(--text)}
+    #ppNav .pp-mark{width:30px;height:30px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:.9rem}
+    #ppNav button{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border:none;background:none;border-radius:10px;color:var(--muted);font:inherit;font-weight:600;font-size:.92rem;cursor:pointer;text-align:left;min-height:44px;transition:background .15s,color .15s}
+    #ppNav button svg{width:18px;height:18px;flex:none}
+    #ppNav button:hover{background:var(--bg);color:var(--text)}
+    #ppNav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+    #ppNav .pp-spacer{flex:1}
+    body.pp-app .dashboard-header>.btn,body.pp-app #cfoHelperPage .header .btn,body.pp-app .tracker-back{display:none!important}
+    .dashboard-header{text-align:left!important;padding:8px 0 20px!important}
+    .dashboard-header .logo{font-size:1.8rem!important}
+    #cfoHelperPage .header{text-align:left!important;padding:8px 0 20px!important}
+    #cfoHelperPage .header .logo{font-size:1.8rem!important}
+    .page:not(.hidden){animation:ppIn .25s ease}
+    @keyframes ppIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media (max-width:860px){
+      body.pp-app{padding-left:0;padding-bottom:76px}
+      #ppNav{inset:auto 0 0 0;width:auto;height:68px;flex-direction:row;padding:6px;border-right:none;border-top:1px solid var(--border);overflow-x:auto;gap:2px}
+      #ppNav .pp-brand,#ppNav .pp-spacer{display:none}
+      #ppNav button{flex-direction:column;gap:3px;font-size:.66rem;padding:6px 8px;min-width:64px;justify-content:center;text-align:center}
+      .container{padding:18px 14px}
+    }
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<nav id="ppNav" aria-label="Main navigation"><div class="pp-brand"><span class="pp-mark">P</span>PLANPOCKET</div><button type="button" data-page="dashboardPage" onclick="showDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg><span>Overview</span></button><button type="button" data-page="budgetPlannerPage" onclick="showBudgetPlanner()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg><span>Budget</span></button><button type="button" data-page="expenseTrackerPage" onclick="showTracker('expenseTrackerPage')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span>Expenses</span></button><button type="button" data-page="investmentTrackerPage" onclick="showTracker('investmentTrackerPage')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span>Investments</span></button><button type="button" data-page="goalTrackerPage" onclick="showTracker('goalTrackerPage')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><span>Goals</span></button><button type="button" data-page="financialReportsPage" onclick="showFinancialReports()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Reports</span></button><button type="button" data-page="cfoHelperPage" onclick="showCFOHelper()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg><span>CFO Helper</span></button><div class="pp-spacer"></div><button type="button" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Logout</span></button></nav>
+  <!-- Welcome Page -->
+  <div id="welcomePage" class="page">
+    <div class="container">
+      <div class="header">
+        <div class="logo">PLANPOCKET</div>
+        <div class="tagline">Your Financial Planning Companion</div>
+        <div class="description">
+          Take control of your finances with our comprehensive financial planning tools. 
+          From budgeting to investment strategies, PLANPOCKET helps you make informed 
+          decisions for a secure financial future.
+        </div>
+        
+        <div class="welcome-actions">
+          <button class="btn" onclick="showLogin()">🔑 Login</button>
+          <button class="btn btn-secondary" onclick="showSignup()">📝 Sign Up</button>
+        </div>
+      </div>
+      
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <div class="feature-title">Smart Budgeting</div>
+          <div class="feature-desc">Create and manage budgets with intelligent insights and recommendations.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Financial Analytics</div>
+          <div class="feature-desc">Track your spending patterns and financial health with detailed analytics.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-title">Goal Planning</div>
+          <div class="feature-desc">Set and achieve your financial goals with personalized planning tools.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Page -->
+  <div id="loginPage" class="page hidden">
+    <div class="container">
+      <div class="auth-card">
+        <h2>🔑 Login to PLANPOCKET</h2>
+        <div class="form-group">
+          <label for="loginUsername">Username</label>
+          <input type="text" id="loginUsername" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required>
+        </div>
+        <button class="btn" onclick="handleLogin()">Login</button>
+        <div style="text-align: center; margin-top: 15px;">
+          <a href="#" class="link" onclick="showForgotPassword()">Forgot Password?</a>
+        </div>
+        <div class="back-link">
+          <a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a>
+        </div>
+        <div id="loginMessage" class="message hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forgot Password Page -->
+  <div id="forgotPasswordPage" class="page hidden">
+    <div class="container">
+      <div class="auth-card">
+        <h2>📱 Reset Password</h2>
+        <div class="form-group">
+          <label for="forgotMobile">Mobile Number</label>
+          <input type="tel" id="forgotMobile" placeholder="Enter your mobile number" required>
+        </div>
+        <button class="btn" onclick="sendOTP()">Send OTP</button>
+        
+        <div id="otpContainer" class="otp-container">
+          <div class="form-group">
+            <label for="otpInput">Enter OTP</label>
+            <div class="otp-row">
+              <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6" required>
+              <button class="btn btn-secondary" onclick="verifyOTP()">Verify</button>
+            </div>
+          </div>
+          <div class="timer" id="otpTimer"></div>
+          <button id="resendBtn" class="btn resend-btn" onclick="resendOTP()">Resend OTP</button>
+        </div>
+        
+        <div class="back-link">
+          <a href="#" class="link" onclick="showLogin()">← Back to Login</a>
+        </div>
+        <div id="forgotMessage" class="message hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign Up Page -->
+  <div id="signupPage" class="page hidden">
+    <div class="container">
+      <div class="auth-card">
+        <h2>📝 Create Account</h2>
+        <div class="form-group">
+          <label for="signupUsername">Username</label>
+          <input type="text" id="signupUsername" placeholder="Choose a username" required>
+        </div>
+        <div class="form-group">
+          <label for="signupMobile">Mobile Number</label>
+          <input type="tel" id="signupMobile" placeholder="Enter your mobile number" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" placeholder="Create a password" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+        </div>
+        <button class="btn" onclick="handleSignup()">Create Account</button>
+        <div class="back-link">
+          <a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a>
+        </div>
+        <div id="signupMessage" class="message hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="dashboardPage" class="page hidden">
+    <div class="container">
+      <header class="dashboard-header">
+        <div class="logo">⌂ PLANPOCKET Dashboard</div>
+        <p class="tagline">Welcome back, <span id="dashboardUsername">there</span>! Choose your financial planning tool.</p>
+        <button class="btn btn-secondary" style="width: auto; padding: 10px 18px;" onclick="logout()">🚪 Logout</button>
+      </header>
+      <section class="dashboard-grid" aria-label="Financial planning tools">
+        <article class="tool-card"><div class="tool-icon">💰</div><h2>CFO Helper Agent</h2><p>Simulate budget scenarios and get financial forecasts and recommendations.</p><button class="tool-link" onclick="showCFOHelper()">→ Open CFO Helper</button></article>
+        <article class="tool-card"><div class="tool-icon">📈</div><h2>Investment Calculator</h2><p>Estimate investment growth from your starting balance, monthly contributions, return, and time horizon.</p><button class="tool-link" onclick="showTracker('investmentTrackerPage')">→ Calculate Returns</button></article>
+        <article class="tool-card"><div class="tool-icon">💳</div><h2>Expense Tracker</h2><p>Record daily spending, categorize expenses, and review this month's total.</p><button class="tool-link" onclick="showTracker('expenseTrackerPage')">→ Track Expenses</button></article>
+        <article class="tool-card"><div class="tool-icon">🎯</div><h2>Goal Planner</h2><p>Create savings goals, set monthly contributions, and track your progress.</p><button class="tool-link" onclick="showTracker('goalTrackerPage')">→ Set Goals</button></article>
+        <article class="tool-card"><div class="tool-icon">🧾</div><h2>Budget Planner</h2><p>Set a monthly spending plan by category and see what is left at a glance.</p><button class="tool-link" onclick="showBudgetPlanner()">→ Plan This Month</button></article>
+        <article class="tool-card"><div class="tool-icon">📊</div><h2>Financial Reports</h2><p>Understand your spending patterns, compare your plan with actuals, and export your report.</p><button class="tool-link" onclick="showFinancialReports()">→ View My Report</button></article>
+      </section>
+      <section class="activity-summary" aria-labelledby="activityTitle">
+        <h2 id="activityTitle">📊 Your Activity Summary</h2>
+        <div class="summary-grid">
+          <div><div class="summary-value" id="summaryGoalCount">0</div><div class="summary-label">Active Goals</div></div>
+          <div><div class="summary-value" id="summaryMonthlyExpenses">₹0</div><div class="summary-label">This Month's Expenses</div></div>
+          <div><div class="summary-value" id="summarySavedTotal">₹0</div><div class="summary-label">Saved Toward Goals</div></div>
+          <div><div class="summary-value" id="summaryInvestmentValue">₹0</div><div class="summary-label">Last Investment Estimate</div></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="goalTrackerPage" class="page hidden">
+    <div class="container">
+      <button class="tool-link tracker-back" onclick="showDashboard()">← Back to Dashboard</button>
+      <section class="card tracker-card">
+        <h2>🎯 Goal Planner</h2><p style="color: var(--muted);">Set a target and monthly savings amount to track your progress.</p>
+        <div class="tracker-form">
+          <div class="form-group"><label for="goalName">Goal name</label><input id="goalName" type="text" maxlength="60" placeholder="e.g. Emergency fund"></div>
+          <div class="form-group"><label for="goalTarget">Target amount (₹)</label><input id="goalTarget" type="number" min="1" step="1" placeholder="100000"></div>
+          <div class="form-group"><label for="goalSaved">Already saved (₹)</label><input id="goalSaved" type="number" min="0" step="1" value="0"></div>
+          <div class="form-group"><label for="goalMonthly">Monthly contribution (₹)</label><input id="goalMonthly" type="number" min="1" step="1" placeholder="5000"></div>
+          <button class="btn" onclick="addGoal()">Add Goal</button>
+        </div>
+        <div id="goalMessage" class="message hidden tracker-message" role="status"></div><div id="goalList" class="tracker-list"></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="expenseTrackerPage" class="page hidden">
+    <div class="container">
+      <button class="tool-link tracker-back" onclick="showDashboard()">← Back to Dashboard</button>
+      <section class="card tracker-card">
+        <h2>💳 Expense Tracker</h2><p style="color: var(--muted);">Add expenses to build a locally saved spending history.</p>
+        <div class="tracker-form">
+          <div class="form-group"><label for="expenseDescription">Description</label><input id="expenseDescription" type="text" maxlength="80" placeholder="e.g. Groceries"></div>
+          <div class="form-group"><label for="expenseAmount">Amount (₹)</label><input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="850"></div>
+          <div class="form-group"><label for="expenseCategory">Category</label><select id="expenseCategory"><option>Food</option><option>Transport</option><option>Housing</option><option>Utilities</option><option>Health</option><option>Shopping</option><option>Entertainment</option><option>Other</option></select></div>
+          <div class="form-group"><label for="expenseDate">Date</label><input id="expenseDate" type="date"></div>
+          <button class="btn" onclick="addExpense()">Add Expense</button>
+        </div>
+        <div id="expenseMessage" class="message hidden tracker-message" role="status"></div>
+        <div class="tracker-result"><span>Current month total</span><strong id="expenseMonthTotal">₹0</strong></div><div id="expenseList" class="tracker-list"></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="investmentTrackerPage" class="page hidden">
+    <div class="container">
+      <button class="tool-link tracker-back" onclick="showDashboard()">← Back to Dashboard</button>
+      <section class="card tracker-card">
+        <h2>📈 Investment Calculator</h2><p style="color: var(--muted);">Estimate future value with monthly compounding and regular contributions. This is an illustration, not a guaranteed return.</p>
+        <div class="tracker-form">
+          <div class="form-group"><label for="investmentInitial">Initial investment (₹)</label><input id="investmentInitial" type="number" min="0" step="0.01" value="0"></div>
+          <div class="form-group"><label for="investmentMonthly">Monthly contribution (₹)</label><input id="investmentMonthly" type="number" min="0" step="0.01" placeholder="5000"></div>
+          <div class="form-group"><label for="investmentRate">Expected annual return (%)</label><input id="investmentRate" type="number" min="0" max="100" step="0.1" value="8"></div>
+          <div class="form-group"><label for="investmentYears">Investment period (years)</label><input id="investmentYears" type="number" min="1" max="80" step="1" placeholder="10"></div>
+          <button class="btn" onclick="calculateInvestment()">Calculate</button>
+        </div>
+        <div id="investmentMessage" class="message hidden tracker-message" role="status"></div>
+        <div id="investmentResult" class="tracker-result hidden" aria-live="polite"><span>Estimated future value</span><strong id="investmentFutureValue">₹0</strong><p id="investmentBreakdown" style="color: var(--muted); margin-top: 10px;"></p></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="budgetPlannerPage" class="page hidden">
+    <div class="container">
+      <button class="tool-link tracker-back" onclick="showDashboard()">← Back to Dashboard</button>
+      <section class="card tracker-card">
+        <h2>🧾 Your Monthly Budget</h2>
+        <p style="color: var(--muted);">Choose a month, set your take-home income, then add spending limits for the categories that matter to you.</p>
+        <div class="tracker-form">
+          <div class="form-group"><label for="budgetMonth">Planning month</label><input id="budgetMonth" type="month"></div>
+          <div class="form-group"><label for="budgetIncome">Monthly take-home income (₹)</label><input id="budgetIncome" type="number" min="0" step="0.01" placeholder="Optional"></div>
+          <div class="form-group"><label for="budgetCategory">Spending category</label><select id="budgetCategory"><option>Food</option><option>Transport</option><option>Housing</option><option>Utilities</option><option>Health</option><option>Shopping</option><option>Entertainment</option><option>Other</option></select></div>
+          <div class="form-group"><label for="budgetLimit">Monthly limit (₹)</label><input id="budgetLimit" type="number" min="0.01" step="0.01" placeholder="e.g. 8000"></div>
+          <button class="btn" onclick="saveMonthlyBudget()">Save Budget</button>
+        </div>
+        <div id="budgetMessage" class="message hidden tracker-message" role="status"></div>
+        <div class="budget-overview">
+          <div class="budget-stat"><span>Planned limits</span><strong id="budgetPlannedTotal">₹0</strong></div>
+          <div class="budget-stat"><span>Spent so far</span><strong id="budgetSpentTotal">₹0</strong></div>
+          <div class="budget-stat"><span>Budget remaining</span><strong id="budgetRemainingTotal">₹0</strong></div>
+          <div class="budget-stat"><span>Income after spending</span><strong id="budgetIncomeRemaining">Add income</strong></div>
+        </div>
+        <div id="budgetInsight" class="insight-box" aria-live="polite">Your budget is private to this browser. Add expenses in Expense Tracker to see how your plan is going.</div>
+        <h3>Category progress</h3>
+        <div id="budgetCategoryList" class="tracker-list"></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="financialReportsPage" class="page hidden">
+    <div class="container">
+      <button class="tool-link tracker-back" onclick="showDashboard()">← Back to Dashboard</button>
+      <section class="card tracker-card">
+        <h2>📊 Your Financial Report</h2>
+        <p style="color: var(--muted);">A clear monthly snapshot from the expenses and budgets you have saved in this browser.</p>
+        <div class="report-toolbar">
+          <div class="form-group"><label for="reportMonth">Report month</label><input id="reportMonth" type="month"></div>
+          <button class="btn budget-action" onclick="renderFinancialReport()">Update Report</button>
+          <button class="btn btn-secondary budget-action" onclick="downloadFinancialReport()">⬇ Download CSV</button>
+        </div>
+        <div id="reportMetrics" class="report-metrics"></div>
+        <div id="reportInsight" class="insight-box" aria-live="polite"></div>
+        <h3>Spending by category</h3>
+        <div id="reportCategoryChart" class="report-chart"></div>
+        <h3>Monthly expenses</h3>
+        <div id="reportExpenseList" class="tracker-list"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- CFO Helper Dashboard -->
+  <div id="cfoHelperPage" class="page hidden">
+    <div class="container">
+      <!-- Header -->
+      <div class="header" style="margin-bottom: 20px; padding: 20px;">
+        <div class="logo" style="font-size: 2.5rem;">💰 CFO Helper Agent</div>
+        <div class="tagline" style="font-size: 1.1rem;">Simulate budget scenarios and get clear financial outcomes</div>
+        <div style="text-align: center; margin-top: 15px;">
+          <button class="btn btn-secondary" onclick="showDashboard()" style="width: auto; padding: 8px 16px;">← Dashboard</button>
+          <button class="btn btn-secondary" onclick="logout()" style="width: auto; padding: 8px 16px;">🚪 Logout</button>
+        </div>
+      </div>
+
+      <!-- Usage Counter -->
+      <div class="card" style="text-align: center; margin-bottom: 20px;">
+        <h3>📊 Usage Statistics</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 15px;">
+          <div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent);">0</div>
+            <div style="color: var(--muted);">Scenarios Tested</div>
+          </div>
+          <div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--success);">0</div>
+            <div style="color: var(--muted);">Reports Generated</div>
+          </div>
+          <div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--warning);">₹0</div>
+            <div style="color: var(--muted);">Total Billing</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="card">
+        <h2 style="text-align: center; margin-bottom: 25px;">🎛️ Scenario Controls</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+          <div style="background: var(--bg2); padding: 20px; border-radius: 12px;">
+            <h3>💼 Hiring & Staffing</h3>
+            <div style="margin: 15px 0;">
+              <label style="display: block; margin-bottom: 8px;">Additional Engineers</label>
+              <input type="range" id="engineers" min="0" max="10" value="0" style="width: 100%;">
+              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0 engineers</div>
+            </div>
+            <div style="margin: 15px 0;">
+              <label style="display: block; margin-bottom: 8px;">Additional Marketing Staff</label>
+              <input type="range" id="marketingStaff" min="0" max="5" value="0" style="width: 100%;">
+              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0 staff</div>
+            </div>
+          </div>
+
+          <div style="background: var(--bg2); padding: 20px; border-radius: 12px;">
+            <h3>💰 Spending & Budget</h3>
+            <div style="margin: 15px 0;">
+              <label style="display: block; margin-bottom: 8px;">Extra Marketing Spend (₹)</label>
+              <input type="range" id="marketingSpend" min="0" max="100000" step="5000" value="0" style="width: 100%;">
+              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">₹0</div>
+            </div>
+            <div style="margin: 15px 0;">
+              <label style="display: block; margin-bottom: 8px;">Product Price Increase (%)</label>
+              <input type="range" id="priceIncrease" min="0" max="50" value="0" style="width: 100%;">
+              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0%</div>
+            </div>
+          </div>
+
+          <div style="background: var(--bg2); padding: 20px; border-radius: 12px;">
+            <h3>📈 Revenue & Growth</h3>
+            <div style="margin: 15px 0;">
+              <label style="display: block; margin-bottom: 8px;">Expected Revenue Growth (%)</label>
+              <input type="range" id="revenueGrowth" min="-20" max="100" value="0" style="width: 100%;">
+              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0%</div>
+            </div>
+            <div style="margin: 15px 0;">
+              <label style="display: block; margin-bottom: 8px;">Operating Expenses (₹)</label>
+              <input type="range" id="operatingExpenses" min="0" max="500000" step="10000" value="0" style="width: 100%;">
+              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">₹0</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+          <button class="btn" onclick="simulateScenario()" style="margin: 0 10px;">🚀 Run Scenario</button>
+          <button class="btn btn-secondary" onclick="resetScenario()" style="margin: 0 10px;">🔄 Reset</button>
+          <button class="btn" style="background: linear-gradient(135deg, var(--success), #45a049); margin: 0 10px;" onclick="generateReport()">📄 Generate Report</button>
+          <button class="btn" style="background: linear-gradient(135deg, var(--warning), #e68900); margin: 0 10px;" onclick="exportToPDF()">📋 Export PDF</button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="results" class="card hidden">
+        <h2>📊 Scenario Results</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+          <div style="background: var(--bg2); padding: 20px; border-radius: 12px; text-align: center;">
+            <h4>Runway</h4>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--success);">6 months</div>
+            <p style="color: var(--muted);">Time until funds run out</p>
+          </div>
+          <div style="background: var(--bg2); padding: 20px; border-radius: 12px; text-align: center;">
+            <h4>Monthly Burn</h4>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--danger);">₹75,000</div>
+            <p style="color: var(--muted);">Monthly expenses</p>
+          </div>
+          <div style="background: var(--bg2); padding: 20px; border-radius: 12px; text-align: center;">
+            <h4>Profit Margin</h4>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--success);">25%</div>
+            <p style="color: var(--muted);">After all expenses</p>
+          </div>
+          <div style="background: var(--bg2); padding: 20px; border-radius: 12px; text-align: center;">
+            <h4>Break-even Point</h4>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--warning);">3 months</div>
+            <p style="color: var(--muted);">Time to profitability</p>
+          </div>
+        </div>
+
+        <div style="background: white; border-radius: 12px; padding: 20px; margin: 20px 0;">
+          <canvas id="scenarioChart" style="max-height: 400px;"></canvas>
+        </div>
+      </div>
+
+      <!-- Report Section -->
+      <div id="reportSection" class="card hidden">
+        <h2>📋 Financial Report</h2>
+        <div style="background: white; color: #333; padding: 20px; border-radius: 8px; margin: 15px 0; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+          <div id="reportContent"></div>
+        </div>
+        <div style="text-align: center;">
+          <button class="btn" style="background: linear-gradient(135deg, var(--success), #45a049); margin: 0 10px;" onclick="shareReport()">📤 Share Report</button>
+          <button class="btn" style="background: linear-gradient(135deg, var(--warning), #e68900); margin: 0 10px;" onclick="exportToPDF()">📄 Export PDF</button>
+        </div>
+      </div>
+
+      <!-- Pathway Data Integration -->
+      <div class="card">
+        <h2>🔄 Live Data Integration</h2>
+        <p style="color: var(--muted); margin-bottom: 20px;">Real-time financial data updates from Pathway</p>
+        <div style="text-align: center;">
+          <button class="btn btn-secondary" onclick="fetchLiveData()" style="margin: 0 10px;">🔄 Refresh Data</button>
+          <button id="autoRefreshBtn" class="btn btn-secondary" onclick="toggleAutoRefresh()" style="margin: 0 10px;">⏰ Auto Refresh: OFF</button>
+        </div>
+        <div style="background: var(--bg2); padding: 15px; border-radius: 8px; margin-top: 15px;">
+          <p>Last updated: <span id="lastUpdate">Never</span></p>
+          <p>Status: <span id="dataStatus">Disconnected</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let generatedOTP = '';
+    let otpTimerInterval = null;
+    let otpExpiresAt = 0;
+
+    // Page navigation functions
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.add('hidden');
+      });
+      // Show target page
+      document.getElementById(pageId).classList.remove('hidden');
+    }
+
+    function showWelcome() {
+      showPage('welcomePage');
+      clearMessages();
+    }
+
+    function showLogin() {
+      showPage('loginPage');
+      clearMessages();
+    }
+
+    function showSignup() {
+      showPage('signupPage');
+      clearMessages();
+    }
+
+    function showForgotPassword() {
+      showPage('forgotPasswordPage');
+      clearMessages();
+    }
+
+    // Clear all messages
+    function clearMessages() {
+      document.querySelectorAll('.message').forEach(msg => {
+        msg.classList.add('hidden');
+        msg.textContent = '';
+      });
+    }
+
+    // Show message
+    function showMessage(elementId, text, type) {
+      const messageEl = document.getElementById(elementId);
+      messageEl.textContent = text;
+      messageEl.className = `message ${type}`;
+      messageEl.classList.remove('hidden');
+    }
+
+    // Login handler
+    function handleLogin() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      if (!username || !password) {
+        showMessage('loginMessage', 'Please enter both username and password', 'error');
+        return;
+      }
+
+      // Check if user exists in localStorage
+      const savedUser = localStorage.getItem('planpocket_user');
+      if (savedUser) {
+        const user = JSON.parse(savedUser);
+        if (user.username === username && user.password === password) {
+          showMessage('loginMessage', 'Login successful! Opening your dashboard...', 'success');
+          setTimeout(() => {
+            showDashboard();
+          }, 1500);
+          return;
+        }
+      }
+
+      showMessage('loginMessage', 'Invalid username or password', 'error');
+    }
+
+    // Signup handler
+    function handleSignup() {
+      const username = document.getElementById('signupUsername').value.trim();
+      const mobile = document.getElementById('signupMobile').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!username || !mobile || !password || !confirmPassword) {
+        showMessage('signupMessage', 'Please fill in all fields', 'error');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage('signupMessage', 'Passwords do not match', 'error');
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('signupMessage', 'Password must be at least 6 characters long', 'error');
+        return;
+      }
+
+      // Save user to localStorage
+      const userData = {
+        username: username,
+        mobile: mobile,
+        password: password,
+        createdAt: new Date().toISOString()
+      };
+
+      localStorage.setItem('planpocket_user', JSON.stringify(userData));
+
+      showMessage('signupMessage', 'Account created successfully! You can now login.', 'success');
+      
+      // Clear form
+      document.getElementById('signupUsername').value = '';
+      document.getElementById('signupMobile').value = '';
+      document.getElementById('signupPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+
+      setTimeout(() => {
+        showLogin();
+      }, 2000);
+    }
+
+    // Send OTP
+    function sendOTP() {
+      const mobile = document.getElementById('forgotMobile').value.trim();
+
+      if (!mobile) {
+        showMessage('forgotMessage', 'Please enter your mobile number', 'error');
+        return;
+      }
+
+      if (mobile.length < 10) {
+        showMessage('forgotMessage', 'Please enter a valid mobile number', 'error');
+        return;
+      }
+
+      // Generate 6-digit OTP
+      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      // In a real app, send OTP via SMS service
+      console.log(`OTP for ${mobile}: ${generatedOTP}`);
+      
+      // Show OTP container
+      document.getElementById('otpContainer').style.display = 'block';
+      document.getElementById('resendBtn').style.display = 'none';
+      
+      // Start timer
+      startOTPTimer(30);
+      
+      showMessage('forgotMessage', `OTP sent to ${mobile}. Check your messages.`, 'success');
+    }
+
+    // Start OTP timer
+    function startOTPTimer(seconds) {
+      otpExpiresAt = Date.now() + seconds * 1000;
+      const timerEl = document.getElementById('otpTimer');
+      
+      clearInterval(otpTimerInterval);
+      
+      otpTimerInterval = setInterval(() => {
+        const diff = Math.max(0, Math.floor((otpExpiresAt - Date.now()) / 1000));
+        
+        if (diff > 0) {
+          timerEl.textContent = `OTP valid for ${diff} seconds`;
+        } else {
+          timerEl.textContent = 'OTP expired';
+          clearInterval(otpTimerInterval);
+          document.getElementById('resendBtn').style.display = 'block';
+        }
+      }, 1000);
+    }
+
+    // Resend OTP
+    function resendOTP() {
+      sendOTP();
+    }
+
+    // Verify OTP
+    function verifyOTP() {
+      const otpInput = document.getElementById('otpInput').value.trim();
+
+      if (!otpInput) {
+        showMessage('forgotMessage', 'Please enter the OTP', 'error');
+        return;
+      }
+
+      if (Date.now() > otpExpiresAt) {
+        showMessage('forgotMessage', 'OTP has expired. Please request a new one.', 'error');
+        return;
+      }
+
+      if (otpInput === generatedOTP) {
+        showMessage('forgotMessage', 'OTP verified successfully! Redirecting to login...', 'success');
+        
+        // Clear OTP container
+        document.getElementById('otpContainer').style.display = 'none';
+        document.getElementById('otpInput').value = '';
+        clearInterval(otpTimerInterval);
+        
+        setTimeout(() => {
+          showLogin();
+        }, 2000);
+      } else {
+        showMessage('forgotMessage', 'Invalid OTP. Please try again.', 'error');
+      }
+    }
+
+    const currencyFormatter = new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 2
+    });
+
+    function formatCurrency(amount) {
+      return currencyFormatter.format(amount);
+    }
+
+    function getTrackerItems(storageKey) {
+      const stored = localStorage.getItem(storageKey);
+      if (!stored) return [];
+      const items = JSON.parse(stored);
+      return Array.isArray(items) ? items : [];
+    }
+
+    function saveTrackerItems(storageKey, items) {
+      localStorage.setItem(storageKey, JSON.stringify(items));
+    }
+
+    function showDashboard() {
+      const savedUser = localStorage.getItem('planpocket_user');
+      const user = savedUser ? JSON.parse(savedUser) : null;
+      document.getElementById('dashboardUsername').textContent = user && user.username ? user.username : 'there';
+      showPage('dashboardPage');
+      updateDashboardSummary();
+    }
+
+    function showTracker(pageId) {
+      showPage(pageId);
+      if (pageId === 'goalTrackerPage') renderGoals();
+      if (pageId === 'expenseTrackerPage') renderExpenses();
+      if (pageId === 'investmentTrackerPage') {
+        document.getElementById('investmentResult').classList.add('hidden');
+        document.getElementById('investmentMessage').classList.add('hidden');
+      }
+    }
+
+    function showTrackerMessage(elementId, text, type) {
+      const message = document.getElementById(elementId);
+      message.textContent = text;
+      message.className = `message ${type} tracker-message`;
+    }
+
+    function updateDashboardSummary() {
+      const goals = getTrackerItems('planpocket_goals');
+      const expenses = getTrackerItems('planpocket_expenses');
+      const now = new Date();
+      const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      const monthlyExpenses = expenses
+        .filter(expense => typeof expense.date === 'string' && expense.date.startsWith(monthPrefix))
+        .reduce((total, expense) => total + Number(expense.amount || 0), 0);
+      const savedTotal = goals.reduce((total, goal) => total + Number(goal.saved || 0), 0);
+      const investmentEstimate = Number(localStorage.getItem('planpocket_lastInvestment') || 0);
+      document.getElementById('summaryGoalCount').textContent = goals.filter(goal => Number(goal.saved) < Number(goal.target)).length;
+      document.getElementById('summaryMonthlyExpenses').textContent = formatCurrency(monthlyExpenses);
+      document.getElementById('summarySavedTotal').textContent = formatCurrency(savedTotal);
+      document.getElementById('summaryInvestmentValue').textContent = formatCurrency(investmentEstimate);
+    }
+
+    function addGoal() {
+      const name = document.getElementById('goalName').value.trim();
+      const target = Number(document.getElementById('goalTarget').value);
+      const saved = Number(document.getElementById('goalSaved').value);
+      const monthly = Number(document.getElementById('goalMonthly').value);
+      if (!name || !Number.isFinite(target) || target <= 0 || !Number.isFinite(saved) || saved < 0 || !Number.isFinite(monthly) || monthly <= 0) {
+        showTrackerMessage('goalMessage', 'Enter a goal name, a positive target and monthly contribution, and a non-negative saved amount.', 'error');
+        return;
+      }
+      const goals = getTrackerItems('planpocket_goals');
+      goals.push({ id: `${Date.now()}-${Math.random()}`, name, target, saved, monthly });
+      saveTrackerItems('planpocket_goals', goals);
+      document.getElementById('goalName').value = '';
+      document.getElementById('goalTarget').value = '';
+      document.getElementById('goalSaved').value = '0';
+      document.getElementById('goalMonthly').value = '';
+      document.getElementById('goalMessage').classList.add('hidden');
+      renderGoals();
+      updateDashboardSummary();
+    }
+
+    function renderGoals() {
+      const list = document.getElementById('goalList');
+      list.replaceChildren();
+      const goals = getTrackerItems('planpocket_goals');
+      if (!goals.length) {
+        const empty = document.createElement('p');
+        empty.className = 'tracker-empty';
+        empty.textContent = 'No goals yet. Add your first savings goal above.';
+        list.appendChild(empty);
+        return;
+      }
+      goals.forEach(goal => {
+        const remaining = Math.max(0, Number(goal.target) - Number(goal.saved));
+        const progress = Math.min(100, Math.max(0, Number(goal.saved) / Number(goal.target) * 100));
+        const months = remaining ? Math.ceil(remaining / Number(goal.monthly)) : 0;
+        const row = document.createElement('div');
+        row.className = 'tracker-row';
+        const main = document.createElement('div');
+        main.className = 'tracker-row-main';
+        const title = document.createElement('strong');
+        title.textContent = goal.name;
+        const detail = document.createElement('span');
+        detail.textContent = `${formatCurrency(goal.saved)} of ${formatCurrency(goal.target)} · ${remaining ? `${months} months at your contribution` : 'Goal reached!'}`;
+        const track = document.createElement('div');
+        track.className = 'progress-track';
+        const fill = document.createElement('span');
+        fill.style.width = `${progress}%`;
+        track.appendChild(fill);
+        main.append(title, detail, track);
+        const remove = document.createElement('button');
+        remove.className = 'btn btn-secondary';
+        remove.style.cssText = 'width: auto; padding: 8px 12px; margin: 0;';
+        remove.textContent = 'Delete';
+        remove.setAttribute('aria-label', `Delete ${goal.name}`);
+        remove.addEventListener('click', () => {
+          saveTrackerItems('planpocket_goals', getTrackerItems('planpocket_goals').filter(item => item.id !== goal.id));
+          renderGoals();
+          updateDashboardSummary();
+        });
+        row.append(main, remove);
+        list.appendChild(row);
+      });
+    }
+
+    function addExpense() {
+      const description = document.getElementById('expenseDescription').value.trim();
+      const amount = Number(document.getElementById('expenseAmount').value);
+      const category = document.getElementById('expenseCategory').value;
+      const date = document.getElementById('expenseDate').value;
+      if (!description || !Number.isFinite(amount) || amount <= 0 || !date) {
+        showTrackerMessage('expenseMessage', 'Enter a description, a positive amount, and a date.', 'error');
+        return;
+      }
+      const expenses = getTrackerItems('planpocket_expenses');
+      expenses.push({ id: `${Date.now()}-${Math.random()}`, description, amount, category, date });
+      saveTrackerItems('planpocket_expenses', expenses);
+      document.getElementById('expenseDescription').value = '';
+      document.getElementById('expenseAmount').value = '';
+      document.getElementById('expenseMessage').classList.add('hidden');
+      renderExpenses();
+      updateDashboardSummary();
+    }
+
+    function renderExpenses() {
+      const list = document.getElementById('expenseList');
+      list.replaceChildren();
+      const expenses = getTrackerItems('planpocket_expenses').sort((a, b) => b.date.localeCompare(a.date));
+      const now = new Date();
+      const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      const monthTotal = expenses
+        .filter(expense => expense.date.startsWith(monthPrefix))
+        .reduce((total, expense) => total + Number(expense.amount), 0);
+      document.getElementById('expenseMonthTotal').textContent = formatCurrency(monthTotal);
+      if (!expenses.length) {
+        const empty = document.createElement('p');
+        empty.className = 'tracker-empty';
+        empty.textContent = 'No expenses recorded yet.';
+        list.appendChild(empty);
+        return;
+      }
+      expenses.forEach(expense => {
+        const row = document.createElement('div');
+        row.className = 'tracker-row';
+        const main = document.createElement('div');
+        main.className = 'tracker-row-main';
+        const title = document.createElement('strong');
+        title.textContent = expense.description;
+        const detail = document.createElement('span');
+        detail.textContent = `${expense.category} · ${expense.date}`;
+        main.append(title, detail);
+        const amount = document.createElement('strong');
+        amount.className = 'tracker-row-amount';
+        amount.textContent = formatCurrency(Number(expense.amount));
+        const remove = document.createElement('button');
+        remove.className = 'btn btn-secondary';
+        remove.style.cssText = 'width: auto; padding: 8px 12px; margin: 0;';
+        remove.textContent = 'Delete';
+        remove.setAttribute('aria-label', `Delete ${expense.description}`);
+        remove.addEventListener('click', () => {
+          saveTrackerItems('planpocket_expenses', getTrackerItems('planpocket_expenses').filter(item => item.id !== expense.id));
+          renderExpenses();
+          updateDashboardSummary();
+        });
+        row.append(main, amount, remove);
+        list.appendChild(row);
+      });
+    }
+
+    function calculateInvestment() {
+      const initial = Number(document.getElementById('investmentInitial').value);
+      const monthly = Number(document.getElementById('investmentMonthly').value);
+      const annualRate = Number(document.getElementById('investmentRate').value);
+      const years = Number(document.getElementById('investmentYears').value);
+      if (![initial, monthly, annualRate, years].every(Number.isFinite) || initial < 0 || monthly < 0 || annualRate < 0 || annualRate > 100 || years < 1 || years > 80) {
+        showTrackerMessage('investmentMessage', 'Enter non-negative investment amounts, a 0–100% annual return, and a period from 1 to 80 years.', 'error');
+        document.getElementById('investmentResult').classList.add('hidden');
+        return;
+      }
+      const months = Math.round(years * 12);
+      const monthlyRate = annualRate / 1200;
+      const growthFactor = Math.pow(1 + monthlyRate, months);
+      const futureValue = initial * growthFactor + (monthlyRate === 0 ? monthly * months : monthly * (growthFactor - 1) / monthlyRate);
+      const contributed = initial + monthly * months;
+      document.getElementById('investmentFutureValue').textContent = formatCurrency(futureValue);
+      document.getElementById('investmentBreakdown').textContent = `${formatCurrency(contributed)} contributed · ${formatCurrency(futureValue - contributed)} estimated growth over ${years} years.`;
+      document.getElementById('investmentResult').classList.remove('hidden');
+      document.getElementById('investmentMessage').classList.add('hidden');
+      localStorage.setItem('planpocket_lastInvestment', String(futureValue));
+      updateDashboardSummary();
+    }
+
+    const budgetCategories = ['Food', 'Transport', 'Housing', 'Utilities', 'Health', 'Shopping', 'Entertainment', 'Other'];
+
+    function getMonthKey(date) {
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    }
+
+    function getBudgetPlans() {
+      const stored = localStorage.getItem('planpocket_budgets');
+      return stored ? JSON.parse(stored) : {};
+    }
+
+    function showBudgetPlanner() {
+      const monthInput = document.getElementById('budgetMonth');
+      if (!monthInput.value) monthInput.value = getMonthKey(new Date());
+      showPage('budgetPlannerPage');
+      loadMonthlyBudget();
+    }
+
+    function loadMonthlyBudget() {
+      const month = document.getElementById('budgetMonth').value;
+      const plans = getBudgetPlans();
+      const plan = plans[month] || { income: '', limits: {} };
+      document.getElementById('budgetIncome').value = plan.income === '' ? '' : plan.income;
+      document.getElementById('budgetLimit').value = '';
+      document.getElementById('budgetMessage').classList.add('hidden');
+      renderBudgetOverview();
+    }
+
+    function getExpensesForMonth(month) {
+      return getTrackerItems('planpocket_expenses')
+        .filter(expense => typeof expense.date === 'string' && expense.date.startsWith(month));
+    }
+
+    function getMonthlyCategoryTotals(month) {
+      const totals = {};
+      getExpensesForMonth(month).forEach(expense => {
+        const category = budgetCategories.includes(expense.category) ? expense.category : 'Other';
+        totals[category] = (totals[category] || 0) + Number(expense.amount || 0);
+      });
+      return totals;
+    }
+
+    function saveMonthlyBudget() {
+      const month = document.getElementById('budgetMonth').value;
+      const incomeText = document.getElementById('budgetIncome').value;
+      const income = incomeText === '' ? null : Number(incomeText);
+      const category = document.getElementById('budgetCategory').value;
+      const limit = Number(document.getElementById('budgetLimit').value);
+      if (!/^\d{4}-\d{2}$/.test(month) || (income !== null && (!Number.isFinite(income) || income < 0)) || !budgetCategories.includes(category) || !Number.isFinite(limit) || limit <= 0) {
+        showTrackerMessage('budgetMessage', 'Choose a month, enter a positive category limit, and check that income is zero or more.', 'error');
+        return;
+      }
+      const plans = getBudgetPlans();
+      const current = plans[month] || { income: '', limits: {} };
+      current.income = income === null ? current.income : income;
+      current.limits[category] = limit;
+      plans[month] = current;
+      localStorage.setItem('planpocket_budgets', JSON.stringify(plans));
+      document.getElementById('budgetLimit').value = '';
+      showTrackerMessage('budgetMessage', `${category} budget saved for ${month}. You can update it any time.`, 'success');
+      renderBudgetOverview();
+      updateDashboardSummary();
+    }
+
+    function renderBudgetOverview() {
+      const month = document.getElementById('budgetMonth').value;
+      const plan = getBudgetPlans()[month] || { income: '', limits: {} };
+      const totals = getMonthlyCategoryTotals(month);
+      const spent = Object.values(totals).reduce((sum, amount) => sum + amount, 0);
+      const limits = plan.limits || {};
+      const planned = Object.values(limits).reduce((sum, amount) => sum + Number(amount || 0), 0);
+      const income = plan.income === '' ? null : Number(plan.income);
+      document.getElementById('budgetPlannedTotal').textContent = formatCurrency(planned);
+      document.getElementById('budgetSpentTotal').textContent = formatCurrency(spent);
+      document.getElementById('budgetRemainingTotal').textContent = formatCurrency(planned - spent);
+      document.getElementById('budgetIncomeRemaining').textContent = income === null ? 'Add income' : formatCurrency(income - spent);
+      const list = document.getElementById('budgetCategoryList');
+      list.replaceChildren();
+      const categories = [...new Set([...budgetCategories.filter(item => Object.prototype.hasOwnProperty.call(limits, item)), ...Object.keys(totals)])];
+      if (!categories.length) {
+        const empty = document.createElement('p');
+        empty.className = 'tracker-empty';
+        empty.textContent = 'No category budgets yet. Pick a category above to create your first monthly limit.';
+        list.appendChild(empty);
+      }
+      categories.forEach(category => {
+        const limit = Number(limits[category] || 0);
+        const actual = Number(totals[category] || 0);
+        const percentage = limit > 0 ? actual / limit * 100 : 0;
+        const progress = document.createElement('div');
+        progress.className = `budget-progress${percentage >= 100 ? ' over' : percentage >= 80 ? ' warning' : ''}`;
+        const fill = document.createElement('span');
+        fill.style.width = `${Math.min(100, percentage)}%`;
+        progress.appendChild(fill);
+        const row = document.createElement('div');
+        row.className = 'budget-row';
+        const head = document.createElement('div');
+        head.className = 'budget-row-head';
+        const title = document.createElement('strong');
+        title.textContent = category;
+        const detail = document.createElement('span');
+        detail.textContent = limit > 0
+          ? `${formatCurrency(actual)} spent · ${formatCurrency(Math.max(0, limit - actual))} left of ${formatCurrency(limit)}`
+          : `${formatCurrency(actual)} spent · No limit set yet`;
+        head.append(title, detail);
+        row.append(head, progress);
+        if (limit > 0 && actual > limit) {
+          const over = document.createElement('p');
+          over.style.color = 'var(--danger)';
+          over.style.marginTop = '8px';
+          over.textContent = `Over budget by ${formatCurrency(actual - limit)}.`;
+          row.appendChild(over);
+        } else if (limit > 0 && percentage >= 80) {
+          const close = document.createElement('p');
+          close.style.color = 'var(--warning)';
+          close.style.marginTop = '8px';
+          close.textContent = 'You are getting close to this category limit.';
+          row.appendChild(close);
+        }
+        list.appendChild(row);
+      });
+      const insight = document.getElementById('budgetInsight');
+      if (!planned && !spent) {
+        insight.textContent = 'Start with one category that matters most. Your budget is flexible and saved on this device.';
+      } else if (spent > planned && planned > 0) {
+        insight.textContent = `You have spent ${formatCurrency(spent - planned)} beyond the category limits set so far. Check categories without limits or adjust your plan to match your needs.`;
+      } else if (planned > 0) {
+        insight.textContent = `${formatCurrency(Math.max(0, planned - spent))} remains across your planned categories. Budgets are guides; adjust them whenever your month changes.`;
+      } else {
+        insight.textContent = `You have recorded ${formatCurrency(spent)} in spending. Set category limits to compare your spending with your plan.`;
+      }
+    }
+
+    function showFinancialReports() {
+      const monthInput = document.getElementById('reportMonth');
+      if (!monthInput.value) monthInput.value = getMonthKey(new Date());
+      showPage('financialReportsPage');
+      renderFinancialReport();
+    }
+
+    function appendReportMetric(container, label, value) {
+      const metric = document.createElement('div');
+      metric.className = 'report-metric';
+      const title = document.createElement('span');
+      title.textContent = label;
+      const amount = document.createElement('strong');
+      amount.textContent = value;
+      metric.append(title, amount);
+      container.appendChild(metric);
+    }
+
+    function renderFinancialReport() {
+      const month = document.getElementById('reportMonth').value;
+      if (!/^\d{4}-\d{2}$/.test(month)) {
+        document.getElementById('reportInsight').textContent = 'Choose a month to see your report.';
+        return;
+      }
+      const expenses = getExpensesForMonth(month);
+      const totals = getMonthlyCategoryTotals(month);
+      const plan = getBudgetPlans()[month] || { income: '', limits: {} };
+      const totalSpent = expenses.reduce((sum, expense) => sum + Number(expense.amount || 0), 0);
+      const totalBudget = Object.values(plan.limits || {}).reduce((sum, amount) => sum + Number(amount || 0), 0);
+      const daysInMonth = new Date(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 0).getDate();
+      const currentDate = new Date();
+      const currentMonth = getMonthKey(currentDate);
+      const daysElapsed = month === currentMonth ? currentDate.getDate() : month < currentMonth ? daysInMonth : 1;
+      const dailyAverage = totalSpent / Math.max(1, daysElapsed);
+      const categories = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+      const previousDate = new Date(Number(month.slice(0, 4)), Number(month.slice(5, 7)) - 2, 1);
+      const previousMonth = getMonthKey(previousDate);
+      const previousTotal = getExpensesForMonth(previousMonth).reduce((sum, expense) => sum + Number(expense.amount || 0), 0);
+      const metrics = document.getElementById('reportMetrics');
+      metrics.replaceChildren();
+      appendReportMetric(metrics, 'Total spent', formatCurrency(totalSpent));
+      appendReportMetric(metrics, 'Transactions', String(expenses.length));
+      appendReportMetric(metrics, 'Daily average', formatCurrency(dailyAverage));
+      appendReportMetric(metrics, 'Monthly budget', totalBudget ? formatCurrency(totalBudget) : 'Not set');
+      appendReportMetric(metrics, 'Previous month', formatCurrency(previousTotal));
+      const insight = document.getElementById('reportInsight');
+      if (!expenses.length) {
+        insight.textContent = 'No expenses recorded for this month yet. Add a few expenses to unlock personalized spending insights.';
+      } else {
+        const topCategory = categories[0];
+        const monthChange = previousTotal ? (totalSpent - previousTotal) / previousTotal * 100 : null;
+        let message = `Your top spending category is ${topCategory[0]} at ${formatCurrency(topCategory[1])}.`;
+        if (totalBudget > 0) {
+          message += totalSpent > totalBudget
+            ? ` Spending is ${formatCurrency(totalSpent - totalBudget)} above the category budgets you set.`
+            : ` You are ${formatCurrency(totalBudget - totalSpent)} within your category budgets.`;
+        } else {
+          message += ' Add category budgets in Budget Planner to compare your plan with actual spending.';
+        }
+        if (monthChange !== null) {
+          message += monthChange > 0
+            ? ` That is ${Math.round(monthChange)}% more than last month.`
+            : monthChange < 0
+              ? ` That is ${Math.round(Math.abs(monthChange))}% less than last month.`
+              : ' Your spending matches last month.';
+        }
+        insight.textContent = message;
+      }
+      const chart = document.getElementById('reportCategoryChart');
+      chart.replaceChildren();
+      if (!categories.length) {
+        const empty = document.createElement('p');
+        empty.className = 'tracker-empty';
+        empty.textContent = 'Your category breakdown will appear here once you record expenses.';
+        chart.appendChild(empty);
+      } else {
+        const maximum = categories[0][1];
+        categories.forEach(([category, amount]) => {
+          const row = document.createElement('div');
+          row.className = 'report-bar-row';
+          const name = document.createElement('strong');
+          name.textContent = category;
+          const track = document.createElement('div');
+          track.className = 'report-bar-track';
+          const fill = document.createElement('span');
+          fill.style.width = `${maximum > 0 ? amount / maximum * 100 : 0}%`;
+          track.appendChild(fill);
+          const value = document.createElement('span');
+          value.className = 'report-bar-amount';
+          value.textContent = formatCurrency(amount);
+          row.append(name, track, value);
+          chart.appendChild(row);
+        });
+      }
+      const expenseList = document.getElementById('reportExpenseList');
+      expenseList.replaceChildren();
+      if (!expenses.length) {
+        const empty = document.createElement('p');
+        empty.className = 'tracker-empty';
+        empty.textContent = 'No transactions for this month.';
+        expenseList.appendChild(empty);
+      } else {
+        expenses.slice().sort((a, b) => b.date.localeCompare(a.date)).forEach(expense => {
+          const row = document.createElement('div');
+          row.className = 'tracker-row';
+          const details = document.createElement('div');
+          details.className = 'tracker-row-main';
+          const description = document.createElement('strong');
+          description.textContent = expense.description;
+          const meta = document.createElement('span');
+          meta.textContent = `${expense.category} · ${expense.date}`;
+          details.append(description, meta);
+          const amount = document.createElement('strong');
+          amount.className = 'tracker-row-amount';
+          amount.textContent = formatCurrency(Number(expense.amount));
+          row.append(details, amount);
+          expenseList.appendChild(row);
+        });
+      }
+    }
+
+    function csvCell(value) {
+      let text = String(value ?? '');
+      if (/^[\s]*[=+\-@]/.test(text)) text = `'${text}`;
+      return `"${text.replace(/"/g, '""')}"`;
+    }
+
+    function downloadFinancialReport() {
+      const month = document.getElementById('reportMonth').value;
+      if (!/^\d{4}-\d{2}$/.test(month)) {
+        document.getElementById('reportInsight').textContent = 'Choose a month before downloading the report.';
+        return;
+      }
+      const expenses = getExpensesForMonth(month);
+      const totals = getMonthlyCategoryTotals(month);
+      const plan = getBudgetPlans()[month] || { limits: {} };
+      const rows = [['PLANPOCKET Financial Report', month], [], ['Category', 'Budget (INR)', 'Spent (INR)']];
+      budgetCategories.forEach(category => rows.push([category, Number(plan.limits?.[category] || 0), Number(totals[category] || 0)]));
+      rows.push([], ['Date', 'Description', 'Category', 'Amount (INR)']);
+      expenses.forEach(expense => rows.push([expense.date, expense.description, expense.category, Number(expense.amount)]));
+      const csv = rows.map(row => row.map(csvCell).join(',')).join('\r\n');
+      const url = URL.createObjectURL(new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `planpocket-report-${month}.csv`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    // CFO Helper variables
+    let scenarioChart = null;
+    let scenarioCount = 0;
+    let reportCount = 0;
+    let totalBilling = 0;
+    let autoRefreshInterval = null;
+    let currentScenario = {};
+
+    // CFO Helper functions
+    function showCFOHelper() {
+      showPage('cfoHelperPage');
+      initializeCFOSliders();
+      loadCFOUsageStats();
+    }
+
+    function logout() {
+      localStorage.removeItem('planpocket_user');
+      showWelcome();
+    }
+
+    function initializeCFOSliders() {
+      const sliders = ['engineers', 'marketingStaff', 'marketingSpend', 'priceIncrease', 'revenueGrowth', 'operatingExpenses'];
+      
+      sliders.forEach(id => {
+        const slider = document.getElementById(id);
+        if (slider) {
+          slider.addEventListener('input', function() {
+            updateCFOSliderValue(id, this.value);
+          });
+          if (slider.dataset.initialized !== 'true') {
+            slider.dataset.initialized = 'true';
+            updateCFOSliderValue(id, slider.value);
+          }
+        }
+      });
+    }
+
+    function updateCFOSliderValue(id, value) {
+      const valueDisplay = document.querySelector(`#${id} + div`);
+      if (!valueDisplay) return;
+      
+      switch(id) {
+        case 'engineers':
+          valueDisplay.textContent = `${value} engineers`;
+          break;
+        case 'marketingStaff':
+          valueDisplay.textContent = `${value} staff`;
+          break;
+        case 'marketingSpend':
+          valueDisplay.textContent = `₹${parseInt(value).toLocaleString()}`;
+          break;
+        case 'priceIncrease':
+          valueDisplay.textContent = `${value}%`;
+          break;
+        case 'revenueGrowth':
+          valueDisplay.textContent = `${value}%`;
+          break;
+        case 'operatingExpenses':
+          valueDisplay.textContent = `₹${parseInt(value).toLocaleString()}`;
+          break;
+      }
+    }
+
+    function simulateScenario() {
+      // Get current values
+      const engineers = parseInt(document.getElementById('engineers').value);
+      const marketingStaff = parseInt(document.getElementById('marketingStaff').value);
+      const marketingSpend = parseInt(document.getElementById('marketingSpend').value);
+      const priceIncrease = parseInt(document.getElementById('priceIncrease').value);
+      const revenueGrowth = parseInt(document.getElementById('revenueGrowth').value);
+      const operatingExpenses = parseInt(document.getElementById('operatingExpenses').value);
+
+      // Store current scenario
+      currentScenario = {
+        engineers, marketingStaff, marketingSpend, priceIncrease, revenueGrowth, operatingExpenses,
+        timestamp: new Date().toISOString()
+      };
+
+      // Calculate financial metrics
+      const engineerCost = engineers * 80000; // ₹80k per engineer per month
+      const marketingStaffCost = marketingStaff * 50000; // ₹50k per marketing staff per month
+      const totalNewHiringCost = engineerCost + marketingStaffCost;
+      const totalMonthlyExpenses = operatingExpenses + totalNewHiringCost + marketingSpend;
+      
+      // Calculate revenue based on current settings (starting from 0)
+      const baseRevenue = Math.max(0, operatingExpenses * 0.8); // Base revenue starts from 0, scales with expenses
+      const revenueMultiplier = 1 + (revenueGrowth / 100);
+      const priceMultiplier = 1 + (priceIncrease / 100);
+      const adjustedRevenue = Math.max(0, baseRevenue * revenueMultiplier * priceMultiplier);
+      
+      // Handle division by zero and negative values
+      let profitMargin = 0;
+      if (adjustedRevenue > 0) {
+        profitMargin = ((adjustedRevenue - totalMonthlyExpenses) / adjustedRevenue) * 100;
+      } else if (totalMonthlyExpenses === 0) {
+        profitMargin = 0; // No expenses, no profit
+      } else {
+        profitMargin = -100; // Only expenses, no revenue
+      }
+      
+      const runway = calculateRunway(totalMonthlyExpenses, adjustedRevenue);
+      const breakEven = calculateBreakEven(totalMonthlyExpenses, adjustedRevenue);
+
+      // Update UI
+      updateResultsDisplay(runway, totalMonthlyExpenses, profitMargin, breakEven);
+
+      // Update chart
+      updateCFOChart(adjustedRevenue, totalMonthlyExpenses, profitMargin);
+
+      // Show results
+      document.getElementById('results').classList.remove('hidden');
+
+      // Update counters and billing
+      scenarioCount++;
+      totalBilling += 5; // ₹5 per scenario
+      updateCFOUsageStats();
+
+      // Flexprice billing simulation
+      console.log('Flexprice: Billed ₹5 for scenario simulation');
+    }
+
+    function updateResultsDisplay(runway, expenses, profitMargin, breakEven) {
+      const runwayEl = document.querySelector('#results div:nth-child(2) div:nth-child(1) div:nth-child(2)');
+      const expensesEl = document.querySelector('#results div:nth-child(2) div:nth-child(2) div:nth-child(2)');
+      const profitEl = document.querySelector('#results div:nth-child(2) div:nth-child(3) div:nth-child(2)');
+      const breakEvenEl = document.querySelector('#results div:nth-child(2) div:nth-child(4) div:nth-child(2)');
+
+      if (runwayEl) runwayEl.textContent = `${runway} months`;
+      if (expensesEl) expensesEl.textContent = `₹${expenses.toLocaleString()}`;
+      if (profitEl) profitEl.textContent = `${profitMargin.toFixed(1)}%`;
+      if (breakEvenEl) breakEvenEl.textContent = `${breakEven} months`;
+    }
+
+    function calculateRunway(expenses, revenue) {
+      if (expenses === 0) return '∞'; // No expenses, infinite runway
+      if (revenue >= expenses) return '∞'; // Profitable, infinite runway
+      
+      const monthlyLoss = expenses - revenue;
+      const currentFunds = 1000000; // ₹10L current funds
+      const runway = Math.floor(currentFunds / monthlyLoss);
+      
+      return Math.max(0, runway); // Ensure non-negative runway
+    }
+
+    function calculateBreakEven(expenses, revenue) {
+      if (expenses === 0) return 0; // No expenses, already at break-even
+      if (revenue >= expenses) return 0; // Already profitable
+      if (revenue === 0) return '∞'; // No revenue, infinite time to break-even
+      
+      const monthlyGap = expenses - revenue;
+      const growthRate = 0.05; // 5% monthly growth
+      const breakEven = Math.ceil(Math.log(expenses / revenue) / Math.log(1 + growthRate));
+      
+      return Math.max(0, breakEven); // Ensure non-negative break-even
+    }
+
+    function updateCFOChart(revenue, expenses, profitMargin) {
+      const ctx = document.getElementById('scenarioChart');
+      if (!ctx) return;
+      
+      const chartCtx = ctx.getContext('2d');
+      
+      if (scenarioChart) {
+        scenarioChart.destroy();
+      }
+
+      scenarioChart = new Chart(chartCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Revenue', 'Expenses', 'Profit'],
+          datasets: [{
+            label: 'Amount (₹)',
+            data: [revenue, expenses, revenue - expenses],
+            backgroundColor: ['#15803D', '#B42318', '#0F766E'],
+            borderColor: ['#15803D', '#B42318', '#0F766E'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Financial Overview'
+            },
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '₹' + value.toLocaleString();
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function resetScenario() {
+      const sliders = ['engineers', 'marketingStaff', 'marketingSpend', 'priceIncrease', 'revenueGrowth', 'operatingExpenses'];
+      const defaultValues = [0, 0, 0, 0, 0, 0];
+      
+      sliders.forEach((id, index) => {
+        const slider = document.getElementById(id);
+        if (slider) {
+          slider.value = defaultValues[index];
+          updateCFOSliderValue(id, defaultValues[index]);
+        }
+      });
+      
+      document.getElementById('results').classList.add('hidden');
+      document.getElementById('reportSection').classList.add('hidden');
+    }
+
+    function generateReport() {
+      if (!currentScenario.engineers && !currentScenario.marketingStaff && 
+          !currentScenario.marketingSpend && !currentScenario.priceIncrease) {
+        alert('Please run a scenario first!');
+        return;
+      }
+
+      const reportContent = document.getElementById('reportContent');
+      const report = `
+PLANPOCKET CFO HELPER AGENT - FINANCIAL SCENARIO REPORT
+Generated: ${new Date().toLocaleString()}
+
+SCENARIO PARAMETERS:
+- Additional Engineers: ${currentScenario.engineers}
+- Additional Marketing Staff: ${currentScenario.marketingStaff}
+- Extra Marketing Spend: ₹${currentScenario.marketingSpend.toLocaleString()}
+- Product Price Increase: ${currentScenario.priceIncrease}%
+- Expected Revenue Growth: ${currentScenario.revenueGrowth}%
+- Operating Expenses: ₹${currentScenario.operatingExpenses.toLocaleString()}
+
+FINANCIAL IMPACT:
+- Monthly Runway: ${document.querySelector('#results div:nth-child(2) div:nth-child(1) div:nth-child(2)')?.textContent || 'N/A'}
+- Monthly Burn Rate: ${document.querySelector('#results div:nth-child(2) div:nth-child(2) div:nth-child(2)')?.textContent || 'N/A'}
+- Profit Margin: ${document.querySelector('#results div:nth-child(2) div:nth-child(3) div:nth-child(2)')?.textContent || 'N/A'}
+- Break-even Point: ${document.querySelector('#results div:nth-child(2) div:nth-child(4) div:nth-child(2)')?.textContent || 'N/A'}
+
+RECOMMENDATIONS:
+${generateRecommendations()}
+
+This report was generated using PLANPOCKET CFO Helper Agent.
+Billing: ₹10 per report generation.
+      `;
+
+      reportContent.textContent = report;
+      document.getElementById('reportSection').classList.remove('hidden');
+
+      // Update counters
+      reportCount++;
+      totalBilling += 10; // ₹10 per report
+      updateCFOUsageStats();
+
+      // Flexprice billing
+      console.log('Flexprice: Billed ₹10 for report generation');
+    }
+
+    function generateRecommendations() {
+      const runwayText = document.querySelector('#results div:nth-child(2) div:nth-child(1) div:nth-child(2)')?.textContent;
+      const profitText = document.querySelector('#results div:nth-child(2) div:nth-child(3) div:nth-child(2)')?.textContent;
+      
+      let recommendations = [];
+      
+      if (runwayText && parseInt(runwayText) < 6) {
+        recommendations.push("- CRITICAL: Low runway detected. Consider reducing expenses or increasing revenue.");
+      }
+      
+      if (profitText && parseFloat(profitText) < 10) {
+        recommendations.push("- WARNING: Low profit margin. Review pricing strategy and cost structure.");
+      }
+      
+      if (currentScenario.engineers > 5) {
+        recommendations.push("- CAUTION: High engineering costs. Ensure productivity justifies the investment.");
+      }
+      
+      if (currentScenario.marketingSpend > 50000) {
+        recommendations.push("- MONITOR: High marketing spend. Track ROI and conversion rates.");
+      }
+      
+      if (recommendations.length === 0) {
+        recommendations.push("- POSITIVE: Scenario shows healthy financial metrics.");
+        recommendations.push("- PROCEED: Consider implementing this scenario with monitoring.");
+      }
+      
+      return recommendations.join('\n');
+    }
+
+    function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      doc.setFontSize(16);
+      doc.text('PLANPOCKET CFO Helper - Financial Report', 20, 20);
+      
+      doc.setFontSize(12);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, 20, 35);
+      
+      doc.text('Scenario Parameters:', 20, 50);
+      doc.text(`Engineers: ${currentScenario.engineers || 0}`, 20, 60);
+      doc.text(`Marketing Staff: ${currentScenario.marketingStaff || 0}`, 20, 70);
+      doc.text(`Marketing Spend: ₹${(currentScenario.marketingSpend || 0).toLocaleString()}`, 20, 80);
+      doc.text(`Price Increase: ${currentScenario.priceIncrease || 0}%`, 20, 90);
+      
+      doc.text('Financial Metrics:', 20, 110);
+      const runwayText = document.querySelector('#results div:nth-child(2) div:nth-child(1) div:nth-child(2)')?.textContent;
+      const expensesText = document.querySelector('#results div:nth-child(2) div:nth-child(2) div:nth-child(2)')?.textContent;
+      const profitText = document.querySelector('#results div:nth-child(2) div:nth-child(3) div:nth-child(2)')?.textContent;
+      
+      doc.text(`Runway: ${runwayText || 'N/A'}`, 20, 120);
+      doc.text(`Burn Rate: ${expensesText || 'N/A'}`, 20, 130);
+      doc.text(`Profit Margin: ${profitText || 'N/A'}`, 20, 140);
+      
+      doc.save('planpocket-cfo-report.pdf');
+      
+      // Update billing
+      totalBilling += 5; // ₹5 per PDF export
+      updateCFOUsageStats();
+    }
+
+    function shareReport() {
+      const reportText = document.getElementById('reportContent').textContent;
+      const shareData = {
+        title: 'PLANPOCKET CFO Helper Report',
+        text: reportText,
+        url: window.location.href
+      };
+      
+      if (navigator.share) {
+        navigator.share(shareData);
+      } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(reportText).then(() => {
+          alert('Report copied to clipboard!');
+        });
+      }
+    }
+
+    function fetchLiveData() {
+      // Simulate Pathway data fetch
+      const statusEl = document.getElementById('dataStatus');
+      const updateEl = document.getElementById('lastUpdate');
+      
+      if (statusEl) statusEl.textContent = 'Connecting...';
+      
+      setTimeout(() => {
+        // Mock data update
+        const mockData = {
+          revenue: Math.floor(Math.random() * 50000) + 150000,
+          expenses: Math.floor(Math.random() * 30000) + 100000,
+          marketTrend: Math.random() > 0.5 ? 'Bullish' : 'Bearish'
+        };
+        
+        if (statusEl) statusEl.textContent = 'Connected';
+        if (updateEl) updateEl.textContent = new Date().toLocaleString();
+        
+        // Update scenario with live data
+        updateScenarioWithLiveData(mockData);
+      }, 1500);
+    }
+
+    function updateScenarioWithLiveData(data) {
+      // Adjust scenario based on live market data
+      const revenueGrowth = document.getElementById('revenueGrowth');
+      if (revenueGrowth) {
+        const currentGrowth = parseInt(revenueGrowth.value);
+        
+        if (data.marketTrend === 'Bullish') {
+          revenueGrowth.value = Math.min(100, currentGrowth + 5);
+        } else {
+          revenueGrowth.value = Math.max(-20, currentGrowth - 3);
+        }
+        
+        updateCFOSliderValue('revenueGrowth', revenueGrowth.value);
+        
+        // Auto-run scenario if data changes significantly
+        if (Math.abs(data.revenue) > 10000) {
+          simulateScenario();
+        }
+      }
+    }
+
+    function toggleAutoRefresh() {
+      const btn = document.getElementById('autoRefreshBtn');
+      
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+        if (btn) btn.textContent = '⏰ Auto Refresh: OFF';
+      } else {
+        autoRefreshInterval = setInterval(fetchLiveData, 30000); // Every 30 seconds
+        if (btn) btn.textContent = '⏰ Auto Refresh: ON';
+      }
+    }
+
+    function updateCFOUsageStats() {
+      const scenarioEl = document.querySelector('#cfoHelperPage .card:nth-child(2) div:nth-child(2) div:nth-child(1) div:nth-child(1)');
+      const reportEl = document.querySelector('#cfoHelperPage .card:nth-child(2) div:nth-child(2) div:nth-child(2) div:nth-child(1)');
+      const billingEl = document.querySelector('#cfoHelperPage .card:nth-child(2) div:nth-child(2) div:nth-child(3) div:nth-child(1)');
+      
+      if (scenarioEl) scenarioEl.textContent = scenarioCount;
+      if (reportEl) reportEl.textContent = reportCount;
+      if (billingEl) billingEl.textContent = `₹${totalBilling.toLocaleString()}`;
+      
+      // Save to localStorage
+      localStorage.setItem('planpocketCFOStats', JSON.stringify({
+        scenarioCount, reportCount, totalBilling
+      }));
+    }
+
+    function loadCFOUsageStats() {
+      const saved = localStorage.getItem('planpocketCFOStats');
+      if (saved) {
+        const stats = JSON.parse(saved);
+        scenarioCount = stats.scenarioCount || 0;
+        reportCount = stats.reportCount || 0;
+        totalBilling = stats.totalBilling || 0;
+        updateCFOUsageStats();
+      }
+    }
+
+    // PWA Installation and Service Worker
+    let deferredPrompt;
+    let isInstalled = false;
+
+    // Check if app is already installed
+    function checkInstallStatus() {
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+        isInstalled = true;
+        console.log('PWA is already installed');
+      }
+    }
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(function(err) {
+            console.log('ServiceWorker registration failed');
+          });
+      });
+    }
+
+    // PWA Install Prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      showInstallButton();
+    });
+
+    function showInstallButton() {
+      if (!isInstalled && deferredPrompt) {
+        const installBtn = document.createElement('button');
+        installBtn.innerHTML = '📱 Install App';
+        installBtn.className = 'btn btn-secondary';
+        installBtn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3);';
+        installBtn.onclick = installApp;
+        document.body.appendChild(installBtn);
+      }
+    }
+
+    function installApp() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+            isInstalled = true;
+            document.querySelector('button[onclick="installApp()"]')?.remove();
+          }
+          deferredPrompt = null;
+        });
+      }
+    }
+
+    // Handle app installed event
+    window.addEventListener('appinstalled', (evt) => {
+      console.log('PWA was installed');
+      isInstalled = true;
+      document.querySelector('button[onclick="installApp()"]')?.remove();
+    });
+
+    // Add mobile-specific touch events
+    function addTouchSupport() {
+      // Add haptic feedback for mobile
+      if ('vibrate' in navigator) {
+        document.addEventListener('click', function(e) {
+          if (e.target.tagName === 'BUTTON') {
+            navigator.vibrate(50); // Short vibration
+          }
+        });
+      }
+
+      // Prevent double-tap zoom
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function (event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+    }
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', function() {
+      showWelcome();
+      checkInstallStatus();
+      addTouchSupport();
+      const today = new Date();
+      document.getElementById('expenseDate').value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      const currentMonth = getMonthKey(today);
+      document.getElementById('budgetMonth').value = currentMonth;
+      document.getElementById('reportMonth').value = currentMonth;
+      document.getElementById('budgetMonth').addEventListener('change', loadMonthlyBudget);
+      document.getElementById('reportMonth').addEventListener('change', renderFinancialReport);
+      
+      // Add install prompt after a delay
+      setTimeout(() => {
+        if (!isInstalled) {
+          showInstallButton();
+        }
+      }, 3000);
+    });
+  </script>
+<script>
+  (function(){var auth=['welcomePage','loginPage','signupPage','forgotPasswordPage'];
+  function sync(){var p=document.querySelector('.page:not(.hidden)');if(!p)return;var app=auth.indexOf(p.id)<0;
+  document.body.classList.toggle('pp-app',app);document.querySelectorAll('#ppNav [data-page]').forEach(function(b){
+  if(b.dataset.page===p.id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});}
+  new MutationObserver(sync).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']});sync();})();
+</script>
+</body>
+</html>
