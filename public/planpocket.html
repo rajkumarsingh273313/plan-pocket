@@ -519,6 +519,31 @@
     .tracker-card{padding:28px!important}
     .tracker-form{gap:14px!important}
     @media (min-width:861px){#ppNav{box-shadow:1px 0 0 var(--border)}}
+
+    /* CFO Helper */
+    .cfo-title{text-align:left!important;margin:0 0 4px!important}
+    .cfo-sub{color:var(--muted);margin-bottom:20px}
+    .cfo-groups{gap:16px!important}
+    .cfo-group{background:var(--bg)!important;border:1px solid var(--border);padding:18px!important}
+    .cfo-group h3{margin:0 0 6px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+    .cfo-field{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 12px;margin:14px 0!important}
+    .cfo-label{margin:0!important;grid-column:1;grid-row:1}
+    .cfo-field input[type=range]{grid-column:1/-1;grid-row:2}
+    .cfo-value{grid-column:2;grid-row:1;margin:0!important;text-align:right!important;color:var(--text)!important;background:#fff;border:1px solid var(--border);border-radius:8px;padding:2px 10px;font-variant-numeric:tabular-nums;font-size:.9rem}
+    .cfo-field input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px!important;min-height:0!important;padding:0!important;border:none!important;border-radius:99px!important;box-shadow:none!important;cursor:pointer;
+      background:linear-gradient(to right,var(--accent) 0 var(--fill,0%),#DCE2E8 var(--fill,0%) 100%)!important}
+    .cfo-field input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--accent);box-shadow:0 1px 3px rgba(16,24,40,.2);cursor:grab}
+    .cfo-field input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:grab}
+    .cfo-field input[type=range]:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(15,118,110,.22)!important}
+    .cfo-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-start;margin-top:22px!important;padding-top:18px;border-top:1px solid var(--border)}
+    .cfo-actions .btn{width:auto!important;margin:0!important;padding:0 20px}
+    #results>div:nth-of-type(1){gap:12px!important}
+    #results>div:nth-of-type(1)>div{background:var(--bg)!important;border:1px solid var(--border);text-align:left!important;padding:16px!important}
+    #results>div:nth-of-type(1) h4{color:var(--muted);font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+    #results>div:nth-of-type(1)>div>div{font-size:1.6rem!important;margin:4px 0;font-variant-numeric:tabular-nums}
+    #results>div:nth-of-type(1) p{font-size:.82rem}
+    .cfo-chart{border:1px solid var(--border);height:380px}
+    @media (max-width:600px){.cfo-chart{height:300px;padding:12px!important}.cfo-groups{grid-template-columns:1fr!important}}
     /* App shell */
     #ppNav{display:none}
     body.pp-app #ppNav{display:flex}
@@ -836,52 +861,52 @@
 
       <!-- Controls -->
       <div class="card">
-        <h2 style="text-align: center; margin-bottom: 25px;">Scenario Controls</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-          <div style="background: var(--bg2); padding: 20px; border-radius: 12px;">
+        <h2 class="cfo-title">Scenario Controls</h2><p class="cfo-sub">Adjust the sliders, then run the scenario to see results.</p>
+        <div class="cfo-groups" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+          <div class="cfo-group" style="background: var(--bg2); padding: 20px; border-radius: 12px;">
             <h3>Hiring & Staffing</h3>
-            <div style="margin: 15px 0;">
-              <label style="display: block; margin-bottom: 8px;">Additional Engineers</label>
+            <div class="cfo-field" style="margin: 15px 0;">
+              <label class="cfo-label" style="display: block; margin-bottom: 8px;" for="engineers">Additional Engineers</label>
               <input type="range" id="engineers" min="0" max="10" value="0" style="width: 100%;">
-              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0 engineers</div>
+              <div class="cfo-value" aria-live="polite" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0 engineers</div>
             </div>
-            <div style="margin: 15px 0;">
-              <label style="display: block; margin-bottom: 8px;">Additional Marketing Staff</label>
+            <div class="cfo-field" style="margin: 15px 0;">
+              <label class="cfo-label" style="display: block; margin-bottom: 8px;" for="marketingStaff">Additional Marketing Staff</label>
               <input type="range" id="marketingStaff" min="0" max="5" value="0" style="width: 100%;">
-              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0 staff</div>
+              <div class="cfo-value" aria-live="polite" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0 staff</div>
             </div>
           </div>
 
-          <div style="background: var(--bg2); padding: 20px; border-radius: 12px;">
-            <h3>Spending & Budget</h3>
-            <div style="margin: 15px 0;">
-              <label style="display: block; margin-bottom: 8px;">Extra Marketing Spend (₹)</label>
+          <div class="cfo-group" style="background: var(--bg2); padding: 20px; border-radius: 12px;">
+            <h3>Marketing &amp; Pricing</h3>
+            <div class="cfo-field" style="margin: 15px 0;">
+              <label class="cfo-label" style="display: block; margin-bottom: 8px;" for="marketingSpend">Extra Marketing Spend (₹)</label>
               <input type="range" id="marketingSpend" min="0" max="100000" step="5000" value="0" style="width: 100%;">
-              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">₹0</div>
+              <div class="cfo-value" aria-live="polite" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">₹0</div>
             </div>
-            <div style="margin: 15px 0;">
-              <label style="display: block; margin-bottom: 8px;">Product Price Increase (%)</label>
+            <div class="cfo-field" style="margin: 15px 0;">
+              <label class="cfo-label" style="display: block; margin-bottom: 8px;" for="priceIncrease">Product Price Increase (%)</label>
               <input type="range" id="priceIncrease" min="0" max="50" value="0" style="width: 100%;">
-              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0%</div>
+              <div class="cfo-value" aria-live="polite" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0%</div>
             </div>
           </div>
 
-          <div style="background: var(--bg2); padding: 20px; border-radius: 12px;">
-            <h3>Revenue & Growth</h3>
-            <div style="margin: 15px 0;">
-              <label style="display: block; margin-bottom: 8px;">Expected Revenue Growth (%)</label>
+          <div class="cfo-group" style="background: var(--bg2); padding: 20px; border-radius: 12px;">
+            <h3>Revenue &amp; Operating Expenses</h3>
+            <div class="cfo-field" style="margin: 15px 0;">
+              <label class="cfo-label" style="display: block; margin-bottom: 8px;" for="revenueGrowth">Expected Revenue Growth (%)</label>
               <input type="range" id="revenueGrowth" min="-20" max="100" value="0" style="width: 100%;">
-              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0%</div>
+              <div class="cfo-value" aria-live="polite" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">0%</div>
             </div>
-            <div style="margin: 15px 0;">
-              <label style="display: block; margin-bottom: 8px;">Operating Expenses (₹)</label>
+            <div class="cfo-field" style="margin: 15px 0;">
+              <label class="cfo-label" style="display: block; margin-bottom: 8px;" for="operatingExpenses">Operating Expenses (₹)</label>
               <input type="range" id="operatingExpenses" min="0" max="500000" step="10000" value="0" style="width: 100%;">
-              <div style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">₹0</div>
+              <div class="cfo-value" aria-live="polite" style="text-align: center; margin-top: 10px; font-weight: bold; color: var(--accent);">₹0</div>
             </div>
           </div>
         </div>
 
-        <div style="text-align: center; margin-top: 30px;">
+        <div class="cfo-actions" style="text-align: center; margin-top: 30px;">
           <button class="btn" onclick="simulateScenario()" style="margin: 0 10px;">Run Scenario</button>
           <button class="btn btn-secondary" onclick="resetScenario()" style="margin: 0 10px;">Reset</button>
           <button class="btn" style="background: linear-gradient(135deg, var(--success), #45a049); margin: 0 10px;" onclick="generateReport()">Generate Report</button>
@@ -891,7 +916,7 @@
 
       <!-- Results -->
       <div id="results" class="card hidden">
-        <h2>Scenario Results</h2>
+        <h2 class="cfo-title">Scenario Results</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
           <div style="background: var(--bg2); padding: 20px; border-radius: 12px; text-align: center;">
             <h4>Runway</h4>
@@ -915,8 +940,8 @@
           </div>
         </div>
 
-        <div style="background: white; border-radius: 12px; padding: 20px; margin: 20px 0;">
-          <canvas id="scenarioChart" style="max-height: 400px;"></canvas>
+        <div class="cfo-chart" style="background: white; border-radius: 12px; padding: 20px; margin: 20px 0;">
+          <canvas id="scenarioChart" role="img" aria-label="Bar chart comparing scenario revenue, expenses and profit in rupees" style="max-height: 400px;"></canvas>
         </div>
       </div>
 
@@ -1817,38 +1842,42 @@
         scenarioChart.destroy();
       }
 
+      const profit = revenue - expenses;
+      const inr = v => '₹' + Math.round(v).toLocaleString('en-IN');
+      const valueLabels = { id: 'ppValueLabels', afterDatasetsDraw(chart) {
+        const c = chart.ctx; const meta = chart.getDatasetMeta(0);
+        c.save(); c.font = '600 12px "Plus Jakarta Sans", sans-serif'; c.fillStyle = '#172B4D'; c.textAlign = 'center';
+        meta.data.forEach((bar, i) => { const v = chart.data.datasets[0].data[i];
+          c.textBaseline = v < 0 ? 'top' : 'bottom'; c.fillText(inr(v), bar.x, v < 0 ? bar.y + 6 : bar.y - 6); });
+        c.restore(); } };
       scenarioChart = new Chart(chartCtx, {
         type: 'bar',
         data: {
-          labels: ['Revenue', 'Expenses', 'Profit'],
+          labels: ['Revenue', 'Expenses', profit < 0 ? 'Loss' : 'Profit'],
           datasets: [{
-            label: 'Amount (₹)',
-            data: [revenue, expenses, revenue - expenses],
-            backgroundColor: ['#15803D', '#B42318', '#0F766E'],
-            borderColor: ['#15803D', '#B42318', '#0F766E'],
-            borderWidth: 2
+            label: 'Monthly amount (₹)',
+            data: [revenue, expenses, profit],
+            backgroundColor: ['#0F766E', '#98A2B3', profit < 0 ? '#B42318' : '#15803D'],
+            borderRadius: 8, borderSkipped: false, maxBarThickness: 72
           }]
         },
+        plugins: [valueLabels],
         options: {
-          responsive: true,
+          responsive: true, maintainAspectRatio: false,
+          layout: { padding: { top: 28, bottom: 8 } },
           plugins: {
-            title: {
-              display: true,
-              text: 'Financial Overview'
-            },
-            legend: {
-              display: false
-            }
+            title: { display: true, text: 'Monthly revenue vs expenses (₹)', color: '#172B4D', align: 'start',
+              font: { size: 15, weight: '700', family: '"Plus Jakarta Sans", sans-serif' }, padding: { bottom: 16 } },
+            legend: { display: false },
+            tooltip: { backgroundColor: '#172B4D', padding: 10, cornerRadius: 8, displayColors: false,
+              callbacks: { label: ctx => inr(ctx.parsed.y) } }
           },
           scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return '₹' + value.toLocaleString();
-                }
-              }
-            }
+            x: { grid: { display: false }, ticks: { color: '#172B4D', font: { weight: '600' } },
+              title: { display: true, text: 'Scenario outcome', color: '#667085' } },
+            y: { beginAtZero: true, grid: { color: '#EEF1F4' }, border: { display: false },
+              ticks: { color: '#667085', callback: v => inr(v) },
+              title: { display: true, text: 'Amount per month (₹)', color: '#667085' } }
           }
         }
       });
@@ -2191,6 +2220,12 @@ Billing: ₹10 per report generation.
   document.body.classList.toggle('pp-app',app);document.querySelectorAll('#ppNav [data-page]').forEach(function(b){
   if(b.dataset.page===p.id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});}
   new MutationObserver(sync).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']});sync();})();
+</script>
+<script>
+  (function(){function f(el){var mn=+el.min||0,mx=+el.max||100;el.style.setProperty('--fill',((el.value-mn)/(mx-mn)*100)+'%');}
+  var ids=['engineers','marketingStaff','marketingSpend','priceIncrease','revenueGrowth','operatingExpenses'];
+  ids.forEach(function(id){var el=document.getElementById(id);if(!el)return;f(el);el.addEventListener('input',function(){f(el);});});
+  var r=window.resetScenario;if(typeof r==='function'){window.resetScenario=function(){var o=r.apply(this,arguments);ids.forEach(function(id){var el=document.getElementById(id);if(el)f(el);});return o;};}})();
 </script>
 </body>
 </html>
