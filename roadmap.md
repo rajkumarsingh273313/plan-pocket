@@ -1,0 +1,3 @@
+- [ ] Improve refresh-button spacing and Scenario Controls rows/columns.
+- [ ] Restyle the exported CFO PDF without changing calculations or billing.
+- [ ] Verify controls, downloads, and layout in the browser.
