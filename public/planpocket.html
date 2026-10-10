@@ -578,6 +578,335 @@
     /* Goal planner duration buttons */
     .goal-dur-btn{transition:background .15s,color .15s,border-color .15s}
     .goal-dur-btn:hover{background:var(--accent-soft)!important;color:var(--accent)!important;border-color:var(--accent)!important}
+
+    /* Goal card layout */
+    .goal-card {
+      background: var(--card)!important;
+      border: 1px solid var(--border)!important;
+      border-radius: var(--radius, 14px)!important;
+      box-shadow: var(--shadow)!important;
+      padding: 22px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .goal-card-body {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: stretch;
+    }
+    .goal-card-left {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .goal-card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 4px;
+      word-break: break-word;
+    }
+    .goal-card-date {
+      color: var(--muted);
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .goal-chart-container {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .goal-chart-wrapper {
+      width: 110px;
+      height: 110px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .goal-chart-info {
+      flex: 1;
+      min-width: 150px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .goal-progress-badge {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .goal-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+    .goal-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .goal-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .goal-legend-dot.saved { background: var(--accent); }
+    .goal-legend-dot.saved-complete { background: var(--success); }
+    .goal-legend-dot.remaining { background: #EEF1F4; border: 1px solid var(--border); }
+    
+    .goal-card-right {
+      min-width: 200px;
+      max-width: 240px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      text-align: right;
+    }
+    .goal-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .goal-stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-weight: 600;
+    }
+    .goal-stat-value {
+      font-size: 1.15rem;
+      font-weight: 750;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .goal-stat-value.highlight-saved {
+      color: var(--success);
+    }
+    .goal-stat-value.highlight-remaining {
+      color: var(--accent);
+    }
+
+    .goal-card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .goal-card-actions .btn {
+      width: auto!important;
+      margin: 0!important;
+      min-height: 38px;
+      padding: 8px 16px;
+      font-size: 0.88rem;
+    }
+    
+    .goal-history-section {
+      background: var(--bg);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      margin-top: 4px;
+    }
+    .goal-history-header {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .goal-history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .goal-history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 10px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.86rem;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .goal-history-amount {
+      font-weight: 700;
+      color: var(--success);
+    }
+    .goal-history-meta {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .goal-history-ref {
+      font-family: monospace;
+      font-size: 0.78rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 680px) {
+      .goal-card-body {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .goal-card-right {
+        max-width: none;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        text-align: left;
+        gap: 8px;
+        padding: 12px;
+      }
+      .goal-card-right .goal-stat-item {
+        text-align: left;
+      }
+      .goal-stat-value {
+        font-size: 1rem;
+      }
+      .goal-chart-container {
+        justify-content: flex-start;
+      }
+    }
+    @media (max-width: 440px) {
+      .goal-card-right {
+        grid-template-columns: 1fr;
+      }
+      .goal-chart-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Goal Modals */
+    .goal-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .goal-modal-dialog {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      border: 1px solid var(--border);
+      padding: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: ppIn 0.2s ease;
+    }
+    .goal-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .goal-modal-header h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: var(--text);
+    }
+    .goal-modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .goal-modal-close:hover {
+      color: var(--text);
+      background: var(--bg);
+    }
+    .goal-context-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .goal-context-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .goal-context-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .goal-context-val {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .goal-modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+    .goal-modal-actions .btn {
+      width: auto!important;
+      margin: 0!important;
+    }
+    .edit-contrib-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      gap: 8px;
+    }
+
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
 </head>
@@ -768,8 +1097,132 @@
           <div id="goalRecommendation" class="insight-box" style="grid-column:1/-1;display:none;"></div>
           <button class="btn" onclick="addGoal()" style="grid-column:1/-1;">Add Goal</button>
         </div>
-        <div id="goalMessage" class="message hidden tracker-message" role="status"></div><div id="goalList" class="tracker-list"></div>
+        <div id="goalMessage" class="message hidden tracker-message" role="status"></div>
+        <div id="goalList" class="tracker-list"></div>
       </section>
+
+      <!-- Contribute Modal -->
+      <div id="goalContributeModal" class="goal-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="contributeModalTitle">
+        <div class="goal-modal-dialog">
+          <div class="goal-modal-header">
+            <h3 id="contributeModalTitle">Contribute to Goal</h3>
+            <button type="button" class="goal-modal-close" onclick="closeContributeModal()" aria-label="Close modal">&times;</button>
+          </div>
+          <input type="hidden" id="contributeGoalId">
+          <div class="goal-context-card">
+            <div class="goal-context-item">
+              <span class="goal-context-label">Goal</span>
+              <strong class="goal-context-val" id="contributeModalGoalName">-</strong>
+            </div>
+            <div class="goal-context-item">
+              <span class="goal-context-label">Target</span>
+              <strong class="goal-context-val" id="contributeModalTarget">₹0</strong>
+            </div>
+            <div class="goal-context-item">
+              <span class="goal-context-label">Saved so far</span>
+              <strong class="goal-context-val" id="contributeModalSaved" style="color:var(--success);">₹0</strong>
+            </div>
+            <div class="goal-context-item">
+              <span class="goal-context-label">Remaining needed</span>
+              <strong class="goal-context-val" id="contributeModalRemaining" style="color:var(--accent);">₹0</strong>
+            </div>
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label for="contributeAmount">Contribution amount (₹)</label>
+            <input type="number" id="contributeAmount" min="1" step="1" placeholder="e.g. 5000">
+            <span style="display:block;font-size:0.8rem;color:var(--muted);margin-top:4px;">Prefilled with recommended saving. You can edit this amount.</span>
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label for="contributeDate">Contribution date</label>
+            <input type="date" id="contributeDate">
+          </div>
+          <div id="contributeModalMsg" class="message hidden tracker-message" style="margin:0;"></div>
+          <div class="goal-modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeContributeModal()">Cancel</button>
+            <button type="button" class="btn" onclick="submitContribution()">Record Contribution</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Contribution Modal -->
+      <div id="goalEditContributeModal" class="goal-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="editContribModalTitle">
+        <div class="goal-modal-dialog">
+          <div class="goal-modal-header">
+            <h3 id="editContribModalTitle">Contributions for Goal</h3>
+            <button type="button" class="goal-modal-close" onclick="closeEditContributionModal()" aria-label="Close modal">&times;</button>
+          </div>
+          <input type="hidden" id="editContribGoalId">
+          <div class="goal-context-card">
+            <div class="goal-context-item">
+              <span class="goal-context-label">Goal</span>
+              <strong class="goal-context-val" id="editModalGoalName">-</strong>
+            </div>
+            <div class="goal-context-item">
+              <span class="goal-context-label">Total Saved</span>
+              <strong class="goal-context-val" id="editModalTotalSaved" style="color:var(--success);">₹0</strong>
+            </div>
+          </div>
+
+          <!-- Baseline Initial Saved (if goal was created with already-saved > 0) -->
+          <div id="editInitialSavedSection" style="display:none;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;">
+            <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:6px;">Baseline Saved Balance</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+              <div>
+                <strong id="editInitialSavedDisplay" style="font-size:1rem;color:var(--text);">₹0</strong>
+                <span style="display:block;font-size:0.78rem;color:var(--muted);">Amount saved prior to individual contributions</span>
+              </div>
+              <button type="button" class="btn btn-secondary" style="width:auto;padding:6px 12px;min-height:34px;font-size:0.82rem;" onclick="promptEditInitialSaved()">Edit Baseline</button>
+            </div>
+          </div>
+
+          <!-- Contribution List -->
+          <div>
+            <span style="font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:8px;">Recorded Contributions</span>
+            <div id="editContribList" style="display:flex;flex-direction:column;gap:8px;"></div>
+          </div>
+
+          <!-- Inline Edit Form (shown when editing an individual contribution) -->
+          <div id="editContribInlineForm" style="display:none;background:var(--bg);border:1px solid var(--accent);border-radius:10px;padding:14px;">
+            <h4 style="margin:0 0 10px;font-size:0.95rem;color:var(--accent);">Edit Contribution</h4>
+            <input type="hidden" id="editInlineContribId">
+            <div class="form-group" style="margin-bottom:10px;">
+              <label for="editInlineAmount">Amount (₹)</label>
+              <input type="number" id="editInlineAmount" min="1" step="1">
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label for="editInlineDate">Date</label>
+              <input type="date" id="editInlineDate">
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+              <button type="button" class="btn btn-secondary" style="width:auto;padding:6px 12px;min-height:34px;font-size:0.84rem;" onclick="cancelInlineEditContribution()">Cancel</button>
+              <button type="button" class="btn" style="width:auto;padding:6px 14px;min-height:34px;font-size:0.84rem;" onclick="saveInlineEditContribution()">Save Changes</button>
+            </div>
+          </div>
+
+          <div id="editContribModalMsg" class="message hidden tracker-message" style="margin:0;"></div>
+          <div class="goal-modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeEditContributionModal()">Done</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete Goal Confirmation Modal -->
+      <div id="goalDeleteModal" class="goal-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+        <div class="goal-modal-dialog" style="max-width:440px;">
+          <div class="goal-modal-header">
+            <h3 id="deleteModalTitle">Delete Goal</h3>
+            <button type="button" class="goal-modal-close" onclick="closeDeleteGoalModal()" aria-label="Close modal">&times;</button>
+          </div>
+          <input type="hidden" id="deleteModalGoalId">
+          <p style="color:var(--text);margin:0;line-height:1.6;">
+            Are you sure you want to delete <strong id="deleteModalGoalName"></strong>? This will permanently remove this goal and its recorded contribution history.
+          </p>
+          <div class="goal-modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeDeleteGoalModal()">Cancel</button>
+            <button type="button" class="btn" style="background:var(--danger)!important;border-color:var(--danger)!important;" onclick="confirmDeleteGoal()">Delete Goal</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1468,6 +1921,48 @@
       goalHighlightDuration(defaultBtn);
     }
 
+    var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    function formatDisplayDate(dateStr) {
+      if (!dateStr || typeof dateStr !== 'string') return '';
+      var parts = dateStr.split('-');
+      if (parts.length < 3) return dateStr;
+      var year = parts[0];
+      var monthIndex = parseInt(parts[1], 10) - 1;
+      var day = parseInt(parts[2], 10);
+      if (monthIndex >= 0 && monthIndex < 12 && !isNaN(day)) {
+        return MONTH_NAMES[monthIndex] + ' ' + day + ', ' + year;
+      }
+      return dateStr;
+    }
+
+    function formatDisplayDateRange(startStr, endStr) {
+      return formatDisplayDate(startStr) + ' – ' + formatDisplayDate(endStr);
+    }
+
+    function escapeHtml(str) {
+      if (typeof str !== 'string') return String(str || '');
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function generateUniqueContributionRef(existingGoals) {
+      var existingRefs = new Set();
+      (existingGoals || []).forEach(function(g) {
+        (g.contributions || []).forEach(function(c) {
+          if (c.reference) existingRefs.add(String(c.reference));
+        });
+      });
+      var attempts = 0;
+      while (attempts < 1000) {
+        var ref = Math.floor(100000000000 + Math.random() * 900000000000).toString();
+        if (!existingRefs.has(ref)) {
+          return ref;
+        }
+        attempts++;
+      }
+      return Date.now().toString().padEnd(12, '0').slice(0, 12);
+    }
+
     function addGoal() {
       var name = document.getElementById('goalName').value.trim();
       var target = Number(document.getElementById('goalTarget').value);
@@ -1505,6 +2000,8 @@
         name: name,
         target: target,
         saved: saved,
+        initialSaved: saved,
+        contributions: [],
         monthly: monthly || 0,
         startDate: startDate,
         endDate: endDate,
@@ -1513,7 +2010,7 @@
       goals.push(goalObj);
       saveTrackerItems('planpocket_goals', goals);
 
-      showTrackerMessage('goalMessage', '✅ Goal "' + name + '" saved successfully!', 'success');
+      showTrackerMessage('goalMessage', '✅ Goal "' + escapeHtml(name) + '" saved successfully!', 'success');
       goalResetForm();
       renderGoals();
       updateDashboardSummary();
@@ -1530,12 +2027,29 @@
         goal.endDate = toLocalDateStr(addCalendarMonths(new Date(), Math.max(1, months)));
       }
       if (typeof goal.durationMonths === 'undefined') goal.durationMonths = null;
+      if (!Array.isArray(goal.contributions)) {
+        goal.contributions = [];
+      }
+      if (typeof goal.initialSaved === 'undefined') {
+        goal.initialSaved = Number(goal.saved) || 0;
+      }
+      var contribTotal = goal.contributions.reduce(function(sum, c) { return sum + Number(c.amount || 0); }, 0);
+      goal.saved = Number(goal.initialSaved || 0) + contribTotal;
       return goal;
     }
+
+    window.goalChartInstances = window.goalChartInstances || {};
 
     function renderGoals() {
       var list = document.getElementById('goalList');
       list.replaceChildren();
+
+      // Clean up previous Chart.js instances
+      Object.keys(window.goalChartInstances).forEach(function(key) {
+        try { window.goalChartInstances[key].destroy(); } catch(e) {}
+      });
+      window.goalChartInstances = {};
+
       var goals = getTrackerItems('planpocket_goals');
       if (!goals.length) {
         var empty = document.createElement('p');
@@ -1544,10 +2058,14 @@
         list.appendChild(empty);
         return;
       }
-      // Migrate old goals once
+
+      // Migrate old goals safely
       var needsSave = false;
       goals = goals.map(function(g) {
-        if (!g.startDate) { needsSave = true; return migrateGoal(g); }
+        if (!g.startDate || !Array.isArray(g.contributions) || typeof g.initialSaved === 'undefined') {
+          needsSave = true;
+          return migrateGoal(g);
+        }
         return g;
       });
       if (needsSave) saveTrackerItems('planpocket_goals', goals);
@@ -1556,114 +2074,575 @@
         var targetAmt = Number(goal.target);
         var savedAmt = Number(goal.saved);
         var remaining = Math.max(0, targetAmt - savedAmt);
-        var progress = Math.min(100, Math.max(0, savedAmt / targetAmt * 100));
+        var progress = targetAmt > 0 ? Math.min(100, Math.max(0, savedAmt / targetAmt * 100)) : 0;
         var isComplete = savedAmt >= targetAmt;
 
         var periods = countSavingPeriods(goal.startDate, goal.endDate);
         var recommended = isComplete ? 0 : Math.ceil(remaining / periods);
 
-        var row = document.createElement('div');
-        row.className = 'tracker-row';
-        row.style.cssText = 'flex-direction:column;align-items:stretch;';
-        var main = document.createElement('div');
-        main.className = 'tracker-row-main';
-        var title = document.createElement('strong');
-        title.textContent = goal.name;
-        var detail = document.createElement('span');
-        if (isComplete) {
-          detail.textContent = formatCurrency(savedAmt) + ' of ' + formatCurrency(targetAmt) + ' · Goal reached! 🎉';
-        } else {
-          detail.textContent = formatCurrency(savedAmt) + ' of ' + formatCurrency(targetAmt)
-            + ' · ' + formatCurrency(remaining) + ' remaining';
-        }
-        var dateInfo = document.createElement('span');
-        dateInfo.style.fontSize = '.85rem';
-        dateInfo.textContent = 'From ' + goal.startDate + ' → To ' + goal.endDate;
+        // Main Goal Card container
+        var card = document.createElement('div');
+        card.className = 'goal-card';
+        card.setAttribute('data-goal-id', goal.id);
+
+        // Body section (flex on desktop, stacked on mobile)
+        var body = document.createElement('div');
+        body.className = 'goal-card-body';
+
+        // Left section (name, date range, chart, progress)
+        var left = document.createElement('div');
+        left.className = 'goal-card-left';
+
+        // Header: Goal name & date range
+        var title = document.createElement('h3');
+        title.className = 'goal-card-title';
+        title.textContent = goal.name; // SAFE TEXT RENDERING
+
+        var dateRange = document.createElement('div');
+        dateRange.className = 'goal-card-date';
+        dateRange.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> ' +
+          formatDisplayDateRange(goal.startDate, goal.endDate);
+
+        // Chart container
+        var chartContainer = document.createElement('div');
+        chartContainer.className = 'goal-chart-container';
+
+        var chartWrapper = document.createElement('div');
+        chartWrapper.className = 'goal-chart-wrapper';
+        var canvas = document.createElement('canvas');
+        canvas.id = 'goalChart_' + goal.id;
+        canvas.width = 110;
+        canvas.height = 110;
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-label', goal.name + ': ' + formatCurrency(savedAmt) + ' saved (' + Math.round(progress) + '%), ' + formatCurrency(isComplete ? 0 : remaining) + ' remaining.');
+        chartWrapper.appendChild(canvas);
+
+        var chartInfo = document.createElement('div');
+        chartInfo.className = 'goal-chart-info';
+
+        var badge = document.createElement('div');
+        badge.className = 'goal-progress-badge';
+        badge.textContent = isComplete ? '100% Goal Reached! 🎉' : Math.round(progress) + '% complete';
+        if (isComplete) badge.style.color = 'var(--success)';
+
+        var legend = document.createElement('div');
+        legend.className = 'goal-legend';
+        legend.setAttribute('role', 'list');
+
+        var savedLegend = document.createElement('div');
+        savedLegend.className = 'goal-legend-item';
+        savedLegend.setAttribute('role', 'listitem');
+        savedLegend.innerHTML = '<span class="goal-legend-dot ' + (isComplete ? 'saved-complete' : 'saved') + '"></span>' +
+          '<span>Saved: <strong>' + formatCurrency(savedAmt) + '</strong> (' + Math.round(progress) + '%)</span>';
+
+        var remainingLegend = document.createElement('div');
+        remainingLegend.className = 'goal-legend-item';
+        remainingLegend.setAttribute('role', 'listitem');
+        remainingLegend.innerHTML = '<span class="goal-legend-dot remaining"></span>' +
+          '<span>Remaining: <strong>' + formatCurrency(isComplete ? 0 : remaining) + '</strong> (' + (isComplete ? 0 : Math.round(100 - progress)) + '%)</span>';
+
+        legend.append(savedLegend, remainingLegend);
 
         var track = document.createElement('div');
         track.className = 'progress-track';
+        track.style.marginTop = '6px';
         var fill = document.createElement('span');
         fill.style.width = progress + '%';
         if (isComplete) fill.style.background = 'var(--success)';
         track.appendChild(fill);
 
-        var progressLabel = document.createElement('span');
-        progressLabel.style.cssText = 'font-size:.82rem;color:var(--muted);margin-top:2px;';
-        progressLabel.textContent = Math.round(progress) + '% complete';
+        chartInfo.append(badge, legend, track);
+        chartContainer.append(chartWrapper, chartInfo);
+        left.append(title, dateRange, chartContainer);
 
-        main.append(title, detail, dateInfo, track, progressLabel);
+        // Right summary area (desktop aligned on right, responsive stack on mobile)
+        var right = document.createElement('div');
+        right.className = 'goal-card-right';
 
-        // Recommendation / contribution info
+        var statTarget = document.createElement('div');
+        statTarget.className = 'goal-stat-item';
+        statTarget.innerHTML = '<span class="goal-stat-label">Target Amount</span><strong class="goal-stat-value">' + formatCurrency(targetAmt) + '</strong>';
+
+        var statSaved = document.createElement('div');
+        statSaved.className = 'goal-stat-item';
+        statSaved.innerHTML = '<span class="goal-stat-label">Amount Saved</span><strong class="goal-stat-value highlight-saved">' + formatCurrency(savedAmt) + '</strong>';
+
+        var statRemaining = document.createElement('div');
+        statRemaining.className = 'goal-stat-item';
+        statRemaining.innerHTML = '<span class="goal-stat-label">Leftover Needed</span><strong class="goal-stat-value highlight-remaining">' + formatCurrency(isComplete ? 0 : remaining) + '</strong>';
+
+        right.append(statTarget, statSaved, statRemaining);
+        body.append(left, right);
+        card.appendChild(body);
+
+        // Recommendation info line
         var infoLine = document.createElement('div');
-        infoLine.style.cssText = 'margin-top:6px;font-size:.9rem;line-height:1.5;';
+        infoLine.style.cssText = 'font-size:.9rem;line-height:1.5;color:var(--text);';
         if (isComplete) {
           infoLine.innerHTML = '<span style="color:var(--success);font-weight:600;">✅ Completed — ₹0 remaining</span>';
         } else {
-          var html = 'Recommended monthly: <strong>' + formatCurrency(recommended) + '</strong>';
+          var recHtml = 'Recommended monthly saving: <strong>' + formatCurrency(recommended) + '</strong>';
           if (goal.monthly && goal.monthly > 0) {
             if (goal.monthly >= recommended) {
-              html += ' · <span style="color:var(--success);">✅ Your ' + formatCurrency(goal.monthly) + '/mo is sufficient</span>';
+              recHtml += ' · <span style="color:var(--success);">✅ Your planned ' + formatCurrency(goal.monthly) + '/mo meets target</span>';
             } else {
-              html += ' · <span style="color:var(--warning);">⚠️ Your ' + formatCurrency(goal.monthly) + '/mo may fall short</span>';
+              recHtml += ' · <span style="color:var(--warning);">⚠️ Your planned ' + formatCurrency(goal.monthly) + '/mo is below recommendation</span>';
             }
           }
-          infoLine.innerHTML = html;
+          infoLine.innerHTML = recHtml;
+        }
+        card.appendChild(infoLine);
+
+        // Contribution History preview if any
+        if (goal.contributions && goal.contributions.length > 0) {
+          var historySection = document.createElement('div');
+          historySection.className = 'goal-history-section';
+          var histHeader = document.createElement('div');
+          histHeader.className = 'goal-history-header';
+          var totalContrib = goal.contributions.reduce(function(s,c){return s+Number(c.amount||0);},0);
+          histHeader.innerHTML = '<span>Contribution History (' + goal.contributions.length + ')</span>' +
+            '<span style="font-size:0.75rem;text-transform:none;color:var(--muted);">' + formatCurrency(totalContrib) + ' recorded</span>';
+          var histList = document.createElement('div');
+          histList.className = 'goal-history-list';
+
+          // Show last 3 contributions in preview
+          var previewList = goal.contributions.slice(-3).reverse();
+          previewList.forEach(function(c) {
+            var item = document.createElement('div');
+            item.className = 'goal-history-item';
+            item.innerHTML = '<div>' +
+              '<span class="goal-history-amount">+' + formatCurrency(c.amount) + '</span>' +
+              '<span class="goal-history-meta"> on ' + formatDisplayDate(c.date) + '</span>' +
+              '</div>' +
+              '<span class="goal-history-ref" title="Contribution reference">Ref: ' + escapeHtml(c.reference) + '</span>';
+            histList.appendChild(item);
+          });
+          if (goal.contributions.length > 3) {
+            var moreMsg = document.createElement('span');
+            moreMsg.style.cssText = 'font-size:0.78rem;color:var(--muted);display:block;margin-top:4px;';
+            moreMsg.textContent = '+ ' + (goal.contributions.length - 3) + ' more contributions (view in Edit contribution)';
+            histList.appendChild(moreMsg);
+          }
+          historySection.append(histHeader, histList);
+          card.appendChild(historySection);
         }
 
-        // Action buttons row
+        // Action buttons row (Contribute, Edit contribution, Delete)
         var actions = document.createElement('div');
-        actions.style.cssText = 'display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;';
+        actions.className = 'goal-card-actions';
 
-        // Update saved amount button
-        if (!isComplete) {
-          var updateBtn = document.createElement('button');
-          updateBtn.className = 'btn btn-secondary';
-          updateBtn.style.cssText = 'width:auto;padding:8px 12px;margin:0;min-height:36px;font-size:.85rem;';
-          updateBtn.textContent = '💰 Update Saved';
-          updateBtn.setAttribute('aria-label', 'Update saved amount for ' + goal.name);
-          updateBtn.addEventListener('click', (function(goalId) {
-            return function() { promptUpdateSaved(goalId); };
-          })(goal.id));
-          actions.appendChild(updateBtn);
+        var contributeBtn = document.createElement('button');
+        contributeBtn.type = 'button';
+        contributeBtn.className = 'btn';
+        contributeBtn.innerHTML = '💰 Contribute';
+        contributeBtn.setAttribute('aria-label', 'Contribute to ' + goal.name);
+        contributeBtn.addEventListener('click', function() {
+          openContributeModal(goal.id);
+        });
+
+        var editContribBtn = document.createElement('button');
+        editContribBtn.type = 'button';
+        editContribBtn.className = 'btn btn-secondary';
+        editContribBtn.innerHTML = '✏️ Edit contribution';
+        editContribBtn.setAttribute('aria-label', 'Edit contributions for ' + goal.name);
+        editContribBtn.addEventListener('click', function() {
+          openEditContributionModal(goal.id);
+        });
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
+        deleteBtn.className = 'btn btn-secondary';
+        deleteBtn.style.cssText = 'color:var(--danger)!important;border-color:rgba(180,35,24,0.25)!important;';
+        deleteBtn.innerHTML = '🗑️ Delete';
+        deleteBtn.setAttribute('aria-label', 'Delete ' + goal.name);
+        deleteBtn.addEventListener('click', function() {
+          openDeleteGoalModal(goal.id);
+        });
+
+        actions.append(contributeBtn, editContribBtn, deleteBtn);
+        card.appendChild(actions);
+        list.appendChild(card);
+
+        // Instantiate Chart.js doughnut chart
+        if (window.Chart) {
+          try {
+            var ctx = canvas.getContext('2d');
+            var savedChartVal = isComplete ? targetAmt : savedAmt;
+            var remainingChartVal = isComplete ? 0 : remaining;
+            if (savedChartVal === 0 && remainingChartVal === 0) {
+              remainingChartVal = 1;
+            }
+            window.goalChartInstances[goal.id] = new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                labels: ['Saved', 'Remaining'],
+                datasets: [{
+                  data: [savedChartVal, remainingChartVal],
+                  backgroundColor: [isComplete ? '#15803D' : '#0F766E', '#EEF1F4'],
+                  borderWidth: 0,
+                  hoverOffset: 3
+                }]
+              },
+              options: {
+                responsive: false,
+                maintainAspectRatio: true,
+                animation: false,
+                cutout: '72%',
+                plugins: {
+                  legend: { display: false },
+                  tooltip: {
+                    backgroundColor: '#172B4D',
+                    padding: 8,
+                    cornerRadius: 6,
+                    displayColors: false,
+                    callbacks: {
+                      label: function(c) {
+                        return c.label + ': ' + formatCurrency(c.raw);
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          } catch(err) {
+            console.error('Error drawing goal chart:', err);
+          }
         }
+      });
+    }
 
-        // Delete button
-        var remove = document.createElement('button');
-        remove.className = 'btn btn-secondary';
-        remove.style.cssText = 'width:auto;padding:8px 12px;margin:0;min-height:36px;font-size:.85rem;';
-        remove.textContent = 'Delete';
-        remove.setAttribute('aria-label', 'Delete ' + goal.name);
-        remove.addEventListener('click', (function(goalId) {
-          return function() {
-            saveTrackerItems('planpocket_goals', getTrackerItems('planpocket_goals').filter(function(item) { return item.id !== goalId; }));
-            renderGoals();
-            updateDashboardSummary();
-          };
-        })(goal.id));
-        actions.appendChild(remove);
+    /* ── Contribute Modal Interactions ── */
+    function openContributeModal(goalId) {
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      if (!goal) return;
 
-        row.append(main, infoLine, actions);
+      var targetAmt = Number(goal.target);
+      var savedAmt = Number(goal.saved);
+      var remaining = Math.max(0, targetAmt - savedAmt);
+      var isComplete = savedAmt >= targetAmt;
+
+      document.getElementById('contributeGoalId').value = goal.id;
+      document.getElementById('contributeModalGoalName').textContent = goal.name;
+      document.getElementById('contributeModalTarget').textContent = formatCurrency(targetAmt);
+      document.getElementById('contributeModalSaved').textContent = formatCurrency(savedAmt);
+      document.getElementById('contributeModalRemaining').textContent = formatCurrency(isComplete ? 0 : remaining);
+
+      var periods = countSavingPeriods(goal.startDate, goal.endDate);
+      var recommended = isComplete ? 0 : Math.ceil(remaining / periods);
+      var defaultAmount = isComplete ? 0 : Math.min(remaining, (recommended > 0 ? recommended : remaining));
+
+      var amountInput = document.getElementById('contributeAmount');
+      amountInput.value = defaultAmount > 0 ? defaultAmount : '';
+      amountInput.max = remaining;
+
+      var dateInput = document.getElementById('contributeDate');
+      dateInput.value = toLocalDateStr(new Date());
+
+      var msg = document.getElementById('contributeModalMsg');
+      msg.classList.add('hidden');
+      msg.textContent = '';
+
+      document.getElementById('goalContributeModal').classList.remove('hidden');
+      amountInput.focus();
+    }
+
+    function closeContributeModal() {
+      document.getElementById('goalContributeModal').classList.add('hidden');
+      document.getElementById('contributeModalMsg').classList.add('hidden');
+    }
+
+    function submitContribution() {
+      var goalId = document.getElementById('contributeGoalId').value;
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      if (!goal) return;
+
+      var amount = Number(document.getElementById('contributeAmount').value);
+      var date = document.getElementById('contributeDate').value;
+      var msg = document.getElementById('contributeModalMsg');
+
+      var targetAmt = Number(goal.target);
+      var savedAmt = Number(goal.saved);
+      var remaining = Math.max(0, targetAmt - savedAmt);
+
+      if (!Number.isFinite(amount) || amount <= 0) {
+        msg.textContent = 'Please enter a valid positive contribution amount.';
+        msg.className = 'message error tracker-message';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      if (savedAmt >= targetAmt) {
+        msg.textContent = 'This goal is already fully saved (100% complete).';
+        msg.className = 'message error tracker-message';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      if (amount > remaining) {
+        msg.textContent = 'Contribution cannot exceed the remaining amount of ' + formatCurrency(remaining) + '.';
+        msg.className = 'message error tracker-message';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      if (!date) {
+        msg.textContent = 'Please select a contribution date.';
+        msg.className = 'message error tracker-message';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      // Generate 12-digit numeric reference
+      var ref = generateUniqueContributionRef(goals);
+      if (!Array.isArray(goal.contributions)) goal.contributions = [];
+      goal.contributions.push({
+        id: Date.now() + '-' + Math.random(),
+        amount: amount,
+        date: date,
+        reference: ref
+      });
+
+      // Recalculate goal saved total
+      if (typeof goal.initialSaved === 'undefined') goal.initialSaved = savedAmt;
+      var contribTotal = goal.contributions.reduce(function(s, c) { return s + Number(c.amount || 0); }, 0);
+      goal.saved = Number(goal.initialSaved || 0) + contribTotal;
+
+      saveTrackerItems('planpocket_goals', goals);
+      closeContributeModal();
+      renderGoals();
+      updateDashboardSummary();
+
+      showTrackerMessage('goalMessage', '✅ Contribution of ' + formatCurrency(amount) + ' recorded for "' + escapeHtml(goal.name) + '". Contribution reference: ' + ref, 'success');
+    }
+
+    /* ── Edit Contribution Modal Interactions ── */
+    function openEditContributionModal(goalId) {
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      if (!goal) return;
+
+      document.getElementById('editContribGoalId').value = goal.id;
+      document.getElementById('editModalGoalName').textContent = goal.name;
+      document.getElementById('editModalTotalSaved').textContent = formatCurrency(Number(goal.saved || 0));
+
+      cancelInlineEditContribution();
+      renderEditContribList(goal);
+
+      document.getElementById('goalEditContributeModal').classList.remove('hidden');
+    }
+
+    function closeEditContributionModal() {
+      document.getElementById('goalEditContributeModal').classList.add('hidden');
+      document.getElementById('editContribModalMsg').classList.add('hidden');
+      cancelInlineEditContribution();
+    }
+
+    function renderEditContribList(goal) {
+      var list = document.getElementById('editContribList');
+      list.replaceChildren();
+
+      var initSection = document.getElementById('editInitialSavedSection');
+      if (Number(goal.initialSaved || 0) > 0) {
+        initSection.style.display = 'block';
+        document.getElementById('editInitialSavedDisplay').textContent = formatCurrency(Number(goal.initialSaved));
+      } else {
+        initSection.style.display = 'none';
+      }
+
+      if (!goal.contributions || !goal.contributions.length) {
+        var empty = document.createElement('p');
+        empty.className = 'tracker-empty';
+        empty.style.padding = '10px';
+        empty.textContent = 'No individual contributions recorded yet. Click "Contribute" on the goal card to add one.';
+        list.appendChild(empty);
+        return;
+      }
+
+      goal.contributions.slice().reverse().forEach(function(c) {
+        var row = document.createElement('div');
+        row.className = 'edit-contrib-row';
+
+        var info = document.createElement('div');
+        info.innerHTML = '<strong style="color:var(--success);font-size:0.95rem;">+' + formatCurrency(c.amount) + '</strong>' +
+          '<div style="color:var(--muted);font-size:0.8rem;margin-top:2px;">' + formatDisplayDate(c.date) + ' · <span style="font-family:monospace;background:var(--accent-soft);color:var(--accent);padding:1px 4px;border-radius:3px;">Ref: ' + escapeHtml(c.reference) + '</span></div>';
+
+        var btnGroup = document.createElement('div');
+        btnGroup.style.cssText = 'display:flex;gap:6px;';
+
+        var editBtn = document.createElement('button');
+        editBtn.type = 'button';
+        editBtn.className = 'btn btn-secondary';
+        editBtn.style.cssText = 'width:auto;padding:4px 10px;min-height:30px;font-size:0.8rem;';
+        editBtn.textContent = 'Edit';
+        editBtn.addEventListener('click', function() {
+          startInlineEditContribution(c.id);
+        });
+
+        var delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'btn btn-secondary';
+        delBtn.style.cssText = 'width:auto;padding:4px 10px;min-height:30px;font-size:0.8rem;color:var(--danger)!important;';
+        delBtn.textContent = 'Delete';
+        delBtn.addEventListener('click', function() {
+          deleteContribution(c.id);
+        });
+
+        btnGroup.append(editBtn, delBtn);
+        row.append(info, btnGroup);
         list.appendChild(row);
       });
     }
 
-    /** Prompt the user to update the saved amount for an existing goal. */
-    function promptUpdateSaved(goalId) {
+    function startInlineEditContribution(contribId) {
+      var goalId = document.getElementById('editContribGoalId').value;
       var goals = getTrackerItems('planpocket_goals');
       var goal = goals.find(function(g) { return g.id === goalId; });
       if (!goal) return;
-      var newValue = prompt('Enter new saved amount for "' + goal.name + '" (current: ' + formatCurrency(Number(goal.saved)) + '):', goal.saved);
-      if (newValue === null) return; // cancelled
-      var num = Number(newValue);
-      if (!Number.isFinite(num) || num < 0) {
-        showTrackerMessage('goalMessage', 'Saved amount must be zero or a positive number.', 'error');
+      var c = (goal.contributions || []).find(function(item) { return item.id === contribId; });
+      if (!c) return;
+
+      document.getElementById('editInlineContribId').value = c.id;
+      document.getElementById('editInlineAmount').value = c.amount;
+      document.getElementById('editInlineDate').value = c.date;
+
+      var form = document.getElementById('editContribInlineForm');
+      form.style.display = 'block';
+      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      document.getElementById('editInlineAmount').focus();
+    }
+
+    function cancelInlineEditContribution() {
+      document.getElementById('editContribInlineForm').style.display = 'none';
+      document.getElementById('editInlineContribId').value = '';
+    }
+
+    function saveInlineEditContribution() {
+      var goalId = document.getElementById('editContribGoalId').value;
+      var contribId = document.getElementById('editInlineContribId').value;
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      if (!goal) return;
+      var c = (goal.contributions || []).find(function(item) { return item.id === contribId; });
+      if (!c) return;
+
+      var newAmount = Number(document.getElementById('editInlineAmount').value);
+      var newDate = document.getElementById('editInlineDate').value;
+      var msg = document.getElementById('editContribModalMsg');
+
+      if (!Number.isFinite(newAmount) || newAmount <= 0) {
+        msg.textContent = 'Contribution amount must be greater than zero.';
+        msg.className = 'message error tracker-message';
+        msg.classList.remove('hidden');
         return;
       }
-      goal.saved = num;
+      if (!newDate) {
+        msg.textContent = 'Please select a date.';
+        msg.className = 'message error tracker-message';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      c.amount = newAmount;
+      c.date = newDate;
+
+      // Recalculate total saved
+      var contribTotal = goal.contributions.reduce(function(s, item) { return s + Number(item.amount || 0); }, 0);
+      goal.saved = Number(goal.initialSaved || 0) + contribTotal;
+
       saveTrackerItems('planpocket_goals', goals);
+      cancelInlineEditContribution();
+      renderEditContribList(goal);
+      document.getElementById('editModalTotalSaved').textContent = formatCurrency(Number(goal.saved));
       renderGoals();
       updateDashboardSummary();
-      showTrackerMessage('goalMessage', '✅ Saved amount updated for "' + goal.name + '".', 'success');
+
+      msg.textContent = '✅ Contribution updated successfully.';
+      msg.className = 'message success tracker-message';
+      msg.classList.remove('hidden');
+      setTimeout(function() { msg.classList.add('hidden'); }, 3000);
+    }
+
+    function deleteContribution(contribId) {
+      var goalId = document.getElementById('editContribGoalId').value;
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      if (!goal) return;
+
+      if (!confirm('Are you sure you want to delete this contribution?')) return;
+
+      goal.contributions = (goal.contributions || []).filter(function(item) { return item.id !== contribId; });
+      var contribTotal = goal.contributions.reduce(function(s, item) { return s + Number(item.amount || 0); }, 0);
+      goal.saved = Number(goal.initialSaved || 0) + contribTotal;
+
+      saveTrackerItems('planpocket_goals', goals);
+      cancelInlineEditContribution();
+      renderEditContribList(goal);
+      document.getElementById('editModalTotalSaved').textContent = formatCurrency(Number(goal.saved));
+      renderGoals();
+      updateDashboardSummary();
+    }
+
+    function promptEditInitialSaved() {
+      var goalId = document.getElementById('editContribGoalId').value;
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      if (!goal) return;
+
+      var current = Number(goal.initialSaved || 0);
+      var input = prompt('Enter new baseline saved amount for "' + goal.name + '" (currently: ' + formatCurrency(current) + '):', current);
+      if (input === null) return;
+      var num = Number(input);
+      if (!Number.isFinite(num) || num < 0) {
+        alert('Baseline saved amount must be zero or a positive number.');
+        return;
+      }
+      goal.initialSaved = num;
+      var contribTotal = (goal.contributions || []).reduce(function(s, item) { return s + Number(item.amount || 0); }, 0);
+      goal.saved = num + contribTotal;
+
+      saveTrackerItems('planpocket_goals', goals);
+      renderEditContribList(goal);
+      document.getElementById('editModalTotalSaved').textContent = formatCurrency(Number(goal.saved));
+      renderGoals();
+      updateDashboardSummary();
+    }
+
+    /* ── Delete Goal Modal Interactions ── */
+    function openDeleteGoalModal(goalId) {
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      if (!goal) return;
+
+      document.getElementById('deleteModalGoalId').value = goal.id;
+      document.getElementById('deleteModalGoalName').textContent = '"' + goal.name + '"';
+      document.getElementById('goalDeleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteGoalModal() {
+      document.getElementById('goalDeleteModal').classList.add('hidden');
+    }
+
+    function confirmDeleteGoal() {
+      var goalId = document.getElementById('deleteModalGoalId').value;
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      var goalName = goal ? goal.name : 'Goal';
+
+      // Clean up chart instance if any
+      if (window.goalChartInstances && window.goalChartInstances[goalId]) {
+        try { window.goalChartInstances[goalId].destroy(); } catch(e) {}
+        delete window.goalChartInstances[goalId];
+      }
+
+      var remainingGoals = goals.filter(function(g) { return g.id !== goalId; });
+      saveTrackerItems('planpocket_goals', remainingGoals);
+
+      closeDeleteGoalModal();
+      renderGoals();
+      updateDashboardSummary();
+      showTrackerMessage('goalMessage', 'Goal "' + escapeHtml(goalName) + '" and its contribution history were deleted.', 'success');
     }
 
     function addExpense() {
