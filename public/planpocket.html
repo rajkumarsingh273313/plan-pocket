@@ -7,7 +7,7 @@
   
   <!-- PWA Meta Tags -->
   <meta name="description" content="Your Financial Planning Companion with CFO Helper Agent for budget scenario simulation">
-  <meta name="theme-color" content="#0F766E">
+  <meta name="theme-color" content="#F3F4F2">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="PLANPOCKET">
@@ -443,7 +443,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style id="pp-redesign">
     :root{
       --bg:#F5F7FA; --bg2:#FFFFFF; --card:#FFFFFF; --accent:#0F766E; --accent2:#0F766E;
@@ -908,6 +908,53 @@
     }
 
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+  </style>
+  <style id="pp-lime">
+    :root{--bg:#F3F4F2;--bg2:#FFFFFF;--card:#FFFFFF;--text:#141612;--muted:#6B6F68;--border:#E7E9E5;
+      --lime:#6AF70F;--lime-hover:#5BE000;--lime-soft:#EEFCE3;--accent:#2E6A06;--accent2:#2E6A06;--accent-soft:#EEFCE3;
+      --success:#2E7D18;--warning:#A15C07;--danger:#C0261B;--radius:18px;
+      --shadow:0 1px 2px rgba(20,22,18,.04);--shadow-lg:0 14px 34px -16px rgba(20,22,18,.22)}
+    body{font-family:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif}
+    h1,h2,h3,.logo{letter-spacing:-.025em}
+    .btn{background:var(--lime)!important;border-color:var(--lime)!important;color:var(--text)!important;border-radius:999px!important;font-weight:700}
+    .btn:hover{background:var(--lime-hover)!important;border-color:var(--lime-hover)!important}
+    .btn-secondary{background:#fff!important;color:var(--text)!important;border-color:var(--border)!important}
+    .btn-secondary:hover{background:var(--bg)!important}
+    .btn[style*="--success"],.btn[style*="--warning"]{color:#fff!important}
+    .btn-danger,.goal-card-actions .btn[onclick*="elete"]{background:#fff!important;color:var(--danger)!important;border-color:#F3C9C4!important}
+    .btn-danger:hover,.goal-card-actions .btn[onclick*="elete"]:hover{background:#FDEFED!important}
+    input,select,textarea{border-radius:12px!important}
+    input:focus,select:focus,textarea:focus{border-color:var(--text)!important;box-shadow:0 0 0 3px rgba(106,247,15,.35)!important}
+    :focus-visible{outline:2px solid var(--text)}
+    .tool-card:hover,.feature-card:hover{border-color:#D3D7CF!important}
+    .tool-icon,.feature-icon{background:var(--lime-soft);color:var(--text)}
+    .insight-box{border-color:#CFF3B4!important}
+    .progress-track,.report-bar-track{background:#ECEEEA!important}
+    .progress-track span,.report-bar-track span{background:var(--lime)!important}
+    #welcomePage .tagline{color:var(--accent)}
+    #ppNav{background:#fff}
+    #ppNav .pp-mark{background:var(--text);color:var(--lime)}
+    #ppNav button{border-radius:12px}
+    #ppNav button[aria-current="page"]{background:var(--text);color:#fff}
+    #ppNav button[aria-current="page"] svg{color:var(--lime)}
+    .activity-summary{background:var(--text)!important;border-color:var(--text)!important;color:#fff}
+    .activity-summary h2{color:#fff!important}
+    .activity-summary .summary-grid>div{background:rgba(255,255,255,.06)!important;border-color:rgba(255,255,255,.12)!important;box-shadow:none!important}
+    .activity-summary .summary-label{color:#B9BDB5!important}
+    .activity-summary .summary-value,#summaryMonthlyExpenses,#summaryInvestmentValue{color:#fff!important}
+    #summarySavedTotal{color:var(--lime)!important}
+    .goal-card{border-radius:20px!important;padding:24px}
+    .goal-card-title{font-size:1.3rem;letter-spacing:-.02em}
+    .goal-card-right{background:var(--bg);border-radius:16px}
+    .goal-progress-badge{color:var(--text);background:var(--lime-soft);border-radius:999px;padding:2px 10px;align-self:flex-start}
+    .goal-legend-dot.saved{background:var(--lime)}
+    .goal-legend-dot.remaining{background:#ECEEEA}
+    .goal-stat-value.highlight-remaining{color:var(--text)}
+    .goal-modal-dialog{border-radius:20px!important}
+    .cfo-group h3{color:var(--text)}
+    .cfo-field input[type=range]{background:linear-gradient(to right,var(--lime) 0 var(--fill,0%),#E3E6E0 var(--fill,0%) 100%)!important}
+    .cfo-field input[type=range]::-webkit-slider-thumb{border-color:var(--text)}
+    .cfo-field input[type=range]::-moz-range-thumb{border-color:var(--text)}
   </style>
 </head>
 <body>
@@ -2278,7 +2325,7 @@
                 labels: ['Saved', 'Remaining'],
                 datasets: [{
                   data: [savedChartVal, remainingChartVal],
-                  backgroundColor: [isComplete ? '#15803D' : '#0F766E', '#EEF1F4'],
+                  backgroundColor: [isComplete ? '#2E7D18' : '#6AF70F', '#ECEEEA'],
                   borderWidth: 0,
                   hoverOffset: 3
                 }]
@@ -3195,7 +3242,7 @@
           datasets: [{
             label: 'Monthly amount (₹)',
             data: [revenue, expenses, profit],
-            backgroundColor: ['#0F766E', '#98A2B3', profit < 0 ? '#B42318' : '#15803D'],
+            backgroundColor: ['#141612', '#B9BDB5', profit < 0 ? '#C0261B' : '#6AF70F'],
             borderRadius: 8, borderSkipped: false, maxBarThickness: 72
           }]
         },
