@@ -575,6 +575,9 @@
       #ppNav button{flex-direction:column;gap:3px;font-size:.66rem;padding:6px 8px;min-width:64px;justify-content:center;text-align:center}
       .container{padding:18px 14px}
     }
+    /* Goal planner duration buttons */
+    .goal-dur-btn{transition:background .15s,color .15s,border-color .15s}
+    .goal-dur-btn:hover{background:var(--accent-soft)!important;color:var(--accent)!important;border-color:var(--accent)!important}
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
 </head>
@@ -735,13 +738,35 @@
     <div class="container">
       <button class="tool-link tracker-back" onclick="showDashboard()">← Back to Dashboard</button>
       <section class="card tracker-card">
-        <h2>Goal Planner</h2><p style="color: var(--muted);">Set a target and monthly savings amount to track your progress.</p>
-        <div class="tracker-form">
-          <div class="form-group"><label for="goalName">Goal name</label><input id="goalName" type="text" maxlength="60" placeholder="e.g. Emergency fund"></div>
+        <h2>Goal Planner</h2><p style="color: var(--muted);">Set a savings target, choose a duration, and track your progress toward your goal.</p>
+        <div class="tracker-form" style="grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));">
+          <div class="form-group" style="grid-column:1/-1;"><label for="goalName">Goal name</label><input id="goalName" type="text" maxlength="60" placeholder="e.g. Emergency fund"></div>
           <div class="form-group"><label for="goalTarget">Target amount (₹)</label><input id="goalTarget" type="number" min="1" step="1" placeholder="100000"></div>
           <div class="form-group"><label for="goalSaved">Already saved (₹)</label><input id="goalSaved" type="number" min="0" step="1" value="0"></div>
-          <div class="form-group"><label for="goalMonthly">Monthly contribution (₹)</label><input id="goalMonthly" type="number" min="1" step="1" placeholder="5000"></div>
-          <button class="btn" onclick="addGoal()">Add Goal</button>
+          <div class="form-group" style="grid-column:1/-1;"><label>Savings duration</label>
+            <div class="goal-duration-presets" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+              <button type="button" class="btn btn-secondary goal-dur-btn" data-months="3" style="width:auto;padding:8px 14px;margin:0;min-height:38px;font-size:.9rem;">3 months</button>
+              <button type="button" class="btn btn-secondary goal-dur-btn" data-months="6" style="width:auto;padding:8px 14px;margin:0;min-height:38px;font-size:.9rem;">6 months</button>
+              <button type="button" class="btn btn-secondary goal-dur-btn" data-months="12" style="width:auto;padding:8px 14px;margin:0;min-height:38px;font-size:.9rem;">1 year</button>
+              <button type="button" class="btn btn-secondary goal-dur-btn" data-months="36" style="width:auto;padding:8px 14px;margin:0;min-height:38px;font-size:.9rem;">3 years</button>
+              <button type="button" class="btn btn-secondary goal-dur-btn" data-months="custom" style="width:auto;padding:8px 14px;margin:0;min-height:38px;font-size:.9rem;">Custom</button>
+            </div>
+          </div>
+          <div id="goalCustomDuration" class="form-group" style="grid-column:1/-1;display:none;">
+            <label>Custom duration</label>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+              <input id="goalCustomValue" type="number" min="1" step="1" placeholder="6" style="width:100px;">
+              <select id="goalCustomUnit" style="width:auto;padding:10px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:var(--bg2);color:var(--text);font-size:1rem;">
+                <option value="months">Months</option>
+                <option value="years">Years</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label for="goalStartDate">From (start date)</label><input id="goalStartDate" type="date"></div>
+          <div class="form-group"><label for="goalEndDate">To (target date)</label><input id="goalEndDate" type="date"></div>
+          <div class="form-group"><label for="goalMonthly">Planned monthly contribution (₹) <span style="color:var(--muted);font-weight:400;font-size:.8rem;">— optional</span></label><input id="goalMonthly" type="number" min="0" step="1" placeholder="5000"></div>
+          <div id="goalRecommendation" class="insight-box" style="grid-column:1/-1;display:none;"></div>
+          <button class="btn" onclick="addGoal()" style="grid-column:1/-1;">Add Goal</button>
         </div>
         <div id="goalMessage" class="message hidden tracker-message" role="status"></div><div id="goalList" class="tracker-list"></div>
       </section>
@@ -1247,69 +1272,398 @@
       document.getElementById('summaryInvestmentValue').textContent = formatCurrency(investmentEstimate);
     }
 
-    function addGoal() {
-      const name = document.getElementById('goalName').value.trim();
-      const target = Number(document.getElementById('goalTarget').value);
-      const saved = Number(document.getElementById('goalSaved').value);
-      const monthly = Number(document.getElementById('goalMonthly').value);
-      if (!name || !Number.isFinite(target) || target <= 0 || !Number.isFinite(saved) || saved < 0 || !Number.isFinite(monthly) || monthly <= 0) {
-        showTrackerMessage('goalMessage', 'Enter a goal name, a positive target and monthly contribution, and a non-negative saved amount.', 'error');
+    /* ── Goal Planner: duration / date helpers ── */
+    var _goalDurationMonths = 3;      // current preset in months (null when manual target date)
+    var _goalDurationIsCustom = false; // true when "Custom" button is active
+    var _goalTargetDateManual = false; // true when user hand-edits the target date
+
+    /** Add N calendar months to a local Date, clamping to last day of month. */
+    function addCalendarMonths(date, months) {
+      var y = date.getFullYear(), m = date.getMonth(), d = date.getDate();
+      var totalMonths = m + months;
+      var newY = y + Math.floor(totalMonths / 12);
+      var newM = totalMonths % 12;
+      if (newM < 0) { newM += 12; newY--; }
+      // clamp day to last valid day of target month
+      var lastDay = new Date(newY, newM + 1, 0).getDate();
+      return new Date(newY, newM, Math.min(d, lastDay));
+    }
+
+    /** Format a Date as YYYY-MM-DD in local time (no timezone shift). */
+    function toLocalDateStr(d) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    /** Parse a YYYY-MM-DD string into a local-midnight Date. */
+    function parseLocalDate(s) {
+      var parts = s.split('-');
+      return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    }
+
+    /** Count the number of monthly saving periods between two local dates.
+     *  A partial final month counts as one period; minimum 1 period. */
+    function countSavingPeriods(startStr, endStr) {
+      var s = parseLocalDate(startStr), e = parseLocalDate(endStr);
+      var months = (e.getFullYear() - s.getFullYear()) * 12 + (e.getMonth() - s.getMonth());
+      // if target day > start day there is a partial extra month
+      if (e.getDate() > s.getDate()) months++;
+      // but even if exactly N months apart, count the first month
+      return Math.max(1, months);
+    }
+
+    /** Recalculate target date from start date + current duration. */
+    function goalRecalcTargetDate() {
+      if (_goalTargetDateManual) return; // user chose their own date
+      var startInput = document.getElementById('goalStartDate');
+      if (!startInput.value) return;
+      var start = parseLocalDate(startInput.value);
+      var months = _goalDurationMonths || 3;
+      var endDate = addCalendarMonths(start, months);
+      document.getElementById('goalEndDate').value = toLocalDateStr(endDate);
+      goalUpdateRecommendation();
+    }
+
+    /** Show the live recommendation in the insight box. */
+    function goalUpdateRecommendation() {
+      var box = document.getElementById('goalRecommendation');
+      var target = Number(document.getElementById('goalTarget').value);
+      var saved = Number(document.getElementById('goalSaved').value) || 0;
+      var startStr = document.getElementById('goalStartDate').value;
+      var endStr = document.getElementById('goalEndDate').value;
+      var monthly = Number(document.getElementById('goalMonthly').value);
+
+      if (!target || target <= 0 || !startStr || !endStr) { box.style.display = 'none'; return; }
+      if (saved >= target) {
+        box.style.display = '';
+        box.innerHTML = '🎉 <strong>Goal already reached!</strong> You have saved enough for this goal.';
         return;
       }
-      const goals = getTrackerItems('planpocket_goals');
-      goals.push({ id: `${Date.now()}-${Math.random()}`, name, target, saved, monthly });
-      saveTrackerItems('planpocket_goals', goals);
+      var remaining = Math.max(0, target - saved);
+      var periods = countSavingPeriods(startStr, endStr);
+      var recommended = Math.ceil(remaining / periods);
+      var parts = [];
+      parts.push('Recommended monthly saving: <strong>' + formatCurrency(recommended) + '</strong> over ' + periods + ' month' + (periods !== 1 ? 's' : '') + '.');
+      if (monthly > 0) {
+        if (monthly >= recommended) {
+          parts.push('<br>✅ Your planned contribution of ' + formatCurrency(monthly) + ' <strong>meets or exceeds</strong> the recommended amount.');
+        } else {
+          parts.push('<br>⚠️ Your planned contribution of ' + formatCurrency(monthly) + ' is <strong>below</strong> the recommended amount. You may not reach the goal by the target date at this rate.');
+        }
+      }
+      box.style.display = '';
+      box.innerHTML = parts.join('');
+    }
+
+    /** Highlight the currently-active duration button. */
+    function goalHighlightDuration(activeBtn) {
+      document.querySelectorAll('.goal-dur-btn').forEach(function(btn) {
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      });
+      if (activeBtn) {
+        activeBtn.style.background = 'var(--accent)';
+        activeBtn.style.color = '#fff';
+        activeBtn.style.borderColor = 'var(--accent)';
+      }
+    }
+
+    /** Switch duration display to "Custom date range" (preserves user's manual target date). */
+    function goalSetCustomDateRange() {
+      _goalTargetDateManual = true;
+      _goalDurationMonths = null;
+      _goalDurationIsCustom = false;
+      document.getElementById('goalCustomDuration').style.display = 'none';
+      goalHighlightDuration(null);
+      // show a subtle indicator
+      var btns = document.querySelectorAll('.goal-dur-btn');
+      btns.forEach(function(b){ b.style.background=''; b.style.color=''; b.style.borderColor=''; });
+    }
+
+    /** Initialise Goal Planner date/duration controls. Called once on DOMContentLoaded. */
+    function initGoalDuration() {
+      var today = new Date();
+      var startInput = document.getElementById('goalStartDate');
+      var endInput = document.getElementById('goalEndDate');
+      startInput.value = toLocalDateStr(today);
+
+      // default: 3 months
+      _goalDurationMonths = 3;
+      _goalTargetDateManual = false;
+      _goalDurationIsCustom = false;
+      goalRecalcTargetDate();
+
+      // highlight default
+      var defaultBtn = document.querySelector('.goal-dur-btn[data-months="3"]');
+      if (defaultBtn) goalHighlightDuration(defaultBtn);
+
+      // Preset buttons
+      document.querySelectorAll('.goal-dur-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var val = btn.getAttribute('data-months');
+          _goalTargetDateManual = false;
+          if (val === 'custom') {
+            _goalDurationIsCustom = true;
+            document.getElementById('goalCustomDuration').style.display = '';
+            goalHighlightDuration(btn);
+            // try to compute from custom fields
+            goalApplyCustomDuration();
+          } else {
+            _goalDurationIsCustom = false;
+            _goalDurationMonths = Number(val);
+            document.getElementById('goalCustomDuration').style.display = 'none';
+            goalHighlightDuration(btn);
+            goalRecalcTargetDate();
+          }
+        });
+      });
+
+      // Custom duration inputs
+      document.getElementById('goalCustomValue').addEventListener('input', goalApplyCustomDuration);
+      document.getElementById('goalCustomUnit').addEventListener('change', goalApplyCustomDuration);
+
+      // Start date change → recalc target
+      startInput.addEventListener('change', function() {
+        _goalTargetDateManual = false;
+        if (_goalDurationIsCustom) goalApplyCustomDuration();
+        else goalRecalcTargetDate();
+      });
+
+      // Manual target-date edit → preserve as "Custom date range"
+      endInput.addEventListener('change', function() {
+        goalSetCustomDateRange();
+        goalUpdateRecommendation();
+      });
+
+      // Live recommendation updates
+      document.getElementById('goalTarget').addEventListener('input', goalUpdateRecommendation);
+      document.getElementById('goalSaved').addEventListener('input', goalUpdateRecommendation);
+      document.getElementById('goalMonthly').addEventListener('input', goalUpdateRecommendation);
+    }
+
+    function goalApplyCustomDuration() {
+      var val = parseInt(document.getElementById('goalCustomValue').value, 10);
+      var unit = document.getElementById('goalCustomUnit').value;
+      if (!val || val < 1) return;
+      _goalDurationMonths = unit === 'years' ? val * 12 : val;
+      _goalTargetDateManual = false;
+      goalRecalcTargetDate();
+    }
+
+    /** Reset goal form to defaults after a successful save. */
+    function goalResetForm() {
       document.getElementById('goalName').value = '';
       document.getElementById('goalTarget').value = '';
       document.getElementById('goalSaved').value = '0';
       document.getElementById('goalMonthly').value = '';
-      document.getElementById('goalMessage').classList.add('hidden');
+      document.getElementById('goalRecommendation').style.display = 'none';
+      document.getElementById('goalCustomDuration').style.display = 'none';
+      _goalDurationMonths = 3;
+      _goalDurationIsCustom = false;
+      _goalTargetDateManual = false;
+      var startInput = document.getElementById('goalStartDate');
+      startInput.value = toLocalDateStr(new Date());
+      goalRecalcTargetDate();
+      var defaultBtn = document.querySelector('.goal-dur-btn[data-months="3"]');
+      goalHighlightDuration(defaultBtn);
+    }
+
+    function addGoal() {
+      var name = document.getElementById('goalName').value.trim();
+      var target = Number(document.getElementById('goalTarget').value);
+      var saved = Number(document.getElementById('goalSaved').value);
+      var monthly = Number(document.getElementById('goalMonthly').value);
+      var startDate = document.getElementById('goalStartDate').value;
+      var endDate = document.getElementById('goalEndDate').value;
+
+      // Validation
+      if (!name) {
+        showTrackerMessage('goalMessage', 'Please enter a goal name.', 'error'); return;
+      }
+      if (!Number.isFinite(target) || target <= 0) {
+        showTrackerMessage('goalMessage', 'Target amount must be greater than zero.', 'error'); return;
+      }
+      if (!Number.isFinite(saved) || saved < 0) {
+        showTrackerMessage('goalMessage', 'Already saved amount must be zero or more.', 'error'); return;
+      }
+      if (!startDate) {
+        showTrackerMessage('goalMessage', 'Please select a start date.', 'error'); return;
+      }
+      if (!endDate) {
+        showTrackerMessage('goalMessage', 'Please select a target date.', 'error'); return;
+      }
+      if (endDate <= startDate) {
+        showTrackerMessage('goalMessage', 'Target date must be after the start date.', 'error'); return;
+      }
+      if (monthly < 0) {
+        showTrackerMessage('goalMessage', 'Monthly contribution cannot be negative.', 'error'); return;
+      }
+
+      var goals = getTrackerItems('planpocket_goals');
+      var goalObj = {
+        id: Date.now() + '-' + Math.random(),
+        name: name,
+        target: target,
+        saved: saved,
+        monthly: monthly || 0,
+        startDate: startDate,
+        endDate: endDate,
+        durationMonths: _goalDurationMonths || null
+      };
+      goals.push(goalObj);
+      saveTrackerItems('planpocket_goals', goals);
+
+      showTrackerMessage('goalMessage', '✅ Goal "' + name + '" saved successfully!', 'success');
+      goalResetForm();
       renderGoals();
       updateDashboardSummary();
     }
 
+    /** Migrate a legacy goal object to the new schema (backward-compatible). */
+    function migrateGoal(goal) {
+      if (!goal.startDate) {
+        // Old goal had no dates; set reasonable defaults
+        goal.startDate = toLocalDateStr(new Date());
+        var months = (goal.monthly && goal.monthly > 0)
+          ? Math.ceil(Math.max(0, goal.target - goal.saved) / goal.monthly)
+          : 3;
+        goal.endDate = toLocalDateStr(addCalendarMonths(new Date(), Math.max(1, months)));
+      }
+      if (typeof goal.durationMonths === 'undefined') goal.durationMonths = null;
+      return goal;
+    }
+
     function renderGoals() {
-      const list = document.getElementById('goalList');
+      var list = document.getElementById('goalList');
       list.replaceChildren();
-      const goals = getTrackerItems('planpocket_goals');
+      var goals = getTrackerItems('planpocket_goals');
       if (!goals.length) {
-        const empty = document.createElement('p');
+        var empty = document.createElement('p');
         empty.className = 'tracker-empty';
         empty.textContent = 'No goals yet. Add your first savings goal above.';
         list.appendChild(empty);
         return;
       }
-      goals.forEach(goal => {
-        const remaining = Math.max(0, Number(goal.target) - Number(goal.saved));
-        const progress = Math.min(100, Math.max(0, Number(goal.saved) / Number(goal.target) * 100));
-        const months = remaining ? Math.ceil(remaining / Number(goal.monthly)) : 0;
-        const row = document.createElement('div');
+      // Migrate old goals once
+      var needsSave = false;
+      goals = goals.map(function(g) {
+        if (!g.startDate) { needsSave = true; return migrateGoal(g); }
+        return g;
+      });
+      if (needsSave) saveTrackerItems('planpocket_goals', goals);
+
+      goals.forEach(function(goal) {
+        var targetAmt = Number(goal.target);
+        var savedAmt = Number(goal.saved);
+        var remaining = Math.max(0, targetAmt - savedAmt);
+        var progress = Math.min(100, Math.max(0, savedAmt / targetAmt * 100));
+        var isComplete = savedAmt >= targetAmt;
+
+        var periods = countSavingPeriods(goal.startDate, goal.endDate);
+        var recommended = isComplete ? 0 : Math.ceil(remaining / periods);
+
+        var row = document.createElement('div');
         row.className = 'tracker-row';
-        const main = document.createElement('div');
+        row.style.cssText = 'flex-direction:column;align-items:stretch;';
+        var main = document.createElement('div');
         main.className = 'tracker-row-main';
-        const title = document.createElement('strong');
+        var title = document.createElement('strong');
         title.textContent = goal.name;
-        const detail = document.createElement('span');
-        detail.textContent = `${formatCurrency(goal.saved)} of ${formatCurrency(goal.target)} · ${remaining ? `${months} months at your contribution` : 'Goal reached!'}`;
-        const track = document.createElement('div');
+        var detail = document.createElement('span');
+        if (isComplete) {
+          detail.textContent = formatCurrency(savedAmt) + ' of ' + formatCurrency(targetAmt) + ' · Goal reached! 🎉';
+        } else {
+          detail.textContent = formatCurrency(savedAmt) + ' of ' + formatCurrency(targetAmt)
+            + ' · ' + formatCurrency(remaining) + ' remaining';
+        }
+        var dateInfo = document.createElement('span');
+        dateInfo.style.fontSize = '.85rem';
+        dateInfo.textContent = 'From ' + goal.startDate + ' → To ' + goal.endDate;
+
+        var track = document.createElement('div');
         track.className = 'progress-track';
-        const fill = document.createElement('span');
-        fill.style.width = `${progress}%`;
+        var fill = document.createElement('span');
+        fill.style.width = progress + '%';
+        if (isComplete) fill.style.background = 'var(--success)';
         track.appendChild(fill);
-        main.append(title, detail, track);
-        const remove = document.createElement('button');
+
+        var progressLabel = document.createElement('span');
+        progressLabel.style.cssText = 'font-size:.82rem;color:var(--muted);margin-top:2px;';
+        progressLabel.textContent = Math.round(progress) + '% complete';
+
+        main.append(title, detail, dateInfo, track, progressLabel);
+
+        // Recommendation / contribution info
+        var infoLine = document.createElement('div');
+        infoLine.style.cssText = 'margin-top:6px;font-size:.9rem;line-height:1.5;';
+        if (isComplete) {
+          infoLine.innerHTML = '<span style="color:var(--success);font-weight:600;">✅ Completed — ₹0 remaining</span>';
+        } else {
+          var html = 'Recommended monthly: <strong>' + formatCurrency(recommended) + '</strong>';
+          if (goal.monthly && goal.monthly > 0) {
+            if (goal.monthly >= recommended) {
+              html += ' · <span style="color:var(--success);">✅ Your ' + formatCurrency(goal.monthly) + '/mo is sufficient</span>';
+            } else {
+              html += ' · <span style="color:var(--warning);">⚠️ Your ' + formatCurrency(goal.monthly) + '/mo may fall short</span>';
+            }
+          }
+          infoLine.innerHTML = html;
+        }
+
+        // Action buttons row
+        var actions = document.createElement('div');
+        actions.style.cssText = 'display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;';
+
+        // Update saved amount button
+        if (!isComplete) {
+          var updateBtn = document.createElement('button');
+          updateBtn.className = 'btn btn-secondary';
+          updateBtn.style.cssText = 'width:auto;padding:8px 12px;margin:0;min-height:36px;font-size:.85rem;';
+          updateBtn.textContent = '💰 Update Saved';
+          updateBtn.setAttribute('aria-label', 'Update saved amount for ' + goal.name);
+          updateBtn.addEventListener('click', (function(goalId) {
+            return function() { promptUpdateSaved(goalId); };
+          })(goal.id));
+          actions.appendChild(updateBtn);
+        }
+
+        // Delete button
+        var remove = document.createElement('button');
         remove.className = 'btn btn-secondary';
-        remove.style.cssText = 'width: auto; padding: 8px 12px; margin: 0;';
+        remove.style.cssText = 'width:auto;padding:8px 12px;margin:0;min-height:36px;font-size:.85rem;';
         remove.textContent = 'Delete';
-        remove.setAttribute('aria-label', `Delete ${goal.name}`);
-        remove.addEventListener('click', () => {
-          saveTrackerItems('planpocket_goals', getTrackerItems('planpocket_goals').filter(item => item.id !== goal.id));
-          renderGoals();
-          updateDashboardSummary();
-        });
-        row.append(main, remove);
+        remove.setAttribute('aria-label', 'Delete ' + goal.name);
+        remove.addEventListener('click', (function(goalId) {
+          return function() {
+            saveTrackerItems('planpocket_goals', getTrackerItems('planpocket_goals').filter(function(item) { return item.id !== goalId; }));
+            renderGoals();
+            updateDashboardSummary();
+          };
+        })(goal.id));
+        actions.appendChild(remove);
+
+        row.append(main, infoLine, actions);
         list.appendChild(row);
       });
+    }
+
+    /** Prompt the user to update the saved amount for an existing goal. */
+    function promptUpdateSaved(goalId) {
+      var goals = getTrackerItems('planpocket_goals');
+      var goal = goals.find(function(g) { return g.id === goalId; });
+      if (!goal) return;
+      var newValue = prompt('Enter new saved amount for "' + goal.name + '" (current: ' + formatCurrency(Number(goal.saved)) + '):', goal.saved);
+      if (newValue === null) return; // cancelled
+      var num = Number(newValue);
+      if (!Number.isFinite(num) || num < 0) {
+        showTrackerMessage('goalMessage', 'Saved amount must be zero or a positive number.', 'error');
+        return;
+      }
+      goal.saved = num;
+      saveTrackerItems('planpocket_goals', goals);
+      renderGoals();
+      updateDashboardSummary();
+      showTrackerMessage('goalMessage', '✅ Saved amount updated for "' + goal.name + '".', 'success');
     }
 
     function addExpense() {
@@ -2259,6 +2613,7 @@ Billing: ₹10 per report generation.
       document.getElementById('reportMonth').value = currentMonth;
       document.getElementById('budgetMonth').addEventListener('change', loadMonthlyBudget);
       document.getElementById('reportMonth').addEventListener('change', renderFinancialReport);
+      initGoalDuration();
       
       // Add install prompt after a delay
       setTimeout(() => {
