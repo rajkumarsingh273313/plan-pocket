@@ -2,7 +2,7 @@
 
 **Your Financial Planning Companion**
 
-PLANPOCKET is a client-side financial planning prototype that brings everyday finance tools and small-business scenario planning together in one web application. It is designed to help users organize spending, create budgets, track savings goals, estimate investment growth, review financial summaries, and explore hypothetical business scenarios.
+PLANPOCKET is a client-side financial planning prototype that brings everyday personal finance tools and small-business scenario planning together in one web application. It is designed to help users organize spending, create budgets, track savings goals, estimate investment growth, review financial summaries, and explore hypothetical business scenarios.
 
 > **Project status:** This is a prototype. Finance data is stored in the browser with `localStorage`. The current repository does not confirm a connected MongoDB or SQL database, production-grade authentication, real SMS OTP delivery, or an AI model powering the CFO Helper. Treat calculations and scenario outputs as estimates, not financial advice.
 
