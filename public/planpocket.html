@@ -1933,7 +1933,7 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
           <div>
             <h2 id="investmentHeaderTitle" style="font-size: 1.5rem; margin-bottom: 6px;">Investment Calculator</h2>
-            <p id="investmentHeaderDesc" style="color: var(--muted); margin-bottom: 0;">Plan and project your returns using Systematic Investment Plans (SIP) or a One-Time Lump Sum investment.</p>
+            <p id="investmentHeaderDesc" style="color: var(--muted); margin-bottom: 0;">Plan and project your returns using Systematic Investment Plans (SIP), Lump Sum investments, or Simple Interest.</p>
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start;">
             <label for="investmentTypeSelect" style="font-size: 0.76rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0;">Calculator Type</label>
@@ -1941,10 +1941,12 @@
               <select id="investmentTypeSelect" onchange="switchInvestmentCalculator(this.value)" style="min-height: 40px; padding: 6px 36px 6px 14px !important; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
                 <option value="sip" selected>SIP (Monthly)</option>
                 <option value="lump">Lump Sum (One-time)</option>
+                <option value="si">Simple Interest</option>
               </select>
               <div class="invest-toggle-bar" role="tablist" aria-label="Investment calculator tabs">
                 <button type="button" id="tabSIP" class="invest-toggle-btn active" role="tab" aria-selected="true" onclick="switchInvestmentCalculator('sip')">SIP</button>
                 <button type="button" id="tabLump" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('lump')">Lump Sum</button>
+                <button type="button" id="tabSI" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('si')">Simple Interest</button>
               </div>
             </div>
           </div>
@@ -2199,6 +2201,135 @@
                   • <strong>Calculation Method:</strong> Assumes a one-time lump sum investment with monthly compounding of the nominal annual return: <em>P × (1 + r)<sup>n</sup></em>, where <em>r = annual return / 12 / 100</em> and <em>n = total months (years × 12 + months)</em>. For 0% annual return, the estimated total value equals the principal amount with ₹0 in returns.<br>
                   • <strong>Market Disclaimer:</strong> Mutual fund investments and market securities are subject to market risks. Past performance does not guarantee future results. Actual returns are not guaranteed and will fluctuate.<br>
                   • <strong>Exclusions:</strong> Taxes, inflation, and fund expense ratios are not deducted from these estimated projections.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simple Interest Calculator Section -->
+        <div id="siCalculatorSection" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Simple Interest Calculator</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate linear interest earnings and total amount on your principal without compounding.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- Principal Amount -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="siPrincipal">Principal Amount (₹)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="siPrincipal" class="currency-input" type="number" min="1" step="5000" value="50000" placeholder="50000" style="padding-left: 38px !important; font-weight: 600;" oninput="syncSIPrincipal()">
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="10000" onclick="setSIPrincipal(10000)">₹10,000</button>
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setSIPrincipal(25000)">₹25,000</button>
+                  <button type="button" class="sip-chip active" data-amt="50000" onclick="setSIPrincipal(50000)">₹50,000</button>
+                  <button type="button" class="sip-chip" data-amt="100000" onclick="setSIPrincipal(100000)">₹1,00,000</button>
+                  <button type="button" class="sip-chip" data-amt="250000" onclick="setSIPrincipal(250000)">₹2,50,000</button>
+                </div>
+              </div>
+
+              <!-- Annual Interest Rate -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="siRate" style="margin-bottom: 0;">Annual Interest Rate (%)</label>
+                  <div style="position: relative; width: 92px;">
+                    <input id="siRate" type="number" min="0" max="100" step="0.1" value="8" style="padding-right: 22px; text-align: right; min-height: 38px; padding-top: 6px; padding-bottom: 6px; font-weight: 700;" oninput="syncSIRateFromInput()">
+                    <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; font-weight: 700; pointer-events: none;">%</span>
+                  </div>
+                </div>
+                <input id="siRateSlider" type="range" class="sip-slider" min="0" max="100" step="0.5" value="8" style="--fill: 8%;" oninput="syncSIRateFromSlider()">
+                <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-top: 6px;">
+                  <span>0% (Zero return)</span>
+                  <span>8% (Typical FD / bond)</span>
+                  <span>100% (Max)</span>
+                </div>
+              </div>
+
+              <!-- Duration (Years & Months) -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label>Investment Duration</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Years</div>
+                    <input id="siYears" type="number" min="0" max="80" step="1" value="2" placeholder="Years" style="font-weight: 600;" oninput="syncSIDurationInputs()">
+                  </div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Months</div>
+                    <input id="siMonths" type="number" min="0" max="11" step="1" value="6" placeholder="Months" style="font-weight: 600;" oninput="syncSIDurationInputs()">
+                  </div>
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-dur="0-3" onclick="setSIDuration(0, 3)">3 Mos</button>
+                  <button type="button" class="sip-chip" data-dur="0-6" onclick="setSIDuration(0, 6)">6 Mos</button>
+                  <button type="button" class="sip-chip" data-dur="1-0" onclick="setSIDuration(1, 0)">1 Yr</button>
+                  <button type="button" class="sip-chip active" data-dur="2-6" onclick="setSIDuration(2, 6)">2.5 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="3-0" onclick="setSIDuration(3, 0)">3 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="5-0" onclick="setSIDuration(5, 0)">5 Yrs</button>
+                </div>
+                <div id="siDurationDisplay" style="font-size: 0.8rem; color: var(--muted); margin-top: 6px; font-weight: 500;">Total duration: 2 years 6 months (30 months)</div>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateSimpleInterest()">Calculate</button>
+            </div>
+
+            <!-- Right Column: Results & Doughnut Chart -->
+            <div>
+              <div id="siResult" class="sip-results-card" aria-live="polite">
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Total Amount (Principal + Interest)</span>
+                  <strong class="sip-metric-value" id="siTotalAmount">₹0</strong>
+                </div>
+
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-invested" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Principal Amount</div>
+                      <div class="sip-breakdown-val" id="siPrincipalDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="siPrincipalPct">0% of total</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-returns" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Total Interest (Non-compounding)</div>
+                      <div class="sip-breakdown-val highlight-returns" id="siInterestDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="siInterestPct">0% of total</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="siChart" width="180" height="180" role="img" aria-label="Simple interest doughnut chart comparing principal and interest"></canvas>
+                  </div>
+                </div>
+
+                <p id="siBreakdownText" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+                <p style="color: var(--accent); font-size: 0.78rem; margin: 6px 0 0; text-align: center; font-weight: 600;">
+                  ⚡ Interest is calculated without compounding: Interest = P × (R / 100) × T.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div id="siMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Assumptions & Formula Card -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Simple Interest Method & Terms</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Calculation Method:</strong> Interest is calculated linearly without compounding over time: <em>Time in years = total months / 12</em>, <em>Simple Interest = Principal × (Annual Rate / 100) × Time in years</em>, and <em>Total Amount = Principal + Simple Interest</em>.<br>
+                  • <strong>Zero Rate Behavior:</strong> If the annual interest rate is 0%, total interest is strictly ₹0 and the total amount equals the principal amount.<br>
+                  • <strong>No Reinvestment:</strong> Unlike compound interest or growth funds, earnings are not added back into the principal for subsequent periods. Taxes, deductions, or penalties are not deducted.
                 </p>
               </div>
             </div>
@@ -4519,32 +4650,37 @@
     function switchInvestmentCalculator(type) {
       const sipSection = document.getElementById('sipCalculatorSection');
       const lumpSection = document.getElementById('lumpCalculatorSection');
+      const siSection = document.getElementById('siCalculatorSection');
       const select = document.getElementById('investmentTypeSelect');
       const tabSIP = document.getElementById('tabSIP');
       const tabLump = document.getElementById('tabLump');
+      const tabSI = document.getElementById('tabSI');
 
-      const isLump = (type === 'lump' || type === 'lumpsum');
-      const mode = isLump ? 'lump' : 'sip';
+      let mode = 'sip';
+      if (type === 'lump' || type === 'lumpsum') mode = 'lump';
+      else if (type === 'si' || type === 'simple' || type === 'simpleinterest') mode = 'si';
 
       if (select) select.value = mode;
       if (tabSIP) {
-        tabSIP.classList.toggle('active', !isLump);
-        tabSIP.setAttribute('aria-selected', !isLump ? 'true' : 'false');
+        tabSIP.classList.toggle('active', mode === 'sip');
+        tabSIP.setAttribute('aria-selected', mode === 'sip' ? 'true' : 'false');
       }
       if (tabLump) {
-        tabLump.classList.toggle('active', isLump);
-        tabLump.setAttribute('aria-selected', isLump ? 'true' : 'false');
+        tabLump.classList.toggle('active', mode === 'lump');
+        tabLump.setAttribute('aria-selected', mode === 'lump' ? 'true' : 'false');
+      }
+      if (tabSI) {
+        tabSI.classList.toggle('active', mode === 'si');
+        tabSI.setAttribute('aria-selected', mode === 'si' ? 'true' : 'false');
       }
 
-      if (!isLump) {
-        if (sipSection) sipSection.style.display = 'block';
-        if (lumpSection) lumpSection.style.display = 'none';
-        calculateSIP();
-      } else {
-        if (sipSection) sipSection.style.display = 'none';
-        if (lumpSection) lumpSection.style.display = 'block';
-        calculateLumpSum();
-      }
+      if (sipSection) sipSection.style.display = (mode === 'sip') ? 'block' : 'none';
+      if (lumpSection) lumpSection.style.display = (mode === 'lump') ? 'block' : 'none';
+      if (siSection) siSection.style.display = (mode === 'si') ? 'block' : 'none';
+
+      if (mode === 'sip') calculateSIP();
+      else if (mode === 'lump') calculateLumpSum();
+      else if (mode === 'si') calculateSimpleInterest();
     }
 
     function syncLumpPrincipal() {
@@ -4820,10 +4956,264 @@
       renderLumpChart(roundedInv, roundedRet, roundedFV);
     }
 
+    /* ==========================================================================
+       Simple Interest Calculator Logic & Synchronization
+       ========================================================================== */
+    function syncSIPrincipal() {
+      const input = document.getElementById('siPrincipal');
+      const val = Number(input ? input.value : 0);
+      document.querySelectorAll('#siCalculatorSection .sip-preset-chips button[data-amt]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === val);
+      });
+      calculateSimpleInterest();
+    }
+
+    function setSIPrincipal(amt) {
+      const input = document.getElementById('siPrincipal');
+      if (input) {
+        input.value = amt;
+        syncSIPrincipal();
+      }
+    }
+
+    function syncSIRateFromSlider() {
+      const slider = document.getElementById('siRateSlider');
+      const input = document.getElementById('siRate');
+      if (slider && input) {
+        input.value = slider.value;
+        slider.style.setProperty('--fill', slider.value + '%');
+      }
+      calculateSimpleInterest();
+    }
+
+    function syncSIRateFromInput() {
+      const slider = document.getElementById('siRateSlider');
+      const input = document.getElementById('siRate');
+      if (slider && input) {
+        const val = Math.min(100, Math.max(0, Number(input.value) || 0));
+        slider.value = val;
+        slider.style.setProperty('--fill', val + '%');
+      }
+      calculateSimpleInterest();
+    }
+
+    function syncSIDurationInputs() {
+      const y = Number(document.getElementById('siYears') ? document.getElementById('siYears').value : 0) || 0;
+      const m = Number(document.getElementById('siMonths') ? document.getElementById('siMonths').value : 0) || 0;
+      const durKey = y + '-' + m;
+      document.querySelectorAll('#siCalculatorSection .sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === durKey);
+      });
+      const displayEl = document.getElementById('siDurationDisplay');
+      if (displayEl) {
+        const totalMonths = Math.round(y * 12 + m);
+        const parts = [];
+        if (y > 0) parts.push(y + (y === 1 ? ' year' : ' years'));
+        if (m > 0) parts.push(m + (m === 1 ? ' month' : ' months'));
+        const desc = parts.length > 0 ? parts.join(' ') : '0 months';
+        displayEl.textContent = 'Total duration: ' + desc + ' (' + totalMonths + ' months)';
+      }
+      calculateSimpleInterest();
+    }
+
+    function setSIDuration(years, months) {
+      const yInput = document.getElementById('siYears');
+      const mInput = document.getElementById('siMonths');
+      if (yInput) yInput.value = years;
+      if (mInput) mInput.value = months;
+      syncSIDurationInputs();
+    }
+
+    function renderSIChart(principal, interest, total) {
+      const canvas = document.getElementById('siChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (window.siChartInstance && typeof window.siChartInstance.destroy === 'function') {
+        window.siChartInstance.destroy();
+        window.siChartInstance = null;
+      }
+
+      const chartData = (interest <= 0) ? [principal, 0] : [principal, interest];
+
+      try {
+        window.siChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Principal Amount', 'Total Interest'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#141612', '#6AF70F'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const val = context.raw || 0;
+                    const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                    return context.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            },
+            cutout: '68%'
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering simple interest chart:', err);
+      }
+    }
+
+    function calculateSimpleInterest() {
+      const principalInput = document.getElementById('siPrincipal');
+      const rateInput = document.getElementById('siRate');
+      const yearsInput = document.getElementById('siYears');
+      const monthsInput = document.getElementById('siMonths');
+      const messageEl = document.getElementById('siMessage');
+      const resultCard = document.getElementById('siResult');
+
+      if (principalInput) principalInput.removeAttribute('aria-invalid');
+      if (rateInput) rateInput.removeAttribute('aria-invalid');
+      if (yearsInput) yearsInput.removeAttribute('aria-invalid');
+      if (monthsInput) monthsInput.removeAttribute('aria-invalid');
+
+      const principalVal = principalInput ? principalInput.value.trim() : '';
+      const principal = Number(principalVal);
+
+      const rateVal = rateInput ? rateInput.value.trim() : '';
+      const annualRate = Number(rateVal);
+
+      const yearsVal = yearsInput ? yearsInput.value.trim() : '0';
+      const years = Number(yearsVal);
+
+      const monthsVal = monthsInput ? monthsInput.value.trim() : '0';
+      const months = Number(monthsVal);
+
+      // Validate principal > 0
+      if (!principalVal || !Number.isFinite(principal) || principal <= 0) {
+        if (principalInput) principalInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Principal amount must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate annual rate between 0% and 100%
+      if (rateVal === '' || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100) {
+        if (rateInput) rateInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Annual interest rate must be between 0% and 100%.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate duration numbers >= 0
+      if (!Number.isFinite(years) || !Number.isFinite(months) || years < 0 || months < 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Please enter a valid investment duration.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      const totalMonths = Math.round(years * 12 + months);
+      if (totalMonths <= 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        if (monthsInput) monthsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Investment duration must be at least 1 month.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (totalMonths > 80 * 12) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Investment duration cannot exceed 80 years.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Simple Interest calculation without compounding:
+      // time in years = total months / 12
+      // simple interest = principal × (annual rate / 100) × time in years
+      // total amount = principal + simple interest
+      const timeInYears = totalMonths / 12;
+      let interest = 0;
+      if (annualRate > 0) {
+        interest = principal * (annualRate / 100) * timeInYears;
+      } else {
+        interest = 0;
+      }
+      const totalAmount = principal + interest;
+
+      if (!Number.isFinite(interest) || !Number.isFinite(totalAmount)) {
+        showTrackerMessage('siMessage', 'Calculation resulted in an invalid number. Please adjust your inputs.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      const roundedPrincipal = Math.round(principal);
+      const roundedInterest = Math.round(interest);
+      const roundedTotal = Math.round(totalAmount);
+
+      const totalEl = document.getElementById('siTotalAmount');
+      const principalEl = document.getElementById('siPrincipalDisplay');
+      const interestEl = document.getElementById('siInterestDisplay');
+      const principalPctEl = document.getElementById('siPrincipalPct');
+      const interestPctEl = document.getElementById('siInterestPct');
+      const breakdownEl = document.getElementById('siBreakdownText');
+
+      if (totalEl) totalEl.textContent = formatCurrency(roundedTotal);
+      if (principalEl) principalEl.textContent = formatCurrency(roundedPrincipal);
+      if (interestEl) interestEl.textContent = formatCurrency(roundedInterest);
+
+      const principalPct = roundedTotal > 0 ? ((roundedPrincipal / roundedTotal) * 100).toFixed(1) : '100.0';
+      const interestPct = roundedTotal > 0 ? ((roundedInterest / roundedTotal) * 100).toFixed(1) : '0.0';
+
+      if (principalPctEl) principalPctEl.textContent = principalPct + '% of total';
+      if (interestPctEl) interestPctEl.textContent = interestPct + '% of total';
+
+      if (breakdownEl) {
+        const parts = [];
+        if (years > 0) parts.push(years + (years === 1 ? ' year' : ' years'));
+        if (months > 0) parts.push(months + (months === 1 ? ' month' : ' months'));
+        const durStr = parts.length > 0 ? parts.join(' ') : totalMonths + ' months';
+
+        if (annualRate === 0) {
+          breakdownEl.textContent = `Over ${durStr}, a principal of ${formatCurrency(roundedPrincipal)} at 0% annual interest earns ₹0 in interest, resulting in a total amount of ${formatCurrency(roundedPrincipal)}.`;
+        } else {
+          breakdownEl.textContent = `Over ${durStr}, a principal of ${formatCurrency(roundedPrincipal)} at ${annualRate}% p.a. simple interest earns ${formatCurrency(roundedInterest)} in interest, resulting in a total amount of ${formatCurrency(roundedTotal)}.`;
+        }
+      }
+
+      try {
+        (window.localStorage || localStorage).setItem('planpocket_lastInvestment', String(roundedTotal));
+      } catch (e) {}
+      if (typeof updateDashboardSummary === 'function') {
+        updateDashboardSummary();
+      }
+
+      renderSIChart(roundedPrincipal, roundedInterest, roundedTotal);
+    }
+
     function calculateInvestment() {
       const type = document.getElementById('investmentTypeSelect') ? document.getElementById('investmentTypeSelect').value : 'sip';
       if (type === 'lump' || type === 'lumpsum') {
         calculateLumpSum();
+      } else if (type === 'si' || type === 'simple' || type === 'simpleinterest') {
+        calculateSimpleInterest();
       } else {
         calculateSIP();
       }
@@ -5708,6 +6098,7 @@ Billing: ₹10 per report generation.
       initGoalDuration();
       calculateSIP();
       calculateLumpSum();
+      calculateSimpleInterest();
       initPlanPocketDatePickers();
       
       // Add install prompt after a delay
