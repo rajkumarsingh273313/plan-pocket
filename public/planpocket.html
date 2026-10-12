@@ -167,6 +167,88 @@
     .otp-row input {
       flex: 1;
     }
+
+    .password-input-wrap {
+      position: relative;
+    }
+
+    .password-input-wrap input:not([type=range]):not([type=checkbox]):not([type=radio]) {
+      padding-right: 48px!important;
+    }
+
+    .password-visibility-toggle {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .password-visibility-toggle:hover {
+      color: var(--text);
+    }
+
+    #loginPage .password-visibility-toggle,
+    #signupPage .password-visibility-toggle {
+      min-width: 38px;
+      min-height: 38px;
+    }
+
+    .password-strength {
+      margin-top: 10px;
+    }
+
+    .password-strength-track {
+      height: 6px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: var(--bg2);
+    }
+
+    .password-strength-fill {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--danger);
+      transition: width 0.2s ease, background-color 0.2s ease;
+    }
+
+    .password-strength-label {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .password-requirements {
+      margin: 8px 0 18px;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .password-requirements .requirement-met {
+      color: var(--success);
+    }
+
+    .password-match-message {
+      margin-top: -12px;
+      margin-bottom: 18px;
+      color: var(--danger);
+      font-size: 0.9rem;
+    }
+
+    .reset-password-submit {
+      background: var(--success);
+    }
     
     .timer {
       text-align: center; color: var(--muted); margin-top: 10px;
@@ -511,6 +593,27 @@
     .feature-desc{color:var(--muted)!important}
     .auth-card{max-width:440px!important;padding:32px!important}
     .auth-card h2{margin-bottom:18px}
+    .auth-card-compact{max-width:620px!important;padding:28px 28px 24px!important}
+    .auth-brand{display:flex;justify-content:center;margin-bottom:8px}
+    .auth-brand .logo{font-size:1.7rem!important;text-align:center}
+    .signup-title{text-align:center;margin:0 0 20px!important;font-size:2rem!important}
+    .account-selection{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:18px}
+    .account-option{display:flex;flex-direction:column;align-items:flex-start;gap:12px;width:100%;padding:18px 16px;border:1px solid var(--border);border-radius:16px;background:#fff;cursor:pointer;transition:border-color .15s,box-shadow .15s,background .15s;box-shadow:var(--shadow);text-align:left}
+    .account-option:hover{border-color:#B7DCC9;box-shadow:var(--shadow-lg)}
+    .account-option.selected{background:#F0FDF4;border-color:#39A96B;box-shadow:0 0 0 3px rgba(31,135,80,.12)}
+    .account-icon{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;font-size:1.4rem}
+    .account-icon.personal{background:#EAF3FF;color:#1D4ED8}
+    .account-icon.company{background:#EAFBF0;color:#1E8E56}
+    .account-copy{display:flex;flex-direction:column;gap:6px}
+    .account-name{color:var(--text);font-weight:700;font-size:1rem}
+    .account-desc{color:var(--muted);font-size:.86rem;line-height:1.5}
+    .signup-form-fields{margin-top:18px;padding-top:18px;border-top:1px solid var(--border)}
+    .account-flow-tag{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:.78rem;margin-bottom:14px}
+    .signup-form-fields .form-group{margin-bottom:14px}
+    .signup-form-fields .btn{margin-top:2px}
+    .auth-card .message{margin-top:0!important;margin-bottom:12px!important}
+    .back-link{margin-top:12px;text-align:center}
+    @media (max-width:640px){.account-selection{grid-template-columns:1fr}.auth-card-compact{padding:22px 18px 20px!important}.signup-title{font-size:1.7rem!important}}
     .summary-grid{gap:12px!important}
     .activity-summary{padding:22px!important}
     .activity-summary h2{font-size:1.05rem;margin-bottom:14px}
@@ -1047,6 +1150,7 @@
     .message.error{background:#FDF1F0!important;border:1px solid #F3C9C4!important;color:#9B1C13!important}
     .message.error::before{content:"!";flex:0 0 18px;height:18px;border-radius:50%;background:#C0261B;color:#fff;font-size:.72rem;font-weight:800;display:grid;place-items:center;margin-top:1px}
     .message.success{background:#F0F8EC!important;border:1px solid #C7E5BA!important;color:#245F13!important}
+    #companyOwnerMessage.message.info{width:fit-content;max-width:100%;margin:8px auto 0!important;padding:7px 10px!important;background:var(--accent-soft)!important;border:1px solid var(--border)!important;color:var(--text)!important;font-size:.8rem!important;font-weight:500!important}
     input:not([type=range]):not([type=checkbox]):not([type=radio]),select,textarea{font-family:inherit!important;font-size:.95rem!important;color:var(--text)!important;background-color:#fff!important;border:1px solid var(--border,#E7E9E5)!important;border-radius:12px!important;min-height:46px;padding:10px 14px!important;transition:border-color .15s,box-shadow .15s;box-shadow:none}
     input:not([type=range]):not([type=checkbox]):not([type=radio]):hover,select:hover,textarea:hover{border-color:#CDD1C9!important}
     input:not([type=range]):not([type=checkbox]):not([type=radio]):focus,select:focus,textarea:focus{outline:none!important;border-color:var(--text)!important;box-shadow:0 0 0 3px rgba(106,247,15,.35)!important}
@@ -1059,9 +1163,388 @@
     input[type=date]::-webkit-calendar-picker-indicator:hover{opacity:1;background:#ECEEEA}
     @media (max-width:640px){input:not([type=range]):not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px!important}}
   </style>
+  <style id="pp-auth-navigation">
+    #loginPage .auth-card {
+      width: min(100% - 32px, 460px);
+      max-width: 460px!important;
+      padding: 30px!important;
+      background: var(--card)!important;
+      border: 1px solid var(--border)!important;
+      border-radius: var(--radius, 14px)!important;
+      box-shadow: var(--shadow-lg)!important;
+    }
+    #loginPage .auth-brand {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    #loginPage .auth-brand .logo {
+      margin: 0;
+      font-size: 1.55rem!important;
+      text-align: center;
+    }
+    #loginPage .auth-subtitle {
+      margin: -8px 0 22px;
+      color: var(--muted);
+      text-align: center;
+      font-size: .92rem;
+    }
+    #loginMessage.message.info {
+      width: fit-content;
+      max-width: 100%;
+      margin: 10px auto 0!important;
+      padding: 8px 11px!important;
+      border: 1px solid var(--border)!important;
+      border-radius: 10px!important;
+      background: var(--accent-soft)!important;
+      color: var(--text)!important;
+      font-size: .82rem!important;
+      font-weight: 500!important;
+    }
+    #loginPage .btn,
+    #signupPage .signup-form-fields > .btn,
+    #companyOwnerPage > .container > .auth-card > .btn {
+      background: var(--success);
+      color: #fff;
+    }
+    .demo-account-preview {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--accent-soft);
+    }
+    .demo-account-preview-name {
+      min-width: 0;
+      color: var(--text);
+      font-size: .9rem;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+    .demo-account-badge {
+      flex: 0 0 auto;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #EAFBF0;
+      color: #1E8E56;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+    .signup-password-feedback {
+      margin: -5px 0 14px;
+    }
+    .signup-password-strength {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+    .signup-password-strength.is-strong {
+      color: var(--success);
+    }
+    .signup-password-requirements {
+      display: grid;
+      gap: 3px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+    .signup-password-requirements li::before {
+      content: "• ";
+      color: var(--warning);
+      font-weight: 800;
+    }
+    .signup-confirm-match {
+      min-height: 18px;
+      margin: -7px 0 12px;
+      color: var(--danger);
+      font-size: .8rem;
+    }
+    .signup-confirm-match.is-match {
+      color: var(--success);
+    }
+    .signup-demo-account-preview {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--accent-soft);
+    }
+    .signup-demo-account-name {
+      min-width: 0;
+      color: var(--text);
+      font-size: .86rem;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+    .demo-mode-notice {
+      margin: 0 0 18px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--text);
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+    .demo-mode-notice p {
+      margin: 0 0 10px;
+    }
+    .demo-mode-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .demo-mode-actions button {
+      min-height: 38px;
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      font-size: .78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .demo-mode-actions button:hover {
+      border-color: var(--success);
+      color: var(--success);
+    }
+    .demo-mode-actions .demo-registration-signin {
+      grid-column: 1 / -1;
+      background: var(--success);
+      border-color: var(--success);
+      color: #fff;
+    }
+    .demo-dashboard-identity {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      margin-top: 8px;
+    }
+    .registration-progress {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 0 0 18px;
+    }
+    .registration-progress-step {
+      padding-top: 8px;
+      border-top: 3px solid var(--border);
+      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 700;
+      text-align: center;
+    }
+    .registration-progress-step.is-current,
+    .registration-progress-step.is-complete {
+      border-color: var(--success);
+      color: var(--success);
+    }
+    .registration-step-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .registration-step-actions .btn {
+      margin-top: 0;
+    }
+    .registration-step-actions .btn-secondary {
+      color: var(--text);
+    }
+    #companyOwnerPage .auth-card,
+    #forgotPasswordPage .auth-card {
+      width: min(100% - 32px, 460px);
+      max-width: 460px!important;
+      padding: 24px!important;
+      margin: 20px auto;
+      background: var(--card)!important;
+      border: 1px solid var(--border)!important;
+      border-radius: var(--radius, 14px)!important;
+      box-shadow: var(--shadow-lg)!important;
+    }
+    #companyOwnerPage .signup-title,
+    #forgotPasswordPage .auth-card h2 {
+      margin: 0 0 16px!important;
+      font-size: 1.35rem!important;
+      line-height: 1.3;
+    }
+    #companyOwnerPage .form-group,
+    #forgotPasswordPage .form-group {
+      margin-bottom: 14px;
+    }
+    #forgotPasswordPage .auth-brand {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    #forgotPasswordPage .auth-brand .logo {
+      margin: 0;
+      font-size: 1.45rem!important;
+      text-align: center;
+    }
+    #forgotPasswordPage .reset-password-ready {
+      margin-top: 12px;
+    }
+    #forgotPasswordPage .reset-password-ready .form-group {
+      margin-bottom: 12px;
+    }
+    #forgotPasswordPage .password-requirements {
+      margin: 8px 0 14px;
+      padding: 0;
+      list-style: none;
+    }
+    #forgotPasswordPage .password-requirements li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 5px 0;
+      color: var(--muted);
+    }
+    #forgotPasswordPage .password-requirements li::before {
+      content: "○";
+      width: 16px;
+      flex: 0 0 16px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    #forgotPasswordPage .password-requirements li.requirement-met {
+      color: var(--success);
+    }
+    #forgotPasswordPage .password-requirements li.requirement-met::before {
+      content: "✓";
+      color: var(--success);
+    }
+    #forgotPasswordPage .password-strength {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+    }
+    #forgotPasswordPage .password-strength-label {
+      margin: 0;
+      white-space: nowrap;
+      font-size: .8rem;
+    }
+    #forgotPasswordPage .password-visibility-toggle {
+      min-width: 38px;
+      min-height: 38px;
+    }
+    .signup-demo-otp-notice {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: var(--text);
+      font-size: .85rem;
+      line-height: 1.4;
+    }
+    .signup-demo-indicator {
+      flex: 0 0 auto;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: var(--success);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    #forgotPasswordPage .reset-password-submit {
+      background: var(--success)!important;
+      border-color: var(--success)!important;
+      color: #fff!important;
+    }
+    #ppHistoryControls {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 12px;
+      z-index: 100;
+      gap: 6px;
+    }
+    #ppHistoryControls.is-visible {
+      display: flex;
+    }
+    #ppHistoryControls button {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      min-height: 38px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+    #ppHistoryControls button:disabled {
+      opacity: .42;
+      cursor: not-allowed;
+    }
+    #ppHistoryControls svg {
+      width: 18px;
+      height: 18px;
+    }
+    @media (max-width: 640px) {
+      #loginPage .auth-card {
+        width: calc(100% - 24px);
+        padding: 22px 18px!important;
+      }
+      #companyOwnerPage .auth-card,
+      #forgotPasswordPage .auth-card {
+        width: calc(100% - 24px);
+        padding: 20px 16px!important;
+      }
+      #forgotPasswordPage .otp-row {
+        gap: 6px;
+      }
+      #forgotPasswordPage .otp-row input {
+        min-width: 0;
+        padding: 8px 4px!important;
+        text-align: center;
+      }
+      #ppHistoryControls {
+        top: 6px;
+        right: 8px;
+      }
+    }
+    body.pp-history-visible #loginPage .auth-card,
+    body.pp-history-visible #signupPage .auth-card,
+    body.pp-history-visible #companyOwnerPage .auth-card,
+    body.pp-history-visible #forgotPasswordPage .auth-card {
+      margin-top: 58px!important;
+    }
+  </style>
 </head>
 <body>
 <nav id="ppNav" aria-label="Main navigation"><div class="pp-brand"><span class="pp-mark">P</span>PLANPOCKET</div><button type="button" data-page="dashboardPage" onclick="showDashboard()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg><span>Overview</span></button><button type="button" data-page="budgetPlannerPage" onclick="showBudgetPlanner()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg><span>Budget</span></button><button type="button" data-page="expenseTrackerPage" onclick="showTracker('expenseTrackerPage')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span>Expenses</span></button><button type="button" data-page="investmentTrackerPage" onclick="showTracker('investmentTrackerPage')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span>Investments</span></button><button type="button" data-page="goalTrackerPage" onclick="showTracker('goalTrackerPage')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><span>Goals</span></button><button type="button" data-page="financialReportsPage" onclick="showFinancialReports()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Reports</span></button><button type="button" data-page="cfoHelperPage" onclick="showCFOHelper()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg><span>CFO Helper</span></button><div class="pp-spacer"></div><button type="button" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Logout</span></button></nav>
+<div id="ppHistoryControls" role="group" aria-label="In-app page history">
+  <button id="ppHistoryBack" type="button" aria-label="Go back" title="Go back" onclick="navigateInAppHistory(-1)" disabled>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M20 12H9"/></svg>
+  </button>
+  <button id="ppHistoryForward" type="button" aria-label="Go forward" title="Go forward" onclick="navigateInAppHistory(1)" disabled>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/><path d="M4 12h11"/></svg>
+  </button>
+</div>
   <!-- Welcome Page -->
   <div id="welcomePage" class="page">
     <div class="container">
@@ -1103,23 +1586,43 @@
   <!-- Login Page -->
   <div id="loginPage" class="page hidden">
     <div class="container">
-      <div class="auth-card">
+      <div class="auth-card auth-login-card">
+        <div class="auth-brand">
+          <div class="logo">PLANPOCKET</div>
+        </div>
         <h2>Login to PLANPOCKET</h2>
+        <p class="auth-subtitle">Sign in to continue to your financial workspace.</p>
+        <div id="loginDemoModeNotice" class="demo-mode-notice hidden" aria-live="polite">
+          <p><span class="signup-demo-indicator">FRONTEND DEMO MODE</span> Demo previews use temporary, fictional profile data only. No real login, account, email, or database operation occurs.</p>
+          <div class="demo-mode-actions">
+            <button type="button" onclick="startDemoSignIn('personal')">Preview Personal Demo</button>
+            <button type="button" onclick="startDemoSignIn('company')">Preview Company Demo</button>
+            <button id="registrationDemoSignIn" class="demo-registration-signin hidden" type="button" onclick="startRegistrationDemoSignIn()">Continue with demo registration</button>
+          </div>
+        </div>
+        <div id="demoAccountPreview" class="demo-account-preview hidden" aria-live="polite">
+          <span id="demoAccountTypeBadge" class="demo-account-badge"></span>
+          <span id="demoAccountDisplayName" class="demo-account-preview-name"></span>
+        </div>
         <div class="form-group">
-          <label for="loginUsername">Username</label>
-          <input type="text" id="loginUsername" placeholder="Enter your username" required>
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email address" autocomplete="email" required>
         </div>
         <div class="form-group">
           <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" placeholder="Enter your password" required>
+          <div class="password-input-wrap">
+            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+            <button type="button" class="password-visibility-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePasswordVisibility('loginPassword', this)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
         </div>
         <button class="btn" onclick="handleLogin()">Login</button>
-        <div style="text-align: center; margin-top: 15px;">
+        <div style="display:flex;justify-content:space-between;gap:12px;margin-top:16px;font-size:.88rem;">
           <a href="#" class="link" onclick="showForgotPassword()">Forgot Password?</a>
+          <a href="#" class="link" onclick="showSignup()">Create account</a>
         </div>
-        <div class="back-link">
-          <a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a>
-        </div>
+        <div class="back-link"><a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a></div>
         <div id="loginMessage" class="message hidden"></div>
       </div>
     </div>
@@ -1129,23 +1632,78 @@
   <div id="forgotPasswordPage" class="page hidden">
     <div class="container">
       <div class="auth-card">
-        <h2>Reset Password</h2>
-        <div class="form-group">
-          <label for="forgotMobile">Mobile Number</label>
-          <input type="tel" id="forgotMobile" placeholder="Enter your mobile number" required>
+        <div class="auth-brand">
+          <div class="logo">PLANPOCKET</div>
         </div>
-        <button class="btn" onclick="sendOTP()">Send OTP</button>
-        
+        <h2 id="resetPasswordHeading">Reset Password</h2>
+        <div id="resetRequestStep">
+          <div class="form-group">
+            <label for="forgotEmail">Email Address</label>
+            <input type="email" id="forgotEmail" placeholder="Enter your email address" autocomplete="email" required>
+          </div>
+          <button class="btn" onclick="sendOTP()">Send OTP</button>
+        </div>
+
         <div id="otpContainer" class="otp-container">
           <div class="form-group">
-            <label for="otpInput">Enter OTP</label>
+            <label>Enter the six-digit OTP</label>
             <div class="otp-row">
-              <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6" required>
-              <button class="btn btn-secondary" onclick="verifyOTP()">Verify</button>
+              <input type="text" id="otpDigit1" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="OTP digit 1" autocomplete="one-time-code" oninput="handleOTPInput(event, 0)" onkeydown="handleOTPKeydown(event, 0)" onpaste="handleOTPPaste(event)">
+              <input type="text" id="otpDigit2" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="OTP digit 2" oninput="handleOTPInput(event, 1)" onkeydown="handleOTPKeydown(event, 1)">
+              <input type="text" id="otpDigit3" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="OTP digit 3" oninput="handleOTPInput(event, 2)" onkeydown="handleOTPKeydown(event, 2)">
+              <input type="text" id="otpDigit4" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="OTP digit 4" oninput="handleOTPInput(event, 3)" onkeydown="handleOTPKeydown(event, 3)">
+              <input type="text" id="otpDigit5" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="OTP digit 5" oninput="handleOTPInput(event, 4)" onkeydown="handleOTPKeydown(event, 4)">
+              <input type="text" id="otpDigit6" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="OTP digit 6" oninput="handleOTPInput(event, 5)" onkeydown="handleOTPKeydown(event, 5)">
             </div>
           </div>
           <div class="timer" id="otpTimer"></div>
-          <button id="resendBtn" class="btn resend-btn" onclick="resendOTP()">Resend OTP</button>
+          <button class="btn" onclick="verifyOTP()">Verify OTP</button>
+          <button id="resendOtpBtn" class="btn btn-secondary" onclick="resendOTP()" disabled>Resend OTP (30s)</button>
+          <div id="signupDemoOtpNotice" class="signup-demo-otp-notice hidden" aria-live="polite">
+            <span class="signup-demo-indicator">DEMO MODE</span>
+            <span>Demo Mode: Enter OTP 123456 to test the website flow. No email was sent; real email verification is not configured.</span>
+          </div>
+          <div id="signupDemoOtpBackLink" class="back-link hidden">
+            <a href="#" class="link" onclick="returnToDemoRegistration()">← Back to registration</a>
+          </div>
+          <div id="signupDemoAccountPreview" class="signup-demo-account-preview hidden" aria-live="polite">
+            <span id="signupDemoAccountBadge" class="demo-account-badge"></span>
+            <span id="signupDemoAccountName" class="signup-demo-account-name"></span>
+          </div>
+        </div>
+
+        <div id="resetPasswordReadyStep" class="otp-container reset-password-ready">
+          <div class="form-group">
+            <label for="resetNewPassword">New Password</label>
+            <div class="password-input-wrap">
+              <input type="password" id="resetNewPassword" autocomplete="new-password" oninput="updateResetPasswordRequirements()" required>
+              <button type="button" class="password-visibility-toggle" aria-label="Show new password" aria-pressed="false" onclick="togglePasswordVisibility('resetNewPassword', this)">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="password-strength" aria-live="polite">
+              <div class="password-strength-track"><span id="resetPasswordStrengthFill" class="password-strength-fill"></span></div>
+              <span id="resetPasswordStrengthLabel" class="password-strength-label">Password strength: not entered</span>
+            </div>
+          </div>
+          <ul class="password-requirements" aria-label="Password requirements">
+            <li id="resetReqLength">At least 8 characters</li>
+            <li id="resetReqUppercase">At least one uppercase letter (A–Z)</li>
+            <li id="resetReqLowercase">At least one lowercase letter (a–z)</li>
+            <li id="resetReqNumber">At least one number (0–9)</li>
+            <li id="resetReqSpecial">At least one special character (such as @, #, or !)</li>
+          </ul>
+          <div class="form-group">
+            <label for="resetConfirmPassword">Confirm Password</label>
+            <div class="password-input-wrap">
+              <input type="password" id="resetConfirmPassword" autocomplete="new-password" oninput="updateResetPasswordRequirements()" required>
+              <button type="button" class="password-visibility-toggle" aria-label="Show confirm password" aria-pressed="false" onclick="togglePasswordVisibility('resetConfirmPassword', this)">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="resetPasswordMatchMessage" class="password-match-message" aria-live="polite"></div>
+          <button id="resetPasswordSubmitBtn" class="btn reset-password-submit" onclick="submitNewPassword()">Reset Password</button>
         </div>
         
         <div class="back-link">
@@ -1159,29 +1717,183 @@
   <!-- Sign Up Page -->
   <div id="signupPage" class="page hidden">
     <div class="container">
-      <div class="auth-card">
-        <h2>Create Account</h2>
-        <div class="form-group">
-          <label for="signupUsername">Username</label>
-          <input type="text" id="signupUsername" placeholder="Choose a username" required>
+      <div class="auth-card auth-card-compact">
+        <div class="auth-brand">
+          <div class="logo">PLANPOCKET</div>
         </div>
-        <div class="form-group">
-          <label for="signupMobile">Mobile Number</label>
-          <input type="tel" id="signupMobile" placeholder="Enter your mobile number" required>
+        <h2 class="signup-title">Create Your Account</h2>
+
+        <div id="signupAccountSelection" class="account-selection" role="radiogroup" aria-label="Choose account type">
+          <button type="button" class="account-option" data-account="personal" aria-pressed="false" onclick="selectAccount('personal')">
+            <span class="account-icon personal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <span class="account-copy">
+              <span class="account-name">Personal Account</span>
+              <span class="account-desc">For individual use to manage your own finances</span>
+            </span>
+          </button>
+
+          <button type="button" class="account-option" data-account="company" aria-pressed="false" onclick="selectAccount('company')">
+            <span class="account-icon company" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <span class="account-copy">
+              <span class="account-name">Company Account</span>
+              <span class="account-desc">For businesses with multiple workers</span>
+            </span>
+          </button>
         </div>
-        <div class="form-group">
-          <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" placeholder="Create a password" required>
+
+        <div id="signupAccountMessage" class="message hidden"></div>
+        <button id="signupAccountContinue" class="btn" onclick="continueSignup()">Continue</button>
+
+        <div id="signupFormFields" class="signup-form-fields hidden">
+          <div id="signupAccountTypeLabel" class="account-flow-tag">Personal Account</div>
+          <div class="registration-progress" aria-label="Personal registration progress">
+            <span class="registration-progress-step" data-registration-progress="1">Account details</span>
+            <span class="registration-progress-step" data-registration-progress="2">Password</span>
+            <span class="registration-progress-step" data-registration-progress="3">Demo OTP</span>
+          </div>
+          <div id="personalRegistrationStep1">
+          <div class="form-group">
+            <label for="signupUsername">Username</label>
+            <input type="text" id="signupUsername" placeholder="Choose a username" autocomplete="username" required>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email Address</label>
+            <input type="email" id="signupEmail" placeholder="Enter your email address" autocomplete="email" required>
+          </div>
+            <div class="registration-step-actions">
+              <button type="button" class="btn btn-secondary" onclick="backToAccountSelection()">Back</button>
+              <button type="button" class="btn" onclick="advanceRegistrationStep('personal')">Next</button>
+            </div>
+          </div>
+          <div id="personalRegistrationStep2" class="hidden">
+          <div class="form-group">
+            <label for="signupPassword">Create Password</label>
+            <div class="password-input-wrap">
+              <input type="password" id="signupPassword" placeholder="Create a strong password" autocomplete="new-password" oninput="updateRegistrationPasswordState('personal')" required>
+              <button type="button" class="password-visibility-toggle registration-password-toggle" data-password-for="signupPassword" aria-label="Show password" aria-pressed="false" onclick="togglePasswordVisibility('signupPassword', this)">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="signup-password-feedback" aria-live="polite">
+            <span id="personalPasswordStrength" class="signup-password-strength">Create a strong password</span>
+            <ul id="personalPasswordRequirements" class="signup-password-requirements">
+              <li data-password-rule="length">At least 8 characters</li>
+              <li data-password-rule="uppercase">At least one uppercase letter</li>
+              <li data-password-rule="lowercase">At least one lowercase letter</li>
+              <li data-password-rule="number">At least one number</li>
+              <li data-password-rule="special">At least one special character</li>
+            </ul>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-input-wrap">
+              <input type="password" id="confirmPassword" placeholder="Confirm your password" autocomplete="new-password" oninput="updateRegistrationPasswordState('personal')" required>
+              <button type="button" class="password-visibility-toggle registration-password-toggle" data-password-for="confirmPassword" aria-label="Show confirm password" aria-pressed="false" onclick="togglePasswordVisibility('confirmPassword', this)">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="personalPasswordMatch" class="signup-confirm-match" aria-live="polite"></div>
+            <div class="registration-step-actions">
+              <button type="button" class="btn btn-secondary" onclick="showRegistrationStep('personal', 1)">Back</button>
+              <button type="button" class="btn" onclick="advanceRegistrationStep('personal')">Continue to demo OTP</button>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
-        </div>
-        <button class="btn" onclick="handleSignup()">Create Account</button>
+
         <div class="back-link">
+          <a href="#" class="link" onclick="showLogin()">Already have an account? Log in</a>
+        </div>
+        <div class="back-link secondary-back">
           <a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a>
         </div>
         <div id="signupMessage" class="message hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Owner Registration -->
+  <div id="companyOwnerPage" class="page hidden">
+    <div class="container">
+      <div class="auth-card auth-card-compact">
+        <div class="auth-brand">
+          <div class="logo">PLANPOCKET</div>
+        </div>
+        <h2 class="signup-title">Company Owner Registration</h2>
+        <div class="account-flow-tag">Company Account</div>
+
+        <div class="registration-progress" aria-label="Company registration progress">
+          <span class="registration-progress-step" data-registration-progress="1">Company details</span>
+          <span class="registration-progress-step" data-registration-progress="2">Password</span>
+          <span class="registration-progress-step" data-registration-progress="3">Demo OTP</span>
+        </div>
+        <div id="companyRegistrationStep1">
+        <div class="form-group">
+          <label for="companyName">Company Name</label>
+          <input type="text" id="companyName" placeholder="Enter your company name" required>
+        </div>
+        <div class="form-group">
+          <label for="ownerFullName">Owner Full Name</label>
+          <input type="text" id="ownerFullName" placeholder="Enter owner full name" required>
+        </div>
+        <div class="form-group">
+          <label for="companyEmail">Email Address</label>
+          <input type="email" id="companyEmail" placeholder="Enter email address" autocomplete="email" required>
+        </div>
+          <div class="registration-step-actions">
+            <button type="button" class="btn btn-secondary" onclick="backToAccountSelection()">Back</button>
+            <button type="button" class="btn" onclick="advanceRegistrationStep('company')">Next</button>
+          </div>
+        </div>
+        <div id="companyRegistrationStep2" class="hidden">
+        <div class="form-group">
+          <label for="companyPassword">Create Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="companyPassword" placeholder="Create a strong password" autocomplete="new-password" oninput="updateRegistrationPasswordState('company')" required>
+            <button type="button" class="password-visibility-toggle registration-password-toggle" data-password-for="companyPassword" aria-label="Show password" aria-pressed="false" onclick="togglePasswordVisibility('companyPassword', this)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="signup-password-feedback" aria-live="polite">
+          <span id="companyPasswordStrength" class="signup-password-strength">Create a strong password</span>
+          <ul id="companyPasswordRequirements" class="signup-password-requirements">
+            <li data-password-rule="length">At least 8 characters</li>
+            <li data-password-rule="uppercase">At least one uppercase letter</li>
+            <li data-password-rule="lowercase">At least one lowercase letter</li>
+            <li data-password-rule="number">At least one number</li>
+            <li data-password-rule="special">At least one special character</li>
+          </ul>
+        </div>
+        <div class="form-group">
+          <label for="companyConfirmPassword">Confirm Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="companyConfirmPassword" placeholder="Confirm your password" autocomplete="new-password" oninput="updateRegistrationPasswordState('company')" required>
+            <button type="button" class="password-visibility-toggle registration-password-toggle" data-password-for="companyConfirmPassword" aria-label="Show confirm password" aria-pressed="false" onclick="togglePasswordVisibility('companyConfirmPassword', this)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div id="companyPasswordMatch" class="signup-confirm-match" aria-live="polite"></div>
+
+          <div class="registration-step-actions">
+            <button type="button" class="btn btn-secondary" onclick="showRegistrationStep('company', 1)">Back</button>
+            <button type="button" class="btn" onclick="advanceRegistrationStep('company')">Continue to demo OTP</button>
+          </div>
+        </div>
+
+        <div class="back-link">
+          <a href="#" class="link" onclick="showSignup()">← Back to account selection</a>
+        </div>
+        <div class="back-link secondary-back">
+          <a href="#" class="link" onclick="showLogin()">Already have an account? Login</a>
+        </div>
+        <div id="companyOwnerMessage" class="message hidden"></div>
       </div>
     </div>
   </div>
@@ -1191,6 +1903,11 @@
       <header class="dashboard-header">
         <div class="logo">PLANPOCKET Dashboard</div>
         <p class="tagline">Welcome back, <span id="dashboardUsername">there</span>! Choose your financial planning tool.</p>
+        <div id="demoDashboardIdentity" class="demo-dashboard-identity hidden" aria-live="polite">
+          <span class="signup-demo-indicator">DEMO PREVIEW</span>
+          <span id="demoDashboardBadge" class="demo-account-badge"></span>
+          <span id="demoDashboardName" class="demo-account-preview-name"></span>
+        </div>
         <button class="btn btn-secondary" style="width: auto; padding: 10px 18px;" onclick="logout()">Logout</button>
       </header>
       <section class="dashboard-grid" aria-label="Financial planning tools">
@@ -1651,19 +2368,216 @@
   </div>
 
   <script>
+    // Frontend-only previews. Set to false before connecting real authentication.
+    const PLANPOCKET_DEMO_MODE = true;
+
     // Global variables
-    let generatedOTP = '';
     let otpTimerInterval = null;
     let otpExpiresAt = 0;
+    let resetPasswordEmail = '';
+    let resetPasswordVerificationToken = '';
+    let otpResendAvailableAt = 0;
+    let demoRegistrationType = '';
+    let demoRegistrationIdentity = null;
+    let inAppPageHistory = [];
+    let inAppPageHistoryIndex = -1;
 
     // Page navigation functions
-    function showPage(pageId) {
-      // Hide all pages
+    function isProtectedPage(pageId) {
+      return !['welcomePage', 'loginPage', 'signupPage', 'companyOwnerPage', 'forgotPasswordPage'].includes(pageId);
+    }
+
+    function getDemoProfile() {
+      if (!PLANPOCKET_DEMO_MODE) return null;
+
+      try {
+        const profile = JSON.parse(sessionStorage.getItem('planpocket_demo_profile') || 'null');
+        if (
+          profile?.mode !== 'frontend-demo' ||
+          !['personal', 'company'].includes(profile.accountType) ||
+          typeof profile.displayName !== 'string' ||
+          !profile.displayName.trim()
+        ) return null;
+        return profile;
+      } catch (error) {
+        console.error('Unable to read the temporary PlanPocket demo profile.', error);
+        return null;
+      }
+    }
+
+    function hasDemoSession() {
+      return Boolean(getDemoProfile());
+    }
+
+    function getPlanPocketStorageKey(storageKey) {
+      const profile = getDemoProfile();
+      return profile ? `planpocket_demo_${profile.accountType}_${storageKey}` : storageKey;
+    }
+
+    function removeLegacyClientPassword() {
+      const savedUser = localStorage.getItem('planpocket_user');
+      if (!savedUser) return;
+
+      try {
+        const user = JSON.parse(savedUser);
+        if (user && Object.prototype.hasOwnProperty.call(user, 'password')) {
+          delete user.password;
+          localStorage.setItem('planpocket_user', JSON.stringify(user));
+        }
+      } catch (error) {
+        localStorage.removeItem('planpocket_user');
+        console.error('Unable to migrate the legacy local PlanPocket account record.', error);
+      }
+    }
+
+    function updateInAppHistoryControls() {
+      const controls = document.getElementById('ppHistoryControls');
+      if (!controls) return;
+      const hasHistory = inAppPageHistory.length > 1;
+      controls.classList.toggle('is-visible', hasHistory);
+      document.body.classList.toggle('pp-history-visible', hasHistory);
+      document.getElementById('ppHistoryBack').disabled = inAppPageHistoryIndex <= 0;
+      document.getElementById('ppHistoryForward').disabled =
+        inAppPageHistoryIndex < 0 || inAppPageHistoryIndex >= inAppPageHistory.length - 1;
+    }
+
+    function showPage(pageId, options = {}) {
+      const page = document.getElementById(pageId);
+      if (!page || !page.classList.contains('page')) {
+        throw new Error(`Unknown PlanPocket page: ${pageId}`);
+      }
+
+      if (isProtectedPage(pageId) && !hasDemoSession()) {
+        if (pageId !== 'loginPage') showLogin('Please log in to access that page.');
+        return false;
+      }
+
+      const view = options.view || '';
+      const historyMode = options.historyMode || 'push';
+      const currentPageId = document.querySelector('.page:not(.hidden)')?.id;
+      const currentState = history.state;
+
       document.querySelectorAll('.page').forEach(page => {
         page.classList.add('hidden');
       });
-      // Show target page
-      document.getElementById(pageId).classList.remove('hidden');
+      page.classList.remove('hidden');
+
+      if (pageId === 'forgotPasswordPage') {
+        applyForgotPasswordView(view || 'request');
+      } else if (pageId === 'signupPage') {
+        const signupFields = document.getElementById('signupFormFields');
+        const signupView = view === 'personal-registration' ? 'personal-step-1' : view;
+        const isPersonalWizard = signupView.startsWith('personal-step-');
+        if (signupFields) signupFields.classList.toggle('hidden', !isPersonalWizard);
+        document.getElementById('signupAccountSelection')?.classList.toggle('hidden', isPersonalWizard);
+        if (isPersonalWizard) document.getElementById('signupAccountMessage')?.classList.add('hidden');
+        document.getElementById('signupAccountContinue')?.classList.toggle('hidden', isPersonalWizard);
+        if (isPersonalWizard) {
+          applyRegistrationStep('personal', Number(signupView.slice(-1)));
+        }
+      } else if (pageId === 'companyOwnerPage') {
+        const companyView = view || 'company-step-1';
+        applyRegistrationStep('company', Number(companyView.slice(-1)));
+      }
+
+      if (historyMode === 'push' && (currentPageId !== pageId || currentState?.view !== view)) {
+        inAppPageHistory = inAppPageHistory.slice(0, inAppPageHistoryIndex + 1);
+        inAppPageHistory.push({ pageId, view });
+        inAppPageHistoryIndex = inAppPageHistory.length - 1;
+        const url = new URL(window.location.href);
+        url.hash = `pp-${pageId}${view ? `-${view}` : ''}`;
+        window.history.pushState(
+          { planPocketNavigation: true, pageId, view, index: inAppPageHistoryIndex },
+          '',
+          url,
+        );
+      } else if (historyMode === 'restore' && Number.isInteger(options.historyIndex)) {
+        inAppPageHistoryIndex = options.historyIndex;
+      } else if (historyMode === 'replace') {
+        const current = inAppPageHistoryIndex < 0 ? 0 : inAppPageHistoryIndex;
+        inAppPageHistory[current] = { pageId, view };
+        inAppPageHistoryIndex = current;
+        const url = new URL(window.location.href);
+        url.hash = `pp-${pageId}${view ? `-${view}` : ''}`;
+        window.history.replaceState(
+          { planPocketNavigation: true, pageId, view, index: current },
+          '',
+          url,
+        );
+      }
+
+      updateInAppHistoryControls();
+      return true;
+    }
+
+    function navigateInAppHistory(direction) {
+      const targetIndex = inAppPageHistoryIndex + direction;
+      if (targetIndex < 0 || targetIndex >= inAppPageHistory.length) return;
+      window.history.go(direction);
+    }
+
+    function initializeInAppNavigation() {
+      const initialPageId = document.querySelector('.page:not(.hidden)')?.id || 'welcomePage';
+      inAppPageHistory = [{ pageId: initialPageId, view: '' }];
+      inAppPageHistoryIndex = 0;
+      window.history.replaceState(
+        { planPocketNavigation: true, pageId: initialPageId, view: '', index: 0 },
+        '',
+        window.location.pathname + window.location.search,
+      );
+      document.addEventListener('click', event => {
+        if (event.target instanceof Element && event.target.closest('a[href="#"]')) event.preventDefault();
+      }, true);
+      window.addEventListener('popstate', event => {
+        const state = event.state;
+        if (!state?.planPocketNavigation || !document.getElementById(state.pageId)) return;
+        const personalRegistrationStep = state.pageId === 'signupPage' &&
+          ['personal-step-2', 'personal-registration'].includes(state.view);
+        const companyRegistrationStep = state.pageId === 'companyOwnerPage' &&
+          state.view === 'company-step-2';
+        const demoRegistrationOTP = PLANPOCKET_DEMO_MODE &&
+          state.pageId === 'forgotPasswordPage' &&
+          ['demo-personal-registration', 'demo-company-registration'].includes(state.view);
+        if (personalRegistrationStep && !validateRegistrationIdentity('personal')) {
+          showPage('signupPage', { historyMode: 'replace', view: 'personal-step-1' });
+          return;
+        }
+        if (companyRegistrationStep && !validateRegistrationIdentity('company')) {
+          showPage('companyOwnerPage', { historyMode: 'replace', view: 'company-step-1' });
+          return;
+        }
+        if (demoRegistrationOTP) {
+          const accountType = state.view === 'demo-company-registration' ? 'company' : 'personal';
+          if (!validateRegistrationIdentity(accountType) || !validateRegistrationCredentials(accountType)) {
+            showPage(
+              accountType === 'company' ? 'companyOwnerPage' : 'signupPage',
+              { historyMode: 'replace', view: `${accountType}-step-2` },
+            );
+            return;
+          }
+          applyRegistrationStep(accountType, 3);
+        }
+        if (state.pageId === 'forgotPasswordPage' && state.view === 'create-password' && !resetPasswordVerificationToken) {
+          inAppPageHistoryIndex = state.index;
+          inAppPageHistory = inAppPageHistory.slice(0, state.index + 1);
+          showPage('forgotPasswordPage', { historyMode: 'replace', view: 'request' });
+          showMessage('forgotMessage', 'Your verification session is no longer active. Request a new password-reset email.', 'error');
+          return;
+        }
+        if (isProtectedPage(state.pageId) && !hasDemoSession()) {
+          inAppPageHistoryIndex = state.index;
+          inAppPageHistory = inAppPageHistory.slice(0, state.index + 1);
+          showPage('loginPage', { historyMode: 'replace' });
+          showMessage('loginMessage', 'Please log in to access that page.', 'error');
+          return;
+        }
+        showPage(state.pageId, {
+          historyMode: 'restore',
+          historyIndex: state.index,
+          view: state.view
+        });
+      });
+      updateInAppHistoryControls();
     }
 
     function showWelcome() {
@@ -1671,19 +2585,427 @@
       clearMessages();
     }
 
-    function showLogin() {
+    function showLogin(successMessage = '') {
       showPage('loginPage');
       clearMessages();
+      renderDemoAccountPreview();
+      if (successMessage) showMessage('loginMessage', successMessage, 'success');
+    }
+
+    function updateLoginDemoControls() {
+      document.getElementById('loginDemoModeNotice').classList.toggle('hidden', !PLANPOCKET_DEMO_MODE);
+      document.getElementById('registrationDemoSignIn').classList.toggle(
+        'hidden',
+        !PLANPOCKET_DEMO_MODE || !demoRegistrationIdentity,
+      );
+    }
+
+    function renderDemoAccountPreview() {
+      const preview = document.getElementById('demoAccountPreview');
+      updateLoginDemoControls();
+      if (!demoRegistrationIdentity) {
+        preview.classList.add('hidden');
+        return;
+      }
+
+      document.getElementById('demoAccountTypeBadge').textContent = demoRegistrationIdentity.accountLabel;
+      document.getElementById('demoAccountDisplayName').textContent = demoRegistrationIdentity.displayName;
+      preview.classList.remove('hidden');
+    }
+
+    function startDemoSignIn(accountType) {
+      if (!PLANPOCKET_DEMO_MODE || !['personal', 'company'].includes(accountType)) {
+        showMessage('loginMessage', 'Frontend demo mode is disabled.', 'info');
+        return;
+      }
+
+      const isCompany = accountType === 'company';
+      sessionStorage.setItem('planpocket_demo_profile', JSON.stringify({
+        mode: 'frontend-demo',
+        accountType,
+        displayName: isCompany ? 'Demo Company Workspace' : 'Demo Personal User',
+      }));
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPassword').value = '';
+      showDashboard();
+    }
+
+    function startRegistrationDemoSignIn() {
+      if (!demoRegistrationIdentity) {
+        showMessage('loginMessage', 'Complete the demo registration steps before using this option.', 'error');
+        return;
+      }
+      startDemoSignIn(demoRegistrationIdentity.accountType);
+    }
+
+    function isValidEmailAddress(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function updateRegistrationPasswordState(accountType) {
+      const isPersonal = accountType === 'personal';
+      const passwordId = isPersonal ? 'signupPassword' : 'companyPassword';
+      const confirmPasswordId = isPersonal ? 'confirmPassword' : 'companyConfirmPassword';
+      const requirementsId = isPersonal ? 'personalPasswordRequirements' : 'companyPasswordRequirements';
+      const strengthId = isPersonal ? 'personalPasswordStrength' : 'companyPasswordStrength';
+      const matchId = isPersonal ? 'personalPasswordMatch' : 'companyPasswordMatch';
+      const password = document.getElementById(passwordId).value;
+      const confirmPassword = document.getElementById(confirmPasswordId).value;
+      const requirements = getResetPasswordRequirements(password);
+      const missing = Object.entries(requirements).filter(([, isSatisfied]) => !isSatisfied);
+      const strength = document.getElementById(strengthId);
+
+      document.querySelectorAll(`#${requirementsId} [data-password-rule]`).forEach(item => {
+        item.hidden = Boolean(requirements[item.dataset.passwordRule]);
+      });
+      strength.textContent = missing.length === 0 ? 'Strong' : 'Password requirements remaining';
+      strength.classList.toggle('is-strong', missing.length === 0);
+
+      const matchMessage = document.getElementById(matchId);
+      const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword;
+      matchMessage.textContent = !confirmPassword
+        ? ''
+        : passwordsMatch
+          ? 'Passwords match.'
+          : 'Passwords do not match.';
+      matchMessage.classList.toggle('is-match', passwordsMatch);
+      return requirements;
+    }
+
+    function applyRegistrationStep(accountType, step) {
+      const currentStep = Math.min(3, Math.max(1, Number(step) || 1));
+      const isPersonal = accountType === 'personal';
+      const stepOne = document.getElementById(`${accountType}RegistrationStep1`);
+      const stepTwo = document.getElementById(`${accountType}RegistrationStep2`);
+      if (stepOne) stepOne.classList.toggle('hidden', currentStep !== 1);
+      if (stepTwo) stepTwo.classList.toggle('hidden', currentStep !== 2);
+      const page = document.getElementById(isPersonal ? 'signupPage' : 'companyOwnerPage');
+      page?.querySelectorAll('[data-registration-progress]').forEach(item => {
+        const itemStep = Number(item.dataset.registrationProgress);
+        item.classList.toggle('is-current', itemStep === currentStep);
+        item.classList.toggle('is-complete', itemStep < currentStep);
+      });
+    }
+
+    function showRegistrationStep(accountType, step) {
+      const isPersonal = accountType === 'personal';
+      const currentStep = Math.min(2, Math.max(1, Number(step) || 1));
+      const pageId = isPersonal ? 'signupPage' : 'companyOwnerPage';
+      const view = `${accountType}-step-${currentStep}`;
+      showPage(pageId, { view });
+      applyRegistrationStep(accountType, currentStep);
+      clearMessages();
+      const focusId = isPersonal
+        ? (currentStep === 1 ? 'signupUsername' : 'signupPassword')
+        : (currentStep === 1 ? 'companyName' : 'companyPassword');
+      document.getElementById(focusId).focus();
+    }
+
+    function registrationMessageId(accountType) {
+      return accountType === 'company' ? 'companyOwnerMessage' : 'signupMessage';
+    }
+
+    function validateRegistrationIdentity(accountType) {
+      const isPersonal = accountType === 'personal';
+      const fields = isPersonal
+        ? [
+            ['signupUsername', 'Username'],
+            ['signupEmail', 'Email address']
+          ]
+        : [
+            ['companyName', 'Company name'],
+            ['ownerFullName', 'Owner full name'],
+            ['companyEmail', 'Email address']
+          ];
+      const messageId = registrationMessageId(accountType);
+      const emptyField = fields.find(([id]) => !document.getElementById(id).value.trim());
+      if (emptyField) {
+        showMessage(messageId, `${emptyField[1]} is required.`, 'error');
+        return false;
+      }
+      const emailId = isPersonal ? 'signupEmail' : 'companyEmail';
+      if (!isValidEmailAddress(document.getElementById(emailId).value.trim())) {
+        showMessage(messageId, 'Please enter a valid email address.', 'error');
+        return false;
+      }
+      return true;
+    }
+
+    function validateRegistrationCredentials(accountType) {
+      const isPersonal = accountType === 'personal';
+      const passwordId = isPersonal ? 'signupPassword' : 'companyPassword';
+      const confirmPasswordId = isPersonal ? 'confirmPassword' : 'companyConfirmPassword';
+      const messageId = registrationMessageId(accountType);
+      const password = document.getElementById(passwordId).value;
+      const confirmPassword = document.getElementById(confirmPasswordId).value;
+      if (!password || !confirmPassword) {
+        showMessage(messageId, 'Please enter and confirm your password.', 'error');
+        return false;
+      }
+      const requirements = updateRegistrationPasswordState(accountType);
+      if (!Object.values(requirements).every(Boolean)) {
+        showMessage(messageId, 'Please meet all listed password requirements.', 'error');
+        return false;
+      }
+      if (password !== confirmPassword) {
+        showMessage(messageId, 'Passwords do not match.', 'error');
+        return false;
+      }
+      return true;
+    }
+
+    function advanceRegistrationStep(accountType) {
+      const isPersonal = accountType === 'personal';
+      const currentStep = Number(history.state?.view?.slice(-1)) || 1;
+      if (currentStep === 1) {
+        if (!validateRegistrationIdentity(accountType)) return;
+        showRegistrationStep(accountType, 2);
+        return;
+      }
+      if (!validateRegistrationIdentity(accountType) || !validateRegistrationCredentials(accountType)) return;
+      if (PLANPOCKET_DEMO_MODE) {
+        const displayName = isPersonal
+          ? document.getElementById('signupUsername').value.trim()
+          : document.getElementById('companyName').value.trim();
+        startDemoRegistrationOTP(accountType, { displayName });
+      } else if (isPersonal) {
+        handleSignup();
+      } else {
+        handleCompanyOwnerSendOTP();
+      }
+    }
+
+    function backToAccountSelection() {
+      showPage('signupPage', { view: 'account-selection' });
+      clearMessages();
+    }
+
+    function clearRegistrationPasswords() {
+      ['signupPassword', 'confirmPassword', 'companyPassword', 'companyConfirmPassword'].forEach(id => {
+        const input = document.getElementById(id);
+        input.value = '';
+        input.type = 'password';
+      });
+      document.querySelectorAll('.registration-password-toggle').forEach(button => {
+        const inputId = button.dataset.passwordFor;
+        const label = inputId.includes('Confirm') || inputId === 'confirmPassword'
+          ? 'confirm password'
+          : 'password';
+        button.setAttribute('aria-pressed', 'false');
+        button.setAttribute('aria-label', `Show ${label}`);
+      });
+      updateRegistrationPasswordState('personal');
+      updateRegistrationPasswordState('company');
     }
 
     function showSignup() {
-      showPage('signupPage');
+      showPage('signupPage', { view: 'account-selection' });
       clearMessages();
+      demoRegistrationIdentity = null;
+      renderDemoAccountPreview();
+      clearRegistrationPasswords();
+      document.querySelectorAll('.account-option').forEach(option => {
+        option.classList.remove('selected');
+        option.setAttribute('aria-pressed', 'false');
+      });
+      const signupFormFields = document.getElementById('signupFormFields');
+      if (signupFormFields) signupFormFields.classList.add('hidden');
+      const signupAccountTypeLabel = document.getElementById('signupAccountTypeLabel');
+      if (signupAccountTypeLabel) signupAccountTypeLabel.textContent = 'Personal Account';
+    }
+
+    function selectAccount(accountType) {
+      document.querySelectorAll('.account-option').forEach(option => {
+        const isSelected = option.dataset.account === accountType;
+        option.classList.toggle('selected', isSelected);
+        option.setAttribute('aria-pressed', String(isSelected));
+      });
+
+      const signupAccountTypeLabel = document.getElementById('signupAccountTypeLabel');
+      const selectedOption = document.querySelector(`.account-option[data-account="${accountType}"]`);
+      if (signupAccountTypeLabel && selectedOption) {
+        signupAccountTypeLabel.textContent = selectedOption.querySelector('.account-name').textContent;
+      }
+    }
+
+    function continueSignup() {
+      const selectedOption = document.querySelector('.account-option.selected');
+      if (!selectedOption) {
+        showMessage('signupAccountMessage', 'Please select an account type to continue.', 'error');
+        return;
+      }
+
+      const accountType = selectedOption.dataset.account;
+      const signupMessage = document.getElementById('signupAccountMessage');
+      if (signupMessage) signupMessage.classList.add('hidden');
+
+      if (accountType === 'company') {
+        showCompanyOwnerRegistration();
+        return;
+      }
+
+      const signupFormFields = document.getElementById('signupFormFields');
+      if (signupFormFields) signupFormFields.classList.remove('hidden');
+      showPage('signupPage', { view: 'personal-step-1' });
+      const signupAccountTypeLabel = document.getElementById('signupAccountTypeLabel');
+      if (signupAccountTypeLabel) {
+        signupAccountTypeLabel.textContent = selectedOption.querySelector('.account-name').textContent;
+      }
+      document.getElementById('signupUsername').focus();
+    }
+
+    function showCompanyOwnerRegistration() {
+      showPage('companyOwnerPage', { view: 'company-step-1' });
+      clearMessages();
+      const companyName = document.getElementById('companyName');
+      if (companyName && !companyName.value) {
+        companyName.focus();
+      }
+    }
+
+    function startDemoRegistrationOTP(accountType, identity) {
+      demoRegistrationType = accountType;
+      demoRegistrationIdentity = {
+        accountType,
+        accountLabel: accountType === 'company' ? 'Company Account' : 'Personal Account',
+        displayName: identity.displayName
+      };
+      clearInterval(otpTimerInterval);
+      document.querySelectorAll('#otpContainer input').forEach(input => { input.value = ''; });
+      showPage('forgotPasswordPage', {
+        view: `demo-${accountType}-registration`
+      });
+      applyRegistrationStep(accountType, 3);
+      clearMessages();
+      document.getElementById('signupDemoAccountBadge').textContent = demoRegistrationIdentity.accountLabel;
+      document.getElementById('signupDemoAccountName').textContent = demoRegistrationIdentity.displayName;
+      document.getElementById('signupDemoAccountPreview').classList.remove('hidden');
+      document.getElementById('otpDigit1').focus();
+      startOTPTimer();
+    }
+
+    function returnToDemoRegistration() {
+      if (demoRegistrationType === 'company') {
+        showRegistrationStep('company', 2);
+      } else if (demoRegistrationType === 'personal') {
+        showRegistrationStep('personal', 2);
+      }
+    }
+
+    function getConfiguredEmailOtpEndpoint() {
+      const endpoint = window.planpocketEmailConfig?.endpoint;
+      if (typeof endpoint !== 'string' || !endpoint.trim()) return null;
+
+      try {
+        const url = new URL(endpoint, window.location.href);
+        return url.origin === window.location.origin ? url.href : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function handleCompanyOwnerSendOTP() {
+      const companyName = document.getElementById('companyName').value.trim();
+      const ownerFullName = document.getElementById('ownerFullName').value.trim();
+      const companyEmail = document.getElementById('companyEmail').value.trim();
+      const password = document.getElementById('companyPassword').value;
+      const confirmPassword = document.getElementById('companyConfirmPassword').value;
+
+      if (!companyName || !ownerFullName || !companyEmail || !password || !confirmPassword) {
+        showMessage('companyOwnerMessage', 'Please complete all company registration fields.', 'error');
+        return;
+      }
+
+      if (!isValidEmailAddress(companyEmail)) {
+        showMessage('companyOwnerMessage', 'Please enter a valid email address.', 'error');
+        return;
+      }
+
+      const passwordRequirements = updateRegistrationPasswordState('company');
+      if (!Object.values(passwordRequirements).every(Boolean)) {
+        showMessage('companyOwnerMessage', 'Please meet all listed password requirements.', 'error');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage('companyOwnerMessage', 'Passwords do not match.', 'error');
+        return;
+      }
+
+      if (PLANPOCKET_DEMO_MODE) {
+        startDemoRegistrationOTP('company', { displayName: companyName });
+        return;
+      }
+
+      const emailOtpEndpoint = getConfiguredEmailOtpEndpoint();
+
+      if (!emailOtpEndpoint) {
+        showMessage('companyOwnerMessage', 'Email verification will be available after backend configuration.', 'info');
+        return;
+      }
+
+      try {
+        const response = await fetch(emailOtpEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'send',
+            companyName,
+            ownerFullName,
+            email: companyEmail,
+            purpose: 'company-owner-registration'
+          })
+        });
+
+        let result = {};
+        try {
+          result = await response.json();
+        } catch (error) {
+          throw new Error('Email verification service returned an invalid response.');
+        }
+        if (!response.ok || result.sent !== true) {
+          throw new Error('Email verification service returned an error.');
+        }
+
+        showMessage('companyOwnerMessage', 'OTP sent successfully.', 'success');
+      } catch (error) {
+        showMessage('companyOwnerMessage', 'Email verification is currently unavailable. Please check the backend email service.', 'info');
+      }
     }
 
     function showForgotPassword() {
-      showPage('forgotPasswordPage');
+      demoRegistrationType = '';
+      showPage('forgotPasswordPage', { view: 'request' });
+      clearInterval(otpTimerInterval);
+      document.getElementById('forgotEmail').value = resetPasswordEmail;
+      resetPasswordVerificationToken = '';
+      clearResetPasswordFields();
       clearMessages();
+    }
+
+    function applyForgotPasswordView(view) {
+      const isRequest = view === 'request';
+      const isDemoSignup = PLANPOCKET_DEMO_MODE &&
+        ['demo-personal-registration', 'demo-company-registration'].includes(view);
+      const isVerification = view === 'otp' || isDemoSignup;
+      const isPasswordReset = view === 'create-password';
+      document.getElementById('resetRequestStep').style.display = isRequest ? 'block' : 'none';
+      document.getElementById('otpContainer').style.display = isVerification ? 'block' : 'none';
+      document.getElementById('resetPasswordReadyStep').style.display = isPasswordReset ? 'block' : 'none';
+      document.getElementById('signupDemoOtpNotice').classList.toggle('hidden', !isDemoSignup);
+      document.getElementById('signupDemoOtpBackLink').classList.toggle('hidden', !isDemoSignup);
+      document.getElementById('signupDemoAccountPreview').classList.toggle('hidden', !isDemoSignup);
+      document.getElementById('resendOtpBtn').classList.remove('hidden');
+      if (isDemoSignup) {
+        document.getElementById('otpTimer').textContent = 'Demo OTP is available for frontend testing.';
+        applyRegistrationStep(view === 'demo-company-registration' ? 'company' : 'personal', 3);
+      }
+      document.getElementById('resetPasswordHeading').textContent = isVerification
+        ? 'Verify Your Email'
+        : isPasswordReset
+          ? 'Create New Password'
+          : 'Reset Password';
+      document.getElementById('forgotPasswordPage').classList.toggle('reset-password-card-active', isPasswordReset);
     }
 
     // Clear all messages
@@ -1705,39 +3027,58 @@
 
     // Login handler
     function handleLogin() {
-      const username = document.getElementById('loginUsername').value.trim();
+      const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
 
-      if (!username || !password) {
-        showMessage('loginMessage', 'Please enter both username and password', 'error');
+      if (!email) {
+        showMessage('loginMessage', 'Please enter your email address.', 'error');
         return;
       }
 
-      // Check if user exists in localStorage
-      const savedUser = localStorage.getItem('planpocket_user');
-      if (savedUser) {
-        const user = JSON.parse(savedUser);
-        if (user.username === username && user.password === password) {
-          showMessage('loginMessage', 'Login successful! Opening your dashboard...', 'success');
-          setTimeout(() => {
-            showDashboard();
-          }, 1500);
-          return;
-        }
+      if (!isValidEmailAddress(email)) {
+        showMessage('loginMessage', 'Please enter a valid email address.', 'error');
+        return;
       }
 
-      showMessage('loginMessage', 'Invalid username or password', 'error');
+      if (!password) {
+        showMessage('loginMessage', 'Please enter your password.', 'error');
+        return;
+      }
+
+      showMessage('loginMessage', 'Login will be enabled after backend integration.', 'info');
     }
 
     // Signup handler
     function handleSignup() {
+      const selectedOption = document.querySelector('.account-option.selected');
       const username = document.getElementById('signupUsername').value.trim();
-      const mobile = document.getElementById('signupMobile').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
       const password = document.getElementById('signupPassword').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
 
-      if (!username || !mobile || !password || !confirmPassword) {
+      if (!selectedOption) {
+        showMessage('signupAccountMessage', 'Please select an account type to continue.', 'error');
+        return;
+      }
+
+      if (selectedOption.dataset.account !== 'personal') {
+        showMessage('signupMessage', 'Choose Personal Account to use this registration form.', 'error');
+        return;
+      }
+
+      if (!username || !email || !password || !confirmPassword) {
         showMessage('signupMessage', 'Please fill in all fields', 'error');
+        return;
+      }
+
+      if (!isValidEmailAddress(email)) {
+        showMessage('signupMessage', 'Please enter a valid email address.', 'error');
+        return;
+      }
+
+      const passwordRequirements = updateRegistrationPasswordState('personal');
+      if (!Object.values(passwordRequirements).every(Boolean)) {
+        showMessage('signupMessage', 'Please meet all listed password requirements.', 'error');
         return;
       }
 
@@ -1746,116 +3087,405 @@
         return;
       }
 
-      if (password.length < 6) {
-        showMessage('signupMessage', 'Password must be at least 6 characters long', 'error');
+      if (PLANPOCKET_DEMO_MODE) {
+        startDemoRegistrationOTP('personal', { displayName: username });
         return;
       }
 
-      // Save user to localStorage
-      const userData = {
-        username: username,
-        mobile: mobile,
-        password: password,
-        createdAt: new Date().toISOString()
+      showMessage(
+        'signupMessage',
+        'Account creation is unavailable because this project has no POST /api/auth/signup backend with server-side password hashing and email verification. The account was not created.',
+        'error',
+      );
+    }
+
+    // Request password-reset OTPs through the configured server endpoint.
+    async function sendOTP(isResend = false) {
+      const email = isResend ? resetPasswordEmail : document.getElementById('forgotEmail').value.trim();
+
+      if (!email) {
+        showMessage('forgotMessage', 'Please enter your email address.', 'error');
+        return;
+      }
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        showMessage('forgotMessage', 'Please enter a valid email address.', 'error');
+        return;
+      }
+
+      if (isResend && Date.now() < otpResendAvailableAt) {
+        showMessage('forgotMessage', 'Please wait for the resend cooldown to finish.', 'error');
+        return;
+      }
+
+      resetPasswordEmail = email;
+      const emailOtpEndpoint = getConfiguredEmailOtpEndpoint();
+      if (!emailOtpEndpoint) {
+        showMessage(
+          'forgotMessage',
+          'Email OTP is not configured. Missing backend configuration: a same-origin email-verification endpoint with email-provider credentials and delivery configured on the server.',
+          'error',
+        );
+        return;
+      }
+
+      try {
+        const response = await fetch(emailOtpEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'send', email: resetPasswordEmail, purpose: 'password-reset' })
+        });
+
+        let result = {};
+        try {
+          result = await response.json();
+        } catch (error) {
+          throw new Error('Email OTP endpoint returned an invalid response.');
+        }
+        if (!response.ok || result.sent !== true) {
+          throw new Error('Email verification service did not confirm OTP delivery.');
+        }
+
+        if (!isResend) {
+          showPage('forgotPasswordPage', { view: 'otp' });
+          document.querySelectorAll('#otpContainer input').forEach(input => { input.value = ''; });
+          document.getElementById('otpDigit1').focus();
+        }
+
+        startOTPTimer();
+        showMessage(
+          'forgotMessage',
+          isResend ? 'A new OTP was sent to your email address.' : 'An OTP was sent to your email address.',
+          'success',
+        );
+      } catch (error) {
+        showMessage(
+          'forgotMessage',
+          'Unable to request an OTP. Please verify the email-verification endpoint, gateway credentials, and email-provider configuration.',
+          'error',
+        );
+      }
+    }
+
+    function startOTPTimer() {
+      otpExpiresAt = Date.now() + 5 * 60 * 1000;
+      otpResendAvailableAt = Date.now() + 30 * 1000;
+      const timerEl = document.getElementById('otpTimer');
+      const resendButton = document.getElementById('resendOtpBtn');
+
+      clearInterval(otpTimerInterval);
+      const updateTimers = () => {
+        const remainingSeconds = Math.max(0, Math.ceil((otpExpiresAt - Date.now()) / 1000));
+        const minutes = Math.floor(remainingSeconds / 60);
+        const seconds = String(remainingSeconds % 60).padStart(2, '0');
+        timerEl.textContent = remainingSeconds > 0 ? `OTP expires in ${minutes}:${seconds}` : 'OTP expired. Request a new one.';
+
+        const resendSeconds = Math.max(0, Math.ceil((otpResendAvailableAt - Date.now()) / 1000));
+        resendButton.disabled = resendSeconds > 0;
+        resendButton.textContent = resendSeconds > 0 ? `Resend OTP (${resendSeconds}s)` : 'Resend OTP';
+
+        if (remainingSeconds === 0 && resendSeconds === 0) {
+          clearInterval(otpTimerInterval);
+        }
       };
 
-      localStorage.setItem('planpocket_user', JSON.stringify(userData));
-
-      showMessage('signupMessage', 'Account created successfully! You can now login.', 'success');
-      
-      // Clear form
-      document.getElementById('signupUsername').value = '';
-      document.getElementById('signupMobile').value = '';
-      document.getElementById('signupPassword').value = '';
-      document.getElementById('confirmPassword').value = '';
-
-      setTimeout(() => {
-        showLogin();
-      }, 2000);
+      updateTimers();
+      otpTimerInterval = setInterval(updateTimers, 1000);
     }
 
-    // Send OTP
-    function sendOTP() {
-      const mobile = document.getElementById('forgotMobile').value.trim();
-
-      if (!mobile) {
-        showMessage('forgotMessage', 'Please enter your mobile number', 'error');
-        return;
+    function handleOTPInput(event, index) {
+      const input = event.target;
+      input.value = input.value.replace(/\D/g, '').slice(-1);
+      if (input.value && index < 5) {
+        document.getElementById(`otpDigit${index + 2}`).focus();
       }
+    }
 
-      if (mobile.length < 10) {
-        showMessage('forgotMessage', 'Please enter a valid mobile number', 'error');
-        return;
+    function handleOTPKeydown(event, index) {
+      if (event.key === 'Backspace' && !event.target.value && index > 0) {
+        document.getElementById(`otpDigit${index}`).focus();
       }
-
-      // Generate 6-digit OTP
-      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-      
-      // In a real app, send OTP via SMS service
-      console.log(`OTP for ${mobile}: ${generatedOTP}`);
-      
-      // Show OTP container
-      document.getElementById('otpContainer').style.display = 'block';
-      document.getElementById('resendBtn').style.display = 'none';
-      
-      // Start timer
-      startOTPTimer(30);
-      
-      showMessage('forgotMessage', `OTP sent to ${mobile}. Check your messages.`, 'success');
     }
 
-    // Start OTP timer
-    function startOTPTimer(seconds) {
-      otpExpiresAt = Date.now() + seconds * 1000;
-      const timerEl = document.getElementById('otpTimer');
-      
-      clearInterval(otpTimerInterval);
-      
-      otpTimerInterval = setInterval(() => {
-        const diff = Math.max(0, Math.floor((otpExpiresAt - Date.now()) / 1000));
-        
-        if (diff > 0) {
-          timerEl.textContent = `OTP valid for ${diff} seconds`;
-        } else {
-          timerEl.textContent = 'OTP expired';
-          clearInterval(otpTimerInterval);
-          document.getElementById('resendBtn').style.display = 'block';
-        }
-      }, 1000);
+    function handleOTPPaste(event) {
+      const pastedDigits = event.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+      if (!pastedDigits) return;
+
+      event.preventDefault();
+      pastedDigits.split('').forEach((digit, index) => {
+        document.getElementById(`otpDigit${index + 1}`).value = digit;
+      });
+      document.getElementById(`otpDigit${Math.min(pastedDigits.length, 6)}`).focus();
     }
 
-    // Resend OTP
     function resendOTP() {
-      sendOTP();
+      const isDemoSignupView = PLANPOCKET_DEMO_MODE &&
+        ['demo-personal-registration', 'demo-company-registration'].includes(history.state?.view);
+      if (isDemoSignupView) {
+        if (Date.now() < otpResendAvailableAt) {
+          showMessage('forgotMessage', 'Please wait for the resend cooldown to finish.', 'error');
+          return;
+        }
+        document.querySelectorAll('#otpContainer input').forEach(input => { input.value = ''; });
+        startOTPTimer();
+        showMessage('forgotMessage', 'Demo OTP timer restarted. No email was sent.', 'success');
+        document.getElementById('otpDigit1').focus();
+        return;
+      }
+      sendOTP(true);
     }
 
-    // Verify OTP
-    function verifyOTP() {
-      const otpInput = document.getElementById('otpInput').value.trim();
+    async function verifyOTP() {
+      const otp = Array.from({ length: 6 }, (_, index) =>
+        document.getElementById(`otpDigit${index + 1}`).value
+      ).join('');
 
-      if (!otpInput) {
-        showMessage('forgotMessage', 'Please enter the OTP', 'error');
+      if (!/^\d{6}$/.test(otp)) {
+        showMessage('forgotMessage', 'Please enter all six digits of the OTP.', 'error');
         return;
       }
 
-      if (Date.now() > otpExpiresAt) {
-        showMessage('forgotMessage', 'OTP has expired. Please request a new one.', 'error');
-        return;
-      }
+      const currentView = history.state?.view;
+      const isDemoSignupView = PLANPOCKET_DEMO_MODE &&
+        ['demo-personal-registration', 'demo-company-registration'].includes(currentView);
+      if (isDemoSignupView) {
+        if (!demoRegistrationType || currentView !== `demo-${demoRegistrationType}-registration`) {
+          showMessage('forgotMessage', 'This demo registration session is no longer active. Return to registration to restart.', 'error');
+          return;
+        }
 
-      if (otpInput === generatedOTP) {
-        showMessage('forgotMessage', 'OTP verified successfully! Redirecting to login...', 'success');
-        
-        // Clear OTP container
-        document.getElementById('otpContainer').style.display = 'none';
-        document.getElementById('otpInput').value = '';
+        if (Date.now() >= otpExpiresAt) {
+          showMessage('forgotMessage', 'Demo OTP expired. Use Resend OTP to restart the demo timer.', 'error');
+          return;
+        }
+
+        if (otp !== '123456') {
+          showMessage('forgotMessage', 'Invalid demo OTP. Please try again.', 'error');
+          return;
+        }
+
         clearInterval(otpTimerInterval);
-        
-        setTimeout(() => {
-          showLogin();
-        }, 2000);
-      } else {
-        showMessage('forgotMessage', 'Invalid OTP. Please try again.', 'error');
+        demoRegistrationType = '';
+        document.querySelectorAll('#otpContainer input').forEach(input => { input.value = ''; });
+        clearRegistrationPasswords();
+        showPage('loginPage', { historyMode: 'replace' });
+        clearMessages();
+        renderDemoAccountPreview();
+        showMessage('loginMessage', 'Demo flow completed. No real account was created; backend integration is required for account creation.', 'success');
+        return;
+      }
+
+      if (Date.now() >= otpExpiresAt) {
+        showMessage('forgotMessage', 'OTP expired. Request a new one.', 'error');
+        return;
+      }
+
+      const emailOtpEndpoint = getConfiguredEmailOtpEndpoint();
+      if (!emailOtpEndpoint) {
+        showMessage(
+          'forgotMessage',
+          'Email OTP verification is not configured. Missing backend configuration: a same-origin verification endpoint and server-side email-provider credentials.',
+          'error',
+        );
+        return;
+      }
+
+      try {
+        const response = await fetch(emailOtpEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'verify',
+            email: resetPasswordEmail,
+            otp,
+            purpose: 'password-reset'
+          })
+        });
+        let result = {};
+        try {
+          result = await response.json();
+        } catch (error) {
+          if (response.ok) throw new Error('Verification endpoint returned an invalid response.');
+        }
+
+        const errorCode = String(result.code || result.error || '').toLowerCase();
+          if (!response.ok || result.verified !== true || typeof result.resetToken !== 'string' || !result.resetToken) {
+          if (['expired', 'expired_otp', 'otp_expired'].includes(errorCode)) {
+            showMessage('forgotMessage', 'This OTP has expired. Request a new one.', 'error');
+          } else if (['already_used', 'otp_already_used', 'otp_used'].includes(errorCode)) {
+            showMessage('forgotMessage', 'This OTP has already been used. Request a new one.', 'error');
+          } else if (['invalid', 'invalid_otp', 'incorrect_otp'].includes(errorCode)) {
+            showMessage('forgotMessage', 'The OTP is incorrect. Please try again.', 'error');
+            } else if (response.ok && result.verified === true) {
+              showMessage('forgotMessage', 'The verification service did not provide a reset token. Password reset cannot continue.', 'error');
+            } else {
+              showMessage('forgotMessage', 'The server did not verify this OTP. It may be incorrect, expired, or already used.', 'error');
+            }
+          return;
+        }
+
+        resetPasswordVerificationToken = result.resetToken || '';
+        clearInterval(otpTimerInterval);
+        showPage('forgotPasswordPage', { view: 'create-password' });
+        showMessage('forgotMessage', 'Email verified successfully.', 'success');
+      } catch (error) {
+        showMessage(
+          'forgotMessage',
+          'Unable to verify the OTP. Please check the verification endpoint and try again.',
+          'error',
+        );
+      }
+    }
+
+    function togglePasswordVisibility(inputId, button) {
+      const input = document.getElementById(inputId);
+      const isVisible = input.type === 'text';
+      input.type = isVisible ? 'password' : 'text';
+      button.setAttribute('aria-pressed', String(!isVisible));
+      const labels = {
+        loginPassword: 'password',
+        signupPassword: 'password',
+        confirmPassword: 'confirm password',
+        companyPassword: 'password',
+        companyConfirmPassword: 'confirm password',
+        resetNewPassword: 'new password',
+        resetConfirmPassword: 'confirm password'
+      };
+      button.setAttribute('aria-label', `${isVisible ? 'Show' : 'Hide'} ${labels[inputId] || 'password'}`);
+    }
+
+    function clearResetPasswordFields() {
+      document.getElementById('resetNewPassword').value = '';
+      document.getElementById('resetConfirmPassword').value = '';
+      document.getElementById('resetNewPassword').type = 'password';
+      document.getElementById('resetConfirmPassword').type = 'password';
+      document.querySelectorAll('#resetPasswordReadyStep .password-visibility-toggle').forEach((button, index) => {
+        button.setAttribute('aria-pressed', 'false');
+        button.setAttribute('aria-label', `Show ${index === 0 ? 'new' : 'confirm'} password`);
+      });
+      updateResetPasswordRequirements();
+    }
+
+    function getResetPasswordRequirements(password) {
+      return {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9\s]/.test(password)
+      };
+    }
+
+    function updateResetPasswordRequirements() {
+      const password = document.getElementById('resetNewPassword').value;
+      const confirmPassword = document.getElementById('resetConfirmPassword').value;
+      const requirements = getResetPasswordRequirements(password);
+      const requirementElements = {
+        length: 'resetReqLength',
+        uppercase: 'resetReqUppercase',
+        lowercase: 'resetReqLowercase',
+        number: 'resetReqNumber',
+        special: 'resetReqSpecial'
+      };
+      const satisfiedCount = Object.entries(requirements).reduce((count, [name, isSatisfied]) => {
+        document.getElementById(requirementElements[name]).classList.toggle('requirement-met', isSatisfied);
+        return count + Number(isSatisfied);
+      }, 0);
+      const strengthFill = document.getElementById('resetPasswordStrengthFill');
+      const strengthLabel = document.getElementById('resetPasswordStrengthLabel');
+      const strength = ['', 'Very weak', 'Weak', 'Fair', 'Good', 'Strong'][satisfiedCount];
+
+      strengthFill.style.width = `${satisfiedCount * 20}%`;
+      strengthFill.style.backgroundColor = satisfiedCount <= 2 ? 'var(--danger)' : satisfiedCount <= 4 ? 'var(--warning)' : 'var(--success)';
+      strengthLabel.textContent = password ? `Password strength: ${strength}` : 'Password strength: not entered';
+      document.getElementById('resetPasswordMatchMessage').textContent =
+        confirmPassword && password !== confirmPassword ? 'Passwords do not match.' : '';
+
+      return requirements;
+    }
+
+    async function submitNewPassword() {
+      const password = document.getElementById('resetNewPassword').value;
+      const confirmPassword = document.getElementById('resetConfirmPassword').value;
+      const requirements = updateResetPasswordRequirements();
+      const allRequirementsMet = Object.values(requirements).every(Boolean);
+
+      if (!resetPasswordVerificationToken) {
+        showMessage('forgotMessage', 'A valid server-issued reset token is required. Verify your email OTP again.', 'error');
+        return;
+      }
+
+      if (!allRequirementsMet) {
+        showMessage('forgotMessage', 'Please meet all listed password requirements before continuing.', 'error');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage('forgotMessage', 'New Password and Confirm Password must match.', 'error');
+        return;
+      }
+
+      const emailOtpEndpoint = getConfiguredEmailOtpEndpoint();
+      if (!emailOtpEndpoint) {
+        showMessage(
+          'forgotMessage',
+          'Password reset is not configured. Missing backend configuration: a password-reset endpoint that validates the one-time reset token, revalidates password requirements, securely hashes the password, invalidates the token, and returns success only after persistence.',
+          'error',
+        );
+        return;
+      }
+
+      const submitButton = document.getElementById('resetPasswordSubmitBtn');
+      submitButton.disabled = true;
+      try {
+        const response = await fetch(emailOtpEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'reset-password',
+            email: resetPasswordEmail,
+            resetToken: resetPasswordVerificationToken,
+            newPassword: password,
+            purpose: 'password-reset'
+          })
+        });
+        let result = {};
+        try {
+          result = await response.json();
+        } catch (error) {
+          if (response.ok) throw new Error('Password reset endpoint returned an invalid response.');
+        }
+
+        const errorCode = String(result.code || result.error || '').toLowerCase();
+        if (!response.ok || result.reset !== true) {
+          if (['invalid_token', 'invalid_reset_token', 'invalid'].includes(errorCode)) {
+            showMessage('forgotMessage', 'The reset token is invalid. Verify your email again to request a new token.', 'error');
+          } else if (['expired', 'expired_token', 'reset_token_expired'].includes(errorCode)) {
+            showMessage('forgotMessage', 'The reset token has expired. Verify your email again to request a new token.', 'error');
+          } else if (['already_used', 'token_used', 'reset_token_used'].includes(errorCode)) {
+            showMessage('forgotMessage', 'The reset token has already been used. Verify your email again to request a new token.', 'error');
+          } else if (['weak_password', 'invalid_password', 'password_policy'].includes(errorCode)) {
+            showMessage('forgotMessage', 'The server rejected the password because it does not meet the password policy.', 'error');
+          } else {
+            showMessage('forgotMessage', 'The server did not confirm the password reset. Your password was not reported as changed.', 'error');
+          }
+          return;
+        }
+
+        resetPasswordVerificationToken = '';
+        clearResetPasswordFields();
+        resetPasswordEmail = '';
+        document.querySelectorAll('[id^="otpDigit"]').forEach(input => { input.value = ''; });
+        showLogin('Password reset successfully. Please log in with your new password.');
+      } catch (error) {
+        showMessage(
+          'forgotMessage',
+          'Unable to reset the password. Please verify the password-reset endpoint and try again.',
+          'error',
+        );
+      } finally {
+        submitButton.disabled = false;
       }
     }
 
@@ -1870,20 +3500,27 @@
     }
 
     function getTrackerItems(storageKey) {
-      const stored = localStorage.getItem(storageKey);
+      const stored = localStorage.getItem(getPlanPocketStorageKey(storageKey));
       if (!stored) return [];
       const items = JSON.parse(stored);
       return Array.isArray(items) ? items : [];
     }
 
     function saveTrackerItems(storageKey, items) {
-      localStorage.setItem(storageKey, JSON.stringify(items));
+      localStorage.setItem(getPlanPocketStorageKey(storageKey), JSON.stringify(items));
     }
 
     function showDashboard() {
-      const savedUser = localStorage.getItem('planpocket_user');
-      const user = savedUser ? JSON.parse(savedUser) : null;
-      document.getElementById('dashboardUsername').textContent = user && user.username ? user.username : 'there';
+      const profile = getDemoProfile();
+      if (!profile) {
+        showLogin('Please log in to access your dashboard.');
+        return;
+      }
+      const accountLabel = profile.accountType === 'company' ? 'Company Account' : 'Personal Account';
+      document.getElementById('dashboardUsername').textContent = profile.displayName;
+      document.getElementById('demoDashboardBadge').textContent = accountLabel;
+      document.getElementById('demoDashboardName').textContent = profile.displayName;
+      document.getElementById('demoDashboardIdentity').classList.remove('hidden');
       showPage('dashboardPage');
       updateDashboardSummary();
     }
@@ -1913,7 +3550,7 @@
         .filter(expense => typeof expense.date === 'string' && expense.date.startsWith(monthPrefix))
         .reduce((total, expense) => total + Number(expense.amount || 0), 0);
       const savedTotal = goals.reduce((total, goal) => total + Number(goal.saved || 0), 0);
-      const investmentEstimate = Number(localStorage.getItem('planpocket_lastInvestment') || 0);
+      const investmentEstimate = Number(localStorage.getItem(getPlanPocketStorageKey('planpocket_lastInvestment')) || 0);
       document.getElementById('summaryGoalCount').textContent = goals.filter(goal => Number(goal.saved) < Number(goal.target)).length;
       document.getElementById('summaryMonthlyExpenses').textContent = formatCurrency(monthlyExpenses);
       document.getElementById('summarySavedTotal').textContent = formatCurrency(savedTotal);
@@ -3034,7 +4671,7 @@
       document.getElementById('investmentBreakdown').textContent = `${formatCurrency(contributed)} contributed · ${formatCurrency(futureValue - contributed)} estimated growth over ${years} years.`;
       document.getElementById('investmentResult').classList.remove('hidden');
       document.getElementById('investmentMessage').classList.add('hidden');
-      localStorage.setItem('planpocket_lastInvestment', String(futureValue));
+      localStorage.setItem(getPlanPocketStorageKey('planpocket_lastInvestment'), String(futureValue));
       updateDashboardSummary();
     }
 
@@ -3045,7 +4682,7 @@
     }
 
     function getBudgetPlans() {
-      const stored = localStorage.getItem('planpocket_budgets');
+      const stored = localStorage.getItem(getPlanPocketStorageKey('planpocket_budgets'));
       return stored ? JSON.parse(stored) : {};
     }
 
@@ -3095,7 +4732,7 @@
       current.income = income === null ? current.income : income;
       current.limits[category] = limit;
       plans[month] = current;
-      localStorage.setItem('planpocket_budgets', JSON.stringify(plans));
+      localStorage.setItem(getPlanPocketStorageKey('planpocket_budgets'), JSON.stringify(plans));
       document.getElementById('budgetLimit').value = '';
       showTrackerMessage('budgetMessage', `${category} budget saved for ${month}. You can update it any time.`, 'success');
       renderBudgetOverview();
@@ -3336,7 +4973,10 @@
     }
 
     function logout() {
-      localStorage.removeItem('planpocket_user');
+      sessionStorage.removeItem('planpocket_demo_profile');
+      sessionStorage.removeItem('planpocket_authenticated');
+      demoRegistrationIdentity = null;
+      document.getElementById('demoDashboardIdentity').classList.add('hidden');
       showWelcome();
     }
 
@@ -3784,13 +5424,13 @@ Billing: ₹10 per report generation.
       if (billingEl) billingEl.textContent = `₹${totalBilling.toLocaleString()}`;
       
       // Save to localStorage
-      localStorage.setItem('planpocketCFOStats', JSON.stringify({
+      localStorage.setItem(getPlanPocketStorageKey('planpocketCFOStats'), JSON.stringify({
         scenarioCount, reportCount, totalBilling
       }));
     }
 
     function loadCFOUsageStats() {
-      const saved = localStorage.getItem('planpocketCFOStats');
+      const saved = localStorage.getItem(getPlanPocketStorageKey('planpocketCFOStats'));
       if (saved) {
         const stats = JSON.parse(saved);
         scenarioCount = stats.scenarioCount || 0;
@@ -3888,6 +5528,10 @@ Billing: ₹10 per report generation.
 
     // Initialize app
     document.addEventListener('DOMContentLoaded', function() {
+      removeLegacyClientPassword();
+      sessionStorage.removeItem('planpocket_authenticated');
+      sessionStorage.removeItem('planpocket_demo_profile');
+      initializeInAppNavigation();
       showWelcome();
       checkInstallStatus();
       addTouchSupport();
@@ -3909,7 +5553,7 @@ Billing: ₹10 per report generation.
     });
   </script>
 <script>
-  (function(){var auth=['welcomePage','loginPage','signupPage','forgotPasswordPage'];
+  (function(){var auth=['welcomePage','loginPage','signupPage','companyOwnerPage','forgotPasswordPage'];
   function sync(){var p=document.querySelector('.page:not(.hidden)');if(!p)return;var app=auth.indexOf(p.id)<0;
   document.body.classList.toggle('pp-app',app);document.querySelectorAll('#ppNav [data-page]').forEach(function(b){
   if(b.dataset.page===p.id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});}

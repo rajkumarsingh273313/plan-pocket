@@ -4,7 +4,7 @@
 
 PLANPOCKET is a client-side financial planning prototype that brings everyday personal finance tools and small-business scenario planning together in one web application. It is designed to help users organize spending, create budgets, track savings goals, estimate investment growth, review financial summaries, and explore hypothetical business scenarios.
 
-> **Project status:** This is a prototype. Finance data is stored in the browser with `localStorage`. The current repository does not confirm a connected MongoDB or SQL database, production-grade authentication, real SMS OTP delivery, or an AI model powering the CFO Helper. Treat calculations and scenario outputs as estimates, not financial advice.
+> **Project status:** This is a prototype. Finance data is stored in the browser with `localStorage`. The current repository does not include a connected MongoDB or SQL database, production authentication, or a real email OTP service. Signup OTP is a clearly labelled frontend demo only. Treat calculations and scenario outputs as estimates, not financial advice.
 
 ## Problem
 
@@ -34,7 +34,7 @@ Personal and small-business financial information is often managed across separa
 
 - **CFO Helper:** Adjust hypothetical business scenario inputs—such as hiring, marketing, pricing, revenue growth, and operating expenses—and review estimated results and charts.
 
-- **Account screens:** Prototype sign-up, login, and password-reset/OTP flows.
+- **Account screens:** Personal and company registration forms, frontend-only demo OTP and demo dashboard previews, login navigation, and a backend-dependent password-reset flow.
 
 ## Technology stack
 
@@ -57,6 +57,8 @@ Personal and small-business financial information is often managed across separa
 - **Development assistance:** Lovable was used to assist with project development
 
 ## Project structure
+
+
 
 ```
 public/
@@ -116,9 +118,9 @@ If using Bun, prefix those commands with `bun run` (for example, `bun run build`
 
 - The finance interface stores application data in the browser using `localStorage`; records are not confirmed to sync between devices or users.
 
-- The prototype login stores account information in browser storage. This is not suitable for real accounts or sensitive financial information.
+- Login does not authenticate users because no server-managed login/session API is present. The optional frontend demo session uses temporary fictional profile data only; demo registration does not create an account or persist credentials. Demo finance data is namespaced separately from existing browser finance data.
 
-- The password reset/OTP flow is a demonstration. The source indicates that an OTP is generated locally and logged for testing rather than delivered through a verified SMS provider.
+- Signup's fixed demo OTP is only for frontend navigation tests; no email is sent or verified. The `PLANPOCKET_DEMO_MODE` setting in `public/planpocket.html` controls demo registration and dashboard previews. Password-reset OTP requires a same-origin server endpoint and server-side email-provider configuration, which are not included here.
 
 - No connected MongoDB or SQL database is confirmed in the current repository.
 
