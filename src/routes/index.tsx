@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback, type ReactNode, type KeyboardEvent } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -254,6 +254,243 @@ const audiences = [
   },
 ];
 
+
+/* ─────────────────────────────────────────────
+   Motion helpers (presentation only)
+───────────────────────────────────────────── */
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            setVisible(true);
+            io.disconnect();
+          }
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div
+      ref={ref}
+      className={`pp-reveal ${visible ? "is-visible" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* Small illustrative previews per feature — decorative, non-interactive */
+function Bar({ w, tone = "primary" }: { w: number; tone?: "primary" | "warn" }) {
+  return (
+    <div className="h-2 w-full rounded-full bg-muted">
+      <div
+        className={`pp-grow h-2 rounded-full ${tone === "warn" ? "bg-[var(--pp-warn)]" : "bg-primary"}`}
+        style={{ width: `${w}%` }}
+      />
+    </div>
+  );
+}
+
+function FeaturePreview({ id }: { id: string }) {
+  const card = "rounded-lg border border-border bg-card p-3";
+  const label = "text-[11px] font-semibold uppercase tracking-wide text-muted-foreground";
+  switch (id) {
+    case "dashboard":
+      return (
+        <div className="grid grid-cols-2 gap-3">
+          {[["Active Goals", "3"], ["This Month", "₹18,450"], ["Saved", "₹42,000"], ["Investment", "₹3,12,500"]].map(([l, v]) => (
+            <div key={l} className={card}>
+              <div className={label}>{l}</div>
+              <div className="mt-1 text-lg font-bold text-foreground">{v}</div>
+            </div>
+          ))}
+        </div>
+      );
+    case "expense-tracker":
+      return (
+        <div className="space-y-2">
+          {[["Groceries", "Food", "₹1,240"], ["Metro card", "Transport", "₹500"], ["Electricity", "Utilities", "₹2,100"], ["Movie night", "Entertainment", "₹650"]].map(([d, c, a], i) => (
+            <div key={d} className={`${card} pp-slide flex items-center justify-between`} style={{ animationDelay: `${i * 70}ms` }}>
+              <div>
+                <div className="text-sm font-semibold text-foreground">{d}</div>
+                <div className="text-xs text-muted-foreground">{c}</div>
+              </div>
+              <div className="text-sm font-bold text-foreground">{a}</div>
+            </div>
+          ))}
+        </div>
+      );
+    case "budget-planner":
+      return (
+        <div className={`${card} space-y-4`}>
+          {[["Food", "₹6,200 / ₹8,000", 78, "primary"], ["Transport", "₹1,900 / ₹2,500", 76, "primary"], ["Shopping", "₹4,800 / ₹4,000", 100, "warn"]].map(([c, t, w, tone]) => (
+            <div key={c as string}>
+              <div className="mb-1.5 flex justify-between text-xs">
+                <span className="font-semibold text-foreground">{c}</span>
+                <span className="text-muted-foreground">{t}</span>
+              </div>
+              <Bar w={w as number} tone={tone as "primary" | "warn"} />
+            </div>
+          ))}
+        </div>
+      );
+    case "goal-planner":
+      return (
+        <div className={`${card} flex items-center gap-5`}>
+          <svg viewBox="0 0 42 42" className="h-24 w-24 flex-shrink-0 -rotate-90">
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--muted)" strokeWidth="5" />
+            <circle className="pp-ring" cx="21" cy="21" r="15.9" fill="none" stroke="var(--primary)" strokeWidth="5" strokeDasharray="68 32" strokeLinecap="round" />
+          </svg>
+          <div>
+            <div className="font-bold text-foreground">Emergency Fund</div>
+            <div className="text-xs text-muted-foreground">₹68,000 of ₹1,00,000</div>
+            <div className="badge-accent-soft mt-2 inline-block rounded-full px-2 py-0.5 text-xs font-bold">68%</div>
+          </div>
+        </div>
+      );
+    case "investment-calculator":
+      return (
+        <div className={card}>
+          <div className={label}>Estimated value over 10 years</div>
+          <svg viewBox="0 0 200 80" className="mt-2 h-28 w-full" preserveAspectRatio="none">
+            <path d="M0 75 C 50 70, 90 58, 130 40 S 185 8, 200 4 L200 80 L0 80 Z" fill="var(--accent)" />
+            <path className="pp-draw" d="M0 75 C 50 70, 90 58, 130 40 S 185 8, 200 4" fill="none" stroke="var(--primary)" strokeWidth="2.5" />
+          </svg>
+          <div className="mt-1 text-lg font-bold text-foreground">₹3,12,500 <span className="text-xs font-medium text-muted-foreground">illustrative</span></div>
+        </div>
+      );
+    case "financial-reports":
+      return (
+        <div className={card}>
+          <div className={label}>October summary</div>
+          <div className="mt-3 flex h-28 items-end gap-2">
+            {[55, 80, 35, 62, 45, 28, 40].map((h, i) => (
+              <div key={i} className="pp-rise flex-1 rounded-t-md bg-primary/80" style={{ height: `${h}%`, animationDelay: `${i * 60}ms` }} />
+            ))}
+          </div>
+          <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>By category</span><span className="font-semibold text-foreground">CSV ready</span></div>
+        </div>
+      );
+    default:
+      return (
+        <div className={`${card} space-y-3`}>
+          {[["Engineers", 60], ["Marketing spend", 40], ["Price change", 70]].map(([l, w]) => (
+            <div key={l as string}>
+              <div className="mb-1 text-xs font-semibold text-foreground">{l}</div>
+              <Bar w={w as number} />
+            </div>
+          ))}
+          <div className="grid grid-cols-2 gap-2 pt-1 text-center">
+            <div className="rounded-md bg-muted px-2 py-2"><div className="text-sm font-bold text-foreground">14 mo</div><div className="text-[11px] text-muted-foreground">Runway</div></div>
+            <div className="rounded-md bg-muted px-2 py-2"><div className="text-sm font-bold text-foreground">₹4.8L</div><div className="text-[11px] text-muted-foreground">Monthly burn</div></div>
+          </div>
+        </div>
+      );
+  }
+}
+
+function FeatureShowcase() {
+  const [active, setActive] = useState(0);
+  const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const go = useCallback((i: number, focus = false) => {
+    const n = (i + features.length) % features.length;
+    setActive(n);
+    if (focus) tabsRef.current[n]?.focus();
+  }, []);
+  const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); go(active + 1, true); }
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); go(active - 1, true); }
+    else if (e.key === "Home") { e.preventDefault(); go(0, true); }
+    else if (e.key === "End") { e.preventDefault(); go(features.length - 1, true); }
+  };
+  const f = features[active];
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:gap-10">
+      <div
+        role="tablist"
+        aria-label="PLANPOCKET features"
+        aria-orientation="vertical"
+        className="pp-tabs -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 lg:pb-0"
+      >
+        {features.map((t, i) => (
+          <button
+            key={t.id}
+            ref={(el) => { tabsRef.current[i] = el; }}
+            role="tab"
+            id={`tab-${t.id}`}
+            aria-selected={i === active}
+            aria-controls="feature-panel"
+            tabIndex={i === active ? 0 : -1}
+            onClick={() => go(i)}
+            onKeyDown={onKey}
+            className={`pp-tab flex flex-shrink-0 items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm font-semibold ${
+              i === active ? "is-active" : ""
+            }`}
+          >
+            <span className="pp-tab-icon flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg">{t.icon}</span>
+            <span className="whitespace-nowrap lg:whitespace-normal">{t.title}</span>
+          </button>
+        ))}
+      </div>
+
+      <div
+        id="feature-panel"
+        role="tabpanel"
+        aria-labelledby={`tab-${f.id}`}
+        tabIndex={0}
+        className="pp-panel rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8"
+      >
+        <div key={f.id} className="pp-swap grid gap-8 md:grid-cols-2 md:items-center">
+          <div>
+            <div className="mb-3 flex items-center gap-3">
+              <span className="badge-accent-soft flex h-11 w-11 items-center justify-center rounded-lg">{f.icon}</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--pp-success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--pp-success)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--pp-success)]" aria-hidden="true" />
+                Available
+              </span>
+            </div>
+            <h3 id={`feature-${f.id}`} className="text-2xl font-bold tracking-tight text-foreground">{f.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{f.summary}</p>
+            <div className="mt-6 flex items-center gap-3">
+              <button type="button" onClick={() => go(active - 1)} aria-label="Previous feature" className="pp-arrow">
+                <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+              </button>
+              <button type="button" onClick={() => go(active + 1)} aria-label="Next feature" className="pp-arrow">
+                <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+              </button>
+              <span className="text-xs font-medium text-muted-foreground" aria-live="polite">
+                {active + 1} / {features.length}
+              </span>
+            </div>
+          </div>
+          <div className="pp-preview-wrap rounded-xl bg-muted/70 p-4 sm:p-5" aria-hidden="true">
+            <FeaturePreview id={f.id} />
+            <p className="mt-3 text-center text-[11px] text-muted-foreground">Illustrative example data</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─────────────────────────────────────────────
    Main landing page component
 ───────────────────────────────────────────── */
@@ -373,6 +610,54 @@ function LandingPage() {
           border-color: #D0D5DD !important;
         }
 
+
+        .planpocket-landing { --pp-success:#067647; --pp-success-soft:#DCFAE6; --pp-warn:#DC6803; overflow-x:clip; }
+        .planpocket-landing :focus-visible { outline:2px solid #0F766E; outline-offset:2px; border-radius:8px; }
+        .planpocket-landing .pp-hero-bg { background:
+            radial-gradient(60% 50% at 15% 0%, rgba(15,118,110,.10), transparent 70%),
+            radial-gradient(50% 45% at 90% 10%, rgba(221,243,236,.9), transparent 70%); }
+        .planpocket-landing .pp-eyebrow { font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#0F766E; }
+        .planpocket-landing .pp-reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+        .planpocket-landing .pp-reveal.is-visible { opacity:1; transform:none; }
+        .planpocket-landing .pp-float { animation:pp-float 7s ease-in-out infinite; }
+        @keyframes pp-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+        .planpocket-landing .pp-tab { background:#fff; border-color:#E4E7EC; color:#344054; transition:background-color .2s, border-color .2s, color .2s, box-shadow .2s; }
+        .planpocket-landing .pp-tab:hover { border-color:#B7DED4; background:#FAFDFC; }
+        .planpocket-landing .pp-tab .pp-tab-icon { background:#EEF2F6; color:#667085; transition:inherit; }
+        .planpocket-landing .pp-tab .pp-tab-icon svg { width:18px; height:18px; }
+        .planpocket-landing .pp-tab.is-active { border-color:#0F766E; color:#172B4D; box-shadow:0 6px 18px -10px rgba(15,118,110,.45); }
+        .planpocket-landing .pp-tab.is-active .pp-tab-icon { background:#0F766E; color:#fff; }
+        .planpocket-landing .pp-tabs { scrollbar-width:none; }
+        .planpocket-landing .pp-tabs::-webkit-scrollbar { display:none; }
+        .planpocket-landing .pp-arrow { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:999px; border:1px solid #E4E7EC; background:#fff; color:#172B4D; transition:background-color .15s, border-color .15s; }
+        .planpocket-landing .pp-arrow:hover { background:#DDF3EC; border-color:#B7DED4; }
+        .planpocket-landing .pp-swap { animation:pp-swap .45s cubic-bezier(.2,.7,.2,1); }
+        @keyframes pp-swap { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
+        .planpocket-landing .pp-grow { animation:pp-grow .9s cubic-bezier(.2,.7,.2,1) both; transform-origin:left; }
+        @keyframes pp-grow { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+        .planpocket-landing .pp-rise { animation:pp-rise .7s cubic-bezier(.2,.7,.2,1) both; transform-origin:bottom; }
+        @keyframes pp-rise { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+        .planpocket-landing .pp-slide { animation:pp-slide .5s ease both; }
+        @keyframes pp-slide { from{opacity:0; transform:translateX(-10px)} to{opacity:1; transform:none} }
+        .planpocket-landing .pp-draw { stroke-dasharray:260; animation:pp-draw 1.2s ease both; }
+        @keyframes pp-draw { from{stroke-dashoffset:260} to{stroke-dashoffset:0} }
+        .planpocket-landing .pp-ring { animation:pp-ring 1s ease both; }
+        @keyframes pp-ring { from{stroke-dasharray:0 100} }
+        .planpocket-landing .pp-card { transition:transform .2s ease, box-shadow .2s ease, border-color .2s; }
+        .planpocket-landing .pp-card:hover { transform:translateY(-3px); box-shadow:0 14px 30px -18px rgba(23,43,77,.35); border-color:#CFE7E0; }
+        .planpocket-landing .pp-step-num { background:#0F766E; color:#fff; }
+        .planpocket-landing .pp-cta { background:linear-gradient(135deg,#0F766E 0%,#0B5F58 100%); color:#fff; }
+        .planpocket-landing .pp-cta .btn-planpocket-primary { background:#fff !important; color:#0F766E !important; border-color:#fff !important; }
+        .planpocket-landing .pp-cta .btn-planpocket-primary:hover { background:#DDF3EC !important; }
+        .planpocket-landing .pp-cta .btn-planpocket-secondary { background:transparent !important; color:#fff !important; border-color:rgba(255,255,255,.5) !important; }
+        .planpocket-landing .pp-cta .btn-planpocket-secondary:hover { background:rgba(255,255,255,.1) !important; }
+        .planpocket-landing .btn-planpocket-primary:hover { transform:translateY(-1px); box-shadow:0 8px 18px -10px rgba(15,118,110,.7); }
+        @media (prefers-reduced-motion: reduce) {
+          .planpocket-landing *, .planpocket-landing *::before, .planpocket-landing *::after { animation:none !important; transition:none !important; }
+          .planpocket-landing .pp-reveal { opacity:1; transform:none; }
+          html:has(.planpocket-landing) { scroll-behavior:auto; }
+        }
+        html:has(.planpocket-landing) { scroll-behavior:smooth; scroll-padding-top:80px; }
         .planpocket-landing .badge-accent-soft {
           background-color: #DDF3EC !important;
           color: #0F766E !important;
@@ -536,10 +821,10 @@ function LandingPage() {
         ══════════════════════════════════════ */}
         <section
           aria-labelledby="hero-heading"
-          className="border-b border-border py-20 sm:py-28"
+          className="pp-hero-bg border-b border-border py-16 sm:py-24"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto max-w-3xl text-center">
+            <Reveal className="mx-auto max-w-3xl text-center">
               <span className="badge-accent-soft mb-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider">
                 Personal Finance &amp; Business Planning
               </span>
@@ -574,19 +859,20 @@ function LandingPage() {
                 Prototype — data is stored in your browser. No account
                 information leaves your device in this version.
               </p>
-            </div>
+            </Reveal>
 
             {/* Product preview */}
+            <Reveal delay={150} className="mt-14">
             <div
-              className="mt-16 overflow-hidden rounded-xl border border-border bg-card shadow-lg"
+              className="pp-float overflow-hidden rounded-2xl border border-border bg-card shadow-[0_30px_60px_-30px_rgba(23,43,77,0.35)]"
               role="img"
               aria-label="Illustrative preview of the PLANPOCKET dashboard showing example financial data"
             >
               <div className="border-b border-border bg-muted/40 px-4 py-3">
                 <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 rounded-full bg-destructive/60" />
-                  <span className="h-3 w-3 rounded-full bg-amber-400" />
-                  <span className="h-3 w-3 rounded-full bg-emerald-500" />
+                  <span className="h-3 w-3 rounded-full bg-border" />
+                  <span className="h-3 w-3 rounded-full bg-border" />
+                  <span className="h-3 w-3 rounded-full bg-border" />
                   <span className="ml-4 text-xs font-medium text-muted-foreground">
                     PLANPOCKET Dashboard — illustrative example data
                   </span>
@@ -640,7 +926,7 @@ function LandingPage() {
                     {item.bar !== null && (
                       <div className="mt-3 h-2 w-full rounded-full bg-muted">
                         <div
-                          className="h-2 rounded-full bg-primary"
+                          className="pp-grow h-2 rounded-full bg-primary"
                           style={{ width: `${item.bar}%` }}
                           role="presentation"
                         />
@@ -654,66 +940,7 @@ function LandingPage() {
                 actual data will appear when you use the app.
               </p>
             </div>
-          </div>
-        </section>
-
-        {/* ══════════════════════════════════════
-            ABOUT / PURPOSE
-        ══════════════════════════════════════ */}
-        <section
-          id="about"
-          aria-labelledby="about-heading"
-          className="border-b border-border py-20"
-        >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto max-w-3xl text-center">
-              <h2
-                id="about-heading"
-                className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
-              >
-                What is PLANPOCKET?
-              </h2>
-              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-                PLANPOCKET is a client-side finance-planning prototype that
-                helps you organise spending, make budgets, set savings goals,
-                estimate investment growth, review monthly summaries, and
-                explore hypothetical business scenarios — all in a single web
-                application.
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                It is designed to be approachable for individuals managing
-                household finances and for freelancers or small-business owners
-                who want a lightweight tool to think through financial decisions.
-              </p>
-              <div className="mt-6 rounded-lg border border-border bg-card px-5 py-4 text-left text-sm text-muted-foreground shadow-sm">
-                <strong className="text-foreground font-semibold">
-                  Prototype notice:
-                </strong>{" "}
-                Financial data is stored in your browser using localStorage.
-                Records are not confirmed to sync between devices. The prototype
-                login stores credentials in browser storage — do not use real
-                passwords or sensitive financial data. Investment and scenario
-                outputs are estimates, not financial advice.
-              </div>
-            </div>
-
-            {/* Audience grid */}
-            <div
-              id="audiences"
-              className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-            >
-              {audiences.map((a) => (
-                <div
-                  key={a.title}
-                  className="rounded-lg border border-border bg-card p-5 shadow-sm"
-                >
-                  <h3 className="font-semibold text-foreground">{a.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {a.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -726,7 +953,8 @@ function LandingPage() {
           className="border-b border-border py-20"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto mb-12 max-w-2xl text-center">
+            <Reveal className="mx-auto mb-12 max-w-2xl text-center">
+              <p className="pp-eyebrow mb-3">Features</p>
               <h2
                 id="features-heading"
                 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
@@ -737,46 +965,14 @@ function LandingPage() {
                 All features below are implemented and available in the current
                 app. Status is noted where relevant.
               </p>
-            </div>
+            </Reveal>
 
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((f) => (
-                <article
-                  key={f.id}
-                  className="flex flex-col rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
-                  aria-labelledby={`feature-${f.id}`}
-                >
-                  <div className="mb-4 flex items-center gap-3">
-                    <span className="badge-accent-soft flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg text-primary">
-                      {f.icon}
-                    </span>
-                    <div>
-                      <h3
-                        id={`feature-${f.id}`}
-                        className="font-semibold text-foreground"
-                      >
-                        {f.title}
-                      </h3>
-                      {f.status === "live" && (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">
-                          <span
-                            className="h-1.5 w-1.5 rounded-full bg-emerald-600"
-                            aria-hidden="true"
-                          />
-                          Available
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {f.summary}
-                  </p>
-                </article>
-              ))}
-            </div>
+            <Reveal>
+              <FeatureShowcase />
+            </Reveal>
 
             {/* Roadmap notice */}
-            <div className="mt-12 rounded-lg border border-border bg-card p-6 shadow-sm">
+            <div className="mt-12 rounded-xl border border-dashed border-border bg-card/60 p-6">
               <h3 className="font-semibold text-foreground">
                 In the current roadmap
               </h3>
@@ -812,11 +1008,11 @@ function LandingPage() {
         <section
           id="goal-planner"
           aria-labelledby="goal-planner-heading"
-          className="border-b border-border py-20"
+          className="border-b border-border bg-card py-20"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-              <div>
+              <Reveal>
                 <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-primary">
                   Savings Goal Planner
                 </p>
@@ -867,11 +1063,12 @@ function LandingPage() {
                   Contributions are personal savings records you log yourself.
                   There is no payment processing or bank connection.
                 </p>
-              </div>
+              </Reveal>
 
               {/* Goal card illustration */}
+              <Reveal delay={120}>
               <div
-                className="rounded-xl border border-border bg-card p-6 shadow-md"
+                className="pp-float rounded-2xl border border-border bg-card p-6 shadow-[0_24px_50px_-28px_rgba(23,43,77,0.35)]"
                 role="img"
                 aria-label="Illustrative example of a goal card for an Emergency Fund goal"
               >
@@ -893,7 +1090,7 @@ function LandingPage() {
                 </div>
                 <div className="mb-1 h-2.5 w-full rounded-full bg-muted">
                   <div
-                    className="h-2.5 rounded-full bg-primary"
+                    className="pp-grow h-2.5 rounded-full bg-primary"
                     style={{ width: "68%" }}
                     role="presentation"
                   />
@@ -904,7 +1101,7 @@ function LandingPage() {
                     <div className="text-muted-foreground">Target</div>
                   </div>
                   <div className="rounded-lg bg-muted/60 px-2 py-3">
-                    <div className="font-bold text-emerald-700">₹68,000</div>
+                    <div className="font-bold text-[var(--pp-success)]">₹68,000</div>
                     <div className="text-muted-foreground">Saved</div>
                   </div>
                   <div className="rounded-lg bg-muted/60 px-2 py-3">
@@ -939,6 +1136,7 @@ function LandingPage() {
                   remaining months
                 </div>
               </div>
+              </Reveal>
             </div>
           </div>
         </section>
@@ -952,7 +1150,8 @@ function LandingPage() {
           className="border-b border-border py-20"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto mb-12 max-w-2xl text-center">
+            <Reveal className="mx-auto mb-12 max-w-2xl text-center">
+              <p className="pp-eyebrow mb-3">How it works</p>
               <h2
                 id="how-heading"
                 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
@@ -962,15 +1161,16 @@ function LandingPage() {
               <p className="mt-4 text-lg text-muted-foreground">
                 The actual workflow, from feature discovery to reviewing your results.
               </p>
-            </div>
+            </Reveal>
             <ol className="relative grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
-              {steps.map((step) => (
-                <li
-                  key={step.num}
-                  className="flex flex-col rounded-xl border border-border bg-card p-6 shadow-sm"
+              {steps.map((step, i) => (
+                <li key={step.num} className="list-none">
+                <Reveal delay={i * 80} className="h-full">
+                <div
+                  className="pp-card flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-sm"
                 >
                   <span
-                    className="badge-accent-soft mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
+                    className="pp-step-num mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
                     aria-hidden="true"
                   >
                     {step.num}
@@ -979,9 +1179,73 @@ function LandingPage() {
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {step.desc}
                   </p>
+                </div>
+                </Reveal>
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+
+        {/* ══════════════════════════════════════
+            ABOUT / PURPOSE
+        ══════════════════════════════════════ */}
+        <section
+          id="about"
+          aria-labelledby="about-heading"
+          className="border-b border-border py-20"
+        >
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <Reveal className="mx-auto max-w-3xl text-center">
+              <p className="pp-eyebrow mb-3">About</p>
+              <h2
+                id="about-heading"
+                className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+              >
+                What is PLANPOCKET?
+              </h2>
+              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+                PLANPOCKET is a client-side finance-planning prototype that
+                helps you organise spending, make budgets, set savings goals,
+                estimate investment growth, review monthly summaries, and
+                explore hypothetical business scenarios — all in a single web
+                application.
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                It is designed to be approachable for individuals managing
+                household finances and for freelancers or small-business owners
+                who want a lightweight tool to think through financial decisions.
+              </p>
+              <div className="mt-6 rounded-lg border border-border bg-card px-5 py-4 text-left text-sm text-muted-foreground shadow-sm">
+                <strong className="text-foreground font-semibold">
+                  Prototype notice:
+                </strong>{" "}
+                Financial data is stored in your browser using localStorage.
+                Records are not confirmed to sync between devices. The prototype
+                login stores credentials in browser storage — do not use real
+                passwords or sensitive financial data. Investment and scenario
+                outputs are estimates, not financial advice.
+              </div>
+            </Reveal>
+
+            {/* Audience grid */}
+            <div
+              id="audiences"
+              className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            >
+              {audiences.map((a, i) => (
+                <Reveal key={a.title} delay={i * 80}>
+                <div
+                  className="pp-card h-full rounded-xl border border-border bg-card p-5 shadow-sm"
+                >
+                  <h3 className="font-semibold text-foreground">{a.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {a.desc}
+                  </p>
+                </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -991,10 +1255,10 @@ function LandingPage() {
         <section
           id="access"
           aria-labelledby="access-heading"
-          className="border-b border-border bg-card py-16"
+          className="border-b border-border py-16"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto max-w-3xl text-center">
+            <Reveal className="mx-auto max-w-3xl rounded-2xl border border-border bg-card p-8 text-center shadow-sm sm:p-10">
               <span className="badge-accent-soft inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
                 Client-Side Prototype • Local Storage
               </span>
@@ -1024,7 +1288,7 @@ function LandingPage() {
                   Log In
                 </a>
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -1033,16 +1297,16 @@ function LandingPage() {
         ══════════════════════════════════════ */}
         <section
           aria-labelledby="cta-heading"
-          className="py-24"
+          className="px-4 py-20 sm:px-6"
         >
-          <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+          <Reveal className="pp-cta mx-auto max-w-5xl rounded-3xl px-6 py-16 text-center shadow-lg sm:px-12">
             <h2
               id="cta-heading"
-              className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+              className="text-3xl font-bold tracking-tight sm:text-4xl"
             >
               Ready to take control of your finances?
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mx-auto mt-4 max-w-2xl text-lg opacity-90">
               Review every tool, simulate hypothetical scenarios, and plan your
               savings goals — all right here.
             </p>
@@ -1060,7 +1324,7 @@ function LandingPage() {
                 Log in to your account
               </a>
             </div>
-          </div>
+          </Reveal>
         </section>
       </main>
 
