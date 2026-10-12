@@ -1117,6 +1117,10 @@
         <div style="text-align: center; margin-top: 15px;">
           <a href="#" class="link" onclick="showForgotPassword()">Forgot Password?</a>
         </div>
+        <div style="text-align: center; margin-top: 10px;">
+          <span style="color: var(--muted); font-size: 0.9rem;">Don't have an account? </span>
+          <a href="#" class="link" onclick="showSignup()">Sign Up</a>
+        </div>
         <div class="back-link">
           <a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a>
         </div>
@@ -1178,6 +1182,10 @@
           <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
         </div>
         <button class="btn" onclick="handleSignup()">Create Account</button>
+        <div style="text-align: center; margin-top: 10px;">
+          <span style="color: var(--muted); font-size: 0.9rem;">Already have an account? </span>
+          <a href="#" class="link" onclick="showLogin()">Login</a>
+        </div>
         <div class="back-link">
           <a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a>
         </div>
@@ -3886,9 +3894,25 @@ Billing: ₹10 per report generation.
       }, false);
     }
 
+    function checkInitialView() {
+      var hash = (window.location.hash || '').replace('#', '');
+      var params = new URLSearchParams(window.location.search);
+      var target = hash || params.get('page') || params.get('view');
+      if (target === 'login' || target === 'loginPage') {
+        showLogin();
+      } else if (target === 'signup' || target === 'signupPage') {
+        showSignup();
+      } else if (target === 'forgot' || target === 'forgotPasswordPage') {
+        showForgotPassword();
+      } else if (target === 'welcome' || target === 'welcomePage') {
+        showWelcome();
+      }
+    }
+
     // Initialize app
     document.addEventListener('DOMContentLoaded', function() {
       showWelcome();
+      checkInitialView();
       checkInstallStatus();
       addTouchSupport();
       const today = new Date();
@@ -3906,6 +3930,14 @@ Billing: ₹10 per report generation.
           showInstallButton();
         }
       }, 3000);
+    });
+
+    window.addEventListener('hashchange', checkInitialView);
+    window.addEventListener('message', function(e) {
+      if (e.data === 'showLogin' || e.data === 'login') showLogin();
+      else if (e.data === 'showSignup' || e.data === 'signup') showSignup();
+      else if (e.data === 'showWelcome' || e.data === 'welcome') showWelcome();
+      else if (e.data === 'showForgotPassword' || e.data === 'forgot') showForgotPassword();
     });
   </script>
 <script>

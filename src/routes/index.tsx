@@ -260,7 +260,6 @@ const audiences = [
 function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  const [authNoticeOpen, setAuthNoticeOpen] = useState(false);
 
   // Track active section for nav highlight
   useEffect(() => {
@@ -432,15 +431,14 @@ function LandingPage() {
 
           {/* Desktop CTA */}
           <div className="hidden items-center gap-3 md:flex">
-            <button
-              type="button"
-              onClick={() => setAuthNoticeOpen(true)}
+            <a
+              href="/app?page=login"
               className="btn-planpocket-secondary rounded-md px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Log in
-            </button>
+            </a>
             <a
-              href="#how-it-works"
+              href="/app?page=signup"
               className="btn-planpocket-primary rounded-md px-4 py-2 text-sm font-semibold shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Get started
@@ -510,20 +508,17 @@ function LandingPage() {
                 </li>
               ))}
               <li className="mt-3 border-t border-border pt-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setAuthNoticeOpen(true);
-                  }}
+                <a
+                  href="/app?page=login"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="w-full text-left block rounded-md px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   Log in
-                </button>
+                </a>
               </li>
               <li>
                 <a
-                  href="#how-it-works"
+                  href="/app?page=signup"
                   className="mt-1 block rounded-md btn-planpocket-primary px-3 py-2 text-center text-sm font-semibold shadow-sm"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -563,18 +558,17 @@ function LandingPage() {
               </p>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <a
-                  href="#how-it-works"
+                  href="/app?page=signup"
                   className="w-full rounded-md btn-planpocket-primary px-6 py-3 text-center text-base font-semibold shadow-sm transition-colors sm:w-auto"
                 >
-                  Get started — explore workflow
+                  Get started — it's free
                 </a>
-                <button
-                  type="button"
-                  onClick={() => setAuthNoticeOpen(true)}
-                  className="w-full rounded-md btn-planpocket-secondary px-6 py-3 text-base font-semibold transition-colors sm:w-auto"
+                <a
+                  href="/app?page=login"
+                  className="w-full rounded-md btn-planpocket-secondary px-6 py-3 text-center text-base font-semibold transition-colors sm:w-auto"
                 >
                   Log in
-                </button>
+                </a>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
                 Prototype — data is stored in your browser. No account
@@ -1002,35 +996,33 @@ function LandingPage() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="mx-auto max-w-3xl text-center">
               <span className="badge-accent-soft inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
-                Private Preview • Prototype Release
+                Client-Side Prototype • Local Storage
               </span>
               <h2
                 id="access-heading"
                 className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
               >
-                Web App Access &amp; Prototype Status
+                Access the PLANPOCKET Application
               </h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                Account registration, login, and cloud sync are currently not
-                available in this public preview release. PLANPOCKET is designed
-                as a client-side personal finance and business scenario planner.
-                All features and calculations described on this page run
-                entirely in your local browser without requiring an external server.
+                PLANPOCKET operates directly in your web browser. Account credentials
+                and financial planning data are stored in your device&apos;s localStorage for
+                personal budgeting and scenario simulation. No external servers or cloud accounts
+                are required.
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <a
-                  href="#features"
+                  href="/app?page=signup"
                   className="btn-planpocket-primary rounded-md px-5 py-2.5 text-sm font-semibold shadow-sm transition-colors"
                 >
-                  Explore All 7 Features
+                  Create Account (Sign Up)
                 </a>
-                <button
-                  type="button"
-                  onClick={() => setAuthNoticeOpen(true)}
+                <a
+                  href="/app?page=login"
                   className="btn-planpocket-secondary rounded-md px-5 py-2.5 text-sm font-semibold transition-colors"
                 >
-                  Check Login Availability
-                </button>
+                  Log In
+                </a>
               </div>
             </div>
           </div>
@@ -1056,18 +1048,17 @@ function LandingPage() {
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <a
-                href="#how-it-works"
+                href="/app?page=signup"
                 className="w-full rounded-md btn-planpocket-primary px-8 py-3 text-center text-base font-semibold shadow-sm transition-colors sm:w-auto"
               >
-                Get started — explore tools
+                Get started — it's free
               </a>
-              <button
-                type="button"
-                onClick={() => setAuthNoticeOpen(true)}
-                className="w-full rounded-md btn-planpocket-secondary px-8 py-3 text-base font-semibold transition-colors sm:w-auto"
+              <a
+                href="/app?page=login"
+                className="w-full rounded-md btn-planpocket-secondary px-8 py-3 text-center text-base font-semibold transition-colors sm:w-auto"
               >
-                Log in to account
-              </button>
+                Log in to your account
+              </a>
             </div>
           </div>
         </section>
@@ -1112,36 +1103,34 @@ function LandingPage() {
               </ul>
             </nav>
 
-            {/* Prototype Access links */}
+            {/* App links */}
             <div>
               <h3 className="mb-3 text-sm font-semibold text-foreground">
-                App Access
+                App
               </h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <button
-                    type="button"
-                    onClick={() => setAuthNoticeOpen(true)}
-                    className="text-left text-muted-foreground transition-colors hover:text-foreground"
+                  <a
+                    href="/app?page=login"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    Log in (Private Preview)
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => setAuthNoticeOpen(true)}
-                    className="text-left text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Create account
-                  </button>
+                    Log in
+                  </a>
                 </li>
                 <li>
                   <a
-                    href="#access"
+                    href="/app?page=signup"
                     className="text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    Availability Status
+                    Create account
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/app"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    Open dashboard
                   </a>
                 </li>
               </ul>
@@ -1157,93 +1146,6 @@ function LandingPage() {
           </div>
         </div>
       </footer>
-
-      {/* ══════════════════════════════════════
-          NOT AVAILABLE YET MODAL
-      ══════════════════════════════════════ */}
-      {authNoticeOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="auth-notice-title"
-          onClick={() => setAuthNoticeOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-2.5">
-                <span className="badge-accent-soft flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold text-primary">
-                  P
-                </span>
-                <div>
-                  <h3
-                    id="auth-notice-title"
-                    className="text-lg font-bold text-foreground"
-                  >
-                    App Access — Not Available Yet
-                  </h3>
-                  <p className="text-xs text-muted-foreground">
-                    PlanPocket Public Preview
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setAuthNoticeOpen(false)}
-                className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                aria-label="Close notification"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  width={18}
-                  height={18}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="mt-4 rounded-lg border border-border bg-muted/50 p-3.5 text-xs leading-relaxed text-muted-foreground">
-              <strong className="font-semibold text-foreground">
-                Honest status notice:
-              </strong>{" "}
-              Account sign-in and new registration are not available on this public preview yet. No external database or server is configured for online account management.
-            </div>
-
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              You can explore the complete interactive overview of our 7 verified
-              features, savings goal calculation model, and small-business CFO
-              scenarios right on this page.
-            </p>
-
-            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
-              <button
-                type="button"
-                onClick={() => setAuthNoticeOpen(false)}
-                className="btn-planpocket-secondary rounded-md px-4 py-2 text-sm font-semibold transition-colors"
-              >
-                Close
-              </button>
-              <a
-                href="#features"
-                onClick={() => setAuthNoticeOpen(false)}
-                className="btn-planpocket-primary rounded-md px-4 py-2 text-center text-sm font-semibold transition-colors"
-              >
-                Explore Features
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
