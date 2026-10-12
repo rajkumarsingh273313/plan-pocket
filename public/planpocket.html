@@ -991,6 +991,183 @@
       cursor: pointer;
     }
 
+    /* SIP Calculator styles */
+    .sip-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+      margin-top: 20px;
+    }
+    @media (max-width: 860px) {
+      .sip-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+    .sip-form-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .sip-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--lime) 0%, var(--lime) var(--fill, 12%), #E3E6E0 var(--fill, 12%), #E3E6E0 100%) !important;
+      border: none !important;
+      outline: none;
+      padding: 0 !important;
+      min-height: auto !important;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .sip-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--text);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    .sip-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    .sip-slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--text);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+      cursor: pointer;
+    }
+    .sip-chip {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .sip-chip:hover {
+      background: #ECEEEA;
+      border-color: #CDD1C9;
+    }
+    .sip-chip.active {
+      background: var(--text) !important;
+      color: #FFFFFF !important;
+      border-color: var(--text) !important;
+    }
+    .sip-results-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sip-summary-metric {
+      text-align: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sip-metric-label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .sip-metric-value {
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .sip-breakdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 480px) {
+      .sip-breakdown-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .sip-breakdown-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .sip-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .sip-dot.dot-invested {
+      background: var(--text);
+    }
+    .sip-dot.dot-returns {
+      background: var(--lime);
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+    .sip-breakdown-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .sip-breakdown-val {
+      font-size: 1.05rem;
+      font-weight: 750;
+      color: var(--text);
+      margin-top: 2px;
+    }
+    .sip-breakdown-val.highlight-returns {
+      color: var(--success);
+    }
+    .sip-breakdown-pct {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .sip-chart-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0;
+    }
+    .sip-chart-wrapper {
+      position: relative;
+      width: 180px;
+      height: 180px;
+    }
+    .sip-notes-card {
+      margin-top: 24px;
+      background: #FAFBF9;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
   <style id="pp-lime">
@@ -1058,6 +1235,10 @@
     input[type=date]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.7;padding:4px;border-radius:6px}
     input[type=date]::-webkit-calendar-picker-indicator:hover{opacity:1;background:#ECEEEA}
     @media (max-width:640px){input:not([type=range]):not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px!important}}
+    /* Currency input prefix styling */
+    .currency-input-wrap{position:relative;display:flex;align-items:center;width:100%}
+    .currency-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;font-size:1rem;line-height:1;pointer-events:none;user-select:none;z-index:2}
+    input.currency-input,.currency-input-wrap input{padding-left:36px!important;font-variant-numeric:tabular-nums}
   </style>
 </head>
 <body>
@@ -1254,11 +1435,17 @@
               </div>
               <div class="form-group">
                 <label for="goalTarget">Target amount (₹)</label>
-                <input id="goalTarget" type="number" min="1" step="1" placeholder="100000" required>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="goalTarget" class="currency-input" type="number" min="1" step="1" placeholder="100000" required>
+                </div>
               </div>
               <div class="form-group">
                 <label for="goalSaved">Already saved (₹)</label>
-                <input id="goalSaved" type="number" min="0" step="1" value="0">
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="goalSaved" class="currency-input" type="number" min="0" step="1" value="0">
+                </div>
               </div>
               <div class="form-group" style="grid-column:1/-1;">
                 <label>Savings duration</label>
@@ -1290,7 +1477,10 @@
               </div>
               <div class="form-group" style="grid-column:1/-1;">
                 <label for="goalMonthly">Planned monthly contribution (₹) <span style="color:var(--muted);font-weight:400;font-size:.8rem;">— optional</span></label>
-                <input id="goalMonthly" type="number" min="0" step="1" placeholder="5000">
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="goalMonthly" class="currency-input" type="number" min="0" step="1" placeholder="5000">
+                </div>
               </div>
               <div id="goalRecommendation" class="insight-box" style="grid-column:1/-1;display:none;"></div>
             </div>
@@ -1331,7 +1521,10 @@
           </div>
           <div class="form-group" style="margin:0;">
             <label for="contributeAmount">Contribution amount (₹)</label>
-            <input type="number" id="contributeAmount" min="1" step="1" placeholder="e.g. 5000">
+            <div class="currency-input-wrap">
+              <span class="currency-prefix" aria-hidden="true">₹</span>
+              <input type="number" id="contributeAmount" class="currency-input" min="1" step="1" placeholder="e.g. 5000">
+            </div>
             <span style="display:block;font-size:0.8rem;color:var(--muted);margin-top:4px;">Prefilled with recommended saving. You can edit this amount.</span>
           </div>
           <div class="form-group" style="margin:0;">
@@ -1389,7 +1582,10 @@
             <input type="hidden" id="editInlineContribId">
             <div class="form-group" style="margin-bottom:10px;">
               <label for="editInlineAmount">Amount (₹)</label>
-              <input type="number" id="editInlineAmount" min="1" step="1">
+              <div class="currency-input-wrap">
+                <span class="currency-prefix" aria-hidden="true">₹</span>
+                <input type="number" id="editInlineAmount" class="currency-input" min="1" step="1">
+              </div>
             </div>
             <div class="form-group" style="margin-bottom:12px;">
               <label for="editInlineDate">Date</label>
@@ -1435,7 +1631,12 @@
         <h2>Expense Tracker</h2><p style="color: var(--muted);">Add expenses to build a locally saved spending history.</p>
         <div class="tracker-form">
           <div class="form-group"><label for="expenseDescription">Description</label><input id="expenseDescription" type="text" maxlength="80" placeholder="e.g. Groceries"></div>
-          <div class="form-group"><label for="expenseAmount">Amount (₹)</label><input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="850"></div>
+          <div class="form-group"><label for="expenseAmount">Amount (₹)</label>
+            <div class="currency-input-wrap">
+              <span class="currency-prefix" aria-hidden="true">₹</span>
+              <input id="expenseAmount" class="currency-input" type="number" min="0.01" step="0.01" placeholder="850">
+            </div>
+          </div>
           <div class="form-group"><label for="expenseCategory">Category</label><select id="expenseCategory"><option>Food</option><option>Transport</option><option>Housing</option><option>Utilities</option><option>Health</option><option>Shopping</option><option>Entertainment</option><option>Other</option></select></div>
           <div class="form-group"><label for="expenseDate">Date</label><input id="expenseDate" type="date"></div>
           <button class="btn" onclick="addExpense()">Add Expense</button>
@@ -1449,17 +1650,132 @@
   <div id="investmentTrackerPage" class="page hidden">
     <div class="container">
       <button class="tool-link tracker-back" onclick="showDashboard()">← Back to Dashboard</button>
-      <section class="card tracker-card">
-        <h2>Investment Calculator</h2><p style="color: var(--muted);">Estimate future value with monthly compounding and regular contributions. This is an illustration, not a guaranteed return.</p>
-        <div class="tracker-form">
-          <div class="form-group"><label for="investmentInitial">Initial investment (₹)</label><input id="investmentInitial" type="number" min="0" step="0.01" value="0"></div>
-          <div class="form-group"><label for="investmentMonthly">Monthly contribution (₹)</label><input id="investmentMonthly" type="number" min="0" step="0.01" placeholder="5000"></div>
-          <div class="form-group"><label for="investmentRate">Expected annual return (%)</label><input id="investmentRate" type="number" min="0" max="100" step="0.1" value="8"></div>
-          <div class="form-group"><label for="investmentYears">Investment period (years)</label><input id="investmentYears" type="number" min="1" max="80" step="1" placeholder="10"></div>
-          <button class="btn" onclick="calculateInvestment()">Calculate</button>
+      <section class="card tracker-card" style="padding: 32px 28px;">
+        <div style="margin-bottom: 24px;">
+          <h2 style="font-size: 1.5rem; margin-bottom: 6px;">SIP Calculator</h2>
+          <p style="color: var(--muted); margin-bottom: 0;">Calculate the estimated future wealth of your Systematic Investment Plan with regular monthly contributions and compound growth.</p>
         </div>
-        <div id="investmentMessage" class="message hidden tracker-message" role="status"></div>
-        <div id="investmentResult" class="tracker-result hidden" aria-live="polite"><span>Estimated future value</span><strong id="investmentFutureValue">₹0</strong><p id="investmentBreakdown" style="color: var(--muted); margin-top: 10px;"></p></div>
+
+        <input id="investmentInitial" type="hidden" value="0">
+
+        <div class="sip-grid">
+          <!-- Left Column: Inputs -->
+          <div class="sip-form-col">
+            <!-- Monthly Investment -->
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label for="investmentMonthly">Monthly Investment (₹)</label>
+              <div class="currency-input-wrap">
+                <span class="currency-prefix" aria-hidden="true">₹</span>
+                <input id="investmentMonthly" class="currency-input" type="number" min="1" step="500" value="5000" placeholder="5000" style="font-weight: 600;" oninput="syncSIPMonthly()">
+              </div>
+              <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                <button type="button" class="sip-chip" data-amt="1000" onclick="setSIPMonthly(1000)">₹1,000</button>
+                <button type="button" class="sip-chip" data-amt="2500" onclick="setSIPMonthly(2500)">₹2,500</button>
+                <button type="button" class="sip-chip active" data-amt="5000" onclick="setSIPMonthly(5000)">₹5,000</button>
+                <button type="button" class="sip-chip" data-amt="10000" onclick="setSIPMonthly(10000)">₹10,000</button>
+                <button type="button" class="sip-chip" data-amt="25000" onclick="setSIPMonthly(25000)">₹25,000</button>
+              </div>
+            </div>
+
+            <!-- Expected Return Rate -->
+            <div class="form-group" style="margin-bottom: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <label for="investmentRate" style="margin-bottom: 0;">Expected Annual Return (%)</label>
+                <div style="position: relative; width: 92px;">
+                  <input id="investmentRate" type="number" min="0" max="100" step="0.1" value="12" style="padding-right: 22px; text-align: right; min-height: 38px; padding-top: 6px; padding-bottom: 6px; font-weight: 700;" oninput="syncSIPRateFromInput()">
+                  <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; font-weight: 700; pointer-events: none;">%</span>
+                </div>
+              </div>
+              <input id="investmentRateSlider" type="range" class="sip-slider" min="0" max="100" step="0.5" value="12" style="--fill: 12%;" oninput="syncSIPRateFromSlider()">
+              <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-top: 6px;">
+                <span>0% (No growth)</span>
+                <span>12% (Equity avg)</span>
+                <span>100% (Max)</span>
+              </div>
+            </div>
+
+            <!-- Investment Duration -->
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label>Investment Duration</label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div>
+                  <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Years</div>
+                  <input id="investmentYears" type="number" min="0" max="80" step="1" value="5" placeholder="Years" style="font-weight: 600;" oninput="syncSIPDurationInputs()">
+                </div>
+                <div>
+                  <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Months</div>
+                  <input id="investmentMonths" type="number" min="0" max="11" step="1" value="0" placeholder="Months" style="font-weight: 600;" oninput="syncSIPDurationInputs()">
+                </div>
+              </div>
+              <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                <button type="button" class="sip-chip" data-dur="1-0" onclick="setSIPDuration(1, 0)">1 Yr</button>
+                <button type="button" class="sip-chip" data-dur="3-0" onclick="setSIPDuration(3, 0)">3 Yrs</button>
+                <button type="button" class="sip-chip active" data-dur="5-0" onclick="setSIPDuration(5, 0)">5 Yrs</button>
+                <button type="button" class="sip-chip" data-dur="10-0" onclick="setSIPDuration(10, 0)">10 Yrs</button>
+                <button type="button" class="sip-chip" data-dur="15-0" onclick="setSIPDuration(15, 0)">15 Yrs</button>
+                <button type="button" class="sip-chip" data-dur="20-0" onclick="setSIPDuration(20, 0)">20 Yrs</button>
+              </div>
+              <div id="sipDurationDisplay" style="font-size: 0.8rem; color: var(--muted); margin-top: 6px; font-weight: 500;">Total duration: 5 years (60 months)</div>
+            </div>
+
+            <button class="btn" style="margin-top: 4px;" onclick="calculateSIP()">Calculate</button>
+          </div>
+
+          <!-- Right Column: Results & Doughnut Chart -->
+          <div>
+            <div id="investmentResult" class="sip-results-card" aria-live="polite">
+              <div class="sip-summary-metric">
+                <span class="sip-metric-label">Estimated Total Value</span>
+                <strong class="sip-metric-value" id="sipTotalValue">₹0</strong>
+                <span id="investmentFutureValue" style="display: none;">₹0</span>
+              </div>
+
+              <div class="sip-breakdown-grid">
+                <div class="sip-breakdown-item">
+                  <div class="sip-dot dot-invested" aria-hidden="true"></div>
+                  <div>
+                    <div class="sip-breakdown-label">Amount Invested</div>
+                    <div class="sip-breakdown-val" id="sipInvestedAmount">₹0</div>
+                    <div class="sip-breakdown-pct" id="sipInvestedPct">0% of total</div>
+                  </div>
+                </div>
+                <div class="sip-breakdown-item">
+                  <div class="sip-dot dot-returns" aria-hidden="true"></div>
+                  <div>
+                    <div class="sip-breakdown-label">Estimated Returns</div>
+                    <div class="sip-breakdown-val highlight-returns" id="sipEstimatedReturns">₹0</div>
+                    <div class="sip-breakdown-pct" id="sipReturnsPct">0% of total</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sip-chart-container">
+                <div class="sip-chart-wrapper">
+                  <canvas id="sipChart" width="180" height="180" role="img" aria-label="SIP growth doughnut chart comparing invested amount and estimated returns"></canvas>
+                </div>
+              </div>
+
+              <p id="investmentBreakdown" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+            </div>
+          </div>
+        </div>
+
+        <div id="investmentMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+        <!-- Assumptions & Disclaimer Card -->
+        <div class="sip-notes-card">
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div>
+              <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Assumptions & Market Disclaimer</strong>
+              <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                • <strong>Calculation Method:</strong> Assumes fixed monthly contributions at the end of each monthly period with regular monthly compounding: <em>M × [((1 + r)<sup>n</sup> − 1) / r]</em>, where <em>r = annual return / 12 / 100</em> and <em>n = total months</em>.<br>
+                • <strong>Market Disclaimer:</strong> Mutual fund investments and market securities are subject to market risks. Past performance does not guarantee future results. Actual returns are not guaranteed and will fluctuate.<br>
+                • <strong>Exclusions:</strong> Taxes, inflation, and fund expense ratios are not deducted from these estimated projections.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -1472,9 +1788,19 @@
         <p style="color: var(--muted);">Choose a month, set your take-home income, then add spending limits for the categories that matter to you.</p>
         <div class="tracker-form">
           <div class="form-group"><label for="budgetMonth">Planning month</label><input id="budgetMonth" type="month"></div>
-          <div class="form-group"><label for="budgetIncome">Monthly take-home income (₹)</label><input id="budgetIncome" type="number" min="0" step="0.01" placeholder="Optional"></div>
+          <div class="form-group"><label for="budgetIncome">Monthly take-home income (₹)</label>
+            <div class="currency-input-wrap">
+              <span class="currency-prefix" aria-hidden="true">₹</span>
+              <input id="budgetIncome" class="currency-input" type="number" min="0" step="0.01" placeholder="Optional">
+            </div>
+          </div>
           <div class="form-group"><label for="budgetCategory">Spending category</label><select id="budgetCategory"><option>Food</option><option>Transport</option><option>Housing</option><option>Utilities</option><option>Health</option><option>Shopping</option><option>Entertainment</option><option>Other</option></select></div>
-          <div class="form-group"><label for="budgetLimit">Monthly limit (₹)</label><input id="budgetLimit" type="number" min="0.01" step="0.01" placeholder="e.g. 8000"></div>
+          <div class="form-group"><label for="budgetLimit">Monthly limit (₹)</label>
+            <div class="currency-input-wrap">
+              <span class="currency-prefix" aria-hidden="true">₹</span>
+              <input id="budgetLimit" class="currency-input" type="number" min="0.01" step="0.01" placeholder="e.g. 8000">
+            </div>
+          </div>
           <button class="btn" onclick="saveMonthlyBudget()">Save Budget</button>
         </div>
         <div id="budgetMessage" class="message hidden tracker-message" role="status"></div>
@@ -1926,8 +2252,7 @@
       if (pageId === 'goalTrackerPage') renderGoals();
       if (pageId === 'expenseTrackerPage') renderExpenses();
       if (pageId === 'investmentTrackerPage') {
-        document.getElementById('investmentResult').classList.add('hidden');
-        document.getElementById('investmentMessage').classList.add('hidden');
+        calculateSIP();
       }
     }
 
@@ -3048,27 +3373,280 @@
       });
     }
 
-    function calculateInvestment() {
-      const initial = Number(document.getElementById('investmentInitial').value);
-      const monthly = Number(document.getElementById('investmentMonthly').value);
-      const annualRate = Number(document.getElementById('investmentRate').value);
-      const years = Number(document.getElementById('investmentYears').value);
-      if (![initial, monthly, annualRate, years].every(Number.isFinite) || initial < 0 || monthly < 0 || annualRate < 0 || annualRate > 100 || years < 1 || years > 80) {
-        showTrackerMessage('investmentMessage', 'Enter non-negative investment amounts, a 0–100% annual return, and a period from 1 to 80 years.', 'error');
-        document.getElementById('investmentResult').classList.add('hidden');
+    function syncSIPMonthly() {
+      const val = Number(document.getElementById('investmentMonthly').value);
+      document.querySelectorAll('.sip-preset-chips button[data-amt]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === val);
+      });
+      calculateSIP();
+    }
+
+    function setSIPMonthly(amt) {
+      const input = document.getElementById('investmentMonthly');
+      if (input) {
+        input.value = amt;
+        syncSIPMonthly();
+      }
+    }
+
+    function syncSIPRateFromSlider() {
+      const slider = document.getElementById('investmentRateSlider');
+      const input = document.getElementById('investmentRate');
+      if (slider && input) {
+        input.value = slider.value;
+        slider.style.setProperty('--fill', slider.value + '%');
+        calculateSIP();
+      }
+    }
+
+    function syncSIPRateFromInput() {
+      const slider = document.getElementById('investmentRateSlider');
+      const input = document.getElementById('investmentRate');
+      if (slider && input) {
+        const val = Number(input.value);
+        if (Number.isFinite(val) && val >= 0 && val <= 100) {
+          slider.value = val;
+          slider.style.setProperty('--fill', val + '%');
+        }
+        calculateSIP();
+      }
+    }
+
+    function syncSIPDurationInputs() {
+      const y = Number(document.getElementById('investmentYears').value || 0);
+      const m = Number(document.getElementById('investmentMonths').value || 0);
+      const key = `${y}-${m}`;
+      document.querySelectorAll('.sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === key);
+      });
+      calculateSIP();
+    }
+
+    function setSIPDuration(y, m) {
+      const yearsInput = document.getElementById('investmentYears');
+      const monthsInput = document.getElementById('investmentMonths');
+      if (yearsInput) yearsInput.value = y;
+      if (monthsInput) monthsInput.value = m;
+      document.querySelectorAll('.sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === `${y}-${m}`);
+      });
+      calculateSIP();
+    }
+
+    function renderSIPChart(invested, returns, total) {
+      const canvas = document.getElementById('sipChart');
+      if (!canvas || !window.Chart || typeof canvas.getContext !== 'function') return;
+
+      if (window.sipChartInstance) {
+        try {
+          window.sipChartInstance.destroy();
+        } catch (e) {
+          console.warn('Error destroying sip chart:', e);
+        }
+        window.sipChartInstance = null;
+      }
+
+      let ctx;
+      try {
+        ctx = canvas.getContext('2d');
+      } catch (e) {
         return;
       }
-      const months = Math.round(years * 12);
-      const monthlyRate = annualRate / 1200;
-      const growthFactor = Math.pow(1 + monthlyRate, months);
-      const futureValue = initial * growthFactor + (monthlyRate === 0 ? monthly * months : monthly * (growthFactor - 1) / monthlyRate);
-      const contributed = initial + monthly * months;
-      document.getElementById('investmentFutureValue').textContent = formatCurrency(futureValue);
-      document.getElementById('investmentBreakdown').textContent = `${formatCurrency(contributed)} contributed · ${formatCurrency(futureValue - contributed)} estimated growth over ${years} years.`;
-      document.getElementById('investmentResult').classList.remove('hidden');
-      document.getElementById('investmentMessage').classList.add('hidden');
-      localStorage.setItem('planpocket_lastInvestment', String(futureValue));
-      updateDashboardSummary();
+      if (!ctx) return;
+      let chartData = [invested, returns];
+      if (invested === 0 && returns === 0) {
+        chartData = [1, 0];
+      }
+
+      try {
+        window.sipChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Amount Invested', 'Estimated Returns'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#141612', '#6AF70F'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: {
+              duration: 250
+            },
+            cutout: '68%',
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: '#141612',
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: function(c) {
+                    const val = c.raw || 0;
+                    const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                    return ' ' + c.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            }
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering SIP chart:', err);
+      }
+    }
+
+    function calculateSIP() {
+      const monthlyInput = document.getElementById('investmentMonthly');
+      const rateInput = document.getElementById('investmentRate');
+      const yearsInput = document.getElementById('investmentYears');
+      const monthsInput = document.getElementById('investmentMonths');
+      const messageEl = document.getElementById('investmentMessage');
+      const resultCard = document.getElementById('investmentResult');
+
+      if (monthlyInput) monthlyInput.removeAttribute('aria-invalid');
+      if (rateInput) rateInput.removeAttribute('aria-invalid');
+      if (yearsInput) yearsInput.removeAttribute('aria-invalid');
+      if (monthsInput) monthsInput.removeAttribute('aria-invalid');
+
+      const monthlyVal = monthlyInput ? monthlyInput.value.trim() : '';
+      const monthly = Number(monthlyVal);
+
+      const rateVal = rateInput ? rateInput.value.trim() : '';
+      const annualRate = Number(rateVal);
+
+      const yearsVal = yearsInput ? yearsInput.value.trim() : '0';
+      const years = Number(yearsVal);
+
+      const monthsVal = monthsInput ? monthsInput.value.trim() : '0';
+      const months = Number(monthsVal);
+
+      // Validate monthly investment > 0
+      if (!monthlyVal || !Number.isFinite(monthly) || monthly <= 0) {
+        if (monthlyInput) monthlyInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Monthly investment amount must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate annual return between 0% and 100%
+      if (rateVal === '' || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100) {
+        if (rateInput) rateInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Expected annual return must be between 0% and 100%.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate duration is valid numbers >= 0
+      if (!Number.isFinite(years) || !Number.isFinite(months) || years < 0 || months < 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Please enter a valid investment duration.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      const totalMonths = Math.round(years * 12 + months);
+      if (totalMonths <= 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        if (monthsInput) monthsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Investment duration must be at least 1 month.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (totalMonths > 80 * 12) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Investment duration cannot exceed 80 years.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Standard monthly SIP future-value calculation:
+      // monthly rate = annual return percentage / 12 / 100
+      // number of months = years × 12 + additional months
+      // if monthly rate > 0: future value = monthly investment × (((1 + monthly rate)^number of months − 1) / monthly rate)
+      // if monthly rate == 0: future value = monthly investment × number of months
+      // total invested = monthly investment × number of months
+      // estimated returns = future value − total invested
+      const monthlyRate = annualRate / 12 / 100;
+      let futureValue = 0;
+      if (monthlyRate > 0) {
+        futureValue = monthly * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate);
+      } else {
+        futureValue = monthly * totalMonths;
+      }
+
+      const totalInvested = monthly * totalMonths;
+      const estimatedReturns = futureValue - totalInvested;
+
+      // Reject non-finite calculations
+      if (!Number.isFinite(futureValue) || !Number.isFinite(totalInvested) || !Number.isFinite(estimatedReturns)) {
+        showTrackerMessage('investmentMessage', 'Calculation resulted in a non-finite number. Please adjust the input values.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Clear any previous error message
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      const roundedFV = Math.round(futureValue);
+      const roundedInv = Math.round(totalInvested);
+      const roundedRet = Math.round(estimatedReturns);
+
+      const totalValEl = document.getElementById('sipTotalValue');
+      const legacyValEl = document.getElementById('investmentFutureValue');
+      const investedEl = document.getElementById('sipInvestedAmount');
+      const returnsEl = document.getElementById('sipEstimatedReturns');
+      const investedPctEl = document.getElementById('sipInvestedPct');
+      const returnsPctEl = document.getElementById('sipReturnsPct');
+      const breakdownEl = document.getElementById('investmentBreakdown');
+      const durationDisplayEl = document.getElementById('sipDurationDisplay');
+
+      if (totalValEl) totalValEl.textContent = formatCurrency(roundedFV);
+      if (legacyValEl) legacyValEl.textContent = formatCurrency(roundedFV);
+      if (investedEl) investedEl.textContent = formatCurrency(roundedInv);
+      if (returnsEl) returnsEl.textContent = formatCurrency(roundedRet);
+
+      const investedPct = roundedFV > 0 ? Math.round((totalInvested / futureValue) * 100) : 100;
+      const returnsPct = roundedFV > 0 ? Math.max(0, 100 - investedPct) : 0;
+
+      if (investedPctEl) investedPctEl.textContent = investedPct + '% of total';
+      if (returnsPctEl) returnsPctEl.textContent = returnsPct + '% of total';
+
+      let durText = '';
+      if (years > 0 && months > 0) {
+        durText = `${years} yr${years > 1 ? 's' : ''} ${months} mo${months > 1 ? 's' : ''} (${totalMonths} months)`;
+      } else if (years > 0) {
+        durText = `${years} year${years > 1 ? 's' : ''} (${totalMonths} months)`;
+      } else {
+        durText = `${totalMonths} month${totalMonths > 1 ? 's' : ''}`;
+      }
+      if (durationDisplayEl) durationDisplayEl.textContent = 'Total duration: ' + durText;
+
+      if (breakdownEl) {
+        breakdownEl.textContent = `${formatCurrency(roundedInv)} contributed over ${durText} · ${formatCurrency(roundedRet)} estimated returns at ${annualRate}% p.a.`;
+      }
+
+      localStorage.setItem('planpocket_lastInvestment', String(roundedFV));
+      if (typeof updateDashboardSummary === 'function') {
+        updateDashboardSummary();
+      }
+
+      renderSIPChart(roundedInv, roundedRet, roundedFV);
+    }
+
+    function calculateInvestment() {
+      calculateSIP();
     }
 
     const budgetCategories = ['Food', 'Transport', 'Housing', 'Utilities', 'Health', 'Shopping', 'Entertainment', 'Other'];
@@ -3948,6 +4526,7 @@ Billing: ₹10 per report generation.
       document.getElementById('budgetMonth').addEventListener('change', loadMonthlyBudget);
       document.getElementById('reportMonth').addEventListener('change', renderFinancialReport);
       initGoalDuration();
+      calculateSIP();
       
       // Add install prompt after a delay
       setTimeout(() => {
