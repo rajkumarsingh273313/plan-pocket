@@ -1264,6 +1264,224 @@
     input[type=date]{color-scheme:light;cursor:pointer}
     input[type=date]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.7;padding:4px;border-radius:6px}
     input[type=date]::-webkit-calendar-picker-indicator:hover{opacity:1;background:#ECEEEA}
+
+    /* Shared PlanPocket Accessible DatePicker */
+    .pp-date-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .pp-date-input {
+      width: 100%;
+      padding: 12px 42px 12px 16px !important;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg2);
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .pp-date-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(106, 247, 15, 0.2);
+    }
+    .pp-date-trigger {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: color 0.15s ease, background-color 0.15s ease;
+    }
+    .pp-date-trigger:hover {
+      color: var(--text);
+      background-color: #ECEEEA;
+    }
+    .pp-date-trigger:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 1px;
+    }
+    .pp-datepicker-popover {
+      position: fixed;
+      z-index: 2500;
+      width: 308px;
+      max-width: calc(100vw - 24px);
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14), 0 3px 8px rgba(0, 0, 0, 0.05);
+      padding: 16px;
+      box-sizing: border-box;
+      font-family: inherit;
+      color: var(--text);
+      user-select: none;
+      display: none;
+      animation: ppCalFadeIn 0.14s ease-out;
+    }
+    .pp-datepicker-popover.is-open {
+      display: block;
+    }
+    @keyframes ppCalFadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .pp-cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .pp-cal-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .pp-cal-nav {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #FAFAFA;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    }
+    .pp-cal-nav:hover {
+      background: #ECEEEA;
+      border-color: #D3D7CF;
+    }
+    .pp-cal-nav:active {
+      transform: scale(0.94);
+    }
+    .pp-cal-nav:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 1px;
+    }
+    .pp-cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .pp-cal-weekday {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      padding: 4px 0;
+    }
+    .pp-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .pp-cal-day {
+      width: 36px;
+      height: 36px;
+      margin: auto;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      box-sizing: border-box;
+      transition: background 0.12s ease, transform 0.1s ease;
+    }
+    .pp-cal-day:hover:not(.is-disabled):not(.is-selected) {
+      background: #F0F2EE;
+    }
+    .pp-cal-day.is-outside {
+      color: #A4A8A0;
+      opacity: 0.65;
+    }
+    .pp-cal-day.is-today:not(.is-selected) {
+      font-weight: 700;
+      border: 1.5px solid var(--text);
+    }
+    .pp-cal-day.is-selected {
+      background: var(--lime) !important;
+      color: #141612 !important;
+      font-weight: 700 !important;
+      border-color: var(--lime) !important;
+      box-shadow: 0 2px 6px rgba(106, 247, 15, 0.4);
+    }
+    .pp-cal-day.is-today.is-selected {
+      outline: 2px solid #141612;
+      outline-offset: -2px;
+    }
+    .pp-cal-day.is-disabled {
+      opacity: 0.28;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .pp-cal-day:focus-visible, .pp-cal-day.is-focused {
+      outline: 2px solid var(--lime);
+      outline-offset: 1px;
+    }
+    .pp-cal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .pp-cal-footer-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+    .pp-cal-today-action {
+      background: var(--lime-soft);
+      color: var(--accent);
+      border-color: #D1F7B4;
+    }
+    .pp-cal-today-action:hover {
+      background: var(--lime);
+      color: #141612;
+    }
+    .pp-cal-close-action {
+      background: transparent;
+      color: var(--muted);
+      border: none;
+    }
+    .pp-cal-close-action:hover {
+      color: var(--text);
+      background: #ECEEEA;
+    }
+    .pp-cal-footer-btn:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 1px;
+    }
     @media (max-width:640px){input:not([type=range]):not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px!important}}
     /* Currency input prefix styling */
     .currency-input-wrap{position:relative;display:flex;align-items:center;width:100%}
@@ -1502,11 +1720,21 @@
               </div>
               <div class="form-group">
                 <label for="goalStartDate">From (start date)</label>
-                <input id="goalStartDate" type="date">
+                <div class="pp-date-wrap">
+                  <input id="goalStartDate" type="text" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="From start date">
+                  <button type="button" class="pp-date-trigger" aria-label="Open calendar for start date" tabindex="-1">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="goalEndDate">To (target date)</label>
-                <input id="goalEndDate" type="date">
+                <div class="pp-date-wrap">
+                  <input id="goalEndDate" type="text" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="To target date">
+                  <button type="button" class="pp-date-trigger" aria-label="Open calendar for target date" tabindex="-1">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  </button>
+                </div>
               </div>
               <div class="form-group" style="grid-column:1/-1;">
                 <label for="goalMonthly">Planned monthly contribution (₹) <span style="color:var(--muted);font-weight:400;font-size:.8rem;">— optional</span></label>
@@ -1562,7 +1790,12 @@
           </div>
           <div class="form-group" style="margin:0;">
             <label for="contributeDate">Contribution date</label>
-            <input type="date" id="contributeDate">
+            <div class="pp-date-wrap">
+              <input type="text" id="contributeDate" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="Contribution date">
+              <button type="button" class="pp-date-trigger" aria-label="Open calendar for contribution date" tabindex="-1">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </button>
+            </div>
           </div>
           <div id="contributeModalMsg" class="message hidden tracker-message" style="margin:0;"></div>
           <div class="goal-modal-actions">
@@ -1622,7 +1855,12 @@
             </div>
             <div class="form-group" style="margin-bottom:12px;">
               <label for="editInlineDate">Date</label>
-              <input type="date" id="editInlineDate">
+              <div class="pp-date-wrap">
+                <input type="text" id="editInlineDate" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="Date">
+                <button type="button" class="pp-date-trigger" aria-label="Open calendar for date" tabindex="-1">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </button>
+              </div>
             </div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
               <button type="button" class="btn btn-secondary" style="width:auto;padding:6px 12px;min-height:34px;font-size:0.84rem;" onclick="cancelInlineEditContribution()">Cancel</button>
@@ -1671,7 +1909,14 @@
             </div>
           </div>
           <div class="form-group"><label for="expenseCategory">Category</label><select id="expenseCategory"><option>Food</option><option>Transport</option><option>Housing</option><option>Utilities</option><option>Health</option><option>Shopping</option><option>Entertainment</option><option>Other</option></select></div>
-          <div class="form-group"><label for="expenseDate">Date</label><input id="expenseDate" type="date"></div>
+          <div class="form-group"><label for="expenseDate">Date</label>
+            <div class="pp-date-wrap">
+              <input id="expenseDate" type="text" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="Expense date">
+              <button type="button" class="pp-date-trigger" aria-label="Open calendar for expense date" tabindex="-1">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </button>
+            </div>
+          </div>
           <button class="btn" onclick="addExpense()">Add Expense</button>
         </div>
         <div id="expenseMessage" class="message hidden tracker-message" role="status"></div>
@@ -2569,6 +2814,446 @@
       var btns = document.querySelectorAll('.goal-dur-btn');
       btns.forEach(function(b){ b.style.background=''; b.style.color=''; b.style.borderColor=''; });
     }
+
+    /* ==========================================================================
+       PlanPocket Shared Accessible DatePicker Component
+       ========================================================================== */
+    var PlanPocketDatePicker = (function() {
+      var MONTH_NAMES = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      var DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+      var activeInput = null;
+      var viewYear = 2026;
+      var viewMonth = 9; // 0-indexed: 9 = October
+      var popoverEl = null;
+
+      function padZero(n) { return n < 10 ? '0' + n : '' + n; }
+
+      function formatDateStr(y, m, d) {
+        return y + '-' + padZero(m + 1) + '-' + padZero(d);
+      }
+
+      function parseDateStr(s) {
+        if (!s || typeof s !== 'string') return null;
+        var m = s.trim().match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+        if (!m) return null;
+        var y = parseInt(m[1], 10);
+        var mon = parseInt(m[2], 10) - 1;
+        var d = parseInt(m[3], 10);
+        var dt = new Date(y, mon, d);
+        if (dt.getFullYear() === y && dt.getMonth() === mon && dt.getDate() === d) {
+          return { year: y, month: mon, day: d, str: formatDateStr(y, mon, d) };
+        }
+        return null;
+      }
+
+      function getLimits(input) {
+        var minStr = input.getAttribute('min') || '';
+        var maxStr = input.getAttribute('max') || '';
+
+        // Contextual rule: goalEndDate must be after goalStartDate
+        if (input.id === 'goalEndDate') {
+          var startEl = document.getElementById('goalStartDate');
+          if (startEl && startEl.value) {
+            if (!minStr || startEl.value >= minStr) {
+              minStr = startEl.value;
+            }
+          }
+        }
+        return { min: minStr, max: maxStr };
+      }
+
+      function createPopover() {
+        if (popoverEl) return popoverEl;
+        popoverEl = document.createElement('div');
+        popoverEl.id = 'ppDatePickerPopover';
+        popoverEl.className = 'pp-datepicker-popover';
+        popoverEl.setAttribute('role', 'dialog');
+        popoverEl.setAttribute('aria-modal', 'true');
+        popoverEl.setAttribute('aria-label', 'Calendar Date Picker');
+
+        popoverEl.innerHTML = 
+          '<div class="pp-cal-header">' +
+            '<button type="button" class="pp-cal-nav pp-cal-prev" aria-label="Previous month">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>' +
+            '</button>' +
+            '<div class="pp-cal-title" aria-live="polite"></div>' +
+            '<button type="button" class="pp-cal-nav pp-cal-next" aria-label="Next month">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>' +
+            '</button>' +
+          '</div>' +
+          '<div class="pp-cal-weekdays" aria-hidden="true">' +
+            DAY_NAMES.map(function(d) { return '<span class="pp-cal-weekday">' + d + '</span>'; }).join('') +
+          '</div>' +
+          '<div class="pp-cal-grid" role="grid" tabindex="0"></div>' +
+          '<div class="pp-cal-footer">' +
+            '<button type="button" class="pp-cal-footer-btn pp-cal-today-action">Today</button>' +
+            '<button type="button" class="pp-cal-footer-btn pp-cal-close-action">Close</button>' +
+          '</div>';
+
+        document.body.appendChild(popoverEl);
+
+        var prevBtn = popoverEl.querySelector('.pp-cal-prev');
+        var nextBtn = popoverEl.querySelector('.pp-cal-next');
+        var todayBtn = popoverEl.querySelector('.pp-cal-today-action');
+        var closeBtn = popoverEl.querySelector('.pp-cal-close-action');
+        var gridEl = popoverEl.querySelector('.pp-cal-grid');
+
+        prevBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          viewMonth--;
+          if (viewMonth < 0) {
+            viewMonth = 11;
+            viewYear--;
+          }
+          renderGrid();
+        });
+
+        nextBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          viewMonth++;
+          if (viewMonth > 11) {
+            viewMonth = 0;
+            viewYear++;
+          }
+          renderGrid();
+        });
+
+        todayBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var now = new Date();
+          var todayFormatted = formatDateStr(now.getFullYear(), now.getMonth(), now.getDate());
+          var limits = activeInput ? getLimits(activeInput) : {};
+          if (limits.min && (activeInput.id === 'goalEndDate' ? todayFormatted <= limits.min : todayFormatted < limits.min)) {
+            return;
+          }
+          selectDate(now.getFullYear(), now.getMonth(), now.getDate());
+        });
+
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closePopover();
+        });
+
+        gridEl.addEventListener('click', function(e) {
+          var dayBtn = e.target.closest('.pp-cal-day');
+          if (!dayBtn || dayBtn.classList.contains('is-disabled')) return;
+          var dateStr = dayBtn.getAttribute('data-date');
+          if (dateStr) {
+            var parsed = parseDateStr(dateStr);
+            if (parsed) selectDate(parsed.year, parsed.month, parsed.day);
+          }
+        });
+
+        gridEl.addEventListener('keydown', function(e) {
+          var key = e.key;
+          var curCell = gridEl.querySelector('.is-focused') || gridEl.querySelector('.is-selected') || gridEl.querySelector('.is-today') || gridEl.querySelector('.pp-cal-day:not(.is-disabled)');
+          if (!curCell) return;
+
+          var curDateStr = curCell.getAttribute('data-date');
+          var curParsed = parseDateStr(curDateStr);
+          if (!curParsed) return;
+
+          var tgt = new Date(curParsed.year, curParsed.month, curParsed.day);
+
+          if (key === 'ArrowLeft') {
+            e.preventDefault(); tgt.setDate(tgt.getDate() - 1);
+          } else if (key === 'ArrowRight') {
+            e.preventDefault(); tgt.setDate(tgt.getDate() + 1);
+          } else if (key === 'ArrowUp') {
+            e.preventDefault(); tgt.setDate(tgt.getDate() - 7);
+          } else if (key === 'ArrowDown') {
+            e.preventDefault(); tgt.setDate(tgt.getDate() + 7);
+          } else if (key === 'PageUp') {
+            e.preventDefault(); tgt.setMonth(tgt.getMonth() - 1);
+          } else if (key === 'PageDown') {
+            e.preventDefault(); tgt.setMonth(tgt.getMonth() + 1);
+          } else if (key === 'Home') {
+            e.preventDefault(); tgt.setDate(1);
+          } else if (key === 'End') {
+            e.preventDefault(); tgt = new Date(curParsed.year, curParsed.month + 1, 0);
+          } else if (key === 'Enter' || key === ' ') {
+            e.preventDefault();
+            var dayBtn = gridEl.querySelector('.is-focused') || curCell;
+            if (dayBtn && !dayBtn.classList.contains('is-disabled')) {
+              var ds = dayBtn.getAttribute('data-date');
+              var p = parseDateStr(ds);
+              if (p) selectDate(p.year, p.month, p.day);
+            }
+            return;
+          } else if (key === 'Escape' || key === 'Esc') {
+            e.preventDefault(); e.stopPropagation(); closePopover(); return;
+          } else {
+            return;
+          }
+
+          viewYear = tgt.getFullYear();
+          viewMonth = tgt.getMonth();
+          renderGrid(formatDateStr(tgt.getFullYear(), tgt.getMonth(), tgt.getDate()));
+        });
+
+        return popoverEl;
+      }
+
+      function renderGrid(focusedDateStr) {
+        if (!popoverEl || !activeInput) return;
+
+        var titleEl = popoverEl.querySelector('.pp-cal-title');
+        titleEl.textContent = MONTH_NAMES[viewMonth] + ' ' + viewYear;
+
+        var gridEl = popoverEl.querySelector('.pp-cal-grid');
+        gridEl.innerHTML = '';
+
+        var limits = getLimits(activeInput);
+        var selectedParsed = parseDateStr(activeInput.value);
+        var selectedStr = selectedParsed ? selectedParsed.str : '';
+
+        var today = new Date();
+        var todayStr = formatDateStr(today.getFullYear(), today.getMonth(), today.getDate());
+
+        var firstDayOfWeek = new Date(viewYear, viewMonth, 1).getDay(); // 0 = Sun
+        var daysInCurrentMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+        var daysInPrevMonth = new Date(viewYear, viewMonth, 0).getDate();
+
+        var cells = [];
+
+        for (var i = firstDayOfWeek - 1; i >= 0; i--) {
+          var pDay = daysInPrevMonth - i;
+          var pMonth = viewMonth - 1;
+          var pYear = viewYear;
+          if (pMonth < 0) { pMonth = 11; pYear--; }
+          cells.push({
+            year: pYear,
+            month: pMonth,
+            day: pDay,
+            str: formatDateStr(pYear, pMonth, pDay),
+            isOutside: true
+          });
+        }
+
+        for (var d = 1; d <= daysInCurrentMonth; d++) {
+          cells.push({
+            year: viewYear,
+            month: viewMonth,
+            day: d,
+            str: formatDateStr(viewYear, viewMonth, d),
+            isOutside: false
+          });
+        }
+
+        var totalCells = cells.length <= 35 ? 35 : 42;
+        var nextDay = 1;
+        while (cells.length < totalCells) {
+          var nMonth = viewMonth + 1;
+          var nYear = viewYear;
+          if (nMonth > 11) { nMonth = 0; nYear++; }
+          cells.push({
+            year: nYear,
+            month: nMonth,
+            day: nextDay,
+            str: formatDateStr(nYear, nMonth, nextDay),
+            isOutside: true
+          });
+          nextDay++;
+        }
+
+        cells.forEach(function(c) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'pp-cal-day';
+          btn.textContent = c.day;
+          btn.setAttribute('data-date', c.str);
+          btn.setAttribute('aria-label', MONTH_NAMES[c.month] + ' ' + c.day + ', ' + c.year);
+
+          if (c.isOutside) btn.classList.add('is-outside');
+          if (c.str === todayStr) btn.classList.add('is-today');
+          if (c.str === selectedStr) {
+            btn.classList.add('is-selected');
+            btn.setAttribute('aria-selected', 'true');
+          }
+
+          var isDisabled = false;
+          if (limits.min) {
+            if (activeInput.id === 'goalEndDate') {
+              if (c.str <= limits.min) isDisabled = true;
+            } else {
+              if (c.str < limits.min) isDisabled = true;
+            }
+          }
+          if (limits.max && c.str > limits.max) isDisabled = true;
+
+          if (isDisabled) {
+            btn.classList.add('is-disabled');
+            btn.setAttribute('disabled', 'disabled');
+            btn.setAttribute('aria-disabled', 'true');
+          }
+
+          if (focusedDateStr && c.str === focusedDateStr) {
+            btn.classList.add('is-focused');
+            setTimeout(function() { btn.focus(); }, 0);
+          }
+
+          gridEl.appendChild(btn);
+        });
+      }
+
+      function positionPopover() {
+        if (!popoverEl || !activeInput) return;
+        var wrap = activeInput.closest('.pp-date-wrap') || activeInput;
+        var rect = wrap.getBoundingClientRect();
+
+        var popoverWidth = 308;
+        var popoverHeight = 350;
+
+        var left = rect.left;
+        var top = rect.bottom + 6;
+
+        if (left + popoverWidth > window.innerWidth - 12) {
+          left = Math.max(12, window.innerWidth - popoverWidth - 12);
+        }
+        if (left < 12) left = 12;
+
+        if (rect.bottom + popoverHeight > window.innerHeight && rect.top > popoverHeight + 10) {
+          top = Math.max(10, rect.top - popoverHeight - 6);
+        }
+
+        popoverEl.style.left = Math.round(left) + 'px';
+        popoverEl.style.top = Math.round(top) + 'px';
+      }
+
+      function openPopover(input) {
+        createPopover();
+        activeInput = input;
+
+        var parsed = parseDateStr(input.value);
+        if (parsed) {
+          viewYear = parsed.year;
+          viewMonth = parsed.month;
+        } else {
+          var now = new Date();
+          viewYear = now.getFullYear();
+          viewMonth = now.getMonth();
+        }
+
+        renderGrid();
+        positionPopover();
+        popoverEl.classList.add('is-open');
+
+        var sel = popoverEl.querySelector('.is-selected') || popoverEl.querySelector('.is-today') || popoverEl.querySelector('.pp-cal-day:not(.is-disabled)');
+        if (sel) sel.focus();
+        else popoverEl.querySelector('.pp-cal-grid').focus();
+      }
+
+      function closePopover() {
+        if (!popoverEl) return;
+        popoverEl.classList.remove('is-open');
+        if (activeInput) {
+          try { activeInput.focus(); } catch (e) {}
+          activeInput = null;
+        }
+      }
+
+      function selectDate(y, m, d) {
+        if (!activeInput) return;
+        var dateStr = formatDateStr(y, m, d);
+        activeInput.value = dateStr;
+        activeInput.dispatchEvent(new Event('input', { bubbles: true }));
+        activeInput.dispatchEvent(new Event('change', { bubbles: true }));
+        closePopover();
+      }
+
+      document.addEventListener('mousedown', function(e) {
+        if (!popoverEl || !popoverEl.classList.contains('is-open')) return;
+        if (popoverEl.contains(e.target)) return;
+        if (activeInput && activeInput.closest('.pp-date-wrap') && activeInput.closest('.pp-date-wrap').contains(e.target)) return;
+        closePopover();
+      });
+
+      window.addEventListener('resize', function() {
+        if (popoverEl && popoverEl.classList.contains('is-open')) {
+          positionPopover();
+        }
+      });
+
+      window.addEventListener('scroll', function() {
+        if (popoverEl && popoverEl.classList.contains('is-open')) {
+          positionPopover();
+        }
+      }, true);
+
+      document.addEventListener('keydown', function(e) {
+        if ((e.key === 'Escape' || e.key === 'Esc') && popoverEl && popoverEl.classList.contains('is-open')) {
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          closePopover();
+        }
+      }, true);
+
+      return {
+        init: function() {
+          var dateInputs = [
+            document.getElementById('goalStartDate'),
+            document.getElementById('goalEndDate'),
+            document.getElementById('contributeDate'),
+            document.getElementById('editInlineDate'),
+            document.getElementById('expenseDate')
+          ].filter(Boolean);
+
+          dateInputs.forEach(function(input) {
+            if (input._ppDatePickerBound) return;
+            input._ppDatePickerBound = true;
+
+            input.addEventListener('click', function() {
+              openPopover(input);
+            });
+
+            input.addEventListener('input', function() {
+              if (popoverEl && popoverEl.classList.contains('is-open') && activeInput === input) {
+                var p = parseDateStr(input.value);
+                if (p) {
+                  viewYear = p.year;
+                  viewMonth = p.month;
+                  renderGrid();
+                }
+              }
+            });
+
+            input.addEventListener('keydown', function(e) {
+              if (e.key === 'Enter') {
+                if (popoverEl && popoverEl.classList.contains('is-open') && activeInput === input) {
+                  closePopover();
+                }
+              }
+            });
+
+            var wrap = input.closest('.pp-date-wrap');
+            if (wrap) {
+              var trigger = wrap.querySelector('.pp-date-trigger');
+              if (trigger) {
+                trigger.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (popoverEl && popoverEl.classList.contains('is-open') && activeInput === input) {
+                    closePopover();
+                  } else {
+                    openPopover(input);
+                  }
+                });
+              }
+            }
+          });
+        },
+        open: openPopover,
+        close: closePopover
+      };
+    })();
+
+    window.initPlanPocketDatePickers = function() {
+      PlanPocketDatePicker.init();
+    };
 
     /** Initialise Goal Planner date/duration controls. Called once on DOMContentLoaded. */
     function initGoalDuration() {
@@ -5023,6 +5708,7 @@ Billing: ₹10 per report generation.
       initGoalDuration();
       calculateSIP();
       calculateLumpSum();
+      initPlanPocketDatePickers();
       
       // Add install prompt after a delay
       setTimeout(() => {
