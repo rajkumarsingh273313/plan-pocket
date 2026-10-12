@@ -1169,6 +1169,7 @@
     }
     .invest-toggle-bar {
       display: inline-flex;
+      flex-wrap: wrap;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 999px;
@@ -1933,7 +1934,7 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
           <div>
             <h2 id="investmentHeaderTitle" style="font-size: 1.5rem; margin-bottom: 6px;">Investment Calculator</h2>
-            <p id="investmentHeaderDesc" style="color: var(--muted); margin-bottom: 0;">Plan and project your returns using Systematic Investment Plans (SIP), Lump Sum investments, or Simple Interest.</p>
+            <p id="investmentHeaderDesc" style="color: var(--muted); margin-bottom: 0;">Plan and project your returns using SIP, Lump Sum, Simple & Compound Interest, or calculate HRA tax exemption.</p>
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start;">
             <label for="investmentTypeSelect" style="font-size: 0.76rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0;">Calculator Type</label>
@@ -1942,11 +1943,15 @@
                 <option value="sip" selected>SIP (Monthly)</option>
                 <option value="lump">Lump Sum (One-time)</option>
                 <option value="si">Simple Interest</option>
+                <option value="ci">Compound Interest</option>
+                <option value="hra">HRA Exemption</option>
               </select>
               <div class="invest-toggle-bar" role="tablist" aria-label="Investment calculator tabs">
                 <button type="button" id="tabSIP" class="invest-toggle-btn active" role="tab" aria-selected="true" onclick="switchInvestmentCalculator('sip')">SIP</button>
                 <button type="button" id="tabLump" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('lump')">Lump Sum</button>
                 <button type="button" id="tabSI" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('si')">Simple Interest</button>
+                <button type="button" id="tabCI" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('ci')">Compound Interest</button>
+                <button type="button" id="tabHRA" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('hra')">HRA</button>
               </div>
             </div>
           </div>
@@ -2330,6 +2335,341 @@
                   • <strong>Calculation Method:</strong> Interest is calculated linearly without compounding over time: <em>Time in years = total months / 12</em>, <em>Simple Interest = Principal × (Annual Rate / 100) × Time in years</em>, and <em>Total Amount = Principal + Simple Interest</em>.<br>
                   • <strong>Zero Rate Behavior:</strong> If the annual interest rate is 0%, total interest is strictly ₹0 and the total amount equals the principal amount.<br>
                   • <strong>No Reinvestment:</strong> Unlike compound interest or growth funds, earnings are not added back into the principal for subsequent periods. Taxes, deductions, or penalties are not deducted.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compound Interest Calculator Section -->
+        <div id="ciCalculatorSection" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Compound Interest Calculator</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate exponential wealth growth and returns on your principal with periodic compounding over time.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- Principal Amount -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="ciPrincipal">Principal Amount (₹)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="ciPrincipal" class="currency-input" type="number" min="1" step="5000" value="50000" placeholder="50000" style="padding-left: 38px !important; font-weight: 600;" oninput="syncCIPrincipal()">
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="10000" onclick="setCIPrincipal(10000)">₹10,000</button>
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setCIPrincipal(25000)">₹25,000</button>
+                  <button type="button" class="sip-chip active" data-amt="50000" onclick="setCIPrincipal(50000)">₹50,000</button>
+                  <button type="button" class="sip-chip" data-amt="100000" onclick="setCIPrincipal(100000)">₹1,00,000</button>
+                  <button type="button" class="sip-chip" data-amt="250000" onclick="setCIPrincipal(250000)">₹2,50,000</button>
+                  <button type="button" class="sip-chip" data-amt="500000" onclick="setCIPrincipal(500000)">₹5,00,000</button>
+                </div>
+              </div>
+
+              <!-- Annual Interest Rate -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="ciRate" style="margin-bottom: 0;">Annual Interest Rate (%)</label>
+                  <div style="position: relative; width: 92px;">
+                    <input id="ciRate" type="number" min="0" max="100" step="0.1" value="8" style="padding-right: 22px; text-align: right; min-height: 38px; padding-top: 6px; padding-bottom: 6px; font-weight: 700;" oninput="syncCIRateFromInput()">
+                    <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; font-weight: 700; pointer-events: none;">%</span>
+                  </div>
+                </div>
+                <input id="ciRateSlider" type="range" class="sip-slider" min="0" max="100" step="0.5" value="8" style="--fill: 8%;" oninput="syncCIRateFromSlider()">
+                <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-top: 6px;">
+                  <span>0% (Zero return)</span>
+                  <span>8% (Typical FD / bond)</span>
+                  <span>100% (Max)</span>
+                </div>
+              </div>
+
+              <!-- Compounding Frequency -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="ciFrequency">Compounding Frequency</label>
+                <select id="ciFrequency" onchange="calculateCompoundInterest()" style="min-height: 40px; padding: 8px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%;">
+                  <option value="1">Yearly (Annually - 1 time/year)</option>
+                  <option value="2">Half-Yearly (Semi-annually - 2 times/year)</option>
+                  <option value="4" selected>Quarterly (4 times/year)</option>
+                </select>
+              </div>
+
+              <!-- Duration (Years & Months) -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label>Investment Duration</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Years</div>
+                    <input id="ciYears" type="number" min="0" max="80" step="1" value="5" placeholder="Years" style="font-weight: 600;" oninput="syncCIDurationInputs()">
+                  </div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Months</div>
+                    <input id="ciMonths" type="number" min="0" max="11" step="1" value="0" placeholder="Months" style="font-weight: 600;" oninput="syncCIDurationInputs()">
+                  </div>
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-dur="1-0" onclick="setCIDuration(1, 0)">1 Yr</button>
+                  <button type="button" class="sip-chip" data-dur="3-0" onclick="setCIDuration(3, 0)">3 Yrs</button>
+                  <button type="button" class="sip-chip active" data-dur="5-0" onclick="setCIDuration(5, 0)">5 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="10-0" onclick="setCIDuration(10, 0)">10 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="15-0" onclick="setCIDuration(15, 0)">15 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="20-0" onclick="setCIDuration(20, 0)">20 Yrs</button>
+                </div>
+                <div id="ciDurationDisplay" style="font-size: 0.8rem; color: var(--muted); margin-top: 6px; font-weight: 500;">Total duration: 5 years (60 months)</div>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateCompoundInterest()">Calculate</button>
+            </div>
+
+            <!-- Right Column: Results & Doughnut Chart -->
+            <div>
+              <div id="ciResult" class="sip-results-card" aria-live="polite">
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Estimated Total Amount (Principal + Interest)</span>
+                  <strong class="sip-metric-value" id="ciTotalAmount">₹0</strong>
+                </div>
+
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-invested" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Principal Amount</div>
+                      <div class="sip-breakdown-val" id="ciPrincipalDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="ciPrincipalPct">0% of total</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-returns" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Total Interest (Compound Growth)</div>
+                      <div class="sip-breakdown-val highlight-returns" id="ciInterestDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="ciInterestPct">0% of total</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="ciChart" width="180" height="180" role="img" aria-label="Compound interest doughnut chart comparing principal and interest"></canvas>
+                  </div>
+                </div>
+
+                <p id="ciBreakdownText" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+                <p style="color: var(--accent); font-size: 0.78rem; margin: 6px 0 0; text-align: center; font-weight: 600;">
+                  ⚡ Compounding Formula: A = P × (1 + r/n)<sup>n×t</sup>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div id="ciMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Assumptions & Formula Card -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Compound Interest Formula & Compounding Frequencies</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Standard Mathematical Formula:</strong> <em>A = P × (1 + r/n)<sup>n×t</sup></em>, where <em>P</em> = Principal, <em>r</em> = Annual Rate / 100, <em>n</em> = Compounding periods per year (Yearly = 1, Half-Yearly = 2, Quarterly = 4), and <em>t</em> = Time in years (<em>total months / 12</em>).<br>
+                  • <strong>Zero Rate Behavior:</strong> When the annual interest rate is 0%, interest earned is strictly ₹0 and total estimated value equals the principal amount.<br>
+                  • <strong>Planning Estimates:</strong> Returns are mathematical projections assuming constant rates and periodic compounding without intermediate withdrawals, tax deductions, or inflation adjustments.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HRA Exemption Calculator Section -->
+        <div id="hraCalculatorSection" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">HRA Tax Exemption Calculator</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate your House Rent Allowance (HRA) tax exemption under Section 10(13A) & Rule 2A of the Income Tax Act.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- Frequency / Period Toggle -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label style="margin-bottom: 6px;">Calculation Frequency</label>
+                <div class="invest-toggle-bar" role="radiogroup" aria-label="HRA frequency selector" style="width: 100%; display: flex; justify-content: center;">
+                  <button type="button" id="hraPeriodMonthly" class="invest-toggle-btn active" style="flex: 1; text-align: center;" onclick="setHRAPeriod('monthly')">Monthly</button>
+                  <button type="button" id="hraPeriodAnnual" class="invest-toggle-btn" style="flex: 1; text-align: center;" onclick="setHRAPeriod('annual')">Annual</button>
+                </div>
+                <span style="font-size: 0.78rem; color: var(--muted); display: block; margin-top: 4px;">Choose whether you are entering salary & rent amounts on a monthly or annual basis.</span>
+              </div>
+
+              <!-- Basic Salary -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraBasic" id="hraBasicLabel">Basic Salary (₹ / month)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="hraBasic" class="currency-input" type="number" min="1" step="5000" value="50000" placeholder="50000" style="padding-left: 38px !important; font-weight: 600;" oninput="calculateHRA()">
+                </div>
+                <div id="hraBasicChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setHRABasic(25000)">₹25,000</button>
+                  <button type="button" class="sip-chip active" data-amt="50000" onclick="setHRABasic(50000)">₹50,000</button>
+                  <button type="button" class="sip-chip" data-amt="75000" onclick="setHRABasic(75000)">₹75,000</button>
+                  <button type="button" class="sip-chip" data-amt="100000" onclick="setHRABasic(100000)">₹1,00,000</button>
+                </div>
+              </div>
+
+              <!-- Dearness Allowance (DA) -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraDA" id="hraDALabel">Dearness Allowance - DA (₹ / month)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="hraDA" class="currency-input" type="number" min="0" step="1000" value="0" placeholder="0" style="padding-left: 38px !important; font-weight: 600;" oninput="calculateHRA()">
+                </div>
+                <span style="font-size: 0.78rem; color: var(--muted); display: block; margin-top: 4px;">Only include DA that forms part of retirement benefits.</span>
+              </div>
+
+              <!-- HRA Received -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraReceived" id="hraReceivedLabel">HRA Received from Employer (₹ / month)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="hraReceived" class="currency-input" type="number" min="0" step="2000" value="20000" placeholder="20000" style="padding-left: 38px !important; font-weight: 600;" oninput="calculateHRA()">
+                </div>
+                <div id="hraReceivedChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="10000" onclick="setHRAReceived(10000)">₹10,000</button>
+                  <button type="button" class="sip-chip active" data-amt="20000" onclick="setHRAReceived(20000)">₹20,000</button>
+                  <button type="button" class="sip-chip" data-amt="30000" onclick="setHRAReceived(30000)">₹30,000</button>
+                  <button type="button" class="sip-chip" data-amt="40000" onclick="setHRAReceived(40000)">₹40,000</button>
+                </div>
+              </div>
+
+              <!-- Actual Rent Paid -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraRent" id="hraRentLabel">Actual Rent Paid (₹ / month)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="hraRent" class="currency-input" type="number" min="0" step="2000" value="22000" placeholder="22000" style="padding-left: 38px !important; font-weight: 600;" oninput="calculateHRA()">
+                </div>
+                <div id="hraRentChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="15000" onclick="setHRARent(15000)">₹15,000</button>
+                  <button type="button" class="sip-chip active" data-amt="22000" onclick="setHRARent(22000)">₹22,000</button>
+                  <button type="button" class="sip-chip" data-amt="30000" onclick="setHRARent(30000)">₹30,000</button>
+                  <button type="button" class="sip-chip" data-amt="45000" onclick="setHRARent(45000)">₹45,000</button>
+                </div>
+              </div>
+
+              <!-- City Type & Tax Regime in 2 Columns -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="hraCityType">City of Residence</label>
+                  <select id="hraCityType" onchange="calculateHRA()" style="min-height: 40px; padding: 8px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%;">
+                    <option value="metro" selected>Metro (50% - Delhi, Mumbai, Kolkata, Chennai)</option>
+                    <option value="non-metro">Non-Metro (40% - All other cities)</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="hraRegime">Tax Regime</label>
+                  <select id="hraRegime" onchange="calculateHRA()" style="min-height: 40px; padding: 8px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%;">
+                    <option value="old" selected>Old Tax Regime (Sec 10(13A))</option>
+                    <option value="new">New Tax Regime (Sec 115BAC)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Financial Year -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraFY">Financial Year</label>
+                <select id="hraFY" onchange="calculateHRA()" style="min-height: 40px; padding: 8px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%;">
+                  <option value="2025-26" selected>FY 2025-26 (Assessment Year 2026-27)</option>
+                  <option value="2024-25">FY 2024-25 (Assessment Year 2025-26)</option>
+                </select>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateHRA()">Calculate HRA Exemption</button>
+            </div>
+
+            <!-- Right Column: Results & Statutory Breakdown -->
+            <div>
+              <div id="hraResult" class="sip-results-card" aria-live="polite">
+                <!-- Summary Metric: Tax-Exempt HRA -->
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Tax-Exempt HRA (Annual)</span>
+                  <strong class="sip-metric-value" id="hraExemptDisplay" style="color: var(--success);">₹0</strong>
+                  <span id="hraExemptMonthly" style="display: block; font-size: 0.88rem; color: var(--muted); margin-top: 4px; font-weight: 600;">₹0 / month</span>
+                </div>
+
+                <!-- Breakdown Items: Taxable HRA & Total Received -->
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot" style="background: var(--text);" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Taxable HRA (Annual)</div>
+                      <div class="sip-breakdown-val" id="hraTaxableDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="hraTaxableMonthly">₹0 / month</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot" style="background: var(--lime);" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Total HRA Received</div>
+                      <div class="sip-breakdown-val" id="hraReceivedDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="hraReceivedMonthly">₹0 / month</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Doughnut Chart -->
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="hraChart" width="180" height="180" role="img" aria-label="HRA tax exemption doughnut chart comparing exempt and taxable portions"></canvas>
+                  </div>
+                </div>
+
+                <!-- Statutory 3-Limit Breakdown Box -->
+                <div id="hraLimitsBox" style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;">
+                  <div style="font-size: 0.84rem; font-weight: 700; color: var(--text); margin-bottom: 8px;">
+                    Statutory Rule 2A Limits (Section 10(13A))
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem;">
+                    <div id="hraLimit1Row" style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px;">
+                      <span style="color: var(--muted);">1. Actual HRA Received:</span>
+                      <strong id="hraLimit1Display" style="font-weight: 700;">₹0</strong>
+                    </div>
+                    <div id="hraLimit2Row" style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px;">
+                      <span style="color: var(--muted);">2. Rent Paid − 10% of Salary:</span>
+                      <strong id="hraLimit2Display" style="font-weight: 700;">₹0</strong>
+                    </div>
+                    <div id="hraLimit3Row" style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px;">
+                      <span id="hraLimit3Label" style="color: var(--muted);">3. 50% of Salary (Metro):</span>
+                      <strong id="hraLimit3Display" style="font-weight: 700;">₹0</strong>
+                    </div>
+                  </div>
+                  <div id="hraDeterminingLimit" style="margin-top: 10px; font-size: 0.78rem; color: var(--accent); font-weight: 600; padding-top: 8px; border-top: 1px dashed var(--border);">
+                    Exemption is the least of the three limits above.
+                  </div>
+                </div>
+
+                <!-- New Regime Alert Notice (Hidden by default, shown when New Regime is selected) -->
+                <div id="hraRegimeNotice" class="hidden" style="background: #FFF8E6; border: 1px solid #FFE08A; border-radius: 10px; padding: 12px 14px; font-size: 0.82rem; color: #734B00; line-height: 1.45;">
+                  <strong>⚠️ New Tax Regime Notice:</strong> Under Section 115BAC (New Tax Regime), House Rent Allowance exemption under Section 10(13A) is disallowed. 100% of the HRA received is added to your taxable income. Select Old Tax Regime if you wish to claim this exemption.
+                </div>
+
+                <p id="hraBreakdownText" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+              </div>
+            </div>
+          </div>
+
+          <div id="hraMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Assumptions & Legal Statutory Card -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Income Tax Rules & Documentation Requirements</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Salary Definition (Rule 2A):</strong> Salary for HRA exemption calculation includes Basic Salary plus Dearness Allowance (DA) if it forms part of retirement benefits. Other allowances and bonuses are excluded.<br>
+                  • <strong>Section 10(13A) Exemption:</strong> Under the Old Tax Regime, the exempt HRA is strictly the minimum of: (1) Actual HRA received, (2) Rent paid minus 10% of salary, or (3) 50% of salary for metro cities (Delhi, Mumbai, Kolkata, Chennai) and 40% for non-metro cities.<br>
+                  • <strong>Proof & Landlord PAN:</strong> Under Section 206AA / ITD guidelines, if annual rent exceeds ₹1,00,000 (₹8,333/month), your landlord's PAN must be reported to your employer along with valid rent receipts and rental agreement.<br>
+                  • <strong>Disclaimer:</strong> This calculator provides estimated figures for financial planning. Actual tax liability depends on your total income, deductions, and tax slabs. Consult a certified tax advisor or CA.
                 </p>
               </div>
             </div>
@@ -4651,14 +4991,20 @@
       const sipSection = document.getElementById('sipCalculatorSection');
       const lumpSection = document.getElementById('lumpCalculatorSection');
       const siSection = document.getElementById('siCalculatorSection');
+      const ciSection = document.getElementById('ciCalculatorSection');
+      const hraSection = document.getElementById('hraCalculatorSection');
       const select = document.getElementById('investmentTypeSelect');
       const tabSIP = document.getElementById('tabSIP');
       const tabLump = document.getElementById('tabLump');
       const tabSI = document.getElementById('tabSI');
+      const tabCI = document.getElementById('tabCI');
+      const tabHRA = document.getElementById('tabHRA');
 
       let mode = 'sip';
       if (type === 'lump' || type === 'lumpsum') mode = 'lump';
       else if (type === 'si' || type === 'simple' || type === 'simpleinterest') mode = 'si';
+      else if (type === 'ci' || type === 'compound' || type === 'compoundinterest') mode = 'ci';
+      else if (type === 'hra') mode = 'hra';
 
       if (select) select.value = mode;
       if (tabSIP) {
@@ -4673,14 +5019,26 @@
         tabSI.classList.toggle('active', mode === 'si');
         tabSI.setAttribute('aria-selected', mode === 'si' ? 'true' : 'false');
       }
+      if (tabCI) {
+        tabCI.classList.toggle('active', mode === 'ci');
+        tabCI.setAttribute('aria-selected', mode === 'ci' ? 'true' : 'false');
+      }
+      if (tabHRA) {
+        tabHRA.classList.toggle('active', mode === 'hra');
+        tabHRA.setAttribute('aria-selected', mode === 'hra' ? 'true' : 'false');
+      }
 
       if (sipSection) sipSection.style.display = (mode === 'sip') ? 'block' : 'none';
       if (lumpSection) lumpSection.style.display = (mode === 'lump') ? 'block' : 'none';
       if (siSection) siSection.style.display = (mode === 'si') ? 'block' : 'none';
+      if (ciSection) ciSection.style.display = (mode === 'ci') ? 'block' : 'none';
+      if (hraSection) hraSection.style.display = (mode === 'hra') ? 'block' : 'none';
 
       if (mode === 'sip') calculateSIP();
       else if (mode === 'lump') calculateLumpSum();
       else if (mode === 'si') calculateSimpleInterest();
+      else if (mode === 'ci') calculateCompoundInterest();
+      else if (mode === 'hra') calculateHRA();
     }
 
     function syncLumpPrincipal() {
@@ -5208,12 +5566,564 @@
       renderSIChart(roundedPrincipal, roundedInterest, roundedTotal);
     }
 
+    /* ==========================================================================
+       Compound Interest Calculator Logic & Synchronization
+       ========================================================================== */
+    function syncCIPrincipal() {
+      const input = document.getElementById('ciPrincipal');
+      const val = Number(input ? input.value : 0);
+      document.querySelectorAll('#ciCalculatorSection .sip-preset-chips button[data-amt]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === val);
+      });
+      calculateCompoundInterest();
+    }
+
+    function setCIPrincipal(amt) {
+      const input = document.getElementById('ciPrincipal');
+      if (input) {
+        input.value = amt;
+        syncCIPrincipal();
+      }
+    }
+
+    function syncCIRateFromSlider() {
+      const slider = document.getElementById('ciRateSlider');
+      const input = document.getElementById('ciRate');
+      if (slider && input) {
+        input.value = slider.value;
+        slider.style.setProperty('--fill', slider.value + '%');
+      }
+      calculateCompoundInterest();
+    }
+
+    function syncCIRateFromInput() {
+      const slider = document.getElementById('ciRateSlider');
+      const input = document.getElementById('ciRate');
+      if (slider && input) {
+        const val = Math.min(100, Math.max(0, Number(input.value) || 0));
+        slider.value = val;
+        slider.style.setProperty('--fill', val + '%');
+      }
+      calculateCompoundInterest();
+    }
+
+    function syncCIDurationInputs() {
+      const y = Number(document.getElementById('ciYears') ? document.getElementById('ciYears').value : 0) || 0;
+      const m = Number(document.getElementById('ciMonths') ? document.getElementById('ciMonths').value : 0) || 0;
+      const durKey = y + '-' + m;
+      document.querySelectorAll('#ciCalculatorSection .sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === durKey);
+      });
+      const displayEl = document.getElementById('ciDurationDisplay');
+      if (displayEl) {
+        const totalMonths = Math.round(y * 12 + m);
+        const parts = [];
+        if (y > 0) parts.push(y + (y === 1 ? ' year' : ' years'));
+        if (m > 0) parts.push(m + (m === 1 ? ' month' : ' months'));
+        const desc = parts.length > 0 ? parts.join(' ') : '0 months';
+        displayEl.textContent = 'Total duration: ' + desc + ' (' + totalMonths + ' months)';
+      }
+      calculateCompoundInterest();
+    }
+
+    function setCIDuration(years, months) {
+      const yInput = document.getElementById('ciYears');
+      const mInput = document.getElementById('ciMonths');
+      if (yInput) yInput.value = years;
+      if (mInput) mInput.value = months;
+      syncCIDurationInputs();
+    }
+
+    function renderCIChart(principal, interest, total) {
+      const canvas = document.getElementById('ciChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (window.ciChartInstance && typeof window.ciChartInstance.destroy === 'function') {
+        window.ciChartInstance.destroy();
+        window.ciChartInstance = null;
+      }
+
+      const chartData = (interest <= 0) ? [principal, 0] : [principal, interest];
+
+      try {
+        window.ciChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Principal Amount', 'Total Interest'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#141612', '#6AF70F'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const val = context.raw || 0;
+                    const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                    return context.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            },
+            cutout: '68%'
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering compound interest chart:', err);
+      }
+    }
+
+    function calculateCompoundInterest() {
+      const principalInput = document.getElementById('ciPrincipal');
+      const rateInput = document.getElementById('ciRate');
+      const freqSelect = document.getElementById('ciFrequency');
+      const yearsInput = document.getElementById('ciYears');
+      const monthsInput = document.getElementById('ciMonths');
+      const messageEl = document.getElementById('ciMessage');
+      const resultCard = document.getElementById('ciResult');
+
+      if (principalInput) principalInput.removeAttribute('aria-invalid');
+      if (rateInput) rateInput.removeAttribute('aria-invalid');
+      if (yearsInput) yearsInput.removeAttribute('aria-invalid');
+      if (monthsInput) monthsInput.removeAttribute('aria-invalid');
+
+      const principalVal = principalInput ? principalInput.value.trim() : '';
+      const principal = Number(principalVal);
+
+      const rateVal = rateInput ? rateInput.value.trim() : '';
+      const annualRate = Number(rateVal);
+
+      const freq = Number(freqSelect ? freqSelect.value : 4) || 4;
+
+      const yearsVal = yearsInput ? yearsInput.value.trim() : '0';
+      const years = Number(yearsVal);
+
+      const monthsVal = monthsInput ? monthsInput.value.trim() : '0';
+      const months = Number(monthsVal);
+
+      // Validate principal > 0
+      if (!principalVal || !Number.isFinite(principal) || principal <= 0) {
+        if (principalInput) principalInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Principal amount must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate annual rate between 0% and 100%
+      if (rateVal === '' || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100) {
+        if (rateInput) rateInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Annual interest rate must be between 0% and 100%.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate duration numbers >= 0
+      if (!Number.isFinite(years) || !Number.isFinite(months) || years < 0 || months < 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Please enter a valid investment duration.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      const totalMonths = Math.round(years * 12 + months);
+      if (totalMonths <= 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        if (monthsInput) monthsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Investment duration must be at least 1 month.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (totalMonths > 80 * 12) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Investment duration cannot exceed 80 years.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Compound Interest calculation:
+      // time in years t = totalMonths / 12
+      // compounding frequency n = freq (1, 2, or 4)
+      // rate per period r_period = (annualRate / 100) / n
+      // total periods N = n * t
+      // total amount A = principal * (1 + r_period) ^ N
+      // total interest = A - principal
+      const timeInYears = totalMonths / 12;
+      let totalAmount = principal;
+      let interest = 0;
+
+      if (annualRate > 0) {
+        const rPeriod = (annualRate / 100) / freq;
+        const totalPeriods = freq * timeInYears;
+        totalAmount = principal * Math.pow(1 + rPeriod, totalPeriods);
+        interest = totalAmount - principal;
+      } else {
+        totalAmount = principal;
+        interest = 0;
+      }
+
+      if (!Number.isFinite(interest) || !Number.isFinite(totalAmount)) {
+        showTrackerMessage('ciMessage', 'Calculation resulted in an invalid number. Please adjust your inputs.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      const roundedPrincipal = Math.round(principal);
+      const roundedInterest = Math.round(interest);
+      const roundedTotal = Math.round(totalAmount);
+
+      const totalEl = document.getElementById('ciTotalAmount');
+      const principalEl = document.getElementById('ciPrincipalDisplay');
+      const interestEl = document.getElementById('ciInterestDisplay');
+      const principalPctEl = document.getElementById('ciPrincipalPct');
+      const interestPctEl = document.getElementById('ciInterestPct');
+      const breakdownEl = document.getElementById('ciBreakdownText');
+
+      if (totalEl) totalEl.textContent = formatCurrency(roundedTotal);
+      if (principalEl) principalEl.textContent = formatCurrency(roundedPrincipal);
+      if (interestEl) interestEl.textContent = formatCurrency(roundedInterest);
+
+      const principalPct = roundedTotal > 0 ? ((roundedPrincipal / roundedTotal) * 100).toFixed(1) : '100.0';
+      const interestPct = roundedTotal > 0 ? ((roundedInterest / roundedTotal) * 100).toFixed(1) : '0.0';
+
+      if (principalPctEl) principalPctEl.textContent = principalPct + '% of total';
+      if (interestPctEl) interestPctEl.textContent = interestPct + '% of total';
+
+      const freqNameMap = { 1: 'yearly', 2: 'half-yearly', 4: 'quarterly' };
+      const freqName = freqNameMap[freq] || 'periodic';
+
+      if (breakdownEl) {
+        const parts = [];
+        if (years > 0) parts.push(years + (years === 1 ? ' year' : ' years'));
+        if (months > 0) parts.push(months + (months === 1 ? ' month' : ' months'));
+        const durStr = parts.length > 0 ? parts.join(' ') : totalMonths + ' months';
+
+        if (annualRate === 0) {
+          breakdownEl.textContent = `Over ${durStr}, a principal of ${formatCurrency(roundedPrincipal)} at 0% annual return yields ₹0 in interest, resulting in ${formatCurrency(roundedPrincipal)}.`;
+        } else {
+          breakdownEl.textContent = `Over ${durStr}, a principal of ${formatCurrency(roundedPrincipal)} at ${annualRate}% p.a. compounded ${freqName} generates ${formatCurrency(roundedInterest)} in interest, reaching ${formatCurrency(roundedTotal)}.`;
+        }
+      }
+
+      try {
+        (window.localStorage || localStorage).setItem('planpocket_lastInvestment', String(roundedTotal));
+      } catch (e) {}
+      if (typeof updateDashboardSummary === 'function') {
+        updateDashboardSummary();
+      }
+
+      renderCIChart(roundedPrincipal, roundedInterest, roundedTotal);
+    }
+
+    /* ==========================================================================
+       HRA Tax Exemption Calculator Logic & Synchronization
+       ========================================================================== */
+    let hraPeriodMode = 'monthly';
+
+    function setHRAPeriod(mode) {
+      hraPeriodMode = mode === 'annual' ? 'annual' : 'monthly';
+      const monthlyBtn = document.getElementById('hraPeriodMonthly');
+      const annualBtn = document.getElementById('hraPeriodAnnual');
+      if (monthlyBtn) monthlyBtn.classList.toggle('active', hraPeriodMode === 'monthly');
+      if (annualBtn) annualBtn.classList.toggle('active', hraPeriodMode === 'annual');
+
+      const suffix = hraPeriodMode === 'monthly' ? '(₹ / month)' : '(₹ / year)';
+      const basicLbl = document.getElementById('hraBasicLabel');
+      const daLbl = document.getElementById('hraDALabel');
+      const recLbl = document.getElementById('hraReceivedLabel');
+      const rentLbl = document.getElementById('hraRentLabel');
+
+      if (basicLbl) basicLbl.textContent = 'Basic Salary ' + suffix;
+      if (daLbl) daLbl.textContent = 'Dearness Allowance - DA ' + suffix;
+      if (recLbl) recLbl.textContent = 'HRA Received from Employer ' + suffix;
+      if (rentLbl) rentLbl.textContent = 'Actual Rent Paid ' + suffix;
+
+      calculateHRA();
+    }
+
+    function setHRABasic(amt) {
+      const input = document.getElementById('hraBasic');
+      if (input) {
+        input.value = amt;
+        document.querySelectorAll('#hraBasicChips button[data-amt]').forEach(btn => {
+          btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === amt);
+        });
+        calculateHRA();
+      }
+    }
+
+    function setHRAReceived(amt) {
+      const input = document.getElementById('hraReceived');
+      if (input) {
+        input.value = amt;
+        document.querySelectorAll('#hraReceivedChips button[data-amt]').forEach(btn => {
+          btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === amt);
+        });
+        calculateHRA();
+      }
+    }
+
+    function setHRARent(amt) {
+      const input = document.getElementById('hraRent');
+      if (input) {
+        input.value = amt;
+        document.querySelectorAll('#hraRentChips button[data-amt]').forEach(btn => {
+          btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === amt);
+        });
+        calculateHRA();
+      }
+    }
+
+    function renderHRAChart(exempt, taxable) {
+      const canvas = document.getElementById('hraChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (window.hraChartInstance && typeof window.hraChartInstance.destroy === 'function') {
+        window.hraChartInstance.destroy();
+        window.hraChartInstance = null;
+      }
+
+      const totalHRA = exempt + taxable;
+      let chartData = [exempt, taxable];
+      if (totalHRA <= 0) {
+        chartData = [0, 1];
+      }
+
+      try {
+        window.hraChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Tax-Exempt HRA', 'Taxable HRA'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#6AF70F', '#141612'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const val = context.raw || 0;
+                    const pct = totalHRA > 0 ? ((val / totalHRA) * 100).toFixed(1) : 0;
+                    return context.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            },
+            cutout: '68%'
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering HRA chart:', err);
+      }
+    }
+
+    function calculateHRA() {
+      const basicInput = document.getElementById('hraBasic');
+      const daInput = document.getElementById('hraDA');
+      const recInput = document.getElementById('hraReceived');
+      const rentInput = document.getElementById('hraRent');
+      const citySelect = document.getElementById('hraCityType');
+      const regimeSelect = document.getElementById('hraRegime');
+      const messageEl = document.getElementById('hraMessage');
+      const resultCard = document.getElementById('hraResult');
+      const regimeNotice = document.getElementById('hraRegimeNotice');
+
+      if (basicInput) basicInput.removeAttribute('aria-invalid');
+      if (daInput) daInput.removeAttribute('aria-invalid');
+      if (recInput) recInput.removeAttribute('aria-invalid');
+      if (rentInput) rentInput.removeAttribute('aria-invalid');
+
+      const basicVal = basicInput ? basicInput.value.trim() : '';
+      const basic = Number(basicVal);
+
+      const daVal = daInput ? daInput.value.trim() : '0';
+      const da = Number(daVal);
+
+      const recVal = recInput ? recInput.value.trim() : '0';
+      const hraReceived = Number(recVal);
+
+      const rentVal = rentInput ? rentInput.value.trim() : '0';
+      const rentPaid = Number(rentVal);
+
+      const isMetro = citySelect ? citySelect.value === 'metro' : true;
+      const isNewRegime = regimeSelect ? regimeSelect.value === 'new' : false;
+
+      // Validate basic salary > 0
+      if (!basicVal || !Number.isFinite(basic) || basic <= 0) {
+        if (basicInput) basicInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('hraMessage', 'Basic salary must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate DA >= 0
+      if (!Number.isFinite(da) || da < 0) {
+        if (daInput) daInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('hraMessage', 'Dearness Allowance (DA) cannot be negative.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate HRA Received >= 0
+      if (!Number.isFinite(hraReceived) || hraReceived < 0) {
+        if (recInput) recInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('hraMessage', 'HRA received cannot be negative.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate Rent Paid >= 0
+      if (!Number.isFinite(rentPaid) || rentPaid < 0) {
+        if (rentInput) rentInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('hraMessage', 'Rent paid cannot be negative.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      // Convert to annual figures for statutory calculation
+      const mult = (hraPeriodMode === 'monthly') ? 12 : 1;
+      const annualBasic = basic * mult;
+      const annualDA = da * mult;
+      const annualHRA = hraReceived * mult;
+      const annualRent = rentPaid * mult;
+
+      // Eligible Salary for HRA under Rule 2A = Basic + DA (forming part of retirement benefits)
+      const annualSalary = annualBasic + annualDA;
+
+      // Calculate Statutory Limits
+      const limit1 = annualHRA; // Actual HRA received
+      const rentExcess = annualRent - (0.10 * annualSalary);
+      const limit2 = Math.max(0, rentExcess); // Rent paid - 10% of salary
+      const metroPct = isMetro ? 0.50 : 0.40;
+      const limit3 = metroPct * annualSalary; // 50% (metro) or 40% (non-metro) of salary
+
+      let exemptHRA = 0;
+      let taxableHRA = 0;
+      let determiningLimitText = '';
+
+      if (isNewRegime) {
+        exemptHRA = 0;
+        taxableHRA = annualHRA;
+        determiningLimitText = 'Under the New Tax Regime (Section 115BAC), Section 10(13A) HRA exemption is disallowed. 100% of HRA is taxable.';
+        if (regimeNotice) regimeNotice.classList.remove('hidden');
+      } else {
+        if (regimeNotice) regimeNotice.classList.add('hidden');
+        exemptHRA = Math.min(limit1, limit2, limit3);
+        taxableHRA = Math.max(0, annualHRA - exemptHRA);
+
+        if (annualRent <= 0) {
+          determiningLimitText = 'No rent is paid, so HRA exemption is ₹0 (100% taxable).';
+        } else if (rentExcess <= 0) {
+          determiningLimitText = 'Rent paid does not exceed 10% of eligible salary (' + formatCurrency(Math.round(0.10 * annualSalary)) + '), resulting in ₹0 exemption under Rule 2A.';
+        } else if (exemptHRA === limit1) {
+          determiningLimitText = 'Exemption is determined by Limit 1 (Actual HRA received: ' + formatCurrency(Math.round(limit1)) + '), making 100% of your HRA tax-exempt!';
+        } else if (exemptHRA === limit2) {
+          determiningLimitText = 'Exemption is determined by Limit 2 (Rent paid excess over 10% salary: ' + formatCurrency(Math.round(limit2)) + ').';
+        } else {
+          const pctStr = isMetro ? '50% (Metro)' : '40% (Non-Metro)';
+          determiningLimitText = 'Exemption is determined by Limit 3 (' + pctStr + ' of salary: ' + formatCurrency(Math.round(limit3)) + ').';
+        }
+      }
+
+      const roundedExempt = Math.round(exemptHRA);
+      const roundedTaxable = Math.round(taxableHRA);
+      const roundedReceived = Math.round(annualHRA);
+
+      const monthlyExempt = Math.round(roundedExempt / 12);
+      const monthlyTaxable = Math.round(roundedTaxable / 12);
+      const monthlyReceived = Math.round(roundedReceived / 12);
+
+      const exemptEl = document.getElementById('hraExemptDisplay');
+      const exemptMoEl = document.getElementById('hraExemptMonthly');
+      const taxableEl = document.getElementById('hraTaxableDisplay');
+      const taxableMoEl = document.getElementById('hraTaxableMonthly');
+      const recEl = document.getElementById('hraReceivedDisplay');
+      const recMoEl = document.getElementById('hraReceivedMonthly');
+
+      const l1El = document.getElementById('hraLimit1Display');
+      const l2El = document.getElementById('hraLimit2Display');
+      const l3El = document.getElementById('hraLimit3Display');
+      const l3Lbl = document.getElementById('hraLimit3Label');
+      const detEl = document.getElementById('hraDeterminingLimit');
+      const breakdownEl = document.getElementById('hraBreakdownText');
+
+      if (exemptEl) exemptEl.textContent = formatCurrency(roundedExempt);
+      if (exemptMoEl) exemptMoEl.textContent = formatCurrency(monthlyExempt) + ' / month';
+      if (taxableEl) taxableEl.textContent = formatCurrency(roundedTaxable);
+      if (taxableMoEl) taxableMoEl.textContent = formatCurrency(monthlyTaxable) + ' / month';
+      if (recEl) recEl.textContent = formatCurrency(roundedReceived);
+      if (recMoEl) recMoEl.textContent = formatCurrency(monthlyReceived) + ' / month';
+
+      if (l1El) l1El.textContent = formatCurrency(Math.round(limit1));
+      if (l2El) l2El.textContent = formatCurrency(Math.round(limit2));
+      if (l3El) l3El.textContent = formatCurrency(Math.round(limit3));
+      if (l3Lbl) l3Lbl.textContent = '3. ' + (isMetro ? '50%' : '40%') + ' of Salary (' + (isMetro ? 'Metro' : 'Non-Metro') + '):';
+
+      // Highlight determining row if Old Regime
+      const row1 = document.getElementById('hraLimit1Row');
+      const row2 = document.getElementById('hraLimit2Row');
+      const row3 = document.getElementById('hraLimit3Row');
+      if (row1) row1.style.background = (!isNewRegime && exemptHRA === limit1 && limit1 > 0) ? 'var(--lime-soft)' : 'transparent';
+      if (row2) row2.style.background = (!isNewRegime && exemptHRA === limit2 && limit2 > 0) ? 'var(--lime-soft)' : 'transparent';
+      if (row3) row3.style.background = (!isNewRegime && exemptHRA === limit3 && limit3 > 0) ? 'var(--lime-soft)' : 'transparent';
+
+      if (detEl) detEl.textContent = determiningLimitText;
+
+      if (breakdownEl) {
+        if (isNewRegime) {
+          breakdownEl.textContent = `New Tax Regime active: Full HRA of ${formatCurrency(roundedReceived)} is taxable.`;
+        } else {
+          breakdownEl.textContent = `Annual HRA: ${formatCurrency(roundedReceived)} · Tax-Exempt: ${formatCurrency(roundedExempt)} · Taxable: ${formatCurrency(roundedTaxable)}.`;
+        }
+      }
+
+      renderHRAChart(roundedExempt, roundedTaxable);
+    }
+
     function calculateInvestment() {
       const type = document.getElementById('investmentTypeSelect') ? document.getElementById('investmentTypeSelect').value : 'sip';
       if (type === 'lump' || type === 'lumpsum') {
         calculateLumpSum();
       } else if (type === 'si' || type === 'simple' || type === 'simpleinterest') {
         calculateSimpleInterest();
+      } else if (type === 'ci' || type === 'compound' || type === 'compoundinterest') {
+        calculateCompoundInterest();
+      } else if (type === 'hra') {
+        calculateHRA();
       } else {
         calculateSIP();
       }
@@ -6099,6 +7009,8 @@ Billing: ₹10 per report generation.
       calculateSIP();
       calculateLumpSum();
       calculateSimpleInterest();
+      calculateCompoundInterest();
+      calculateHRA();
       initPlanPocketDatePickers();
       
       // Add install prompt after a delay
