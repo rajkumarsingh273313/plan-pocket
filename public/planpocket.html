@@ -1122,7 +1122,7 @@
           <a href="#" class="link" onclick="showSignup()">Sign Up</a>
         </div>
         <div class="back-link">
-          <a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a>
+          <a href="/" target="_top" class="link" id="welcomeBackBtn" role="button" aria-label="Welcome Back" onclick="return showWelcome(event)">← Welcome Back</a>
         </div>
         <div id="loginMessage" class="message hidden"></div>
       </div>
@@ -1187,7 +1187,7 @@
           <a href="#" class="link" onclick="showLogin()">Login</a>
         </div>
         <div class="back-link">
-          <a href="#" class="link" onclick="showWelcome()">← Back to Welcome</a>
+          <a href="/" target="_top" class="link" id="welcomeBackSignupBtn" role="button" aria-label="Welcome Back" onclick="return showWelcome(event)">← Welcome Back</a>
         </div>
         <div id="signupMessage" class="message hidden"></div>
       </div>
@@ -1674,7 +1674,32 @@
       document.getElementById(pageId).classList.remove('hidden');
     }
 
-    function showWelcome() {
+    function navigateToLanding(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      try {
+        if (window.top && window.top !== window) {
+          window.top.location.href = '/';
+          return false;
+        }
+      } catch (err) {
+        // Fallback if top access is restricted
+      }
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.location.href = '/';
+          return false;
+        }
+      } catch (err) {
+        // Fallback
+      }
+      window.location.href = '/';
+      return false;
+    }
+
+    function showWelcome(e) {
+      if (e) {
+        return navigateToLanding(e);
+      }
       showPage('welcomePage');
       clearMessages();
     }
