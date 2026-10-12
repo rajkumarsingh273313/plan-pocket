@@ -1943,6 +1943,7 @@
                 <option value="mf">Mutual Fund Calculator</option>
                 <option value="sip" selected>SIP (Monthly)</option>
                 <option value="lump">Lump Sum (One-time)</option>
+                <option value="elss">ELSS Calculator</option>
                 <option value="si">Simple Interest</option>
                 <option value="ci">Compound Interest</option>
                 <option value="hra">HRA Exemption</option>
@@ -1951,6 +1952,7 @@
                 <button type="button" id="tabMF" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('mf')">Mutual Fund</button>
                 <button type="button" id="tabSIP" class="invest-toggle-btn active" role="tab" aria-selected="true" onclick="switchInvestmentCalculator('sip')">SIP</button>
                 <button type="button" id="tabLump" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('lump')">Lump Sum</button>
+                <button type="button" id="tabELSS" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('elss')">ELSS</button>
                 <button type="button" id="tabSI" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('si')">Simple Interest</button>
                 <button type="button" id="tabCI" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('ci')">Compound Interest</button>
                 <button type="button" id="tabHRA" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('hra')">HRA</button>
@@ -2687,6 +2689,220 @@
                   • <strong>Section 10(13A) Exemption:</strong> Under the Old Tax Regime, the exempt HRA is strictly the minimum of: (1) Actual HRA received, (2) Rent paid minus 10% of salary, or (3) 50% of salary for metro cities (Delhi, Mumbai, Kolkata, Chennai) and 40% for non-metro cities.<br>
                   • <strong>Proof & Landlord PAN:</strong> Under Section 206AA / ITD guidelines, if annual rent exceeds ₹1,00,000 (₹8,333/month), your landlord's PAN must be reported to your employer along with valid rent receipts and rental agreement.<br>
                   • <strong>Disclaimer:</strong> This calculator provides estimated figures for financial planning. Actual tax liability depends on your total income, deductions, and tax slabs. Consult a certified tax advisor or CA.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ELSS Tax Saving Calculator Section -->
+        <div id="elssCalculatorSection" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">ELSS Mutual Fund Calculator (Equity Linked Savings Scheme)</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate wealth growth and tax savings under Section 80C with a statutory 3-year lock-in period.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- Investment Type / Frequency: Lump Sum vs SIP -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label style="margin-bottom: 6px;">Investment Frequency</label>
+                <div class="invest-toggle-bar" role="radiogroup" aria-label="ELSS investment type selector" style="width: 100%; display: flex; justify-content: center;">
+                  <button type="button" id="elssModeLump" class="invest-toggle-btn active" style="flex: 1; text-align: center;" onclick="setELSSInvestmentMode('lump')">Lump Sum (One-Time)</button>
+                  <button type="button" id="elssModeSIP" class="invest-toggle-btn" style="flex: 1; text-align: center;" onclick="setELSSInvestmentMode('sip')">Monthly SIP</button>
+                </div>
+                <span id="elssModeHint" style="font-size: 0.78rem; color: var(--muted); display: block; margin-top: 4px;">One-time investment subject to a single 3-year lock-in period.</span>
+              </div>
+
+              <!-- Investment Amount -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="elssAmount" id="elssAmountLabel">Investment Amount (₹ / one-time)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="elssAmount" class="currency-input" type="number" min="500" step="1000" value="150000" placeholder="150000" style="padding-left: 38px !important; font-weight: 600;" oninput="syncELSSAmount()">
+                </div>
+                <div id="elssAmountChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setELSSAmount(25000)">₹25,000</button>
+                  <button type="button" class="sip-chip" data-amt="50000" onclick="setELSSAmount(50000)">₹50,000</button>
+                  <button type="button" class="sip-chip" data-amt="100000" onclick="setELSSAmount(100000)">₹1,00,000</button>
+                  <button type="button" class="sip-chip active" data-amt="150000" onclick="setELSSAmount(150000)">₹1,50,000 (80C Limit)</button>
+                </div>
+              </div>
+
+              <!-- Expected Annual Return Rate (%) -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="elssRate" style="margin: 0;">Expected Annual Return (%)</label>
+                  <span style="font-size: 0.78rem; color: var(--muted); font-weight: 500;">Market-linked · 0% to 100%</span>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                  <input id="elssRateSlider" type="range" min="0" max="100" step="0.5" value="12" style="flex: 1; accent-color: var(--accent);" oninput="syncELSSRateFromSlider()">
+                  <div style="position: relative; width: 90px; flex-shrink: 0;">
+                    <input id="elssRate" class="currency-input" type="number" min="0" max="100" step="0.1" value="12" placeholder="12" style="text-align: right; padding-right: 24px !important; font-weight: 600;" oninput="syncELSSRateFromInput()">
+                    <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-weight: 600; color: var(--muted); pointer-events: none;">%</span>
+                  </div>
+                </div>
+                <div id="elssRateChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" onclick="setELSSRate(10)">10%</button>
+                  <button type="button" class="sip-chip active" onclick="setELSSRate(12)">12%</button>
+                  <button type="button" class="sip-chip" onclick="setELSSRate(14)">14%</button>
+                  <button type="button" class="sip-chip" onclick="setELSSRate(15)">15%</button>
+                </div>
+              </div>
+
+              <!-- Investment Duration (Lock-in >= 3 years) -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label style="margin: 0;">Investment Duration</label>
+                  <span style="font-size: 0.78rem; color: #b42318; font-weight: 600; background: rgba(180,35,24,0.08); padding: 2px 8px; border-radius: 4px;">🔒 Min. 3-Year Statutory Lock-in</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div>
+                    <label for="elssYears" style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px;">Years (min. 3)</label>
+                    <input id="elssYears" class="currency-input" type="number" min="3" max="50" step="1" value="3" placeholder="3" style="font-weight: 600;" oninput="syncELSSDurationInputs()">
+                  </div>
+                  <div>
+                    <label for="elssMonths" style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px;">Additional Months</label>
+                    <input id="elssMonths" class="currency-input" type="number" min="0" max="11" step="1" value="0" placeholder="0" style="font-weight: 600;" oninput="syncELSSDurationInputs()">
+                  </div>
+                </div>
+                <div id="elssDurationChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip active" onclick="setELSSDuration(3, 0)">3 Yrs (Min Lock-in)</button>
+                  <button type="button" class="sip-chip" onclick="setELSSDuration(5, 0)">5 Years</button>
+                  <button type="button" class="sip-chip" onclick="setELSSDuration(7, 0)">7 Years</button>
+                  <button type="button" class="sip-chip" onclick="setELSSDuration(10, 0)">10 Years</button>
+                </div>
+                <span id="elssSIPLockNotice" class="hidden" style="font-size: 0.76rem; color: var(--muted); display: block; margin-top: 6px; line-height: 1.4;">
+                  ℹ️ <strong>Note for SIP:</strong> Each monthly installment is locked for 3 years from its investment date. A 3-year SIP completes its final installment lock-in at year 6.
+                </span>
+              </div>
+
+              <!-- Tax Settings: Regime & Slab -->
+              <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px;">
+                <div style="font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                  <span>Tax Deduction Settings (Section 80C)</span>
+                  <span style="font-size: 0.75rem; color: var(--muted); font-weight: 500;">Cap: ₹1,50,000 / FY</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="elssRegime" style="font-size: 0.78rem;">Tax Regime</label>
+                    <select id="elssRegime" onchange="calculateELSS()" style="min-height: 38px; padding: 6px 12px; font-weight: 600; font-size: 0.85rem; cursor: pointer; width: 100%;">
+                      <option value="old" selected>Old Tax Regime (80C Eligible)</option>
+                      <option value="new">New Regime (Sec 115BAC - No 80C)</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="elssTaxBracket" style="font-size: 0.78rem;">Income Tax Slab</label>
+                    <select id="elssTaxBracket" onchange="calculateELSS()" style="min-height: 38px; padding: 6px 12px; font-weight: 600; font-size: 0.85rem; cursor: pointer; width: 100%;">
+                      <option value="0">0% (Nil slab)</option>
+                      <option value="5">5% (+4% cess = 5.2%)</option>
+                      <option value="10">10% (+4% cess = 10.4%)</option>
+                      <option value="15">15% (+4% cess = 15.6%)</option>
+                      <option value="20">20% (+4% cess = 20.8%)</option>
+                      <option value="30" selected>30% (+4% cess = 31.2%)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Other 80C Claimed in FY -->
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="elssOther80C" style="font-size: 0.78rem;">Other 80C Investments Claimed this FY (EPF, PPF, LIC, etc.)</label>
+                  <div class="currency-input-wrap">
+                    <span class="currency-prefix" aria-hidden="true">₹</span>
+                    <input id="elssOther80C" class="currency-input" type="number" min="0" max="150000" step="5000" value="0" placeholder="0" style="padding-left: 38px !important; font-weight: 600; font-size: 0.88rem;" oninput="calculateELSS()">
+                  </div>
+                  <span style="font-size: 0.74rem; color: var(--muted); display: block; margin-top: 4px;">Overall Section 80C deduction is capped at ₹1,50,000 across all eligible instruments.</span>
+                </div>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateELSS()">Calculate ELSS & Tax Savings</button>
+            </div>
+
+            <!-- Right Column: Results & Breakdown -->
+            <div>
+              <div id="elssResult" class="sip-results-card" aria-live="polite">
+                <!-- Summary Metric: Estimated Maturity Value -->
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Estimated Total Value (at Maturity)</span>
+                  <strong class="sip-metric-value" id="elssTotalValue" style="color: var(--text);">₹0</strong>
+                  <span id="elssDurationSummary" style="display: block; font-size: 0.88rem; color: var(--muted); margin-top: 4px; font-weight: 600;">After 3 years lock-in period</span>
+                </div>
+
+                <!-- Breakdown Items: Amount Invested & Estimated Returns -->
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot" style="background: var(--text);" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Total Amount Invested</div>
+                      <div class="sip-breakdown-val" id="elssInvestedAmount">₹0</div>
+                      <div class="sip-breakdown-pct" id="elssInvestedPct">0%</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot" style="background: var(--lime);" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Estimated Returns</div>
+                      <div class="sip-breakdown-val" id="elssEstimatedReturns" style="color: var(--success);">₹0</div>
+                      <div class="sip-breakdown-pct" id="elssReturnsPct">0%</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Doughnut Chart -->
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="elssChart" width="180" height="180" role="img" aria-label="ELSS doughnut chart comparing invested amount and estimated returns"></canvas>
+                  </div>
+                </div>
+
+                <!-- Tax Saving Card / Breakdown -->
+                <div id="elssTaxCard" style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;">
+                  <div style="font-size: 0.84rem; font-weight: 700; color: var(--text); margin-bottom: 8px;">
+                    Section 80C Tax Savings Breakdown
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px;">
+                      <span style="color: var(--muted);">Eligible 80C Deduction (This FY):</span>
+                      <strong id="elssDeductionDisplay" style="font-weight: 700;">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px;">
+                      <span style="color: var(--muted);">Applicable Tax Rate (incl. 4% cess):</span>
+                      <strong id="elssEffectiveTaxRateDisplay" style="font-weight: 700;">31.2%</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px; background: rgba(106, 247, 15, 0.1);">
+                      <span style="color: var(--text); font-weight: 600;">Estimated Tax Saved (This FY):</span>
+                      <strong id="elssTaxSavedDisplay" style="color: var(--success); font-weight: 700; font-size: 0.95rem;">₹0</strong>
+                    </div>
+                  </div>
+                  <div id="elss80CRoomNotice" style="margin-top: 10px; font-size: 0.78rem; color: var(--muted); padding-top: 8px; border-top: 1px dashed var(--border);">
+                    Section 80C cap: ₹1,50,000 per financial year against Gross Total Income.
+                  </div>
+                </div>
+
+                <!-- New Regime Notice -->
+                <div id="elssRegimeNotice" class="hidden" style="background: #FFF8E6; border: 1px solid #FFE08A; border-radius: 10px; padding: 12px 14px; font-size: 0.82rem; color: #734B00; line-height: 1.45;">
+                  <strong>⚠️ New Tax Regime Notice:</strong> Under Section 115BAC (New Tax Regime), deductions under Section 80C (including ELSS) are not allowable. Estimated tax saved is ₹0. However, ELSS remains an equity fund with a 3-year lock-in for long-term wealth compounding.
+                </div>
+
+                <p id="elssBreakdownText" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+              </div>
+            </div>
+          </div>
+
+          <div id="elssMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Statutory Lock-in & Market Risk Disclaimer Card -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Statutory Lock-in Period & Legal Regulations</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Mandatory 3-Year Lock-in:</strong> Under Equity Linked Savings Scheme Guidelines, 2005 and Section 80C of the Income Tax Act, 1961, ELSS investments are subject to a compulsory 3-year (36 months) lock-in from the unit allotment date. No premature withdrawals or redemption requests can be processed before this period.<br>
+                  • <strong>SIP Rolling Lock-in:</strong> When investing through monthly Systematic Investment Plans (SIP), each individual installment carries its own independent 3-year lock-in period from its transaction date.<br>
+                  • <strong>Tax Law Framework:</strong> Deductions under Section 80C are limited to ₹1,50,000 per financial year under the Old Tax Regime. Under Section 115BAC (New Tax Regime), Section 80C deductions are not available. Capital gains on redemption are subject to Section 112A (LTCG exceeding ₹1.25 lakh per financial year is taxed at 12.5% plus applicable surcharge/cess under Finance (No. 2) Act, 2024).<br>
+                  • <strong>Market-Linked Disclaimer:</strong> ELSS mutual funds invest primarily in equity shares and are subject to market risks. Estimated returns shown are mathematical projections based on assumed rates; past performance does not guarantee future results, and capital is not guaranteed. This calculator is for educational and financial planning purposes, not formal investment advice.
                 </p>
               </div>
             </div>
@@ -5024,6 +5240,7 @@
       const siSection = document.getElementById('siCalculatorSection');
       const ciSection = document.getElementById('ciCalculatorSection');
       const hraSection = document.getElementById('hraCalculatorSection');
+      const elssSection = document.getElementById('elssCalculatorSection');
       const mfModeBar = document.getElementById('mfModeBar');
       const select = document.getElementById('investmentTypeSelect');
       const tabMF = document.getElementById('tabMF');
@@ -5032,6 +5249,7 @@
       const tabSI = document.getElementById('tabSI');
       const tabCI = document.getElementById('tabCI');
       const tabHRA = document.getElementById('tabHRA');
+      const tabELSS = document.getElementById('tabELSS');
       const mfModeSIP = document.getElementById('mfModeSIP');
       const mfModeLump = document.getElementById('mfModeLump');
 
@@ -5044,6 +5262,7 @@
       else if (type === 'si' || type === 'simple' || type === 'simpleinterest') mode = 'si';
       else if (type === 'ci' || type === 'compound' || type === 'compoundinterest') mode = 'ci';
       else if (type === 'hra') mode = 'hra';
+      else if (type === 'elss') mode = 'elss';
       else if (type === 'sip') {
         mode = 'sip';
         currentMFMode = 'sip';
@@ -5062,6 +5281,10 @@
       if (tabLump) {
         tabLump.classList.toggle('active', mode === 'lump');
         tabLump.setAttribute('aria-selected', mode === 'lump' ? 'true' : 'false');
+      }
+      if (tabELSS) {
+        tabELSS.classList.toggle('active', mode === 'elss');
+        tabELSS.setAttribute('aria-selected', mode === 'elss' ? 'true' : 'false');
       }
       if (tabSI) {
         tabSI.classList.toggle('active', mode === 'si');
@@ -5107,6 +5330,7 @@
       if (siSection) siSection.style.display = (mode === 'si') ? 'block' : 'none';
       if (ciSection) ciSection.style.display = (mode === 'ci') ? 'block' : 'none';
       if (hraSection) hraSection.style.display = (mode === 'hra') ? 'block' : 'none';
+      if (elssSection) elssSection.style.display = (mode === 'elss') ? 'block' : 'none';
 
       if (mode === 'mf') {
         if (currentMFMode === 'lump') calculateLumpSum();
@@ -5121,6 +5345,8 @@
         calculateCompoundInterest();
       } else if (mode === 'hra') {
         calculateHRA();
+      } else if (mode === 'elss') {
+        calculateELSS();
       }
     }
 
@@ -6197,6 +6423,359 @@
       renderHRAChart(roundedExempt, roundedTaxable);
     }
 
+    let elssInvestmentMode = 'lump';
+    window.elssInvestmentMode = 'lump';
+
+    function setELSSInvestmentMode(mode) {
+      elssInvestmentMode = (mode === 'sip') ? 'sip' : 'lump';
+      window.elssInvestmentMode = elssInvestmentMode;
+      const lumpBtn = document.getElementById('elssModeLump');
+      const sipBtn = document.getElementById('elssModeSIP');
+      const hint = document.getElementById('elssModeHint');
+      const label = document.getElementById('elssAmountLabel');
+      const chips = document.getElementById('elssAmountChips');
+      const sipNotice = document.getElementById('elssSIPLockNotice');
+      const amountInput = document.getElementById('elssAmount');
+
+      if (lumpBtn) {
+        lumpBtn.classList.toggle('active', elssInvestmentMode === 'lump');
+        lumpBtn.setAttribute('aria-selected', elssInvestmentMode === 'lump' ? 'true' : 'false');
+      }
+      if (sipBtn) {
+        sipBtn.classList.toggle('active', elssInvestmentMode === 'sip');
+        sipBtn.setAttribute('aria-selected', elssInvestmentMode === 'sip' ? 'true' : 'false');
+      }
+
+      if (elssInvestmentMode === 'sip') {
+        if (hint) hint.textContent = 'Monthly SIP contributions. Each monthly installment has its own 3-year lock-in.';
+        if (label) label.textContent = 'Monthly Investment Amount (₹ / month)';
+        if (sipNotice) sipNotice.classList.remove('hidden');
+        if (chips) {
+          chips.innerHTML = `
+            <button type="button" class="sip-chip" data-amt="2500" onclick="setELSSAmount(2500)">₹2,500</button>
+            <button type="button" class="sip-chip" data-amt="5000" onclick="setELSSAmount(5000)">₹5,000</button>
+            <button type="button" class="sip-chip" data-amt="10000" onclick="setELSSAmount(10000)">₹10,000</button>
+            <button type="button" class="sip-chip active" data-amt="12500" onclick="setELSSAmount(12500)">₹12,500 (₹1.5L/yr)</button>
+          `;
+        }
+        if (amountInput && (Number(amountInput.value) >= 50000 || !amountInput.value)) {
+          amountInput.value = 12500;
+        }
+      } else {
+        if (hint) hint.textContent = 'One-time investment subject to a single 3-year lock-in period.';
+        if (label) label.textContent = 'Investment Amount (₹ / one-time)';
+        if (sipNotice) sipNotice.classList.add('hidden');
+        if (chips) {
+          chips.innerHTML = `
+            <button type="button" class="sip-chip" data-amt="25000" onclick="setELSSAmount(25000)">₹25,000</button>
+            <button type="button" class="sip-chip" data-amt="50000" onclick="setELSSAmount(50000)">₹50,000</button>
+            <button type="button" class="sip-chip" data-amt="100000" onclick="setELSSAmount(100000)">₹1,00,000</button>
+            <button type="button" class="sip-chip active" data-amt="150000" onclick="setELSSAmount(150000)">₹1,50,000 (80C Limit)</button>
+          `;
+        }
+        if (amountInput && (Number(amountInput.value) <= 12500 || !amountInput.value)) {
+          amountInput.value = 150000;
+        }
+      }
+
+      syncELSSAmountChips();
+      calculateELSS();
+    }
+
+    function setELSSAmount(amt) {
+      const input = document.getElementById('elssAmount');
+      if (input) {
+        input.value = amt;
+        syncELSSAmountChips();
+        calculateELSS();
+      }
+    }
+
+    function syncELSSAmount() {
+      syncELSSAmountChips();
+      calculateELSS();
+    }
+
+    function syncELSSAmountChips() {
+      const input = document.getElementById('elssAmount');
+      const val = Number(input ? input.value : 0);
+      document.querySelectorAll('#elssAmountChips button[data-amt]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === val);
+      });
+    }
+
+    function syncELSSRateFromSlider() {
+      const slider = document.getElementById('elssRateSlider');
+      const input = document.getElementById('elssRate');
+      if (slider && input) {
+        input.value = slider.value;
+        syncELSSRateChips();
+        calculateELSS();
+      }
+    }
+
+    function syncELSSRateFromInput() {
+      const slider = document.getElementById('elssRateSlider');
+      const input = document.getElementById('elssRate');
+      if (slider && input) {
+        let val = parseFloat(input.value);
+        if (isNaN(val)) val = 0;
+        if (val < 0) val = 0;
+        if (val > 100) val = 100;
+        slider.value = val;
+        syncELSSRateChips();
+        calculateELSS();
+      }
+    }
+
+    function setELSSRate(val) {
+      const slider = document.getElementById('elssRateSlider');
+      const input = document.getElementById('elssRate');
+      if (slider) slider.value = val;
+      if (input) input.value = val;
+      syncELSSRateChips();
+      calculateELSS();
+    }
+
+    function syncELSSRateChips() {
+      const input = document.getElementById('elssRate');
+      const val = parseFloat(input ? input.value : 0);
+      document.querySelectorAll('#elssRateChips button').forEach(btn => {
+        const chipVal = parseFloat(btn.textContent);
+        btn.classList.toggle('active', chipVal === val);
+      });
+    }
+
+    function syncELSSDurationInputs() {
+      syncELSSDurationChips();
+      calculateELSS();
+    }
+
+    function setELSSDuration(y, m) {
+      const yInput = document.getElementById('elssYears');
+      const mInput = document.getElementById('elssMonths');
+      if (yInput) yInput.value = y;
+      if (mInput) mInput.value = m;
+      syncELSSDurationChips();
+      calculateELSS();
+    }
+
+    function syncELSSDurationChips() {
+      const yInput = document.getElementById('elssYears');
+      const mInput = document.getElementById('elssMonths');
+      const y = parseInt(yInput ? yInput.value : 0, 10);
+      const m = parseInt(mInput ? mInput.value : 0, 10);
+      document.querySelectorAll('#elssDurationChips button').forEach(btn => {
+        const text = btn.textContent || '';
+        let isMatch = false;
+        if (text.includes('3 Yrs') && y === 3 && m === 0) isMatch = true;
+        else if (text.includes('5 Years') && y === 5 && m === 0) isMatch = true;
+        else if (text.includes('7 Years') && y === 7 && m === 0) isMatch = true;
+        else if (text.includes('10 Years') && y === 10 && m === 0) isMatch = true;
+        btn.classList.toggle('active', isMatch);
+      });
+    }
+
+    function renderELSSChart(invested, returns) {
+      const canvas = document.getElementById('elssChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (window.elssChartInstance && typeof window.elssChartInstance.destroy === 'function') {
+        window.elssChartInstance.destroy();
+        window.elssChartInstance = null;
+      }
+
+      const total = invested + returns;
+      let chartData = [invested, returns];
+      if (total <= 0) {
+        chartData = [0, 1];
+      }
+
+      try {
+        window.elssChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Total Invested', 'Estimated Returns'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#141612', '#6AF70F'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const val = context.raw || 0;
+                    const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                    return context.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            },
+            cutout: '68%'
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering ELSS chart:', err);
+      }
+    }
+
+    function calculateELSS() {
+      const amountInput = document.getElementById('elssAmount');
+      const rateInput = document.getElementById('elssRate');
+      const yearsInput = document.getElementById('elssYears');
+      const monthsInput = document.getElementById('elssMonths');
+      const regimeSelect = document.getElementById('elssRegime');
+      const bracketSelect = document.getElementById('elssTaxBracket');
+      const other80CInput = document.getElementById('elssOther80C');
+      const messageEl = document.getElementById('elssMessage');
+
+      const amount = parseFloat(amountInput ? amountInput.value : 0) || 0;
+      const rate = parseFloat(rateInput ? rateInput.value : 0) || 0;
+      let years = parseInt(yearsInput ? yearsInput.value : 3, 10);
+      let months = parseInt(monthsInput ? monthsInput.value : 0, 10);
+      if (isNaN(years)) years = 3;
+      if (isNaN(months) || months < 0) months = 0;
+
+      const totalMonths = (years * 12) + months;
+      const isLockInViolated = totalMonths < 36;
+
+      // Handle statutory lock-in enforcement
+      if (isLockInViolated) {
+        if (messageEl) {
+          showTrackerMessage('elssMessage', '⚠️ Statutory Lock-in Requirement: ELSS mutual funds have a mandatory minimum 3-year (36 months) lock-in period under Section 80C. Redemptions are legally restricted prior to 3 years. Results below are computed for the statutory 3-year lock-in.', false);
+        }
+      } else {
+        if (messageEl && !messageEl.classList.contains('hidden')) {
+          messageEl.classList.add('hidden');
+          messageEl.textContent = '';
+        }
+      }
+
+      const effectiveMonths = Math.max(36, totalMonths);
+      const effectiveYears = Math.floor(effectiveMonths / 12);
+      const effectiveRemMonths = effectiveMonths % 12;
+
+      // Compound calculation
+      let totalInvested = 0;
+      let totalValue = 0;
+
+      if (elssInvestmentMode === 'sip') {
+        totalInvested = amount * effectiveMonths;
+        if (rate <= 0) {
+          totalValue = totalInvested;
+        } else {
+          const monthlyRate = (rate / 100) / 12;
+          totalValue = amount * ((Math.pow(1 + monthlyRate, effectiveMonths) - 1) / monthlyRate) * (1 + monthlyRate);
+        }
+      } else {
+        // Lump sum
+        totalInvested = amount;
+        if (rate <= 0) {
+          totalValue = totalInvested;
+        } else {
+          const monthlyRate = (rate / 100) / 12;
+          totalValue = amount * Math.pow(1 + monthlyRate, effectiveMonths);
+        }
+      }
+
+      const estimatedReturns = Math.max(0, totalValue - totalInvested);
+      const roundedTotal = Math.round(totalValue);
+      const roundedInvested = Math.round(totalInvested);
+      const roundedReturns = Math.round(estimatedReturns);
+
+      // Section 80C Tax Calculation
+      const isNewRegime = regimeSelect && regimeSelect.value === 'new';
+      const regimeNotice = document.getElementById('elssRegimeNotice');
+      if (regimeNotice) {
+        regimeNotice.classList.toggle('hidden', !isNewRegime);
+      }
+
+      let eligibleDeduction = 0;
+      let taxSaved = 0;
+      let rateBracket = parseFloat(bracketSelect ? bracketSelect.value : 30) || 0;
+      const other80C = Math.max(0, parseFloat(other80CInput ? other80CInput.value : 0) || 0);
+      const room80C = Math.max(0, 150000 - other80C);
+
+      // Annual ELSS investment for current financial year
+      const annualELSS = (elssInvestmentMode === 'sip') ? (amount * 12) : amount;
+
+      if (!isNewRegime) {
+        eligibleDeduction = Math.min(annualELSS, room80C);
+        // Incorporating 4% Health & Education Cess
+        const effectiveRateWithCess = (rateBracket / 100) * 1.04;
+        taxSaved = eligibleDeduction * effectiveRateWithCess;
+      }
+
+      // Update UI elements
+      const valEl = document.getElementById('elssTotalValue');
+      const invEl = document.getElementById('elssInvestedAmount');
+      const retEl = document.getElementById('elssEstimatedReturns');
+      const invPctEl = document.getElementById('elssInvestedPct');
+      const retPctEl = document.getElementById('elssReturnsPct');
+      const durSummary = document.getElementById('elssDurationSummary');
+      const dedEl = document.getElementById('elssDeductionDisplay');
+      const taxRateEl = document.getElementById('elssEffectiveTaxRateDisplay');
+      const taxSavedEl = document.getElementById('elssTaxSavedDisplay');
+      const roomNoticeEl = document.getElementById('elss80CRoomNotice');
+      const breakdownText = document.getElementById('elssBreakdownText');
+
+      if (valEl) valEl.textContent = formatCurrency(roundedTotal);
+      if (invEl) invEl.textContent = formatCurrency(roundedInvested);
+      if (retEl) retEl.textContent = formatCurrency(roundedReturns);
+
+      const combined = roundedInvested + roundedReturns;
+      const invPct = combined > 0 ? ((roundedInvested / combined) * 100).toFixed(1) : '50.0';
+      const retPct = combined > 0 ? ((roundedReturns / combined) * 100).toFixed(1) : '50.0';
+
+      if (invPctEl) invPctEl.textContent = `${invPct}%`;
+      if (retPctEl) retPctEl.textContent = `${retPct}%`;
+
+      if (durSummary) {
+        const yrLabel = effectiveYears + (effectiveYears === 1 ? ' year' : ' years');
+        const moLabel = effectiveRemMonths > 0 ? ` ${effectiveRemMonths} mo` : '';
+        durSummary.textContent = `After ${yrLabel}${moLabel} (Statutory lock-in: 3 years)`;
+      }
+
+      if (dedEl) dedEl.textContent = formatCurrency(Math.round(eligibleDeduction));
+      if (taxRateEl) {
+        if (isNewRegime) {
+          taxRateEl.textContent = '0% (Disallowed under Sec 115BAC)';
+        } else {
+          taxRateEl.textContent = rateBracket > 0 ? `${(rateBracket * 1.04).toFixed(1)}% (${rateBracket}% + 4% cess)` : '0% (Nil slab)';
+        }
+      }
+      if (taxSavedEl) taxSavedEl.textContent = formatCurrency(Math.round(taxSaved));
+
+      if (roomNoticeEl) {
+        if (isNewRegime) {
+          roomNoticeEl.textContent = 'Section 80C deductions are not permitted under the New Tax Regime (Sec 115BAC).';
+        } else {
+          roomNoticeEl.textContent = `Section 80C limit: ₹1,50,000 / FY. Available room: ${formatCurrency(room80C)} (after ${formatCurrency(other80C)} other deductions).`;
+        }
+      }
+
+      if (breakdownText) {
+        if (isNewRegime) {
+          breakdownText.textContent = `Total Invested: ${formatCurrency(roundedInvested)} · Est. Returns: ${formatCurrency(roundedReturns)} (New Tax Regime: ₹0 80C saving).`;
+        } else {
+          breakdownText.textContent = `Invested: ${formatCurrency(roundedInvested)} · Returns: ${formatCurrency(roundedReturns)} · Est. Tax Saved this FY: ${formatCurrency(Math.round(taxSaved))}.`;
+        }
+      }
+
+      renderELSSChart(roundedInvested, roundedReturns);
+    }
+
     function calculateInvestment() {
       const type = document.getElementById('investmentTypeSelect') ? document.getElementById('investmentTypeSelect').value : 'sip';
       if (type === 'mf' || type === 'mutual' || type === 'mutualfund') {
@@ -6213,6 +6792,8 @@
         calculateCompoundInterest();
       } else if (type === 'hra') {
         calculateHRA();
+      } else if (type === 'elss') {
+        calculateELSS();
       } else {
         calculateSIP();
       }
@@ -7100,6 +7681,7 @@ Billing: ₹10 per report generation.
       calculateSimpleInterest();
       calculateCompoundInterest();
       calculateHRA();
+      calculateELSS();
       initPlanPocketDatePickers();
       
       // Add install prompt after a delay
