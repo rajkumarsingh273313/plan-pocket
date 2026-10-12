@@ -22,39 +22,16 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+      },
+    ],
   }),
   component: LandingPage,
 });
-
-/* ─────────────────────────────────────────────
-   Small reusable icon helpers (inline SVG)
-───────────────────────────────────────────── */
-function Icon({
-  path,
-  size = 22,
-  className = "",
-}: {
-  path: string;
-  size?: number;
-  className?: string;
-}) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d={path} />
-    </svg>
-  );
-}
 
 /* ─────────────────────────────────────────────
    Feature data — verified against the app code
@@ -232,8 +209,8 @@ const features = [
 const steps = [
   {
     num: "01",
-    title: "Create an account",
-    desc: "Sign up with a username and password. Your financial data is stored in your browser — nothing is sent to a server in this prototype.",
+    title: "Explore the planning suite",
+    desc: "Discover each of the personal finance and small-business planning tools. All data remains in your local browser — nothing is sent to an external server.",
   },
   {
     num: "02",
@@ -283,10 +260,11 @@ const audiences = [
 function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [authNoticeOpen, setAuthNoticeOpen] = useState(false);
 
   // Track active section for nav highlight
   useEffect(() => {
-    const sections = ["features", "how-it-works", "about", "goal-planner"];
+    const sections = ["features", "how-it-works", "about", "goal-planner", "access"];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -302,16 +280,106 @@ function LandingPage() {
     return () => observer.disconnect();
   }, []);
 
-  const APP_URL = "/app";
-
   const navLinks = [
     { href: "#features", label: "Features" },
     { href: "#how-it-works", label: "How it works" },
     { href: "#about", label: "About" },
+    { href: "#access", label: "App Access" },
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div
+      className="planpocket-landing min-h-screen bg-background text-foreground"
+      style={{
+        backgroundColor: "#F5F7FA",
+        color: "#172B4D",
+        fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif",
+      }}
+    >
+      {/* ── Scoped Theme Styles: PlanPocket Brand Identity ── */}
+      <style>{`
+        .planpocket-landing,
+        .dark .planpocket-landing,
+        :root .planpocket-landing {
+          --background: #F5F7FA !important;
+          --color-background: #F5F7FA !important;
+          --foreground: #172B4D !important;
+          --color-foreground: #172B4D !important;
+          --card: #FFFFFF !important;
+          --color-card: #FFFFFF !important;
+          --card-foreground: #172B4D !important;
+          --color-card-foreground: #172B4D !important;
+          --popover: #FFFFFF !important;
+          --color-popover: #FFFFFF !important;
+          --popover-foreground: #172B4D !important;
+          --color-popover-foreground: #172B4D !important;
+          --primary: #0F766E !important;
+          --color-primary: #0F766E !important;
+          --primary-foreground: #FFFFFF !important;
+          --color-primary-foreground: #FFFFFF !important;
+          --secondary: #FFFFFF !important;
+          --color-secondary: #FFFFFF !important;
+          --secondary-foreground: #172B4D !important;
+          --color-secondary-foreground: #172B4D !important;
+          --muted: #EEF2F6 !important;
+          --color-muted: #EEF2F6 !important;
+          --muted-foreground: #667085 !important;
+          --color-muted-foreground: #667085 !important;
+          --accent: #DDF3EC !important;
+          --color-accent: #DDF3EC !important;
+          --accent-foreground: #0F766E !important;
+          --color-accent-foreground: #0F766E !important;
+          --destructive: #B42318 !important;
+          --color-destructive: #B42318 !important;
+          --destructive-foreground: #FFFFFF !important;
+          --color-destructive-foreground: #FFFFFF !important;
+          --border: #E4E7EC !important;
+          --color-border: #E4E7EC !important;
+          --input: #E4E7EC !important;
+          --color-input: #E4E7EC !important;
+          --ring: #0F766E !important;
+          --color-ring: #0F766E !important;
+          --radius: 12px !important;
+          font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+          background-color: #F5F7FA !important;
+          color: #172B4D !important;
+        }
+
+        .planpocket-landing .btn-planpocket-primary {
+          background-color: #0F766E !important;
+          color: #FFFFFF !important;
+          border: 1px solid #0F766E !important;
+          border-radius: 10px !important;
+          font-weight: 600 !important;
+          transition: background-color 0.15s ease, transform 0.1s ease !important;
+        }
+        .planpocket-landing .btn-planpocket-primary:hover {
+          background-color: #0B5F58 !important;
+          border-color: #0B5F58 !important;
+        }
+        .planpocket-landing .btn-planpocket-primary:active {
+          transform: scale(0.98) !important;
+        }
+
+        .planpocket-landing .btn-planpocket-secondary {
+          background-color: #FFFFFF !important;
+          color: #172B4D !important;
+          border: 1px solid #E4E7EC !important;
+          border-radius: 10px !important;
+          font-weight: 600 !important;
+          transition: background-color 0.15s ease, border-color 0.15s ease !important;
+        }
+        .planpocket-landing .btn-planpocket-secondary:hover {
+          background-color: #F5F7FA !important;
+          border-color: #D0D5DD !important;
+        }
+
+        .planpocket-landing .badge-accent-soft {
+          background-color: #DDF3EC !important;
+          color: #0F766E !important;
+        }
+      `}</style>
+
       {/* ── Skip to main ── */}
       <a
         href="#main-content"
@@ -323,21 +391,23 @@ function LandingPage() {
       {/* ══════════════════════════════════════
           HEADER / NAVIGATION
       ══════════════════════════════════════ */}
-      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <header className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/85">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           {/* Brand */}
           <a
             href="/"
-            className="flex items-center gap-2 font-bold text-foreground"
+            className="flex items-center gap-2.5 font-bold text-foreground"
             aria-label="PLANPOCKET home"
           >
             <span
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground"
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground shadow-sm"
               aria-hidden="true"
             >
               P
             </span>
-            <span className="text-lg tracking-tight">PLANPOCKET</span>
+            <span className="text-lg font-extrabold tracking-tight text-foreground">
+              PLANPOCKET
+            </span>
           </a>
 
           {/* Desktop nav */}
@@ -349,7 +419,11 @@ function LandingPage() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+                className={`text-sm font-medium transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded ${
+                  activeSection === link.href.slice(1)
+                    ? "font-semibold text-primary"
+                    : "text-muted-foreground"
+                }`}
               >
                 {link.label}
               </a>
@@ -358,15 +432,16 @@ function LandingPage() {
 
           {/* Desktop CTA */}
           <div className="hidden items-center gap-3 md:flex">
-            <a
-              href={APP_URL}
-              className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            <button
+              type="button"
+              onClick={() => setAuthNoticeOpen(true)}
+              className="btn-planpocket-secondary rounded-md px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Log in
-            </a>
+            </button>
             <a
-              href={APP_URL}
-              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              href="#how-it-works"
+              className="btn-planpocket-primary rounded-md px-4 py-2 text-sm font-semibold shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Get started
             </a>
@@ -375,7 +450,7 @@ function LandingPage() {
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="flex items-center justify-center rounded-md p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground md:hidden"
+            className="flex items-center justify-center rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:hidden"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -419,7 +494,7 @@ function LandingPage() {
         {mobileMenuOpen && (
           <nav
             id="mobile-menu"
-            className="border-t border-border bg-background px-4 py-4 md:hidden"
+            className="border-t border-border bg-card px-4 py-4 md:hidden shadow-lg"
             aria-label="Mobile navigation"
           >
             <ul className="flex flex-col gap-1">
@@ -427,7 +502,7 @@ function LandingPage() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="block rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+                    className="block rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {link.label}
@@ -435,18 +510,21 @@ function LandingPage() {
                 </li>
               ))}
               <li className="mt-3 border-t border-border pt-3">
-                <a
-                  href={APP_URL}
-                  className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                  onClick={() => setMobileMenuOpen(false)}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setAuthNoticeOpen(true);
+                  }}
+                  className="w-full text-left block rounded-md px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   Log in
-                </a>
+                </button>
               </li>
               <li>
                 <a
-                  href={APP_URL}
-                  className="mt-1 block rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                  href="#how-it-works"
+                  className="mt-1 block rounded-md btn-planpocket-primary px-3 py-2 text-center text-sm font-semibold shadow-sm"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Get started
@@ -463,16 +541,16 @@ function LandingPage() {
         ══════════════════════════════════════ */}
         <section
           aria-labelledby="hero-heading"
-          className="border-b border-border bg-background py-20 sm:py-28"
+          className="border-b border-border py-20 sm:py-28"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+              <span className="badge-accent-soft mb-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider">
                 Personal Finance &amp; Business Planning
-              </p>
+              </span>
               <h1
                 id="hero-heading"
-                className="text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+                className="mt-2 text-4xl font-extrabold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl"
               >
                 One place for all your financial planning
               </h1>
@@ -485,17 +563,18 @@ function LandingPage() {
               </p>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <a
-                  href={APP_URL}
-                  className="w-full rounded-md bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto"
+                  href="#how-it-works"
+                  className="w-full rounded-md btn-planpocket-primary px-6 py-3 text-center text-base font-semibold shadow-sm transition-colors sm:w-auto"
                 >
-                  Get started — it's free
+                  Get started — explore workflow
                 </a>
-                <a
-                  href={APP_URL}
-                  className="w-full rounded-md border border-input bg-background px-6 py-3 text-base font-semibold text-foreground transition-colors hover:bg-accent sm:w-auto"
+                <button
+                  type="button"
+                  onClick={() => setAuthNoticeOpen(true)}
+                  className="w-full rounded-md btn-planpocket-secondary px-6 py-3 text-base font-semibold transition-colors sm:w-auto"
                 >
                   Log in
-                </a>
+                </button>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
                 Prototype — data is stored in your browser. No account
@@ -505,16 +584,16 @@ function LandingPage() {
 
             {/* Product preview */}
             <div
-              className="mt-16 overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+              className="mt-16 overflow-hidden rounded-xl border border-border bg-card shadow-lg"
               role="img"
               aria-label="Illustrative preview of the PLANPOCKET dashboard showing example financial data"
             >
               <div className="border-b border-border bg-muted/40 px-4 py-3">
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full bg-destructive/60" />
-                  <span className="h-3 w-3 rounded-full bg-yellow-400/60" />
-                  <span className="h-3 w-3 rounded-full bg-green-500/60" />
-                  <span className="ml-4 text-xs text-muted-foreground">
+                  <span className="h-3 w-3 rounded-full bg-amber-400" />
+                  <span className="h-3 w-3 rounded-full bg-emerald-500" />
+                  <span className="ml-4 text-xs font-medium text-muted-foreground">
                     PLANPOCKET Dashboard — illustrative example data
                   </span>
                 </div>
@@ -561,11 +640,13 @@ function LandingPage() {
                     <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                       {item.tool}
                     </div>
-                    <div className="text-sm text-foreground">{item.detail}</div>
+                    <div className="text-sm font-medium text-foreground">
+                      {item.detail}
+                    </div>
                     {item.bar !== null && (
-                      <div className="mt-3 h-1.5 w-full rounded-full bg-muted">
+                      <div className="mt-3 h-2 w-full rounded-full bg-muted">
                         <div
-                          className="h-1.5 rounded-full bg-primary"
+                          className="h-2 rounded-full bg-primary"
                           style={{ width: `${item.bar}%` }}
                           role="presentation"
                         />
@@ -574,7 +655,7 @@ function LandingPage() {
                   </div>
                 ))}
               </div>
-              <p className="px-4 py-2 text-center text-xs text-muted-foreground">
+              <p className="border-t border-border bg-card px-4 py-2.5 text-center text-xs text-muted-foreground">
                 All figures shown above are illustrative example data. Your
                 actual data will appear when you use the app.
               </p>
@@ -610,8 +691,10 @@ function LandingPage() {
                 household finances and for freelancers or small-business owners
                 who want a lightweight tool to think through financial decisions.
               </p>
-              <div className="mt-6 rounded-lg border border-border bg-muted/30 px-5 py-4 text-sm text-muted-foreground text-left">
-                <strong className="text-foreground">Prototype notice:</strong>{" "}
+              <div className="mt-6 rounded-lg border border-border bg-card px-5 py-4 text-left text-sm text-muted-foreground shadow-sm">
+                <strong className="text-foreground font-semibold">
+                  Prototype notice:
+                </strong>{" "}
                 Financial data is stored in your browser using localStorage.
                 Records are not confirmed to sync between devices. The prototype
                 login stores credentials in browser storage — do not use real
@@ -628,7 +711,7 @@ function LandingPage() {
               {audiences.map((a) => (
                 <div
                   key={a.title}
-                  className="rounded-lg border border-border bg-card p-5"
+                  className="rounded-lg border border-border bg-card p-5 shadow-sm"
                 >
                   <h3 className="font-semibold text-foreground">{a.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -666,11 +749,11 @@ function LandingPage() {
               {features.map((f) => (
                 <article
                   key={f.id}
-                  className="flex flex-col rounded-xl border border-border bg-card p-6"
+                  className="flex flex-col rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
                   aria-labelledby={`feature-${f.id}`}
                 >
                   <div className="mb-4 flex items-center gap-3">
-                    <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <span className="badge-accent-soft flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg text-primary">
                       {f.icon}
                     </span>
                     <div>
@@ -681,9 +764,9 @@ function LandingPage() {
                         {f.title}
                       </h3>
                       {f.status === "live" && (
-                        <span className="inline-flex items-center gap-1 text-xs font-medium text-green-600">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">
                           <span
-                            className="h-1.5 w-1.5 rounded-full bg-green-500"
+                            className="h-1.5 w-1.5 rounded-full bg-emerald-600"
                             aria-hidden="true"
                           />
                           Available
@@ -699,7 +782,7 @@ function LandingPage() {
             </div>
 
             {/* Roadmap notice */}
-            <div className="mt-12 rounded-lg border border-border bg-muted/30 p-6">
+            <div className="mt-12 rounded-lg border border-border bg-card p-6 shadow-sm">
               <h3 className="font-semibold text-foreground">
                 In the current roadmap
               </h3>
@@ -735,7 +818,7 @@ function LandingPage() {
         <section
           id="goal-planner"
           aria-labelledby="goal-planner-heading"
-          className="border-b border-border bg-muted/20 py-20"
+          className="border-b border-border py-20"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
@@ -794,7 +877,7 @@ function LandingPage() {
 
               {/* Goal card illustration */}
               <div
-                className="rounded-xl border border-border bg-card p-6 shadow-lg"
+                className="rounded-xl border border-border bg-card p-6 shadow-md"
                 role="img"
                 aria-label="Illustrative example of a goal card for an Emergency Fund goal"
               >
@@ -810,27 +893,27 @@ function LandingPage() {
                       Oct 10, 2026 – Apr 10, 2027
                     </p>
                   </div>
-                  <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-semibold text-primary">
+                  <span className="badge-accent-soft rounded-full px-2.5 py-1 text-xs font-bold">
                     68%
                   </span>
                 </div>
-                <div className="mb-1 h-2 w-full rounded-full bg-muted">
+                <div className="mb-1 h-2.5 w-full rounded-full bg-muted">
                   <div
-                    className="h-2 rounded-full bg-primary"
+                    className="h-2.5 rounded-full bg-primary"
                     style={{ width: "68%" }}
                     role="presentation"
                   />
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-3 text-center text-xs">
-                  <div className="rounded-lg bg-muted/40 px-2 py-3">
+                  <div className="rounded-lg bg-muted/60 px-2 py-3">
                     <div className="font-bold text-foreground">₹1,00,000</div>
                     <div className="text-muted-foreground">Target</div>
                   </div>
-                  <div className="rounded-lg bg-muted/40 px-2 py-3">
-                    <div className="font-bold text-green-600">₹68,000</div>
+                  <div className="rounded-lg bg-muted/60 px-2 py-3">
+                    <div className="font-bold text-emerald-700">₹68,000</div>
                     <div className="text-muted-foreground">Saved</div>
                   </div>
-                  <div className="rounded-lg bg-muted/40 px-2 py-3">
+                  <div className="rounded-lg bg-muted/60 px-2 py-3">
                     <div className="font-bold text-foreground">₹32,000</div>
                     <div className="text-muted-foreground">Remaining</div>
                   </div>
@@ -848,7 +931,7 @@ function LandingPage() {
                       className="flex items-center justify-between py-1.5 text-xs"
                     >
                       <span className="text-muted-foreground">{c.date}</span>
-                      <span className="font-medium text-foreground">
+                      <span className="font-semibold text-foreground">
                         {c.amount}
                       </span>
                       <span className="font-mono text-muted-foreground">
@@ -857,8 +940,8 @@ function LandingPage() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 rounded-md bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
-                  Recommended monthly saving: <strong>₹10,667</strong> over 3
+                <div className="mt-4 rounded-md bg-muted/60 px-3 py-2 text-xs text-muted-foreground">
+                  Recommended monthly saving: <strong className="text-foreground">₹10,667</strong> over 3
                   remaining months
                 </div>
               </div>
@@ -883,17 +966,17 @@ function LandingPage() {
                 How it works
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
-                The actual user flow, from sign-up to reviewing your results.
+                The actual workflow, from feature discovery to reviewing your results.
               </p>
             </div>
             <ol className="relative grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
-              {steps.map((step, idx) => (
+              {steps.map((step) => (
                 <li
                   key={step.num}
-                  className="flex flex-col rounded-xl border border-border bg-card p-6"
+                  className="flex flex-col rounded-xl border border-border bg-card p-6 shadow-sm"
                 >
                   <span
-                    className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary"
+                    className="badge-accent-soft mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
                     aria-hidden="true"
                   >
                     {step.num}
@@ -905,6 +988,51 @@ function LandingPage() {
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+
+        {/* ══════════════════════════════════════
+            APP ACCESS & PROTOTYPE STATUS
+        ══════════════════════════════════════ */}
+        <section
+          id="access"
+          aria-labelledby="access-heading"
+          className="border-b border-border bg-card py-16"
+        >
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="badge-accent-soft inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
+                Private Preview • Prototype Release
+              </span>
+              <h2
+                id="access-heading"
+                className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
+              >
+                Web App Access &amp; Prototype Status
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                Account registration, login, and cloud sync are currently not
+                available in this public preview release. PLANPOCKET is designed
+                as a client-side personal finance and business scenario planner.
+                All features and calculations described on this page run
+                entirely in your local browser without requiring an external server.
+              </p>
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <a
+                  href="#features"
+                  className="btn-planpocket-primary rounded-md px-5 py-2.5 text-sm font-semibold shadow-sm transition-colors"
+                >
+                  Explore All 7 Features
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setAuthNoticeOpen(true)}
+                  className="btn-planpocket-secondary rounded-md px-5 py-2.5 text-sm font-semibold transition-colors"
+                >
+                  Check Login Availability
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -923,22 +1051,23 @@ function LandingPage() {
               Ready to take control of your finances?
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Create a free account and start using every planning tool today.
-              No external service required — everything runs in your browser.
+              Review every tool, simulate hypothetical scenarios, and plan your
+              savings goals — all right here.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <a
-                href={APP_URL}
-                className="w-full rounded-md bg-primary px-8 py-3 text-base font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto"
+                href="#how-it-works"
+                className="w-full rounded-md btn-planpocket-primary px-8 py-3 text-center text-base font-semibold shadow-sm transition-colors sm:w-auto"
               >
-                Get started — it's free
+                Get started — explore tools
               </a>
-              <a
-                href={APP_URL}
-                className="w-full rounded-md border border-input bg-background px-8 py-3 text-base font-semibold text-foreground transition-colors hover:bg-accent sm:w-auto"
+              <button
+                type="button"
+                onClick={() => setAuthNoticeOpen(true)}
+                className="w-full rounded-md btn-planpocket-secondary px-8 py-3 text-base font-semibold transition-colors sm:w-auto"
               >
-                Log in to your account
-              </a>
+                Log in to account
+              </button>
             </div>
           </div>
         </section>
@@ -947,7 +1076,7 @@ function LandingPage() {
       {/* ══════════════════════════════════════
           FOOTER
       ══════════════════════════════════════ */}
-      <footer className="border-t border-border bg-background">
+      <footer className="border-t border-border bg-card">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
           <div className="grid gap-8 sm:grid-cols-3">
             {/* Brand */}
@@ -956,7 +1085,7 @@ function LandingPage() {
                 <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground">
                   P
                 </span>
-                <span>PLANPOCKET</span>
+                <span className="font-extrabold tracking-tight">PLANPOCKET</span>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
                 Your financial planning companion. A client-side prototype for
@@ -983,34 +1112,36 @@ function LandingPage() {
               </ul>
             </nav>
 
-            {/* App links */}
+            {/* Prototype Access links */}
             <div>
               <h3 className="mb-3 text-sm font-semibold text-foreground">
-                App
+                App Access
               </h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a
-                    href={APP_URL}
-                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  <button
+                    type="button"
+                    onClick={() => setAuthNoticeOpen(true)}
+                    className="text-left text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    Log in
-                  </a>
+                    Log in (Private Preview)
+                  </button>
                 </li>
                 <li>
-                  <a
-                    href={APP_URL}
-                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  <button
+                    type="button"
+                    onClick={() => setAuthNoticeOpen(true)}
+                    className="text-left text-muted-foreground transition-colors hover:text-foreground"
                   >
                     Create account
-                  </a>
+                  </button>
                 </li>
                 <li>
                   <a
-                    href={APP_URL}
+                    href="#access"
                     className="text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    Open dashboard
+                    Availability Status
                   </a>
                 </li>
               </ul>
@@ -1026,6 +1157,93 @@ function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* ══════════════════════════════════════
+          NOT AVAILABLE YET MODAL
+      ══════════════════════════════════════ */}
+      {authNoticeOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="auth-notice-title"
+          onClick={() => setAuthNoticeOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="badge-accent-soft flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold text-primary">
+                  P
+                </span>
+                <div>
+                  <h3
+                    id="auth-notice-title"
+                    className="text-lg font-bold text-foreground"
+                  >
+                    App Access — Not Available Yet
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    PlanPocket Public Preview
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setAuthNoticeOpen(false)}
+                className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                aria-label="Close notification"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width={18}
+                  height={18}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="mt-4 rounded-lg border border-border bg-muted/50 p-3.5 text-xs leading-relaxed text-muted-foreground">
+              <strong className="font-semibold text-foreground">
+                Honest status notice:
+              </strong>{" "}
+              Account sign-in and new registration are not available on this public preview yet. No external database or server is configured for online account management.
+            </div>
+
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              You can explore the complete interactive overview of our 7 verified
+              features, savings goal calculation model, and small-business CFO
+              scenarios right on this page.
+            </p>
+
+            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setAuthNoticeOpen(false)}
+                className="btn-planpocket-secondary rounded-md px-4 py-2 text-sm font-semibold transition-colors"
+              >
+                Close
+              </button>
+              <a
+                href="#features"
+                onClick={() => setAuthNoticeOpen(false)}
+                className="btn-planpocket-primary rounded-md px-4 py-2 text-center text-sm font-semibold transition-colors"
+              >
+                Explore Features
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
