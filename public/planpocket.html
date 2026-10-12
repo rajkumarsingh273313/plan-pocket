@@ -1094,6 +1094,213 @@
       cursor: pointer;
     }
 
+    /* SIP Calculator styles */
+    .sip-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+      margin-top: 20px;
+    }
+    @media (max-width: 860px) {
+      .sip-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+    .sip-form-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .sip-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--lime) 0%, var(--lime) var(--fill, 12%), #E3E6E0 var(--fill, 12%), #E3E6E0 100%) !important;
+      border: none !important;
+      outline: none;
+      padding: 0 !important;
+      min-height: auto !important;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .sip-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--text);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    .sip-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    .sip-slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--text);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+      cursor: pointer;
+    }
+    .sip-chip {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .sip-chip:hover {
+      background: #ECEEEA;
+      border-color: #CDD1C9;
+    }
+    .sip-chip.active {
+      background: var(--text) !important;
+      color: #FFFFFF !important;
+      border-color: var(--text) !important;
+    }
+    .sip-results-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sip-summary-metric {
+      text-align: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sip-metric-label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .sip-metric-value {
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .sip-breakdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 480px) {
+      .sip-breakdown-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .sip-breakdown-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .sip-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .sip-dot.dot-invested {
+      background: var(--text);
+    }
+    .sip-dot.dot-returns {
+      background: var(--lime);
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+    .sip-breakdown-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .sip-breakdown-val {
+      font-size: 1.05rem;
+      font-weight: 750;
+      color: var(--text);
+      margin-top: 2px;
+    }
+    .sip-breakdown-val.highlight-returns {
+      color: var(--success);
+    }
+    .sip-breakdown-pct {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .sip-chart-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0;
+    }
+    .sip-chart-wrapper {
+      position: relative;
+      width: 180px;
+      height: 180px;
+    }
+    .sip-notes-card {
+      margin-top: 24px;
+      background: #FAFBF9;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+    .invest-toggle-bar {
+      display: inline-flex;
+      flex-wrap: wrap;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .invest-toggle-btn {
+      background: transparent;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      min-height: 32px;
+      line-height: 1;
+    }
+    .invest-toggle-btn:hover {
+      color: var(--text);
+    }
+    .invest-toggle-btn.active {
+      background: var(--text) !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
   <style id="pp-lime">
@@ -1151,7 +1358,8 @@
     .message.error::before{content:"!";flex:0 0 18px;height:18px;border-radius:50%;background:#C0261B;color:#fff;font-size:.72rem;font-weight:800;display:grid;place-items:center;margin-top:1px}
     .message.success{background:#F0F8EC!important;border:1px solid #C7E5BA!important;color:#245F13!important}
     #companyOwnerMessage.message.info{width:fit-content;max-width:100%;margin:8px auto 0!important;padding:7px 10px!important;background:var(--accent-soft)!important;border:1px solid var(--border)!important;color:var(--text)!important;font-size:.8rem!important;font-weight:500!important}
-    input:not([type=range]):not([type=checkbox]):not([type=radio]),select,textarea{font-family:inherit!important;font-size:.95rem!important;color:var(--text)!important;background-color:#fff!important;border:1px solid var(--border,#E7E9E5)!important;border-radius:12px!important;min-height:46px;padding:10px 14px!important;transition:border-color .15s,box-shadow .15s;box-shadow:none}
+    input:not([type=range]):not([type=checkbox]):not([type=radio]):not(.currency-input),select,textarea{font-family:inherit!important;font-size:.95rem!important;color:var(--text)!important;background-color:#fff!important;border:1px solid var(--border,#E7E9E5)!important;border-radius:12px!important;min-height:46px;padding:10px 14px!important;transition:border-color .15s,box-shadow .15s;box-shadow:none}
+    input.currency-input{font-family:inherit!important;font-size:.95rem!important;color:var(--text)!important;background-color:#fff!important;border:1px solid var(--border,#E7E9E5)!important;border-radius:12px!important;min-height:46px;padding:10px 14px 10px 38px!important;padding-left:38px!important;transition:border-color .15s,box-shadow .15s;box-shadow:none}
     input:not([type=range]):not([type=checkbox]):not([type=radio]):hover,select:hover,textarea:hover{border-color:#CDD1C9!important}
     input:not([type=range]):not([type=checkbox]):not([type=radio]):focus,select:focus,textarea:focus{outline:none!important;border-color:var(--text)!important;box-shadow:0 0 0 3px rgba(106,247,15,.35)!important}
     input:disabled,select:disabled,textarea:disabled{background-color:#F3F4F2!important;color:var(--muted)!important;cursor:not-allowed;opacity:1}
@@ -1161,7 +1369,232 @@
     input[type=date]{color-scheme:light;cursor:pointer}
     input[type=date]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.7;padding:4px;border-radius:6px}
     input[type=date]::-webkit-calendar-picker-indicator:hover{opacity:1;background:#ECEEEA}
+
+    /* Shared PlanPocket Accessible DatePicker */
+    .pp-date-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .pp-date-input {
+      width: 100%;
+      padding: 12px 42px 12px 16px !important;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg2);
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .pp-date-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(106, 247, 15, 0.2);
+    }
+    .pp-date-trigger {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: color 0.15s ease, background-color 0.15s ease;
+    }
+    .pp-date-trigger:hover {
+      color: var(--text);
+      background-color: #ECEEEA;
+    }
+    .pp-date-trigger:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 1px;
+    }
+    .pp-datepicker-popover {
+      position: fixed;
+      z-index: 2500;
+      width: 308px;
+      max-width: calc(100vw - 24px);
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14), 0 3px 8px rgba(0, 0, 0, 0.05);
+      padding: 16px;
+      box-sizing: border-box;
+      font-family: inherit;
+      color: var(--text);
+      user-select: none;
+      display: none;
+      animation: ppCalFadeIn 0.14s ease-out;
+    }
+    .pp-datepicker-popover.is-open {
+      display: block;
+    }
+    @keyframes ppCalFadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .pp-cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .pp-cal-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .pp-cal-nav {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #FAFAFA;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    }
+    .pp-cal-nav:hover {
+      background: #ECEEEA;
+      border-color: #D3D7CF;
+    }
+    .pp-cal-nav:active {
+      transform: scale(0.94);
+    }
+    .pp-cal-nav:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 1px;
+    }
+    .pp-cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .pp-cal-weekday {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      padding: 4px 0;
+    }
+    .pp-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .pp-cal-day {
+      width: 36px;
+      height: 36px;
+      margin: auto;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      box-sizing: border-box;
+      transition: background 0.12s ease, transform 0.1s ease;
+    }
+    .pp-cal-day:hover:not(.is-disabled):not(.is-selected) {
+      background: #F0F2EE;
+    }
+    .pp-cal-day.is-outside {
+      color: #A4A8A0;
+      opacity: 0.65;
+    }
+    .pp-cal-day.is-today:not(.is-selected) {
+      font-weight: 700;
+      border: 1.5px solid var(--text);
+    }
+    .pp-cal-day.is-selected {
+      background: var(--lime) !important;
+      color: #141612 !important;
+      font-weight: 700 !important;
+      border-color: var(--lime) !important;
+      box-shadow: 0 2px 6px rgba(106, 247, 15, 0.4);
+    }
+    .pp-cal-day.is-today.is-selected {
+      outline: 2px solid #141612;
+      outline-offset: -2px;
+    }
+    .pp-cal-day.is-disabled {
+      opacity: 0.28;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .pp-cal-day:focus-visible, .pp-cal-day.is-focused {
+      outline: 2px solid var(--lime);
+      outline-offset: 1px;
+    }
+    .pp-cal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .pp-cal-footer-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+    .pp-cal-today-action {
+      background: var(--lime-soft);
+      color: var(--accent);
+      border-color: #D1F7B4;
+    }
+    .pp-cal-today-action:hover {
+      background: var(--lime);
+      color: #141612;
+    }
+    .pp-cal-close-action {
+      background: transparent;
+      color: var(--muted);
+      border: none;
+    }
+    .pp-cal-close-action:hover {
+      color: var(--text);
+      background: #ECEEEA;
+    }
+    .pp-cal-footer-btn:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 1px;
+    }
     @media (max-width:640px){input:not([type=range]):not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px!important}}
+    /* Currency input prefix styling */
+    .currency-input-wrap{position:relative;display:flex;align-items:center;width:100%}
+    .currency-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;font-size:1.05rem;line-height:1;pointer-events:none;user-select:none;z-index:2}
+    .currency-input-wrap input:not([type=range]):not([type=checkbox]):not([type=radio]),
+    .currency-input-wrap input.currency-input,
+    .currency-input-wrap input,
+    input.currency-input{padding:10px 14px 10px 38px!important;padding-left:38px!important;font-variant-numeric:tabular-nums}
   </style>
   <style id="pp-auth-navigation">
     #loginPage .auth-card {
@@ -1805,7 +2238,6 @@
             </div>
           </div>
         </div>
-
         <div class="back-link">
           <a href="#" class="link" onclick="showLogin()">Already have an account? Log in</a>
         </div>
@@ -1963,11 +2395,17 @@
               </div>
               <div class="form-group">
                 <label for="goalTarget">Target amount (₹)</label>
-                <input id="goalTarget" type="number" min="1" step="1" placeholder="100000" required>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="goalTarget" class="currency-input" type="number" min="1" step="1" placeholder="100000" style="padding-left: 38px !important;" required>
+                </div>
               </div>
               <div class="form-group">
                 <label for="goalSaved">Already saved (₹)</label>
-                <input id="goalSaved" type="number" min="0" step="1" value="0">
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="goalSaved" class="currency-input" type="number" min="0" step="1" value="0" style="padding-left: 38px !important;">
+                </div>
               </div>
               <div class="form-group" style="grid-column:1/-1;">
                 <label>Savings duration</label>
@@ -1991,15 +2429,28 @@
               </div>
               <div class="form-group">
                 <label for="goalStartDate">From (start date)</label>
-                <input id="goalStartDate" type="date">
+                <div class="pp-date-wrap">
+                  <input id="goalStartDate" type="text" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="From start date">
+                  <button type="button" class="pp-date-trigger" aria-label="Open calendar for start date" tabindex="-1">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="goalEndDate">To (target date)</label>
-                <input id="goalEndDate" type="date">
+                <div class="pp-date-wrap">
+                  <input id="goalEndDate" type="text" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="To target date">
+                  <button type="button" class="pp-date-trigger" aria-label="Open calendar for target date" tabindex="-1">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  </button>
+                </div>
               </div>
               <div class="form-group" style="grid-column:1/-1;">
                 <label for="goalMonthly">Planned monthly contribution (₹) <span style="color:var(--muted);font-weight:400;font-size:.8rem;">— optional</span></label>
-                <input id="goalMonthly" type="number" min="0" step="1" placeholder="5000">
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="goalMonthly" class="currency-input" type="number" min="0" step="1" placeholder="5000" style="padding-left: 38px !important;">
+                </div>
               </div>
               <div id="goalRecommendation" class="insight-box" style="grid-column:1/-1;display:none;"></div>
             </div>
@@ -2040,12 +2491,20 @@
           </div>
           <div class="form-group" style="margin:0;">
             <label for="contributeAmount">Contribution amount (₹)</label>
-            <input type="number" id="contributeAmount" min="1" step="1" placeholder="e.g. 5000">
+            <div class="currency-input-wrap">
+              <span class="currency-prefix" aria-hidden="true">₹</span>
+              <input type="number" id="contributeAmount" class="currency-input" min="1" step="1" placeholder="e.g. 5000" style="padding-left: 38px !important;">
+            </div>
             <span style="display:block;font-size:0.8rem;color:var(--muted);margin-top:4px;">Prefilled with recommended saving. You can edit this amount.</span>
           </div>
           <div class="form-group" style="margin:0;">
             <label for="contributeDate">Contribution date</label>
-            <input type="date" id="contributeDate">
+            <div class="pp-date-wrap">
+              <input type="text" id="contributeDate" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="Contribution date">
+              <button type="button" class="pp-date-trigger" aria-label="Open calendar for contribution date" tabindex="-1">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </button>
+            </div>
           </div>
           <div id="contributeModalMsg" class="message hidden tracker-message" style="margin:0;"></div>
           <div class="goal-modal-actions">
@@ -2098,11 +2557,19 @@
             <input type="hidden" id="editInlineContribId">
             <div class="form-group" style="margin-bottom:10px;">
               <label for="editInlineAmount">Amount (₹)</label>
-              <input type="number" id="editInlineAmount" min="1" step="1">
+              <div class="currency-input-wrap">
+                <span class="currency-prefix" aria-hidden="true">₹</span>
+                <input type="number" id="editInlineAmount" class="currency-input" min="1" step="1" style="padding-left: 38px !important;">
+              </div>
             </div>
             <div class="form-group" style="margin-bottom:12px;">
               <label for="editInlineDate">Date</label>
-              <input type="date" id="editInlineDate">
+              <div class="pp-date-wrap">
+                <input type="text" id="editInlineDate" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="Date">
+                <button type="button" class="pp-date-trigger" aria-label="Open calendar for date" tabindex="-1">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </button>
+              </div>
             </div>
             <div style="display:flex;gap:8px;justify-content:flex-end;">
               <button type="button" class="btn btn-secondary" style="width:auto;padding:6px 12px;min-height:34px;font-size:0.84rem;" onclick="cancelInlineEditContribution()">Cancel</button>
@@ -2144,9 +2611,21 @@
         <h2>Expense Tracker</h2><p style="color: var(--muted);">Add expenses to build a locally saved spending history.</p>
         <div class="tracker-form">
           <div class="form-group"><label for="expenseDescription">Description</label><input id="expenseDescription" type="text" maxlength="80" placeholder="e.g. Groceries"></div>
-          <div class="form-group"><label for="expenseAmount">Amount (₹)</label><input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="850"></div>
+          <div class="form-group"><label for="expenseAmount">Amount (₹)</label>
+            <div class="currency-input-wrap">
+              <span class="currency-prefix" aria-hidden="true">₹</span>
+              <input id="expenseAmount" class="currency-input" type="number" min="0.01" step="0.01" placeholder="850" style="padding-left: 38px !important;">
+            </div>
+          </div>
           <div class="form-group"><label for="expenseCategory">Category</label><select id="expenseCategory"><option>Food</option><option>Transport</option><option>Housing</option><option>Utilities</option><option>Health</option><option>Shopping</option><option>Entertainment</option><option>Other</option></select></div>
-          <div class="form-group"><label for="expenseDate">Date</label><input id="expenseDate" type="date"></div>
+          <div class="form-group"><label for="expenseDate">Date</label>
+            <div class="pp-date-wrap">
+              <input id="expenseDate" type="text" class="pp-date-input" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" autocomplete="off" aria-haspopup="dialog" aria-label="Expense date">
+              <button type="button" class="pp-date-trigger" aria-label="Open calendar for expense date" tabindex="-1">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </button>
+            </div>
+          </div>
           <button class="btn" onclick="addExpense()">Add Expense</button>
         </div>
         <div id="expenseMessage" class="message hidden tracker-message" role="status"></div>
@@ -2158,17 +2637,769 @@
   <div id="investmentTrackerPage" class="page hidden">
     <div class="container">
       <button class="tool-link tracker-back" onclick="showDashboard()">← Back to Dashboard</button>
-      <section class="card tracker-card">
-        <h2>Investment Calculator</h2><p style="color: var(--muted);">Estimate future value with monthly compounding and regular contributions. This is an illustration, not a guaranteed return.</p>
-        <div class="tracker-form">
-          <div class="form-group"><label for="investmentInitial">Initial investment (₹)</label><input id="investmentInitial" type="number" min="0" step="0.01" value="0"></div>
-          <div class="form-group"><label for="investmentMonthly">Monthly contribution (₹)</label><input id="investmentMonthly" type="number" min="0" step="0.01" placeholder="5000"></div>
-          <div class="form-group"><label for="investmentRate">Expected annual return (%)</label><input id="investmentRate" type="number" min="0" max="100" step="0.1" value="8"></div>
-          <div class="form-group"><label for="investmentYears">Investment period (years)</label><input id="investmentYears" type="number" min="1" max="80" step="1" placeholder="10"></div>
-          <button class="btn" onclick="calculateInvestment()">Calculate</button>
+      <section class="card tracker-card" style="padding: 32px 28px;">
+        <!-- Header & Calculator Selector -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+          <div>
+            <h2 id="investmentHeaderTitle" style="font-size: 1.5rem; margin-bottom: 6px;">Investment Calculator</h2>
+            <p id="investmentHeaderDesc" style="color: var(--muted); margin-bottom: 0;">Plan and project your returns using Mutual Funds (SIP & Lump Sum), Simple & Compound Interest, or calculate HRA tax exemption.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start;">
+            <label for="investmentTypeSelect" style="font-size: 0.76rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0;">Calculator Type</label>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <select id="investmentTypeSelect" onchange="switchInvestmentCalculator(this.value)" style="min-height: 40px; padding: 6px 36px 6px 14px !important; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+                <option value="mf">Mutual Fund Calculator</option>
+                <option value="sip" selected>SIP (Monthly)</option>
+                <option value="lump">Lump Sum (One-time)</option>
+                <option value="si">Simple Interest</option>
+                <option value="ci">Compound Interest</option>
+                <option value="hra">HRA Exemption</option>
+              </select>
+              <div class="invest-toggle-bar" role="tablist" aria-label="Investment calculator tabs">
+                <button type="button" id="tabMF" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('mf')">Mutual Fund</button>
+                <button type="button" id="tabSIP" class="invest-toggle-btn active" role="tab" aria-selected="true" onclick="switchInvestmentCalculator('sip')">SIP</button>
+                <button type="button" id="tabLump" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('lump')">Lump Sum</button>
+                <button type="button" id="tabSI" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('si')">Simple Interest</button>
+                <button type="button" id="tabCI" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('ci')">Compound Interest</button>
+                <button type="button" id="tabHRA" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="switchInvestmentCalculator('hra')">HRA</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div id="investmentMessage" class="message hidden tracker-message" role="status"></div>
-        <div id="investmentResult" class="tracker-result hidden" aria-live="polite"><span>Estimated future value</span><strong id="investmentFutureValue">₹0</strong><p id="investmentBreakdown" style="color: var(--muted); margin-top: 10px;"></p></div>
+
+        <input id="investmentInitial" type="hidden" value="0">
+
+        <!-- Mutual Fund Mode Switcher Bar -->
+        <div id="mfModeBar" style="margin-bottom: 20px; padding: 14px 18px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div style="font-weight: 700; font-size: 0.95rem; color: var(--text);">Mutual Fund Calculator</div>
+            <div style="font-size: 0.8rem; color: var(--muted);">Choose your investment strategy: regular SIP contributions or a one-time Lump Sum.</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0;">Investment Mode</label>
+            <div class="invest-toggle-bar" role="tablist" aria-label="Mutual Fund investment mode">
+              <button type="button" id="mfModeSIP" class="invest-toggle-btn active" role="tab" aria-selected="true" onclick="setMFMode('sip')">SIP (Monthly)</button>
+              <button type="button" id="mfModeLump" class="invest-toggle-btn" role="tab" aria-selected="false" onclick="setMFMode('lump')">Lump Sum (One-time)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIP Calculator Section -->
+        <div id="sipCalculatorSection">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">SIP Calculator</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate the estimated future wealth of your Systematic Investment Plan with regular monthly contributions and compound growth.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- Monthly Investment -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="investmentMonthly">Monthly Investment (₹)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="investmentMonthly" class="currency-input" type="number" min="1" step="500" value="5000" placeholder="5000" style="padding-left: 38px !important; font-weight: 600;" oninput="syncSIPMonthly()">
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="1000" onclick="setSIPMonthly(1000)">₹1,000</button>
+                  <button type="button" class="sip-chip" data-amt="2500" onclick="setSIPMonthly(2500)">₹2,500</button>
+                  <button type="button" class="sip-chip active" data-amt="5000" onclick="setSIPMonthly(5000)">₹5,000</button>
+                  <button type="button" class="sip-chip" data-amt="10000" onclick="setSIPMonthly(10000)">₹10,000</button>
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setSIPMonthly(25000)">₹25,000</button>
+                </div>
+              </div>
+
+              <!-- Expected Return Rate -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="investmentRate" style="margin-bottom: 0;">Expected Annual Return (%)</label>
+                  <div style="position: relative; width: 92px;">
+                    <input id="investmentRate" type="number" min="0" max="100" step="0.1" value="12" style="padding-right: 22px; text-align: right; min-height: 38px; padding-top: 6px; padding-bottom: 6px; font-weight: 700;" oninput="syncSIPRateFromInput()">
+                    <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; font-weight: 700; pointer-events: none;">%</span>
+                  </div>
+                </div>
+                <input id="investmentRateSlider" type="range" class="sip-slider" min="0" max="100" step="0.5" value="12" style="--fill: 12%;" oninput="syncSIPRateFromSlider()">
+                <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-top: 6px;">
+                  <span>0% (No growth)</span>
+                  <span>12% (Equity avg)</span>
+                  <span>100% (Max)</span>
+                </div>
+              </div>
+
+              <!-- Investment Duration -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label>Investment Duration</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Years</div>
+                    <input id="investmentYears" type="number" min="0" max="80" step="1" value="5" placeholder="Years" style="font-weight: 600;" oninput="syncSIPDurationInputs()">
+                  </div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Months</div>
+                    <input id="investmentMonths" type="number" min="0" max="11" step="1" value="0" placeholder="Months" style="font-weight: 600;" oninput="syncSIPDurationInputs()">
+                  </div>
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-dur="1-0" onclick="setSIPDuration(1, 0)">1 Yr</button>
+                  <button type="button" class="sip-chip" data-dur="3-0" onclick="setSIPDuration(3, 0)">3 Yrs</button>
+                  <button type="button" class="sip-chip active" data-dur="5-0" onclick="setSIPDuration(5, 0)">5 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="10-0" onclick="setSIPDuration(10, 0)">10 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="15-0" onclick="setSIPDuration(15, 0)">15 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="20-0" onclick="setSIPDuration(20, 0)">20 Yrs</button>
+                </div>
+                <div id="sipDurationDisplay" style="font-size: 0.8rem; color: var(--muted); margin-top: 6px; font-weight: 500;">Total duration: 5 years (60 months)</div>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateSIP()">Calculate</button>
+            </div>
+
+            <!-- Right Column: Results & Doughnut Chart -->
+            <div>
+              <div id="investmentResult" class="sip-results-card" aria-live="polite">
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Estimated Total Value</span>
+                  <strong class="sip-metric-value" id="sipTotalValue">₹0</strong>
+                  <span id="investmentFutureValue" style="display: none;">₹0</span>
+                </div>
+
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-invested" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Amount Invested</div>
+                      <div class="sip-breakdown-val" id="sipInvestedAmount">₹0</div>
+                      <div class="sip-breakdown-pct" id="sipInvestedPct">0% of total</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-returns" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Estimated Returns</div>
+                      <div class="sip-breakdown-val highlight-returns" id="sipEstimatedReturns">₹0</div>
+                      <div class="sip-breakdown-pct" id="sipReturnsPct">0% of total</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="sipChart" width="180" height="180" role="img" aria-label="SIP growth doughnut chart comparing invested amount and estimated returns"></canvas>
+                  </div>
+                </div>
+
+                <p id="investmentBreakdown" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+              </div>
+            </div>
+          </div>
+
+          <div id="investmentMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Assumptions & Disclaimer Card -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Assumptions & Market Disclaimer</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Calculation Method:</strong> Assumes fixed monthly contributions at the end of each monthly period with regular monthly compounding: <em>M × [((1 + r)<sup>n</sup> − 1) / r]</em>, where <em>r = annual return / 12 / 100</em> and <em>n = total months</em>.<br>
+                  • <strong>Market Disclaimer:</strong> Mutual fund investments and market securities are subject to market risks. Past performance does not guarantee future results. Actual returns are not guaranteed and will fluctuate.<br>
+                  • <strong>Exclusions:</strong> Taxes, inflation, and fund expense ratios are not deducted from these estimated projections.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lump Sum Calculator Section -->
+        <div id="lumpCalculatorSection" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Lump Sum Calculator</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate the estimated future wealth of a one-time upfront investment using monthly compound growth.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- One-time Investment Amount -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="investmentLumpPrincipal">One-time Investment (₹)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="investmentLumpPrincipal" class="currency-input" type="number" min="1" step="5000" value="100000" placeholder="100000" style="padding-left: 38px !important; font-weight: 600;" oninput="syncLumpPrincipal()">
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setLumpPrincipal(25000)">₹25,000</button>
+                  <button type="button" class="sip-chip" data-amt="50000" onclick="setLumpPrincipal(50000)">₹50,000</button>
+                  <button type="button" class="sip-chip active" data-amt="100000" onclick="setLumpPrincipal(100000)">₹1,00,000</button>
+                  <button type="button" class="sip-chip" data-amt="250000" onclick="setLumpPrincipal(250000)">₹2,50,000</button>
+                  <button type="button" class="sip-chip" data-amt="500000" onclick="setLumpPrincipal(500000)">₹5,00,000</button>
+                </div>
+              </div>
+
+              <!-- Expected Return Rate -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="investmentLumpRate" style="margin-bottom: 0;">Expected Annual Return (%)</label>
+                  <div style="position: relative; width: 92px;">
+                    <input id="investmentLumpRate" type="number" min="0" max="100" step="0.1" value="12" style="padding-right: 22px; text-align: right; min-height: 38px; padding-top: 6px; padding-bottom: 6px; font-weight: 700;" oninput="syncLumpRateFromInput()">
+                    <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; font-weight: 700; pointer-events: none;">%</span>
+                  </div>
+                </div>
+                <input id="investmentLumpRateSlider" type="range" class="sip-slider" min="0" max="100" step="0.5" value="12" style="--fill: 12%;" oninput="syncLumpRateFromSlider()">
+                <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-top: 6px;">
+                  <span>0% (No growth)</span>
+                  <span>12% (Equity avg)</span>
+                  <span>100% (Max)</span>
+                </div>
+              </div>
+
+              <!-- Investment Duration -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label>Investment Duration</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Years</div>
+                    <input id="investmentLumpYears" type="number" min="0" max="80" step="1" value="5" placeholder="Years" style="font-weight: 600;" oninput="syncLumpDurationInputs()">
+                  </div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Months</div>
+                    <input id="investmentLumpMonths" type="number" min="0" max="11" step="1" value="0" placeholder="Months" style="font-weight: 600;" oninput="syncLumpDurationInputs()">
+                  </div>
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-dur="1-0" onclick="setLumpDuration(1, 0)">1 Yr</button>
+                  <button type="button" class="sip-chip" data-dur="3-0" onclick="setLumpDuration(3, 0)">3 Yrs</button>
+                  <button type="button" class="sip-chip active" data-dur="5-0" onclick="setLumpDuration(5, 0)">5 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="10-0" onclick="setLumpDuration(10, 0)">10 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="15-0" onclick="setLumpDuration(15, 0)">15 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="20-0" onclick="setLumpDuration(20, 0)">20 Yrs</button>
+                </div>
+                <div id="lumpDurationDisplay" style="font-size: 0.8rem; color: var(--muted); margin-top: 6px; font-weight: 500;">Total duration: 5 years (60 months)</div>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateLumpSum()">Calculate</button>
+            </div>
+
+            <!-- Right Column: Results & Doughnut Chart -->
+            <div>
+              <div id="lumpResult" class="sip-results-card" aria-live="polite">
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Estimated Total Value</span>
+                  <strong class="sip-metric-value" id="lumpTotalValue">₹0</strong>
+                </div>
+
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-invested" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Amount Invested</div>
+                      <div class="sip-breakdown-val" id="lumpInvestedAmount">₹0</div>
+                      <div class="sip-breakdown-pct" id="lumpInvestedPct">0% of total</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-returns" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Estimated Returns</div>
+                      <div class="sip-breakdown-val highlight-returns" id="lumpEstimatedReturns">₹0</div>
+                      <div class="sip-breakdown-pct" id="lumpReturnsPct">0% of total</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="lumpChart" width="180" height="180" role="img" aria-label="Lump Sum growth doughnut chart comparing invested amount and estimated returns"></canvas>
+                  </div>
+                </div>
+
+                <p id="lumpBreakdown" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+              </div>
+            </div>
+          </div>
+
+          <div id="lumpMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Assumptions & Disclaimer Card for Lump Sum -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Assumptions & Market Disclaimer</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Calculation Method:</strong> Assumes a one-time lump sum investment with monthly compounding of the nominal annual return: <em>P × (1 + r)<sup>n</sup></em>, where <em>r = annual return / 12 / 100</em> and <em>n = total months (years × 12 + months)</em>. For 0% annual return, the estimated total value equals the principal amount with ₹0 in returns.<br>
+                  • <strong>Market Disclaimer:</strong> Mutual fund investments and market securities are subject to market risks. Past performance does not guarantee future results. Actual returns are not guaranteed and will fluctuate.<br>
+                  • <strong>Exclusions:</strong> Taxes, inflation, and fund expense ratios are not deducted from these estimated projections.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simple Interest Calculator Section -->
+        <div id="siCalculatorSection" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Simple Interest Calculator</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate linear interest earnings and total amount on your principal without compounding.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- Principal Amount -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="siPrincipal">Principal Amount (₹)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="siPrincipal" class="currency-input" type="number" min="1" step="5000" value="50000" placeholder="50000" style="padding-left: 38px !important; font-weight: 600;" oninput="syncSIPrincipal()">
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="10000" onclick="setSIPrincipal(10000)">₹10,000</button>
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setSIPrincipal(25000)">₹25,000</button>
+                  <button type="button" class="sip-chip active" data-amt="50000" onclick="setSIPrincipal(50000)">₹50,000</button>
+                  <button type="button" class="sip-chip" data-amt="100000" onclick="setSIPrincipal(100000)">₹1,00,000</button>
+                  <button type="button" class="sip-chip" data-amt="250000" onclick="setSIPrincipal(250000)">₹2,50,000</button>
+                </div>
+              </div>
+
+              <!-- Annual Interest Rate -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="siRate" style="margin-bottom: 0;">Annual Interest Rate (%)</label>
+                  <div style="position: relative; width: 92px;">
+                    <input id="siRate" type="number" min="0" max="100" step="0.1" value="8" style="padding-right: 22px; text-align: right; min-height: 38px; padding-top: 6px; padding-bottom: 6px; font-weight: 700;" oninput="syncSIRateFromInput()">
+                    <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; font-weight: 700; pointer-events: none;">%</span>
+                  </div>
+                </div>
+                <input id="siRateSlider" type="range" class="sip-slider" min="0" max="100" step="0.5" value="8" style="--fill: 8%;" oninput="syncSIRateFromSlider()">
+                <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-top: 6px;">
+                  <span>0% (Zero return)</span>
+                  <span>8% (Typical FD / bond)</span>
+                  <span>100% (Max)</span>
+                </div>
+              </div>
+
+              <!-- Duration (Years & Months) -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label>Investment Duration</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Years</div>
+                    <input id="siYears" type="number" min="0" max="80" step="1" value="2" placeholder="Years" style="font-weight: 600;" oninput="syncSIDurationInputs()">
+                  </div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Months</div>
+                    <input id="siMonths" type="number" min="0" max="11" step="1" value="6" placeholder="Months" style="font-weight: 600;" oninput="syncSIDurationInputs()">
+                  </div>
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-dur="0-3" onclick="setSIDuration(0, 3)">3 Mos</button>
+                  <button type="button" class="sip-chip" data-dur="0-6" onclick="setSIDuration(0, 6)">6 Mos</button>
+                  <button type="button" class="sip-chip" data-dur="1-0" onclick="setSIDuration(1, 0)">1 Yr</button>
+                  <button type="button" class="sip-chip active" data-dur="2-6" onclick="setSIDuration(2, 6)">2.5 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="3-0" onclick="setSIDuration(3, 0)">3 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="5-0" onclick="setSIDuration(5, 0)">5 Yrs</button>
+                </div>
+                <div id="siDurationDisplay" style="font-size: 0.8rem; color: var(--muted); margin-top: 6px; font-weight: 500;">Total duration: 2 years 6 months (30 months)</div>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateSimpleInterest()">Calculate</button>
+            </div>
+
+            <!-- Right Column: Results & Doughnut Chart -->
+            <div>
+              <div id="siResult" class="sip-results-card" aria-live="polite">
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Total Amount (Principal + Interest)</span>
+                  <strong class="sip-metric-value" id="siTotalAmount">₹0</strong>
+                </div>
+
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-invested" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Principal Amount</div>
+                      <div class="sip-breakdown-val" id="siPrincipalDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="siPrincipalPct">0% of total</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-returns" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Total Interest (Non-compounding)</div>
+                      <div class="sip-breakdown-val highlight-returns" id="siInterestDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="siInterestPct">0% of total</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="siChart" width="180" height="180" role="img" aria-label="Simple interest doughnut chart comparing principal and interest"></canvas>
+                  </div>
+                </div>
+
+                <p id="siBreakdownText" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+                <p style="color: var(--accent); font-size: 0.78rem; margin: 6px 0 0; text-align: center; font-weight: 600;">
+                  ⚡ Interest is calculated without compounding: Interest = P × (R / 100) × T.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div id="siMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Assumptions & Formula Card -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Simple Interest Method & Terms</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Calculation Method:</strong> Interest is calculated linearly without compounding over time: <em>Time in years = total months / 12</em>, <em>Simple Interest = Principal × (Annual Rate / 100) × Time in years</em>, and <em>Total Amount = Principal + Simple Interest</em>.<br>
+                  • <strong>Zero Rate Behavior:</strong> If the annual interest rate is 0%, total interest is strictly ₹0 and the total amount equals the principal amount.<br>
+                  • <strong>No Reinvestment:</strong> Unlike compound interest or growth funds, earnings are not added back into the principal for subsequent periods. Taxes, deductions, or penalties are not deducted.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compound Interest Calculator Section -->
+        <div id="ciCalculatorSection" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Compound Interest Calculator</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate exponential wealth growth and returns on your principal with periodic compounding over time.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- Principal Amount -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="ciPrincipal">Principal Amount (₹)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="ciPrincipal" class="currency-input" type="number" min="1" step="5000" value="50000" placeholder="50000" style="padding-left: 38px !important; font-weight: 600;" oninput="syncCIPrincipal()">
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="10000" onclick="setCIPrincipal(10000)">₹10,000</button>
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setCIPrincipal(25000)">₹25,000</button>
+                  <button type="button" class="sip-chip active" data-amt="50000" onclick="setCIPrincipal(50000)">₹50,000</button>
+                  <button type="button" class="sip-chip" data-amt="100000" onclick="setCIPrincipal(100000)">₹1,00,000</button>
+                  <button type="button" class="sip-chip" data-amt="250000" onclick="setCIPrincipal(250000)">₹2,50,000</button>
+                  <button type="button" class="sip-chip" data-amt="500000" onclick="setCIPrincipal(500000)">₹5,00,000</button>
+                </div>
+              </div>
+
+              <!-- Annual Interest Rate -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="ciRate" style="margin-bottom: 0;">Annual Interest Rate (%)</label>
+                  <div style="position: relative; width: 92px;">
+                    <input id="ciRate" type="number" min="0" max="100" step="0.1" value="8" style="padding-right: 22px; text-align: right; min-height: 38px; padding-top: 6px; padding-bottom: 6px; font-weight: 700;" oninput="syncCIRateFromInput()">
+                    <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; font-weight: 700; pointer-events: none;">%</span>
+                  </div>
+                </div>
+                <input id="ciRateSlider" type="range" class="sip-slider" min="0" max="100" step="0.5" value="8" style="--fill: 8%;" oninput="syncCIRateFromSlider()">
+                <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-top: 6px;">
+                  <span>0% (Zero return)</span>
+                  <span>8% (Typical FD / bond)</span>
+                  <span>100% (Max)</span>
+                </div>
+              </div>
+
+              <!-- Compounding Frequency -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="ciFrequency">Compounding Frequency</label>
+                <select id="ciFrequency" onchange="calculateCompoundInterest()" style="min-height: 40px; padding: 8px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%;">
+                  <option value="1">Yearly (Annually - 1 time/year)</option>
+                  <option value="2">Half-Yearly (Semi-annually - 2 times/year)</option>
+                  <option value="4" selected>Quarterly (4 times/year)</option>
+                </select>
+              </div>
+
+              <!-- Duration (Years & Months) -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label>Investment Duration</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Years</div>
+                    <input id="ciYears" type="number" min="0" max="80" step="1" value="5" placeholder="Years" style="font-weight: 600;" oninput="syncCIDurationInputs()">
+                  </div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; font-weight: 600;">Months</div>
+                    <input id="ciMonths" type="number" min="0" max="11" step="1" value="0" placeholder="Months" style="font-weight: 600;" oninput="syncCIDurationInputs()">
+                  </div>
+                </div>
+                <div class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-dur="1-0" onclick="setCIDuration(1, 0)">1 Yr</button>
+                  <button type="button" class="sip-chip" data-dur="3-0" onclick="setCIDuration(3, 0)">3 Yrs</button>
+                  <button type="button" class="sip-chip active" data-dur="5-0" onclick="setCIDuration(5, 0)">5 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="10-0" onclick="setCIDuration(10, 0)">10 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="15-0" onclick="setCIDuration(15, 0)">15 Yrs</button>
+                  <button type="button" class="sip-chip" data-dur="20-0" onclick="setCIDuration(20, 0)">20 Yrs</button>
+                </div>
+                <div id="ciDurationDisplay" style="font-size: 0.8rem; color: var(--muted); margin-top: 6px; font-weight: 500;">Total duration: 5 years (60 months)</div>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateCompoundInterest()">Calculate</button>
+            </div>
+
+            <!-- Right Column: Results & Doughnut Chart -->
+            <div>
+              <div id="ciResult" class="sip-results-card" aria-live="polite">
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Estimated Total Amount (Principal + Interest)</span>
+                  <strong class="sip-metric-value" id="ciTotalAmount">₹0</strong>
+                </div>
+
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-invested" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Principal Amount</div>
+                      <div class="sip-breakdown-val" id="ciPrincipalDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="ciPrincipalPct">0% of total</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot dot-returns" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Total Interest (Compound Growth)</div>
+                      <div class="sip-breakdown-val highlight-returns" id="ciInterestDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="ciInterestPct">0% of total</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="ciChart" width="180" height="180" role="img" aria-label="Compound interest doughnut chart comparing principal and interest"></canvas>
+                  </div>
+                </div>
+
+                <p id="ciBreakdownText" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+                <p style="color: var(--accent); font-size: 0.78rem; margin: 6px 0 0; text-align: center; font-weight: 600;">
+                  ⚡ Compounding Formula: A = P × (1 + r/n)<sup>n×t</sup>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div id="ciMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Assumptions & Formula Card -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Compound Interest Formula & Compounding Frequencies</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Standard Mathematical Formula:</strong> <em>A = P × (1 + r/n)<sup>n×t</sup></em>, where <em>P</em> = Principal, <em>r</em> = Annual Rate / 100, <em>n</em> = Compounding periods per year (Yearly = 1, Half-Yearly = 2, Quarterly = 4), and <em>t</em> = Time in years (<em>total months / 12</em>).<br>
+                  • <strong>Zero Rate Behavior:</strong> When the annual interest rate is 0%, interest earned is strictly ₹0 and total estimated value equals the principal amount.<br>
+                  • <strong>Planning Estimates:</strong> Returns are mathematical projections assuming constant rates and periodic compounding without intermediate withdrawals, tax deductions, or inflation adjustments.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HRA Exemption Calculator Section -->
+        <div id="hraCalculatorSection" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">HRA Tax Exemption Calculator</h3>
+            <p style="color: var(--muted); margin-bottom: 0; font-size: 0.9rem;">Calculate your House Rent Allowance (HRA) tax exemption under Section 10(13A) & Rule 2A of the Income Tax Act.</p>
+          </div>
+
+          <div class="sip-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sip-form-col">
+              <!-- Frequency / Period Toggle -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label style="margin-bottom: 6px;">Calculation Frequency</label>
+                <div class="invest-toggle-bar" role="radiogroup" aria-label="HRA frequency selector" style="width: 100%; display: flex; justify-content: center;">
+                  <button type="button" id="hraPeriodMonthly" class="invest-toggle-btn active" style="flex: 1; text-align: center;" onclick="setHRAPeriod('monthly')">Monthly</button>
+                  <button type="button" id="hraPeriodAnnual" class="invest-toggle-btn" style="flex: 1; text-align: center;" onclick="setHRAPeriod('annual')">Annual</button>
+                </div>
+                <span style="font-size: 0.78rem; color: var(--muted); display: block; margin-top: 4px;">Choose whether you are entering salary & rent amounts on a monthly or annual basis.</span>
+              </div>
+
+              <!-- Basic Salary -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraBasic" id="hraBasicLabel">Basic Salary (₹ / month)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="hraBasic" class="currency-input" type="number" min="1" step="5000" value="50000" placeholder="50000" style="padding-left: 38px !important; font-weight: 600;" oninput="calculateHRA()">
+                </div>
+                <div id="hraBasicChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="25000" onclick="setHRABasic(25000)">₹25,000</button>
+                  <button type="button" class="sip-chip active" data-amt="50000" onclick="setHRABasic(50000)">₹50,000</button>
+                  <button type="button" class="sip-chip" data-amt="75000" onclick="setHRABasic(75000)">₹75,000</button>
+                  <button type="button" class="sip-chip" data-amt="100000" onclick="setHRABasic(100000)">₹1,00,000</button>
+                </div>
+              </div>
+
+              <!-- Dearness Allowance (DA) -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraDA" id="hraDALabel">Dearness Allowance - DA (₹ / month)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="hraDA" class="currency-input" type="number" min="0" step="1000" value="0" placeholder="0" style="padding-left: 38px !important; font-weight: 600;" oninput="calculateHRA()">
+                </div>
+                <span style="font-size: 0.78rem; color: var(--muted); display: block; margin-top: 4px;">Only include DA that forms part of retirement benefits.</span>
+              </div>
+
+              <!-- HRA Received -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraReceived" id="hraReceivedLabel">HRA Received from Employer (₹ / month)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="hraReceived" class="currency-input" type="number" min="0" step="2000" value="20000" placeholder="20000" style="padding-left: 38px !important; font-weight: 600;" oninput="calculateHRA()">
+                </div>
+                <div id="hraReceivedChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="10000" onclick="setHRAReceived(10000)">₹10,000</button>
+                  <button type="button" class="sip-chip active" data-amt="20000" onclick="setHRAReceived(20000)">₹20,000</button>
+                  <button type="button" class="sip-chip" data-amt="30000" onclick="setHRAReceived(30000)">₹30,000</button>
+                  <button type="button" class="sip-chip" data-amt="40000" onclick="setHRAReceived(40000)">₹40,000</button>
+                </div>
+              </div>
+
+              <!-- Actual Rent Paid -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraRent" id="hraRentLabel">Actual Rent Paid (₹ / month)</label>
+                <div class="currency-input-wrap">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input id="hraRent" class="currency-input" type="number" min="0" step="2000" value="22000" placeholder="22000" style="padding-left: 38px !important; font-weight: 600;" oninput="calculateHRA()">
+                </div>
+                <div id="hraRentChips" class="sip-preset-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="sip-chip" data-amt="15000" onclick="setHRARent(15000)">₹15,000</button>
+                  <button type="button" class="sip-chip active" data-amt="22000" onclick="setHRARent(22000)">₹22,000</button>
+                  <button type="button" class="sip-chip" data-amt="30000" onclick="setHRARent(30000)">₹30,000</button>
+                  <button type="button" class="sip-chip" data-amt="45000" onclick="setHRARent(45000)">₹45,000</button>
+                </div>
+              </div>
+
+              <!-- City Type & Tax Regime in 2 Columns -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="hraCityType">City of Residence</label>
+                  <select id="hraCityType" onchange="calculateHRA()" style="min-height: 40px; padding: 8px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%;">
+                    <option value="metro" selected>Metro (50% - Delhi, Mumbai, Kolkata, Chennai)</option>
+                    <option value="non-metro">Non-Metro (40% - All other cities)</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="hraRegime">Tax Regime</label>
+                  <select id="hraRegime" onchange="calculateHRA()" style="min-height: 40px; padding: 8px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%;">
+                    <option value="old" selected>Old Tax Regime (Sec 10(13A))</option>
+                    <option value="new">New Tax Regime (Sec 115BAC)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Financial Year -->
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="hraFY">Financial Year</label>
+                <select id="hraFY" onchange="calculateHRA()" style="min-height: 40px; padding: 8px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%;">
+                  <option value="2025-26" selected>FY 2025-26 (Assessment Year 2026-27)</option>
+                  <option value="2024-25">FY 2024-25 (Assessment Year 2025-26)</option>
+                </select>
+              </div>
+
+              <button class="btn" style="margin-top: 4px;" onclick="calculateHRA()">Calculate HRA Exemption</button>
+            </div>
+
+            <!-- Right Column: Results & Statutory Breakdown -->
+            <div>
+              <div id="hraResult" class="sip-results-card" aria-live="polite">
+                <!-- Summary Metric: Tax-Exempt HRA -->
+                <div class="sip-summary-metric">
+                  <span class="sip-metric-label">Tax-Exempt HRA (Annual)</span>
+                  <strong class="sip-metric-value" id="hraExemptDisplay" style="color: var(--success);">₹0</strong>
+                  <span id="hraExemptMonthly" style="display: block; font-size: 0.88rem; color: var(--muted); margin-top: 4px; font-weight: 600;">₹0 / month</span>
+                </div>
+
+                <!-- Breakdown Items: Taxable HRA & Total Received -->
+                <div class="sip-breakdown-grid">
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot" style="background: var(--text);" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Taxable HRA (Annual)</div>
+                      <div class="sip-breakdown-val" id="hraTaxableDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="hraTaxableMonthly">₹0 / month</div>
+                    </div>
+                  </div>
+                  <div class="sip-breakdown-item">
+                    <div class="sip-dot" style="background: var(--lime);" aria-hidden="true"></div>
+                    <div>
+                      <div class="sip-breakdown-label">Total HRA Received</div>
+                      <div class="sip-breakdown-val" id="hraReceivedDisplay">₹0</div>
+                      <div class="sip-breakdown-pct" id="hraReceivedMonthly">₹0 / month</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Doughnut Chart -->
+                <div class="sip-chart-container">
+                  <div class="sip-chart-wrapper">
+                    <canvas id="hraChart" width="180" height="180" role="img" aria-label="HRA tax exemption doughnut chart comparing exempt and taxable portions"></canvas>
+                  </div>
+                </div>
+
+                <!-- Statutory 3-Limit Breakdown Box -->
+                <div id="hraLimitsBox" style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;">
+                  <div style="font-size: 0.84rem; font-weight: 700; color: var(--text); margin-bottom: 8px;">
+                    Statutory Rule 2A Limits (Section 10(13A))
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem;">
+                    <div id="hraLimit1Row" style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px;">
+                      <span style="color: var(--muted);">1. Actual HRA Received:</span>
+                      <strong id="hraLimit1Display" style="font-weight: 700;">₹0</strong>
+                    </div>
+                    <div id="hraLimit2Row" style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px;">
+                      <span style="color: var(--muted);">2. Rent Paid − 10% of Salary:</span>
+                      <strong id="hraLimit2Display" style="font-weight: 700;">₹0</strong>
+                    </div>
+                    <div id="hraLimit3Row" style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-radius: 6px;">
+                      <span id="hraLimit3Label" style="color: var(--muted);">3. 50% of Salary (Metro):</span>
+                      <strong id="hraLimit3Display" style="font-weight: 700;">₹0</strong>
+                    </div>
+                  </div>
+                  <div id="hraDeterminingLimit" style="margin-top: 10px; font-size: 0.78rem; color: var(--accent); font-weight: 600; padding-top: 8px; border-top: 1px dashed var(--border);">
+                    Exemption is the least of the three limits above.
+                  </div>
+                </div>
+
+                <!-- New Regime Alert Notice (Hidden by default, shown when New Regime is selected) -->
+                <div id="hraRegimeNotice" class="hidden" style="background: #FFF8E6; border: 1px solid #FFE08A; border-radius: 10px; padding: 12px 14px; font-size: 0.82rem; color: #734B00; line-height: 1.45;">
+                  <strong>⚠️ New Tax Regime Notice:</strong> Under Section 115BAC (New Tax Regime), House Rent Allowance exemption under Section 10(13A) is disallowed. 100% of the HRA received is added to your taxable income. Select Old Tax Regime if you wish to claim this exemption.
+                </div>
+
+                <p id="hraBreakdownText" class="sip-breakdown-text" style="color: var(--muted); font-size: 0.84rem; margin: 0; text-align: center; line-height: 1.4;"></p>
+              </div>
+            </div>
+          </div>
+
+          <div id="hraMessage" class="message hidden tracker-message" role="status" style="margin-top: 16px;"></div>
+
+          <!-- Assumptions & Legal Statutory Card -->
+          <div class="sip-notes-card">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--accent); margin-top: 2px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <strong style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 4px;">Income Tax Rules & Documentation Requirements</strong>
+                <p style="font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0;">
+                  • <strong>Salary Definition (Rule 2A):</strong> Salary for HRA exemption calculation includes Basic Salary plus Dearness Allowance (DA) if it forms part of retirement benefits. Other allowances and bonuses are excluded.<br>
+                  • <strong>Section 10(13A) Exemption:</strong> Under the Old Tax Regime, the exempt HRA is strictly the minimum of: (1) Actual HRA received, (2) Rent paid minus 10% of salary, or (3) 50% of salary for metro cities (Delhi, Mumbai, Kolkata, Chennai) and 40% for non-metro cities.<br>
+                  • <strong>Proof & Landlord PAN:</strong> Under Section 206AA / ITD guidelines, if annual rent exceeds ₹1,00,000 (₹8,333/month), your landlord's PAN must be reported to your employer along with valid rent receipts and rental agreement.<br>
+                  • <strong>Disclaimer:</strong> This calculator provides estimated figures for financial planning. Actual tax liability depends on your total income, deductions, and tax slabs. Consult a certified tax advisor or CA.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -2181,9 +3412,19 @@
         <p style="color: var(--muted);">Choose a month, set your take-home income, then add spending limits for the categories that matter to you.</p>
         <div class="tracker-form">
           <div class="form-group"><label for="budgetMonth">Planning month</label><input id="budgetMonth" type="month"></div>
-          <div class="form-group"><label for="budgetIncome">Monthly take-home income (₹)</label><input id="budgetIncome" type="number" min="0" step="0.01" placeholder="Optional"></div>
+          <div class="form-group"><label for="budgetIncome">Monthly take-home income (₹)</label>
+            <div class="currency-input-wrap">
+              <span class="currency-prefix" aria-hidden="true">₹</span>
+              <input id="budgetIncome" class="currency-input" type="number" min="0" step="0.01" placeholder="Optional" style="padding-left: 38px !important;">
+            </div>
+          </div>
           <div class="form-group"><label for="budgetCategory">Spending category</label><select id="budgetCategory"><option>Food</option><option>Transport</option><option>Housing</option><option>Utilities</option><option>Health</option><option>Shopping</option><option>Entertainment</option><option>Other</option></select></div>
-          <div class="form-group"><label for="budgetLimit">Monthly limit (₹)</label><input id="budgetLimit" type="number" min="0.01" step="0.01" placeholder="e.g. 8000"></div>
+          <div class="form-group"><label for="budgetLimit">Monthly limit (₹)</label>
+            <div class="currency-input-wrap">
+              <span class="currency-prefix" aria-hidden="true">₹</span>
+              <input id="budgetLimit" class="currency-input" type="number" min="0.01" step="0.01" placeholder="e.g. 8000" style="padding-left: 38px !important;">
+            </div>
+          </div>
           <button class="btn" onclick="saveMonthlyBudget()">Save Budget</button>
         </div>
         <div id="budgetMessage" class="message hidden tracker-message" role="status"></div>
@@ -2580,7 +3821,32 @@
       updateInAppHistoryControls();
     }
 
-    function showWelcome() {
+    function navigateToLanding(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      try {
+        if (window.top && window.top !== window) {
+          window.top.location.href = '/';
+          return false;
+        }
+      } catch (err) {
+        // Fallback if top access is restricted
+      }
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.location.href = '/';
+          return false;
+        }
+      } catch (err) {
+        // Fallback
+      }
+      window.location.href = '/';
+      return false;
+    }
+
+    function showWelcome(e) {
+      if (e) {
+        return navigateToLanding(e);
+      }
       showPage('welcomePage');
       clearMessages();
     }
@@ -3530,8 +4796,8 @@
       if (pageId === 'goalTrackerPage') renderGoals();
       if (pageId === 'expenseTrackerPage') renderExpenses();
       if (pageId === 'investmentTrackerPage') {
-        document.getElementById('investmentResult').classList.add('hidden');
-        document.getElementById('investmentMessage').classList.add('hidden');
+        const type = document.getElementById('investmentTypeSelect') ? document.getElementById('investmentTypeSelect').value : 'sip';
+        switchInvestmentCalculator(type);
       }
     }
 
@@ -3664,6 +4930,446 @@
       var btns = document.querySelectorAll('.goal-dur-btn');
       btns.forEach(function(b){ b.style.background=''; b.style.color=''; b.style.borderColor=''; });
     }
+
+    /* ==========================================================================
+       PlanPocket Shared Accessible DatePicker Component
+       ========================================================================== */
+    var PlanPocketDatePicker = (function() {
+      var MONTH_NAMES = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      var DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+      var activeInput = null;
+      var viewYear = 2026;
+      var viewMonth = 9; // 0-indexed: 9 = October
+      var popoverEl = null;
+
+      function padZero(n) { return n < 10 ? '0' + n : '' + n; }
+
+      function formatDateStr(y, m, d) {
+        return y + '-' + padZero(m + 1) + '-' + padZero(d);
+      }
+
+      function parseDateStr(s) {
+        if (!s || typeof s !== 'string') return null;
+        var m = s.trim().match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+        if (!m) return null;
+        var y = parseInt(m[1], 10);
+        var mon = parseInt(m[2], 10) - 1;
+        var d = parseInt(m[3], 10);
+        var dt = new Date(y, mon, d);
+        if (dt.getFullYear() === y && dt.getMonth() === mon && dt.getDate() === d) {
+          return { year: y, month: mon, day: d, str: formatDateStr(y, mon, d) };
+        }
+        return null;
+      }
+
+      function getLimits(input) {
+        var minStr = input.getAttribute('min') || '';
+        var maxStr = input.getAttribute('max') || '';
+
+        // Contextual rule: goalEndDate must be after goalStartDate
+        if (input.id === 'goalEndDate') {
+          var startEl = document.getElementById('goalStartDate');
+          if (startEl && startEl.value) {
+            if (!minStr || startEl.value >= minStr) {
+              minStr = startEl.value;
+            }
+          }
+        }
+        return { min: minStr, max: maxStr };
+      }
+
+      function createPopover() {
+        if (popoverEl) return popoverEl;
+        popoverEl = document.createElement('div');
+        popoverEl.id = 'ppDatePickerPopover';
+        popoverEl.className = 'pp-datepicker-popover';
+        popoverEl.setAttribute('role', 'dialog');
+        popoverEl.setAttribute('aria-modal', 'true');
+        popoverEl.setAttribute('aria-label', 'Calendar Date Picker');
+
+        popoverEl.innerHTML =
+          '<div class="pp-cal-header">' +
+            '<button type="button" class="pp-cal-nav pp-cal-prev" aria-label="Previous month">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>' +
+            '</button>' +
+            '<div class="pp-cal-title" aria-live="polite"></div>' +
+            '<button type="button" class="pp-cal-nav pp-cal-next" aria-label="Next month">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>' +
+            '</button>' +
+          '</div>' +
+          '<div class="pp-cal-weekdays" aria-hidden="true">' +
+            DAY_NAMES.map(function(d) { return '<span class="pp-cal-weekday">' + d + '</span>'; }).join('') +
+          '</div>' +
+          '<div class="pp-cal-grid" role="grid" tabindex="0"></div>' +
+          '<div class="pp-cal-footer">' +
+            '<button type="button" class="pp-cal-footer-btn pp-cal-today-action">Today</button>' +
+            '<button type="button" class="pp-cal-footer-btn pp-cal-close-action">Close</button>' +
+          '</div>';
+
+        document.body.appendChild(popoverEl);
+
+        var prevBtn = popoverEl.querySelector('.pp-cal-prev');
+        var nextBtn = popoverEl.querySelector('.pp-cal-next');
+        var todayBtn = popoverEl.querySelector('.pp-cal-today-action');
+        var closeBtn = popoverEl.querySelector('.pp-cal-close-action');
+        var gridEl = popoverEl.querySelector('.pp-cal-grid');
+
+        prevBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          viewMonth--;
+          if (viewMonth < 0) {
+            viewMonth = 11;
+            viewYear--;
+          }
+          renderGrid();
+        });
+
+        nextBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          viewMonth++;
+          if (viewMonth > 11) {
+            viewMonth = 0;
+            viewYear++;
+          }
+          renderGrid();
+        });
+
+        todayBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var now = new Date();
+          var todayFormatted = formatDateStr(now.getFullYear(), now.getMonth(), now.getDate());
+          var limits = activeInput ? getLimits(activeInput) : {};
+          if (limits.min && (activeInput.id === 'goalEndDate' ? todayFormatted <= limits.min : todayFormatted < limits.min)) {
+            return;
+          }
+          selectDate(now.getFullYear(), now.getMonth(), now.getDate());
+        });
+
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closePopover();
+        });
+
+        gridEl.addEventListener('click', function(e) {
+          var dayBtn = e.target.closest('.pp-cal-day');
+          if (!dayBtn || dayBtn.classList.contains('is-disabled')) return;
+          var dateStr = dayBtn.getAttribute('data-date');
+          if (dateStr) {
+            var parsed = parseDateStr(dateStr);
+            if (parsed) selectDate(parsed.year, parsed.month, parsed.day);
+          }
+        });
+
+        gridEl.addEventListener('keydown', function(e) {
+          var key = e.key;
+          var curCell = gridEl.querySelector('.is-focused') || gridEl.querySelector('.is-selected') || gridEl.querySelector('.is-today') || gridEl.querySelector('.pp-cal-day:not(.is-disabled)');
+          if (!curCell) return;
+
+          var curDateStr = curCell.getAttribute('data-date');
+          var curParsed = parseDateStr(curDateStr);
+          if (!curParsed) return;
+
+          var tgt = new Date(curParsed.year, curParsed.month, curParsed.day);
+
+          if (key === 'ArrowLeft') {
+            e.preventDefault(); tgt.setDate(tgt.getDate() - 1);
+          } else if (key === 'ArrowRight') {
+            e.preventDefault(); tgt.setDate(tgt.getDate() + 1);
+          } else if (key === 'ArrowUp') {
+            e.preventDefault(); tgt.setDate(tgt.getDate() - 7);
+          } else if (key === 'ArrowDown') {
+            e.preventDefault(); tgt.setDate(tgt.getDate() + 7);
+          } else if (key === 'PageUp') {
+            e.preventDefault(); tgt.setMonth(tgt.getMonth() - 1);
+          } else if (key === 'PageDown') {
+            e.preventDefault(); tgt.setMonth(tgt.getMonth() + 1);
+          } else if (key === 'Home') {
+            e.preventDefault(); tgt.setDate(1);
+          } else if (key === 'End') {
+            e.preventDefault(); tgt = new Date(curParsed.year, curParsed.month + 1, 0);
+          } else if (key === 'Enter' || key === ' ') {
+            e.preventDefault();
+            var dayBtn = gridEl.querySelector('.is-focused') || curCell;
+            if (dayBtn && !dayBtn.classList.contains('is-disabled')) {
+              var ds = dayBtn.getAttribute('data-date');
+              var p = parseDateStr(ds);
+              if (p) selectDate(p.year, p.month, p.day);
+            }
+            return;
+          } else if (key === 'Escape' || key === 'Esc') {
+            e.preventDefault(); e.stopPropagation(); closePopover(); return;
+          } else {
+            return;
+          }
+
+          viewYear = tgt.getFullYear();
+          viewMonth = tgt.getMonth();
+          renderGrid(formatDateStr(tgt.getFullYear(), tgt.getMonth(), tgt.getDate()));
+        });
+
+        return popoverEl;
+      }
+
+      function renderGrid(focusedDateStr) {
+        if (!popoverEl || !activeInput) return;
+
+        var titleEl = popoverEl.querySelector('.pp-cal-title');
+        titleEl.textContent = MONTH_NAMES[viewMonth] + ' ' + viewYear;
+
+        var gridEl = popoverEl.querySelector('.pp-cal-grid');
+        gridEl.innerHTML = '';
+
+        var limits = getLimits(activeInput);
+        var selectedParsed = parseDateStr(activeInput.value);
+        var selectedStr = selectedParsed ? selectedParsed.str : '';
+
+        var today = new Date();
+        var todayStr = formatDateStr(today.getFullYear(), today.getMonth(), today.getDate());
+
+        var firstDayOfWeek = new Date(viewYear, viewMonth, 1).getDay(); // 0 = Sun
+        var daysInCurrentMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+        var daysInPrevMonth = new Date(viewYear, viewMonth, 0).getDate();
+
+        var cells = [];
+
+        for (var i = firstDayOfWeek - 1; i >= 0; i--) {
+          var pDay = daysInPrevMonth - i;
+          var pMonth = viewMonth - 1;
+          var pYear = viewYear;
+          if (pMonth < 0) { pMonth = 11; pYear--; }
+          cells.push({
+            year: pYear,
+            month: pMonth,
+            day: pDay,
+            str: formatDateStr(pYear, pMonth, pDay),
+            isOutside: true
+          });
+        }
+
+        for (var d = 1; d <= daysInCurrentMonth; d++) {
+          cells.push({
+            year: viewYear,
+            month: viewMonth,
+            day: d,
+            str: formatDateStr(viewYear, viewMonth, d),
+            isOutside: false
+          });
+        }
+
+        var totalCells = cells.length <= 35 ? 35 : 42;
+        var nextDay = 1;
+        while (cells.length < totalCells) {
+          var nMonth = viewMonth + 1;
+          var nYear = viewYear;
+          if (nMonth > 11) { nMonth = 0; nYear++; }
+          cells.push({
+            year: nYear,
+            month: nMonth,
+            day: nextDay,
+            str: formatDateStr(nYear, nMonth, nextDay),
+            isOutside: true
+          });
+          nextDay++;
+        }
+
+        cells.forEach(function(c) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'pp-cal-day';
+          btn.textContent = c.day;
+          btn.setAttribute('data-date', c.str);
+          btn.setAttribute('aria-label', MONTH_NAMES[c.month] + ' ' + c.day + ', ' + c.year);
+
+          if (c.isOutside) btn.classList.add('is-outside');
+          if (c.str === todayStr) btn.classList.add('is-today');
+          if (c.str === selectedStr) {
+            btn.classList.add('is-selected');
+            btn.setAttribute('aria-selected', 'true');
+          }
+
+          var isDisabled = false;
+          if (limits.min) {
+            if (activeInput.id === 'goalEndDate') {
+              if (c.str <= limits.min) isDisabled = true;
+            } else {
+              if (c.str < limits.min) isDisabled = true;
+            }
+          }
+          if (limits.max && c.str > limits.max) isDisabled = true;
+
+          if (isDisabled) {
+            btn.classList.add('is-disabled');
+            btn.setAttribute('disabled', 'disabled');
+            btn.setAttribute('aria-disabled', 'true');
+          }
+
+          if (focusedDateStr && c.str === focusedDateStr) {
+            btn.classList.add('is-focused');
+            setTimeout(function() { btn.focus(); }, 0);
+          }
+
+          gridEl.appendChild(btn);
+        });
+      }
+
+      function positionPopover() {
+        if (!popoverEl || !activeInput) return;
+        var wrap = activeInput.closest('.pp-date-wrap') || activeInput;
+        var rect = wrap.getBoundingClientRect();
+
+        var popoverWidth = 308;
+        var popoverHeight = 350;
+
+        var left = rect.left;
+        var top = rect.bottom + 6;
+
+        if (left + popoverWidth > window.innerWidth - 12) {
+          left = Math.max(12, window.innerWidth - popoverWidth - 12);
+        }
+        if (left < 12) left = 12;
+
+        if (rect.bottom + popoverHeight > window.innerHeight && rect.top > popoverHeight + 10) {
+          top = Math.max(10, rect.top - popoverHeight - 6);
+        }
+
+        popoverEl.style.left = Math.round(left) + 'px';
+        popoverEl.style.top = Math.round(top) + 'px';
+      }
+
+      function openPopover(input) {
+        createPopover();
+        activeInput = input;
+
+        var parsed = parseDateStr(input.value);
+        if (parsed) {
+          viewYear = parsed.year;
+          viewMonth = parsed.month;
+        } else {
+          var now = new Date();
+          viewYear = now.getFullYear();
+          viewMonth = now.getMonth();
+        }
+
+        renderGrid();
+        positionPopover();
+        popoverEl.classList.add('is-open');
+
+        var sel = popoverEl.querySelector('.is-selected') || popoverEl.querySelector('.is-today') || popoverEl.querySelector('.pp-cal-day:not(.is-disabled)');
+        if (sel) sel.focus();
+        else popoverEl.querySelector('.pp-cal-grid').focus();
+      }
+
+      function closePopover() {
+        if (!popoverEl) return;
+        popoverEl.classList.remove('is-open');
+        if (activeInput) {
+          try { activeInput.focus(); } catch (e) {}
+          activeInput = null;
+        }
+      }
+
+      function selectDate(y, m, d) {
+        if (!activeInput) return;
+        var dateStr = formatDateStr(y, m, d);
+        activeInput.value = dateStr;
+        activeInput.dispatchEvent(new Event('input', { bubbles: true }));
+        activeInput.dispatchEvent(new Event('change', { bubbles: true }));
+        closePopover();
+      }
+
+      document.addEventListener('mousedown', function(e) {
+        if (!popoverEl || !popoverEl.classList.contains('is-open')) return;
+        if (popoverEl.contains(e.target)) return;
+        if (activeInput && activeInput.closest('.pp-date-wrap') && activeInput.closest('.pp-date-wrap').contains(e.target)) return;
+        closePopover();
+      });
+
+      window.addEventListener('resize', function() {
+        if (popoverEl && popoverEl.classList.contains('is-open')) {
+          positionPopover();
+        }
+      });
+
+      window.addEventListener('scroll', function() {
+        if (popoverEl && popoverEl.classList.contains('is-open')) {
+          positionPopover();
+        }
+      }, true);
+
+      document.addEventListener('keydown', function(e) {
+        if ((e.key === 'Escape' || e.key === 'Esc') && popoverEl && popoverEl.classList.contains('is-open')) {
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          closePopover();
+        }
+      }, true);
+
+      return {
+        init: function() {
+          var dateInputs = [
+            document.getElementById('goalStartDate'),
+            document.getElementById('goalEndDate'),
+            document.getElementById('contributeDate'),
+            document.getElementById('editInlineDate'),
+            document.getElementById('expenseDate')
+          ].filter(Boolean);
+
+          dateInputs.forEach(function(input) {
+            if (input._ppDatePickerBound) return;
+            input._ppDatePickerBound = true;
+
+            input.addEventListener('click', function() {
+              openPopover(input);
+            });
+
+            input.addEventListener('input', function() {
+              if (popoverEl && popoverEl.classList.contains('is-open') && activeInput === input) {
+                var p = parseDateStr(input.value);
+                if (p) {
+                  viewYear = p.year;
+                  viewMonth = p.month;
+                  renderGrid();
+                }
+              }
+            });
+
+            input.addEventListener('keydown', function(e) {
+              if (e.key === 'Enter') {
+                if (popoverEl && popoverEl.classList.contains('is-open') && activeInput === input) {
+                  closePopover();
+                }
+              }
+            });
+
+            var wrap = input.closest('.pp-date-wrap');
+            if (wrap) {
+              var trigger = wrap.querySelector('.pp-date-trigger');
+              if (trigger) {
+                trigger.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (popoverEl && popoverEl.classList.contains('is-open') && activeInput === input) {
+                    closePopover();
+                  } else {
+                    openPopover(input);
+                  }
+                });
+              }
+            }
+          });
+        },
+        open: openPopover,
+        close: closePopover
+      };
+    })();
+
+    window.initPlanPocketDatePickers = function() {
+      PlanPocketDatePicker.init();
+    };
 
     /** Initialise Goal Planner date/duration controls. Called once on DOMContentLoaded. */
     function initGoalDuration() {
@@ -4652,27 +6358,1492 @@
       });
     }
 
-    function calculateInvestment() {
-      const initial = Number(document.getElementById('investmentInitial').value);
-      const monthly = Number(document.getElementById('investmentMonthly').value);
-      const annualRate = Number(document.getElementById('investmentRate').value);
-      const years = Number(document.getElementById('investmentYears').value);
-      if (![initial, monthly, annualRate, years].every(Number.isFinite) || initial < 0 || monthly < 0 || annualRate < 0 || annualRate > 100 || years < 1 || years > 80) {
-        showTrackerMessage('investmentMessage', 'Enter non-negative investment amounts, a 0–100% annual return, and a period from 1 to 80 years.', 'error');
-        document.getElementById('investmentResult').classList.add('hidden');
+    function syncSIPMonthly() {
+      const val = Number(document.getElementById('investmentMonthly').value);
+      document.querySelectorAll('.sip-preset-chips button[data-amt]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === val);
+      });
+      calculateSIP();
+    }
+
+    function setSIPMonthly(amt) {
+      const input = document.getElementById('investmentMonthly');
+      if (input) {
+        input.value = amt;
+        syncSIPMonthly();
+      }
+    }
+
+    function syncSIPRateFromSlider() {
+      const slider = document.getElementById('investmentRateSlider');
+      const input = document.getElementById('investmentRate');
+      if (slider && input) {
+        input.value = slider.value;
+        slider.style.setProperty('--fill', slider.value + '%');
+        calculateSIP();
+      }
+    }
+
+    function syncSIPRateFromInput() {
+      const slider = document.getElementById('investmentRateSlider');
+      const input = document.getElementById('investmentRate');
+      if (slider && input) {
+        const val = Number(input.value);
+        if (Number.isFinite(val) && val >= 0 && val <= 100) {
+          slider.value = val;
+          slider.style.setProperty('--fill', val + '%');
+        }
+        calculateSIP();
+      }
+    }
+
+    function syncSIPDurationInputs() {
+      const y = Number(document.getElementById('investmentYears').value || 0);
+      const m = Number(document.getElementById('investmentMonths').value || 0);
+      const key = `${y}-${m}`;
+      document.querySelectorAll('.sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === key);
+      });
+      calculateSIP();
+    }
+
+    function setSIPDuration(y, m) {
+      const yearsInput = document.getElementById('investmentYears');
+      const monthsInput = document.getElementById('investmentMonths');
+      if (yearsInput) yearsInput.value = y;
+      if (monthsInput) monthsInput.value = m;
+      document.querySelectorAll('.sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === `${y}-${m}`);
+      });
+      calculateSIP();
+    }
+
+    function renderSIPChart(invested, returns, total) {
+      const canvas = document.getElementById('sipChart');
+      if (!canvas || !window.Chart || typeof canvas.getContext !== 'function') return;
+
+      if (window.sipChartInstance) {
+        try {
+          window.sipChartInstance.destroy();
+        } catch (e) {
+          console.warn('Error destroying sip chart:', e);
+        }
+        window.sipChartInstance = null;
+      }
+
+      let ctx;
+      try {
+        ctx = canvas.getContext('2d');
+      } catch (e) {
         return;
       }
-      const months = Math.round(years * 12);
-      const monthlyRate = annualRate / 1200;
-      const growthFactor = Math.pow(1 + monthlyRate, months);
-      const futureValue = initial * growthFactor + (monthlyRate === 0 ? monthly * months : monthly * (growthFactor - 1) / monthlyRate);
-      const contributed = initial + monthly * months;
-      document.getElementById('investmentFutureValue').textContent = formatCurrency(futureValue);
-      document.getElementById('investmentBreakdown').textContent = `${formatCurrency(contributed)} contributed · ${formatCurrency(futureValue - contributed)} estimated growth over ${years} years.`;
-      document.getElementById('investmentResult').classList.remove('hidden');
-      document.getElementById('investmentMessage').classList.add('hidden');
-      localStorage.setItem(getPlanPocketStorageKey('planpocket_lastInvestment'), String(futureValue));
-      updateDashboardSummary();
+      if (!ctx) return;
+      let chartData = [invested, returns];
+      if (invested === 0 && returns === 0) {
+        chartData = [1, 0];
+      }
+
+      try {
+        window.sipChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Amount Invested', 'Estimated Returns'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#141612', '#6AF70F'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: {
+              duration: 250
+            },
+            cutout: '68%',
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: '#141612',
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: function(c) {
+                    const val = c.raw || 0;
+                    const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                    return ' ' + c.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            }
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering SIP chart:', err);
+      }
+    }
+
+    function calculateSIP() {
+      const monthlyInput = document.getElementById('investmentMonthly');
+      const rateInput = document.getElementById('investmentRate');
+      const yearsInput = document.getElementById('investmentYears');
+      const monthsInput = document.getElementById('investmentMonths');
+      const messageEl = document.getElementById('investmentMessage');
+      const resultCard = document.getElementById('investmentResult');
+
+      if (monthlyInput) monthlyInput.removeAttribute('aria-invalid');
+      if (rateInput) rateInput.removeAttribute('aria-invalid');
+      if (yearsInput) yearsInput.removeAttribute('aria-invalid');
+      if (monthsInput) monthsInput.removeAttribute('aria-invalid');
+
+      const monthlyVal = monthlyInput ? monthlyInput.value.trim() : '';
+      const monthly = Number(monthlyVal);
+
+      const rateVal = rateInput ? rateInput.value.trim() : '';
+      const annualRate = Number(rateVal);
+
+      const yearsVal = yearsInput ? yearsInput.value.trim() : '0';
+      const years = Number(yearsVal);
+
+      const monthsVal = monthsInput ? monthsInput.value.trim() : '0';
+      const months = Number(monthsVal);
+
+      // Validate monthly investment > 0
+      if (!monthlyVal || !Number.isFinite(monthly) || monthly <= 0) {
+        if (monthlyInput) monthlyInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Monthly investment amount must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate annual return between 0% and 100%
+      if (rateVal === '' || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100) {
+        if (rateInput) rateInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Expected annual return must be between 0% and 100%.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate duration is valid numbers >= 0
+      if (!Number.isFinite(years) || !Number.isFinite(months) || years < 0 || months < 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Please enter a valid investment duration.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      const totalMonths = Math.round(years * 12 + months);
+      if (totalMonths <= 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        if (monthsInput) monthsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Investment duration must be at least 1 month.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (totalMonths > 80 * 12) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('investmentMessage', 'Investment duration cannot exceed 80 years.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Standard monthly SIP future-value calculation:
+      // monthly rate = annual return percentage / 12 / 100
+      // number of months = years × 12 + additional months
+      // if monthly rate > 0: future value = monthly investment × (((1 + monthly rate)^number of months − 1) / monthly rate)
+      // if monthly rate == 0: future value = monthly investment × number of months
+      // total invested = monthly investment × number of months
+      // estimated returns = future value − total invested
+      const monthlyRate = annualRate / 12 / 100;
+      let futureValue = 0;
+      if (monthlyRate > 0) {
+        futureValue = monthly * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate);
+      } else {
+        futureValue = monthly * totalMonths;
+      }
+
+      const totalInvested = monthly * totalMonths;
+      const estimatedReturns = futureValue - totalInvested;
+
+      // Reject non-finite calculations
+      if (!Number.isFinite(futureValue) || !Number.isFinite(totalInvested) || !Number.isFinite(estimatedReturns)) {
+        showTrackerMessage('investmentMessage', 'Calculation resulted in a non-finite number. Please adjust the input values.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Clear any previous error message
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      const roundedFV = Math.round(futureValue);
+      const roundedInv = Math.round(totalInvested);
+      const roundedRet = Math.round(estimatedReturns);
+
+      const totalValEl = document.getElementById('sipTotalValue');
+      const legacyValEl = document.getElementById('investmentFutureValue');
+      const investedEl = document.getElementById('sipInvestedAmount');
+      const returnsEl = document.getElementById('sipEstimatedReturns');
+      const investedPctEl = document.getElementById('sipInvestedPct');
+      const returnsPctEl = document.getElementById('sipReturnsPct');
+      const breakdownEl = document.getElementById('investmentBreakdown');
+      const durationDisplayEl = document.getElementById('sipDurationDisplay');
+
+      if (totalValEl) totalValEl.textContent = formatCurrency(roundedFV);
+      if (legacyValEl) legacyValEl.textContent = formatCurrency(roundedFV);
+      if (investedEl) investedEl.textContent = formatCurrency(roundedInv);
+      if (returnsEl) returnsEl.textContent = formatCurrency(roundedRet);
+
+      const investedPct = roundedFV > 0 ? Math.round((totalInvested / futureValue) * 100) : 100;
+      const returnsPct = roundedFV > 0 ? Math.max(0, 100 - investedPct) : 0;
+
+      if (investedPctEl) investedPctEl.textContent = investedPct + '% of total';
+      if (returnsPctEl) returnsPctEl.textContent = returnsPct + '% of total';
+
+      let durText = '';
+      if (years > 0 && months > 0) {
+        durText = `${years} yr${years > 1 ? 's' : ''} ${months} mo${months > 1 ? 's' : ''} (${totalMonths} months)`;
+      } else if (years > 0) {
+        durText = `${years} year${years > 1 ? 's' : ''} (${totalMonths} months)`;
+      } else {
+        durText = `${totalMonths} month${totalMonths > 1 ? 's' : ''}`;
+      }
+      if (durationDisplayEl) durationDisplayEl.textContent = 'Total duration: ' + durText;
+
+      if (breakdownEl) {
+        breakdownEl.textContent = `${formatCurrency(roundedInv)} contributed over ${durText} · ${formatCurrency(roundedRet)} estimated returns at ${annualRate}% p.a.`;
+      }
+
+      try {
+        (window.localStorage || localStorage).setItem('planpocket_lastInvestment', String(roundedFV));
+      } catch (e) {}
+      if (typeof updateDashboardSummary === 'function') {
+        updateDashboardSummary();
+      }
+
+      renderSIPChart(roundedInv, roundedRet, roundedFV);
+    }
+
+    let currentMFMode = 'sip';
+
+    function setMFMode(targetMode) {
+      currentMFMode = (targetMode === 'lump' || targetMode === 'lumpsum') ? 'lump' : 'sip';
+      const select = document.getElementById('investmentTypeSelect');
+      const isMFActive = select && select.value === 'mf';
+
+      if (isMFActive) {
+        switchInvestmentCalculator('mf');
+      } else {
+        switchInvestmentCalculator(currentMFMode);
+      }
+    }
+
+    function switchInvestmentCalculator(type) {
+      const sipSection = document.getElementById('sipCalculatorSection');
+      const lumpSection = document.getElementById('lumpCalculatorSection');
+      const siSection = document.getElementById('siCalculatorSection');
+      const ciSection = document.getElementById('ciCalculatorSection');
+      const hraSection = document.getElementById('hraCalculatorSection');
+      const mfModeBar = document.getElementById('mfModeBar');
+      const select = document.getElementById('investmentTypeSelect');
+      const tabMF = document.getElementById('tabMF');
+      const tabSIP = document.getElementById('tabSIP');
+      const tabLump = document.getElementById('tabLump');
+      const tabSI = document.getElementById('tabSI');
+      const tabCI = document.getElementById('tabCI');
+      const tabHRA = document.getElementById('tabHRA');
+      const mfModeSIP = document.getElementById('mfModeSIP');
+      const mfModeLump = document.getElementById('mfModeLump');
+
+      let mode = 'sip';
+      if (type === 'mf' || type === 'mutual' || type === 'mutualfund') mode = 'mf';
+      else if (type === 'lump' || type === 'lumpsum') {
+        mode = 'lump';
+        currentMFMode = 'lump';
+      }
+      else if (type === 'si' || type === 'simple' || type === 'simpleinterest') mode = 'si';
+      else if (type === 'ci' || type === 'compound' || type === 'compoundinterest') mode = 'ci';
+      else if (type === 'hra') mode = 'hra';
+      else if (type === 'sip') {
+        mode = 'sip';
+        currentMFMode = 'sip';
+      }
+
+      if (select) select.value = mode;
+
+      if (tabMF) {
+        tabMF.classList.toggle('active', mode === 'mf');
+        tabMF.setAttribute('aria-selected', mode === 'mf' ? 'true' : 'false');
+      }
+      if (tabSIP) {
+        tabSIP.classList.toggle('active', mode === 'sip');
+        tabSIP.setAttribute('aria-selected', mode === 'sip' ? 'true' : 'false');
+      }
+      if (tabLump) {
+        tabLump.classList.toggle('active', mode === 'lump');
+        tabLump.setAttribute('aria-selected', mode === 'lump' ? 'true' : 'false');
+      }
+      if (tabSI) {
+        tabSI.classList.toggle('active', mode === 'si');
+        tabSI.setAttribute('aria-selected', mode === 'si' ? 'true' : 'false');
+      }
+      if (tabCI) {
+        tabCI.classList.toggle('active', mode === 'ci');
+        tabCI.setAttribute('aria-selected', mode === 'ci' ? 'true' : 'false');
+      }
+      if (tabHRA) {
+        tabHRA.classList.toggle('active', mode === 'hra');
+        tabHRA.setAttribute('aria-selected', mode === 'hra' ? 'true' : 'false');
+      }
+
+      // Update inner Mutual Fund mode bar
+      const isMFRelated = (mode === 'mf' || mode === 'sip' || mode === 'lump');
+      if (mfModeBar) mfModeBar.style.display = isMFRelated ? 'flex' : 'none';
+
+      const activeMFSubMode = (mode === 'lump') ? 'lump' : (mode === 'sip' ? 'sip' : currentMFMode);
+      if (mfModeSIP) {
+        mfModeSIP.classList.toggle('active', activeMFSubMode === 'sip');
+        mfModeSIP.setAttribute('aria-selected', activeMFSubMode === 'sip' ? 'true' : 'false');
+      }
+      if (mfModeLump) {
+        mfModeLump.classList.toggle('active', activeMFSubMode === 'lump');
+        mfModeLump.setAttribute('aria-selected', activeMFSubMode === 'lump' ? 'true' : 'false');
+      }
+
+      // Show/hide appropriate calculator sections
+      if (mode === 'mf') {
+        if (currentMFMode === 'lump') {
+          if (sipSection) sipSection.style.display = 'none';
+          if (lumpSection) lumpSection.style.display = 'block';
+        } else {
+          if (sipSection) sipSection.style.display = 'block';
+          if (lumpSection) lumpSection.style.display = 'none';
+        }
+      } else {
+        if (sipSection) sipSection.style.display = (mode === 'sip') ? 'block' : 'none';
+        if (lumpSection) lumpSection.style.display = (mode === 'lump') ? 'block' : 'none';
+      }
+
+      if (siSection) siSection.style.display = (mode === 'si') ? 'block' : 'none';
+      if (ciSection) ciSection.style.display = (mode === 'ci') ? 'block' : 'none';
+      if (hraSection) hraSection.style.display = (mode === 'hra') ? 'block' : 'none';
+
+      if (mode === 'mf') {
+        if (currentMFMode === 'lump') calculateLumpSum();
+        else calculateSIP();
+      } else if (mode === 'sip') {
+        calculateSIP();
+      } else if (mode === 'lump') {
+        calculateLumpSum();
+      } else if (mode === 'si') {
+        calculateSimpleInterest();
+      } else if (mode === 'ci') {
+        calculateCompoundInterest();
+      } else if (mode === 'hra') {
+        calculateHRA();
+      }
+    }
+
+    function syncLumpPrincipal() {
+      const input = document.getElementById('investmentLumpPrincipal');
+      const val = Number(input ? input.value : 0);
+      document.querySelectorAll('#lumpCalculatorSection .sip-preset-chips button[data-amt]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === val);
+      });
+      calculateLumpSum();
+    }
+
+    function setLumpPrincipal(amt) {
+      const input = document.getElementById('investmentLumpPrincipal');
+      if (input) {
+        input.value = amt;
+        syncLumpPrincipal();
+      }
+    }
+
+    function syncLumpRateFromSlider() {
+      const slider = document.getElementById('investmentLumpRateSlider');
+      const input = document.getElementById('investmentLumpRate');
+      if (slider && input) {
+        input.value = slider.value;
+        slider.style.setProperty('--fill', slider.value + '%');
+        calculateLumpSum();
+      }
+    }
+
+    function syncLumpRateFromInput() {
+      const slider = document.getElementById('investmentLumpRateSlider');
+      const input = document.getElementById('investmentLumpRate');
+      if (slider && input) {
+        const val = Number(input.value);
+        if (Number.isFinite(val) && val >= 0 && val <= 100) {
+          slider.value = val;
+          slider.style.setProperty('--fill', val + '%');
+        }
+        calculateLumpSum();
+      }
+    }
+
+    function syncLumpDurationInputs() {
+      const y = Number(document.getElementById('investmentLumpYears').value || 0);
+      const m = Number(document.getElementById('investmentLumpMonths').value || 0);
+      const key = `${y}-${m}`;
+      document.querySelectorAll('#lumpCalculatorSection .sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === key);
+      });
+      calculateLumpSum();
+    }
+
+    function setLumpDuration(y, m) {
+      const yearsInput = document.getElementById('investmentLumpYears');
+      const monthsInput = document.getElementById('investmentLumpMonths');
+      if (yearsInput) yearsInput.value = y;
+      if (monthsInput) monthsInput.value = m;
+      document.querySelectorAll('#lumpCalculatorSection .sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === `${y}-${m}`);
+      });
+      calculateLumpSum();
+    }
+
+    function renderLumpChart(invested, returns, total) {
+      const canvas = document.getElementById('lumpChart');
+      if (!canvas || !window.Chart || typeof canvas.getContext !== 'function') return;
+
+      if (window.lumpChartInstance) {
+        try {
+          window.lumpChartInstance.destroy();
+        } catch (e) {
+          console.warn('Error destroying lump chart:', e);
+        }
+        window.lumpChartInstance = null;
+      }
+
+      let ctx;
+      try {
+        ctx = canvas.getContext('2d');
+      } catch (e) {
+        return;
+      }
+      if (!ctx) return;
+      let chartData = [invested, returns];
+      if (invested === 0 && returns === 0) {
+        chartData = [1, 0];
+      }
+
+      try {
+        window.lumpChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Amount Invested', 'Estimated Returns'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#141612', '#6AF70F'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: {
+              duration: 250
+            },
+            cutout: '68%',
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: '#141612',
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: function(c) {
+                    const val = c.raw || 0;
+                    const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                    return ' ' + c.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            }
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering lump sum chart:', err);
+      }
+    }
+
+    function calculateLumpSum() {
+      const principalInput = document.getElementById('investmentLumpPrincipal');
+      const rateInput = document.getElementById('investmentLumpRate');
+      const yearsInput = document.getElementById('investmentLumpYears');
+      const monthsInput = document.getElementById('investmentLumpMonths');
+      const messageEl = document.getElementById('lumpMessage');
+      const resultCard = document.getElementById('lumpResult');
+
+      if (principalInput) principalInput.removeAttribute('aria-invalid');
+      if (rateInput) rateInput.removeAttribute('aria-invalid');
+      if (yearsInput) yearsInput.removeAttribute('aria-invalid');
+      if (monthsInput) monthsInput.removeAttribute('aria-invalid');
+
+      const principalVal = principalInput ? principalInput.value.trim() : '';
+      const principal = Number(principalVal);
+
+      const rateVal = rateInput ? rateInput.value.trim() : '';
+      const annualRate = Number(rateVal);
+
+      const yearsVal = yearsInput ? yearsInput.value.trim() : '0';
+      const years = Number(yearsVal);
+
+      const monthsVal = monthsInput ? monthsInput.value.trim() : '0';
+      const months = Number(monthsVal);
+
+      // Validate principal > 0
+      if (!principalVal || !Number.isFinite(principal) || principal <= 0) {
+        if (principalInput) principalInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('lumpMessage', 'One-time investment amount must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate annual return between 0% and 100%
+      if (rateVal === '' || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100) {
+        if (rateInput) rateInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('lumpMessage', 'Expected annual return must be between 0% and 100%.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate duration is valid numbers >= 0
+      if (!Number.isFinite(years) || !Number.isFinite(months) || years < 0 || months < 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('lumpMessage', 'Please enter a valid investment duration.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      const totalMonths = Math.round(years * 12 + months);
+      if (totalMonths <= 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        if (monthsInput) monthsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('lumpMessage', 'Investment duration must be at least 1 month.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (totalMonths > 80 * 12) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('lumpMessage', 'Investment duration cannot exceed 80 years.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Monthly compounding of the nominal annual return:
+      // monthly rate = annual return percentage / 12 / 100
+      // number of months = years × 12 + additional months
+      // estimated total value = principal × (1 + monthly rate) ^ number of months
+      // estimated returns = estimated total value − principal
+      const monthlyRate = annualRate / 12 / 100;
+      let futureValue = 0;
+      if (monthlyRate > 0) {
+        futureValue = principal * Math.pow(1 + monthlyRate, totalMonths);
+      } else {
+        futureValue = principal;
+      }
+
+      const totalInvested = principal;
+      const estimatedReturns = futureValue - totalInvested;
+
+      // Reject non-finite calculations
+      if (!Number.isFinite(futureValue) || !Number.isFinite(totalInvested) || !Number.isFinite(estimatedReturns)) {
+        showTrackerMessage('lumpMessage', 'Calculation resulted in a non-finite number. Please adjust the input values.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Clear any previous error message
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      const roundedFV = Math.round(futureValue);
+      const roundedInv = Math.round(totalInvested);
+      const roundedRet = Math.round(estimatedReturns);
+
+      const totalValEl = document.getElementById('lumpTotalValue');
+      const legacyValEl = document.getElementById('investmentFutureValue');
+      const investedEl = document.getElementById('lumpInvestedAmount');
+      const returnsEl = document.getElementById('lumpEstimatedReturns');
+      const investedPctEl = document.getElementById('lumpInvestedPct');
+      const returnsPctEl = document.getElementById('lumpReturnsPct');
+      const breakdownEl = document.getElementById('lumpBreakdown');
+      const durationDisplayEl = document.getElementById('lumpDurationDisplay');
+
+      if (totalValEl) totalValEl.textContent = formatCurrency(roundedFV);
+      if (legacyValEl) legacyValEl.textContent = formatCurrency(roundedFV);
+      if (investedEl) investedEl.textContent = formatCurrency(roundedInv);
+      if (returnsEl) returnsEl.textContent = formatCurrency(roundedRet);
+
+      const investedPct = roundedFV > 0 ? Math.round((totalInvested / futureValue) * 100) : 100;
+      const returnsPct = roundedFV > 0 ? Math.max(0, 100 - investedPct) : 0;
+
+      if (investedPctEl) investedPctEl.textContent = investedPct + '% of total';
+      if (returnsPctEl) returnsPctEl.textContent = returnsPct + '% of total';
+
+      let durText = '';
+      if (years > 0 && months > 0) {
+        durText = `${years} yr${years > 1 ? 's' : ''} ${months} mo${months > 1 ? 's' : ''} (${totalMonths} months)`;
+      } else if (years > 0) {
+        durText = `${years} year${years > 1 ? 's' : ''} (${totalMonths} months)`;
+      } else {
+        durText = `${totalMonths} month${totalMonths > 1 ? 's' : ''}`;
+      }
+      if (durationDisplayEl) durationDisplayEl.textContent = 'Total duration: ' + durText;
+
+      if (breakdownEl) {
+        breakdownEl.textContent = `${formatCurrency(roundedInv)} invested over ${durText} · ${formatCurrency(roundedRet)} estimated returns at ${annualRate}% p.a.`;
+      }
+
+      try {
+        (window.localStorage || localStorage).setItem('planpocket_lastInvestment', String(roundedFV));
+      } catch (e) {}
+      if (typeof updateDashboardSummary === 'function') {
+        updateDashboardSummary();
+      }
+
+      renderLumpChart(roundedInv, roundedRet, roundedFV);
+    }
+
+    /* ==========================================================================
+       Simple Interest Calculator Logic & Synchronization
+       ========================================================================== */
+    function syncSIPrincipal() {
+      const input = document.getElementById('siPrincipal');
+      const val = Number(input ? input.value : 0);
+      document.querySelectorAll('#siCalculatorSection .sip-preset-chips button[data-amt]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === val);
+      });
+      calculateSimpleInterest();
+    }
+
+    function setSIPrincipal(amt) {
+      const input = document.getElementById('siPrincipal');
+      if (input) {
+        input.value = amt;
+        syncSIPrincipal();
+      }
+    }
+
+    function syncSIRateFromSlider() {
+      const slider = document.getElementById('siRateSlider');
+      const input = document.getElementById('siRate');
+      if (slider && input) {
+        input.value = slider.value;
+        slider.style.setProperty('--fill', slider.value + '%');
+      }
+      calculateSimpleInterest();
+    }
+
+    function syncSIRateFromInput() {
+      const slider = document.getElementById('siRateSlider');
+      const input = document.getElementById('siRate');
+      if (slider && input) {
+        const val = Math.min(100, Math.max(0, Number(input.value) || 0));
+        slider.value = val;
+        slider.style.setProperty('--fill', val + '%');
+      }
+      calculateSimpleInterest();
+    }
+
+    function syncSIDurationInputs() {
+      const y = Number(document.getElementById('siYears') ? document.getElementById('siYears').value : 0) || 0;
+      const m = Number(document.getElementById('siMonths') ? document.getElementById('siMonths').value : 0) || 0;
+      const durKey = y + '-' + m;
+      document.querySelectorAll('#siCalculatorSection .sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === durKey);
+      });
+      const displayEl = document.getElementById('siDurationDisplay');
+      if (displayEl) {
+        const totalMonths = Math.round(y * 12 + m);
+        const parts = [];
+        if (y > 0) parts.push(y + (y === 1 ? ' year' : ' years'));
+        if (m > 0) parts.push(m + (m === 1 ? ' month' : ' months'));
+        const desc = parts.length > 0 ? parts.join(' ') : '0 months';
+        displayEl.textContent = 'Total duration: ' + desc + ' (' + totalMonths + ' months)';
+      }
+      calculateSimpleInterest();
+    }
+
+    function setSIDuration(years, months) {
+      const yInput = document.getElementById('siYears');
+      const mInput = document.getElementById('siMonths');
+      if (yInput) yInput.value = years;
+      if (mInput) mInput.value = months;
+      syncSIDurationInputs();
+    }
+
+    function renderSIChart(principal, interest, total) {
+      const canvas = document.getElementById('siChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (window.siChartInstance && typeof window.siChartInstance.destroy === 'function') {
+        window.siChartInstance.destroy();
+        window.siChartInstance = null;
+      }
+
+      const chartData = (interest <= 0) ? [principal, 0] : [principal, interest];
+
+      try {
+        window.siChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Principal Amount', 'Total Interest'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#141612', '#6AF70F'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const val = context.raw || 0;
+                    const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                    return context.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            },
+            cutout: '68%'
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering simple interest chart:', err);
+      }
+    }
+
+    function calculateSimpleInterest() {
+      const principalInput = document.getElementById('siPrincipal');
+      const rateInput = document.getElementById('siRate');
+      const yearsInput = document.getElementById('siYears');
+      const monthsInput = document.getElementById('siMonths');
+      const messageEl = document.getElementById('siMessage');
+      const resultCard = document.getElementById('siResult');
+
+      if (principalInput) principalInput.removeAttribute('aria-invalid');
+      if (rateInput) rateInput.removeAttribute('aria-invalid');
+      if (yearsInput) yearsInput.removeAttribute('aria-invalid');
+      if (monthsInput) monthsInput.removeAttribute('aria-invalid');
+
+      const principalVal = principalInput ? principalInput.value.trim() : '';
+      const principal = Number(principalVal);
+
+      const rateVal = rateInput ? rateInput.value.trim() : '';
+      const annualRate = Number(rateVal);
+
+      const yearsVal = yearsInput ? yearsInput.value.trim() : '0';
+      const years = Number(yearsVal);
+
+      const monthsVal = monthsInput ? monthsInput.value.trim() : '0';
+      const months = Number(monthsVal);
+
+      // Validate principal > 0
+      if (!principalVal || !Number.isFinite(principal) || principal <= 0) {
+        if (principalInput) principalInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Principal amount must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate annual rate between 0% and 100%
+      if (rateVal === '' || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100) {
+        if (rateInput) rateInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Annual interest rate must be between 0% and 100%.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate duration numbers >= 0
+      if (!Number.isFinite(years) || !Number.isFinite(months) || years < 0 || months < 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Please enter a valid investment duration.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      const totalMonths = Math.round(years * 12 + months);
+      if (totalMonths <= 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        if (monthsInput) monthsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Investment duration must be at least 1 month.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (totalMonths > 80 * 12) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('siMessage', 'Investment duration cannot exceed 80 years.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Simple Interest calculation without compounding:
+      // time in years = total months / 12
+      // simple interest = principal × (annual rate / 100) × time in years
+      // total amount = principal + simple interest
+      const timeInYears = totalMonths / 12;
+      let interest = 0;
+      if (annualRate > 0) {
+        interest = principal * (annualRate / 100) * timeInYears;
+      } else {
+        interest = 0;
+      }
+      const totalAmount = principal + interest;
+
+      if (!Number.isFinite(interest) || !Number.isFinite(totalAmount)) {
+        showTrackerMessage('siMessage', 'Calculation resulted in an invalid number. Please adjust your inputs.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      const roundedPrincipal = Math.round(principal);
+      const roundedInterest = Math.round(interest);
+      const roundedTotal = Math.round(totalAmount);
+
+      const totalEl = document.getElementById('siTotalAmount');
+      const principalEl = document.getElementById('siPrincipalDisplay');
+      const interestEl = document.getElementById('siInterestDisplay');
+      const principalPctEl = document.getElementById('siPrincipalPct');
+      const interestPctEl = document.getElementById('siInterestPct');
+      const breakdownEl = document.getElementById('siBreakdownText');
+
+      if (totalEl) totalEl.textContent = formatCurrency(roundedTotal);
+      if (principalEl) principalEl.textContent = formatCurrency(roundedPrincipal);
+      if (interestEl) interestEl.textContent = formatCurrency(roundedInterest);
+
+      const principalPct = roundedTotal > 0 ? ((roundedPrincipal / roundedTotal) * 100).toFixed(1) : '100.0';
+      const interestPct = roundedTotal > 0 ? ((roundedInterest / roundedTotal) * 100).toFixed(1) : '0.0';
+
+      if (principalPctEl) principalPctEl.textContent = principalPct + '% of total';
+      if (interestPctEl) interestPctEl.textContent = interestPct + '% of total';
+
+      if (breakdownEl) {
+        const parts = [];
+        if (years > 0) parts.push(years + (years === 1 ? ' year' : ' years'));
+        if (months > 0) parts.push(months + (months === 1 ? ' month' : ' months'));
+        const durStr = parts.length > 0 ? parts.join(' ') : totalMonths + ' months';
+
+        if (annualRate === 0) {
+          breakdownEl.textContent = `Over ${durStr}, a principal of ${formatCurrency(roundedPrincipal)} at 0% annual interest earns ₹0 in interest, resulting in a total amount of ${formatCurrency(roundedPrincipal)}.`;
+        } else {
+          breakdownEl.textContent = `Over ${durStr}, a principal of ${formatCurrency(roundedPrincipal)} at ${annualRate}% p.a. simple interest earns ${formatCurrency(roundedInterest)} in interest, resulting in a total amount of ${formatCurrency(roundedTotal)}.`;
+        }
+      }
+
+      try {
+        (window.localStorage || localStorage).setItem('planpocket_lastInvestment', String(roundedTotal));
+      } catch (e) {}
+      if (typeof updateDashboardSummary === 'function') {
+        updateDashboardSummary();
+      }
+
+      renderSIChart(roundedPrincipal, roundedInterest, roundedTotal);
+    }
+
+    /* ==========================================================================
+       Compound Interest Calculator Logic & Synchronization
+       ========================================================================== */
+    function syncCIPrincipal() {
+      const input = document.getElementById('ciPrincipal');
+      const val = Number(input ? input.value : 0);
+      document.querySelectorAll('#ciCalculatorSection .sip-preset-chips button[data-amt]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === val);
+      });
+      calculateCompoundInterest();
+    }
+
+    function setCIPrincipal(amt) {
+      const input = document.getElementById('ciPrincipal');
+      if (input) {
+        input.value = amt;
+        syncCIPrincipal();
+      }
+    }
+
+    function syncCIRateFromSlider() {
+      const slider = document.getElementById('ciRateSlider');
+      const input = document.getElementById('ciRate');
+      if (slider && input) {
+        input.value = slider.value;
+        slider.style.setProperty('--fill', slider.value + '%');
+      }
+      calculateCompoundInterest();
+    }
+
+    function syncCIRateFromInput() {
+      const slider = document.getElementById('ciRateSlider');
+      const input = document.getElementById('ciRate');
+      if (slider && input) {
+        const val = Math.min(100, Math.max(0, Number(input.value) || 0));
+        slider.value = val;
+        slider.style.setProperty('--fill', val + '%');
+      }
+      calculateCompoundInterest();
+    }
+
+    function syncCIDurationInputs() {
+      const y = Number(document.getElementById('ciYears') ? document.getElementById('ciYears').value : 0) || 0;
+      const m = Number(document.getElementById('ciMonths') ? document.getElementById('ciMonths').value : 0) || 0;
+      const durKey = y + '-' + m;
+      document.querySelectorAll('#ciCalculatorSection .sip-preset-chips button[data-dur]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-dur') === durKey);
+      });
+      const displayEl = document.getElementById('ciDurationDisplay');
+      if (displayEl) {
+        const totalMonths = Math.round(y * 12 + m);
+        const parts = [];
+        if (y > 0) parts.push(y + (y === 1 ? ' year' : ' years'));
+        if (m > 0) parts.push(m + (m === 1 ? ' month' : ' months'));
+        const desc = parts.length > 0 ? parts.join(' ') : '0 months';
+        displayEl.textContent = 'Total duration: ' + desc + ' (' + totalMonths + ' months)';
+      }
+      calculateCompoundInterest();
+    }
+
+    function setCIDuration(years, months) {
+      const yInput = document.getElementById('ciYears');
+      const mInput = document.getElementById('ciMonths');
+      if (yInput) yInput.value = years;
+      if (mInput) mInput.value = months;
+      syncCIDurationInputs();
+    }
+
+    function renderCIChart(principal, interest, total) {
+      const canvas = document.getElementById('ciChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (window.ciChartInstance && typeof window.ciChartInstance.destroy === 'function') {
+        window.ciChartInstance.destroy();
+        window.ciChartInstance = null;
+      }
+
+      const chartData = (interest <= 0) ? [principal, 0] : [principal, interest];
+
+      try {
+        window.ciChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Principal Amount', 'Total Interest'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#141612', '#6AF70F'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const val = context.raw || 0;
+                    const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                    return context.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            },
+            cutout: '68%'
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering compound interest chart:', err);
+      }
+    }
+
+    function calculateCompoundInterest() {
+      const principalInput = document.getElementById('ciPrincipal');
+      const rateInput = document.getElementById('ciRate');
+      const freqSelect = document.getElementById('ciFrequency');
+      const yearsInput = document.getElementById('ciYears');
+      const monthsInput = document.getElementById('ciMonths');
+      const messageEl = document.getElementById('ciMessage');
+      const resultCard = document.getElementById('ciResult');
+
+      if (principalInput) principalInput.removeAttribute('aria-invalid');
+      if (rateInput) rateInput.removeAttribute('aria-invalid');
+      if (yearsInput) yearsInput.removeAttribute('aria-invalid');
+      if (monthsInput) monthsInput.removeAttribute('aria-invalid');
+
+      const principalVal = principalInput ? principalInput.value.trim() : '';
+      const principal = Number(principalVal);
+
+      const rateVal = rateInput ? rateInput.value.trim() : '';
+      const annualRate = Number(rateVal);
+
+      const freq = Number(freqSelect ? freqSelect.value : 4) || 4;
+
+      const yearsVal = yearsInput ? yearsInput.value.trim() : '0';
+      const years = Number(yearsVal);
+
+      const monthsVal = monthsInput ? monthsInput.value.trim() : '0';
+      const months = Number(monthsVal);
+
+      // Validate principal > 0
+      if (!principalVal || !Number.isFinite(principal) || principal <= 0) {
+        if (principalInput) principalInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Principal amount must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate annual rate between 0% and 100%
+      if (rateVal === '' || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100) {
+        if (rateInput) rateInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Annual interest rate must be between 0% and 100%.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate duration numbers >= 0
+      if (!Number.isFinite(years) || !Number.isFinite(months) || years < 0 || months < 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Please enter a valid investment duration.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      const totalMonths = Math.round(years * 12 + months);
+      if (totalMonths <= 0) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        if (monthsInput) monthsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Investment duration must be at least 1 month.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (totalMonths > 80 * 12) {
+        if (yearsInput) yearsInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('ciMessage', 'Investment duration cannot exceed 80 years.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Compound Interest calculation:
+      // time in years t = totalMonths / 12
+      // compounding frequency n = freq (1, 2, or 4)
+      // rate per period r_period = (annualRate / 100) / n
+      // total periods N = n * t
+      // total amount A = principal * (1 + r_period) ^ N
+      // total interest = A - principal
+      const timeInYears = totalMonths / 12;
+      let totalAmount = principal;
+      let interest = 0;
+
+      if (annualRate > 0) {
+        const rPeriod = (annualRate / 100) / freq;
+        const totalPeriods = freq * timeInYears;
+        totalAmount = principal * Math.pow(1 + rPeriod, totalPeriods);
+        interest = totalAmount - principal;
+      } else {
+        totalAmount = principal;
+        interest = 0;
+      }
+
+      if (!Number.isFinite(interest) || !Number.isFinite(totalAmount)) {
+        showTrackerMessage('ciMessage', 'Calculation resulted in an invalid number. Please adjust your inputs.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      const roundedPrincipal = Math.round(principal);
+      const roundedInterest = Math.round(interest);
+      const roundedTotal = Math.round(totalAmount);
+
+      const totalEl = document.getElementById('ciTotalAmount');
+      const principalEl = document.getElementById('ciPrincipalDisplay');
+      const interestEl = document.getElementById('ciInterestDisplay');
+      const principalPctEl = document.getElementById('ciPrincipalPct');
+      const interestPctEl = document.getElementById('ciInterestPct');
+      const breakdownEl = document.getElementById('ciBreakdownText');
+
+      if (totalEl) totalEl.textContent = formatCurrency(roundedTotal);
+      if (principalEl) principalEl.textContent = formatCurrency(roundedPrincipal);
+      if (interestEl) interestEl.textContent = formatCurrency(roundedInterest);
+
+      const principalPct = roundedTotal > 0 ? ((roundedPrincipal / roundedTotal) * 100).toFixed(1) : '100.0';
+      const interestPct = roundedTotal > 0 ? ((roundedInterest / roundedTotal) * 100).toFixed(1) : '0.0';
+
+      if (principalPctEl) principalPctEl.textContent = principalPct + '% of total';
+      if (interestPctEl) interestPctEl.textContent = interestPct + '% of total';
+
+      const freqNameMap = { 1: 'yearly', 2: 'half-yearly', 4: 'quarterly' };
+      const freqName = freqNameMap[freq] || 'periodic';
+
+      if (breakdownEl) {
+        const parts = [];
+        if (years > 0) parts.push(years + (years === 1 ? ' year' : ' years'));
+        if (months > 0) parts.push(months + (months === 1 ? ' month' : ' months'));
+        const durStr = parts.length > 0 ? parts.join(' ') : totalMonths + ' months';
+
+        if (annualRate === 0) {
+          breakdownEl.textContent = `Over ${durStr}, a principal of ${formatCurrency(roundedPrincipal)} at 0% annual return yields ₹0 in interest, resulting in ${formatCurrency(roundedPrincipal)}.`;
+        } else {
+          breakdownEl.textContent = `Over ${durStr}, a principal of ${formatCurrency(roundedPrincipal)} at ${annualRate}% p.a. compounded ${freqName} generates ${formatCurrency(roundedInterest)} in interest, reaching ${formatCurrency(roundedTotal)}.`;
+        }
+      }
+
+      try {
+        (window.localStorage || localStorage).setItem('planpocket_lastInvestment', String(roundedTotal));
+      } catch (e) {}
+      if (typeof updateDashboardSummary === 'function') {
+        updateDashboardSummary();
+      }
+
+      renderCIChart(roundedPrincipal, roundedInterest, roundedTotal);
+    }
+
+    /* ==========================================================================
+       HRA Tax Exemption Calculator Logic & Synchronization
+       ========================================================================== */
+    let hraPeriodMode = 'monthly';
+
+    function setHRAPeriod(mode) {
+      hraPeriodMode = mode === 'annual' ? 'annual' : 'monthly';
+      const monthlyBtn = document.getElementById('hraPeriodMonthly');
+      const annualBtn = document.getElementById('hraPeriodAnnual');
+      if (monthlyBtn) monthlyBtn.classList.toggle('active', hraPeriodMode === 'monthly');
+      if (annualBtn) annualBtn.classList.toggle('active', hraPeriodMode === 'annual');
+
+      const suffix = hraPeriodMode === 'monthly' ? '(₹ / month)' : '(₹ / year)';
+      const basicLbl = document.getElementById('hraBasicLabel');
+      const daLbl = document.getElementById('hraDALabel');
+      const recLbl = document.getElementById('hraReceivedLabel');
+      const rentLbl = document.getElementById('hraRentLabel');
+
+      if (basicLbl) basicLbl.textContent = 'Basic Salary ' + suffix;
+      if (daLbl) daLbl.textContent = 'Dearness Allowance - DA ' + suffix;
+      if (recLbl) recLbl.textContent = 'HRA Received from Employer ' + suffix;
+      if (rentLbl) rentLbl.textContent = 'Actual Rent Paid ' + suffix;
+
+      calculateHRA();
+    }
+
+    function setHRABasic(amt) {
+      const input = document.getElementById('hraBasic');
+      if (input) {
+        input.value = amt;
+        document.querySelectorAll('#hraBasicChips button[data-amt]').forEach(btn => {
+          btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === amt);
+        });
+        calculateHRA();
+      }
+    }
+
+    function setHRAReceived(amt) {
+      const input = document.getElementById('hraReceived');
+      if (input) {
+        input.value = amt;
+        document.querySelectorAll('#hraReceivedChips button[data-amt]').forEach(btn => {
+          btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === amt);
+        });
+        calculateHRA();
+      }
+    }
+
+    function setHRARent(amt) {
+      const input = document.getElementById('hraRent');
+      if (input) {
+        input.value = amt;
+        document.querySelectorAll('#hraRentChips button[data-amt]').forEach(btn => {
+          btn.classList.toggle('active', Number(btn.getAttribute('data-amt')) === amt);
+        });
+        calculateHRA();
+      }
+    }
+
+    function renderHRAChart(exempt, taxable) {
+      const canvas = document.getElementById('hraChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (window.hraChartInstance && typeof window.hraChartInstance.destroy === 'function') {
+        window.hraChartInstance.destroy();
+        window.hraChartInstance = null;
+      }
+
+      const totalHRA = exempt + taxable;
+      let chartData = [exempt, taxable];
+      if (totalHRA <= 0) {
+        chartData = [0, 1];
+      }
+
+      try {
+        window.hraChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Tax-Exempt HRA', 'Taxable HRA'],
+            datasets: [{
+              data: chartData,
+              backgroundColor: ['#6AF70F', '#141612'],
+              borderColor: '#FFFFFF',
+              borderWidth: 2,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const val = context.raw || 0;
+                    const pct = totalHRA > 0 ? ((val / totalHRA) * 100).toFixed(1) : 0;
+                    return context.label + ': ' + formatCurrency(val) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            },
+            cutout: '68%'
+          }
+        });
+      } catch (err) {
+        console.error('Error rendering HRA chart:', err);
+      }
+    }
+
+    function calculateHRA() {
+      const basicInput = document.getElementById('hraBasic');
+      const daInput = document.getElementById('hraDA');
+      const recInput = document.getElementById('hraReceived');
+      const rentInput = document.getElementById('hraRent');
+      const citySelect = document.getElementById('hraCityType');
+      const regimeSelect = document.getElementById('hraRegime');
+      const messageEl = document.getElementById('hraMessage');
+      const resultCard = document.getElementById('hraResult');
+      const regimeNotice = document.getElementById('hraRegimeNotice');
+
+      if (basicInput) basicInput.removeAttribute('aria-invalid');
+      if (daInput) daInput.removeAttribute('aria-invalid');
+      if (recInput) recInput.removeAttribute('aria-invalid');
+      if (rentInput) rentInput.removeAttribute('aria-invalid');
+
+      const basicVal = basicInput ? basicInput.value.trim() : '';
+      const basic = Number(basicVal);
+
+      const daVal = daInput ? daInput.value.trim() : '0';
+      const da = Number(daVal);
+
+      const recVal = recInput ? recInput.value.trim() : '0';
+      const hraReceived = Number(recVal);
+
+      const rentVal = rentInput ? rentInput.value.trim() : '0';
+      const rentPaid = Number(rentVal);
+
+      const isMetro = citySelect ? citySelect.value === 'metro' : true;
+      const isNewRegime = regimeSelect ? regimeSelect.value === 'new' : false;
+
+      // Validate basic salary > 0
+      if (!basicVal || !Number.isFinite(basic) || basic <= 0) {
+        if (basicInput) basicInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('hraMessage', 'Basic salary must be greater than ₹0.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate DA >= 0
+      if (!Number.isFinite(da) || da < 0) {
+        if (daInput) daInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('hraMessage', 'Dearness Allowance (DA) cannot be negative.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate HRA Received >= 0
+      if (!Number.isFinite(hraReceived) || hraReceived < 0) {
+        if (recInput) recInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('hraMessage', 'HRA received cannot be negative.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      // Validate Rent Paid >= 0
+      if (!Number.isFinite(rentPaid) || rentPaid < 0) {
+        if (rentInput) rentInput.setAttribute('aria-invalid', 'true');
+        showTrackerMessage('hraMessage', 'Rent paid cannot be negative.', 'error');
+        if (resultCard) resultCard.classList.add('hidden');
+        return;
+      }
+
+      if (messageEl) {
+        messageEl.classList.add('hidden');
+        messageEl.textContent = '';
+      }
+      if (resultCard) resultCard.classList.remove('hidden');
+
+      // Convert to annual figures for statutory calculation
+      const mult = (hraPeriodMode === 'monthly') ? 12 : 1;
+      const annualBasic = basic * mult;
+      const annualDA = da * mult;
+      const annualHRA = hraReceived * mult;
+      const annualRent = rentPaid * mult;
+
+      // Eligible Salary for HRA under Rule 2A = Basic + DA (forming part of retirement benefits)
+      const annualSalary = annualBasic + annualDA;
+
+      // Calculate Statutory Limits
+      const limit1 = annualHRA; // Actual HRA received
+      const rentExcess = annualRent - (0.10 * annualSalary);
+      const limit2 = Math.max(0, rentExcess); // Rent paid - 10% of salary
+      const metroPct = isMetro ? 0.50 : 0.40;
+      const limit3 = metroPct * annualSalary; // 50% (metro) or 40% (non-metro) of salary
+
+      let exemptHRA = 0;
+      let taxableHRA = 0;
+      let determiningLimitText = '';
+
+      if (isNewRegime) {
+        exemptHRA = 0;
+        taxableHRA = annualHRA;
+        determiningLimitText = 'Under the New Tax Regime (Section 115BAC), Section 10(13A) HRA exemption is disallowed. 100% of HRA is taxable.';
+        if (regimeNotice) regimeNotice.classList.remove('hidden');
+      } else {
+        if (regimeNotice) regimeNotice.classList.add('hidden');
+        exemptHRA = Math.min(limit1, limit2, limit3);
+        taxableHRA = Math.max(0, annualHRA - exemptHRA);
+
+        if (annualRent <= 0) {
+          determiningLimitText = 'No rent is paid, so HRA exemption is ₹0 (100% taxable).';
+        } else if (rentExcess <= 0) {
+          determiningLimitText = 'Rent paid does not exceed 10% of eligible salary (' + formatCurrency(Math.round(0.10 * annualSalary)) + '), resulting in ₹0 exemption under Rule 2A.';
+        } else if (exemptHRA === limit1) {
+          determiningLimitText = 'Exemption is determined by Limit 1 (Actual HRA received: ' + formatCurrency(Math.round(limit1)) + '), making 100% of your HRA tax-exempt!';
+        } else if (exemptHRA === limit2) {
+          determiningLimitText = 'Exemption is determined by Limit 2 (Rent paid excess over 10% salary: ' + formatCurrency(Math.round(limit2)) + ').';
+        } else {
+          const pctStr = isMetro ? '50% (Metro)' : '40% (Non-Metro)';
+          determiningLimitText = 'Exemption is determined by Limit 3 (' + pctStr + ' of salary: ' + formatCurrency(Math.round(limit3)) + ').';
+        }
+      }
+
+      const roundedExempt = Math.round(exemptHRA);
+      const roundedTaxable = Math.round(taxableHRA);
+      const roundedReceived = Math.round(annualHRA);
+
+      const monthlyExempt = Math.round(roundedExempt / 12);
+      const monthlyTaxable = Math.round(roundedTaxable / 12);
+      const monthlyReceived = Math.round(roundedReceived / 12);
+
+      const exemptEl = document.getElementById('hraExemptDisplay');
+      const exemptMoEl = document.getElementById('hraExemptMonthly');
+      const taxableEl = document.getElementById('hraTaxableDisplay');
+      const taxableMoEl = document.getElementById('hraTaxableMonthly');
+      const recEl = document.getElementById('hraReceivedDisplay');
+      const recMoEl = document.getElementById('hraReceivedMonthly');
+
+      const l1El = document.getElementById('hraLimit1Display');
+      const l2El = document.getElementById('hraLimit2Display');
+      const l3El = document.getElementById('hraLimit3Display');
+      const l3Lbl = document.getElementById('hraLimit3Label');
+      const detEl = document.getElementById('hraDeterminingLimit');
+      const breakdownEl = document.getElementById('hraBreakdownText');
+
+      if (exemptEl) exemptEl.textContent = formatCurrency(roundedExempt);
+      if (exemptMoEl) exemptMoEl.textContent = formatCurrency(monthlyExempt) + ' / month';
+      if (taxableEl) taxableEl.textContent = formatCurrency(roundedTaxable);
+      if (taxableMoEl) taxableMoEl.textContent = formatCurrency(monthlyTaxable) + ' / month';
+      if (recEl) recEl.textContent = formatCurrency(roundedReceived);
+      if (recMoEl) recMoEl.textContent = formatCurrency(monthlyReceived) + ' / month';
+
+      if (l1El) l1El.textContent = formatCurrency(Math.round(limit1));
+      if (l2El) l2El.textContent = formatCurrency(Math.round(limit2));
+      if (l3El) l3El.textContent = formatCurrency(Math.round(limit3));
+      if (l3Lbl) l3Lbl.textContent = '3. ' + (isMetro ? '50%' : '40%') + ' of Salary (' + (isMetro ? 'Metro' : 'Non-Metro') + '):';
+
+      // Highlight determining row if Old Regime
+      const row1 = document.getElementById('hraLimit1Row');
+      const row2 = document.getElementById('hraLimit2Row');
+      const row3 = document.getElementById('hraLimit3Row');
+      if (row1) row1.style.background = (!isNewRegime && exemptHRA === limit1 && limit1 > 0) ? 'var(--lime-soft)' : 'transparent';
+      if (row2) row2.style.background = (!isNewRegime && exemptHRA === limit2 && limit2 > 0) ? 'var(--lime-soft)' : 'transparent';
+      if (row3) row3.style.background = (!isNewRegime && exemptHRA === limit3 && limit3 > 0) ? 'var(--lime-soft)' : 'transparent';
+
+      if (detEl) detEl.textContent = determiningLimitText;
+
+      if (breakdownEl) {
+        if (isNewRegime) {
+          breakdownEl.textContent = `New Tax Regime active: Full HRA of ${formatCurrency(roundedReceived)} is taxable.`;
+        } else {
+          breakdownEl.textContent = `Annual HRA: ${formatCurrency(roundedReceived)} · Tax-Exempt: ${formatCurrency(roundedExempt)} · Taxable: ${formatCurrency(roundedTaxable)}.`;
+        }
+      }
+
+      renderHRAChart(roundedExempt, roundedTaxable);
+    }
+
+    function calculateInvestment() {
+      const type = document.getElementById('investmentTypeSelect') ? document.getElementById('investmentTypeSelect').value : 'sip';
+      if (type === 'mf' || type === 'mutual' || type === 'mutualfund') {
+        if (typeof currentMFMode !== 'undefined' && currentMFMode === 'lump') {
+          calculateLumpSum();
+        } else {
+          calculateSIP();
+        }
+      } else if (type === 'lump' || type === 'lumpsum') {
+        calculateLumpSum();
+      } else if (type === 'si' || type === 'simple' || type === 'simpleinterest') {
+        calculateSimpleInterest();
+      } else if (type === 'ci' || type === 'compound' || type === 'compoundinterest') {
+        calculateCompoundInterest();
+      } else if (type === 'hra') {
+        calculateHRA();
+      } else {
+        calculateSIP();
+      }
     }
 
     const budgetCategories = ['Food', 'Transport', 'Housing', 'Utilities', 'Health', 'Shopping', 'Entertainment', 'Other'];
@@ -5526,6 +8697,21 @@ Billing: ₹10 per report generation.
       }, false);
     }
 
+    function checkInitialView() {
+      var hash = (window.location.hash || '').replace('#', '');
+      var params = new URLSearchParams(window.location.search);
+      var target = hash || params.get('page') || params.get('view');
+      if (target === 'login' || target === 'loginPage') {
+        showLogin();
+      } else if (target === 'signup' || target === 'signupPage') {
+        showSignup();
+      } else if (target === 'forgot' || target === 'forgotPasswordPage') {
+        showForgotPassword();
+      } else if (target === 'welcome' || target === 'welcomePage') {
+        showWelcome();
+      }
+    }
+
     // Initialize app
     document.addEventListener('DOMContentLoaded', function() {
       removeLegacyClientPassword();
@@ -5533,6 +8719,7 @@ Billing: ₹10 per report generation.
       sessionStorage.removeItem('planpocket_demo_profile');
       initializeInAppNavigation();
       showWelcome();
+      checkInitialView();
       checkInstallStatus();
       addTouchSupport();
       const today = new Date();
@@ -5543,6 +8730,12 @@ Billing: ₹10 per report generation.
       document.getElementById('budgetMonth').addEventListener('change', loadMonthlyBudget);
       document.getElementById('reportMonth').addEventListener('change', renderFinancialReport);
       initGoalDuration();
+      calculateSIP();
+      calculateLumpSum();
+      calculateSimpleInterest();
+      calculateCompoundInterest();
+      calculateHRA();
+      initPlanPocketDatePickers();
       
       // Add install prompt after a delay
       setTimeout(() => {
@@ -5550,6 +8743,14 @@ Billing: ₹10 per report generation.
           showInstallButton();
         }
       }, 3000);
+    });
+
+    window.addEventListener('hashchange', checkInitialView);
+    window.addEventListener('message', function(e) {
+      if (e.data === 'showLogin' || e.data === 'login') showLogin();
+      else if (e.data === 'showSignup' || e.data === 'signup') showSignup();
+      else if (e.data === 'showWelcome' || e.data === 'welcome') showWelcome();
+      else if (e.data === 'showForgotPassword' || e.data === 'forgot') showForgotPassword();
     });
   </script>
 <script>
