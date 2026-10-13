@@ -413,7 +413,12 @@ function FeatureShowcase() {
   const go = useCallback((i: number, focus = false) => {
     const n = (i + features.length) % features.length;
     setActive(n);
-    if (focus) tabsRef.current[n]?.focus();
+    const tab = tabsRef.current[n];
+    if (focus) tab?.focus({ preventScroll: true });
+    const list = tab?.parentElement;
+    if (tab && list && list.scrollWidth > list.clientWidth) {
+      list.scrollTo({ left: tab.offsetLeft - 16, behavior: "smooth" });
+    }
   }, []);
   const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); go(active + 1, true); }
