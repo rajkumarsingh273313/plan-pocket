@@ -14,7 +14,7 @@ export const Route = createFileRoute("/app")({
   }),
   validateSearch: (search: Record<string, unknown>) => {
     return {
-      page: typeof search.page === "string" ? search.page : undefined,
+      page: typeof search['page'] === "string" ? search['page'] : undefined,
     };
   },
   component: AppPage,

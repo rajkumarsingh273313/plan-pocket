@@ -413,7 +413,12 @@ function FeatureShowcase() {
   const go = useCallback((i: number, focus = false) => {
     const n = (i + features.length) % features.length;
     setActive(n);
-    if (focus) tabsRef.current[n]?.focus();
+    const tab = tabsRef.current[n];
+    if (focus) tab?.focus({ preventScroll: true });
+    const list = tab?.parentElement;
+    if (tab && list && list.scrollWidth > list.clientWidth) {
+      list.scrollTo({ left: tab.offsetLeft - 16, behavior: "smooth" });
+    }
   }, []);
   const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); go(active + 1, true); }
@@ -421,14 +426,14 @@ function FeatureShowcase() {
     else if (e.key === "Home") { e.preventDefault(); go(0, true); }
     else if (e.key === "End") { e.preventDefault(); go(features.length - 1, true); }
   };
-  const f = features[active];
+  const f = features[active] ?? features[0]!;
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:gap-10">
       <div
         role="tablist"
         aria-label="PLANPOCKET features"
         aria-orientation="vertical"
-        className="pp-tabs -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 lg:pb-0"
+        className="pp-tabs relative -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 lg:pb-0"
       >
         {features.map((t, i) => (
           <button
