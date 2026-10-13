@@ -433,7 +433,7 @@ function FeatureShowcase() {
         role="tablist"
         aria-label="PLANPOCKET features"
         aria-orientation="vertical"
-        className="pp-tabs -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 lg:pb-0"
+        className="pp-tabs relative -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 lg:pb-0"
       >
         {features.map((t, i) => (
           <button
