@@ -2,39 +2,74 @@
 
 **Your Financial Planning Companion**
 
-PLANPOCKET is a client-side financial planning prototype that brings everyday personal finance tools and small-business scenario planning together in one web application. It is designed to help users organize spending, create budgets, track savings goals, estimate investment growth, review financial summaries, and explore hypothetical business scenarios.
+PLANPOCKET is a client-side financial-planning prototype that brings personal finance tools and small-business scenario planning together in one web application. It helps users organize expenses, plan budgets, track savings goals, estimate investment growth, review financial summaries, and explore hypothetical business scenarios.
 
-> **Project status:** This is a prototype. Finance data is stored in the browser with `localStorage`. The current repository does not include a connected MongoDB or SQL database, production authentication, or a real email OTP service. Signup OTP is a clearly labelled frontend demo only. Treat calculations and scenario outputs as estimates, not financial advice.
+> **Project status:** This is a prototype. Financial records are stored in the browser using `localStorage`; the repository does not currently confirm a connected MongoDB or SQL database, production-grade server authentication, or a real OTP delivery service. The CFO Helper is a scenario-planning tool unless a live AI provider is separately integrated and verified. Calculations and scenario outputs are estimates, not financial advice or guaranteed outcomes.
 
-## Problem
+## What the project aims to help with
 
-Personal and small-business financial information is often managed across separate tools or calculated manually. This can make it harder to understand spending, stay within a budget, monitor savings goals, estimate investment growth, and consider business decisions. PLANPOCKET aims to provide a single, approachable place for these planning activities.
+Personal and small-business financial information is often spread across separate tools or managed manually. PLANPOCKET brings several planning activities into one place so users can record spending, plan budgets, track savings goals, estimate investment growth, review summaries, and explore hypothetical business decisions.
 
-## Target users
+## Intended users
 
-- Individuals and households organizing their expenses, budgets, and savings goals.
+- Individuals and households organizing expenses, budgets, and savings goals.
 
 - Students and early-career professionals learning to plan personal finances.
 
 - Freelancers and small-business owners reviewing financial activity and exploring hypothetical scenarios.
 
-## Main features
+## Features
 
-- **Dashboard:** Overview of key financial activity and shortcuts to the planning tools.
+The public landing page at `/` introduces the project and its feature set. The finance application is available at `/app`.
 
-- **Expense Tracker:** Record expenses with descriptions, amounts, categories, and dates; review spending totals.
+- **Dashboard:** Overview of financial activity and shortcuts to planning tools.
 
-- **Budget Planner:** Set monthly income and category limits, then compare plans with recorded spending.
+- **Expense Tracker:** Record expenses with descriptions, amounts, categories, and dates, and review spending totals.
 
-- **Savings Goal Planner:** Create goals and track saved amounts and contribution progress.
+- **Budget Planner:** Set monthly income and category limits, then compare the plan with recorded spending.
 
-- **Investment Calculator:** Estimate potential future value from user-entered assumptions, including contributions, return, and time period.
+- **Savings Goal Planner:** Create savings goals, set targets and timelines, record personal contributions, and track progress and contribution history. Contributions are personal savings records; they do not initiate or confirm money transfers.
 
-- **Financial Reports:** Review spending information and download a CSV report where supported.
+- **Investment Calculator:** Estimate potential future value using user-entered investment assumptions. Results depend on the selected calculator and inputs; estimates are not guaranteed.
 
-- **CFO Helper:** Adjust hypothetical business scenario inputs—such as hiring, marketing, pricing, revenue growth, and operating expenses—and review estimated results and charts.
+- **Financial Reports:** Review spending information and export a CSV report where supported.
 
-- **Account screens:** Personal and company registration forms, frontend-only demo OTP and demo dashboard previews, login navigation, and a backend-dependent password-reset flow.
+- **CFO Helper:** Explore hypothetical business scenarios using available inputs such as hiring, marketing, pricing, revenue growth, and operating expenses, then review estimated results and charts. Do not describe this as AI-powered unless a real AI integration is implemented and verified.
+
+- **Account screens:** Prototype login, registration, and password-recovery/OTP flows. These are not production authentication services.
+
+Check the current application before relying on any feature description; implementations may change as the project develops.
+
+## Routes and project structure
+
+This project uses TanStack Start and TanStack Router file-based routing.
+
+```
+/       Public PLANPOCKET introduction and feature landing page (src/routes/index.tsx)
+/app    Finance application rendered from public/planpocket.html (src/routes/app.tsx)
+```
+
+```
+public/
+  planpocket.html       Main finance application UI and client-side interactions
+  favicon.ico           Browser tab icon
+  robots.txt             Search crawler instructions
+src/
+  components/ui/         Reusable UI building blocks
+  hooks/                 Shared React hooks
+  lib/                   Shared helpers and error-handling utilities
+  routes/
+    __root.tsx           Shared application shell and error boundaries
+    index.tsx            Public landing page at /
+    app.tsx              Finance application route at /app
+  router.tsx             Router initialization
+  routeTree.gen.ts       Generated route tree; do not edit manually
+  server.ts              TanStack Start server entry and error handling
+  start.ts               Start middleware setup
+  styles.css             Global styles and theme tokens
+  test/                  Automated tests and test setup
+roadmap.md               Current project follow-up items
+```
 
 ## Technology stack
 
@@ -44,46 +79,15 @@ Personal and small-business financial information is often managed across separa
 
 - **Application framework and routing:** TanStack Start and TanStack Router
 
-- **Styling:** Tailwind CSS
+- **Styling:** Tailwind CSS, shared theme tokens, and existing project styles
 
-- **UI building blocks:** Radix UI-based components and shadcn-style components
+- **UI building blocks:** Radix UI-based and shadcn-style components
 
-- **Charts:** Recharts is included in the project dependencies; the standalone finance interface also loads Chart.js for charts.
+- **Charts:** Recharts is included in the dependencies; the standalone finance interface also uses Chart.js where implemented
 
-- **Build and development:** Vite and Bun
+- **Build and development:** Vite and Bun (npm is also supported)
 
 - **Testing:** Vitest and Testing Library
-
-- **Development assistance:** Lovable was used to assist with project development
-
-## Project structure
-
-
-
-```
-public/
-  planpocket.html       Main finance interface and client-side interactions
-  favicon.ico           Browser tab icon
-  robots.txt             Search crawler instructions
-src/
-  components/ui/         Reusable UI component building blocks
-  hooks/                 Shared React hooks
-  lib/                   Shared helpers and error-handling utilities
-  routes/
-    __root.tsx           Shared app shell, metadata, and error boundaries
-    index.tsx            Home route; displays planpocket.html in an iframe
-  router.tsx             Router initialization
-  routeTree.gen.ts       Generated route tree; normally do not edit manually
-  server.ts              TanStack Start server entry and error handling
-  start.ts               Start middleware setup
-  styles.css             Global styles and Tailwind theme tokens
-  test/                  Automated tests and test setup
-package.json             Dependencies and development scripts
-vite.config.ts           Vite and TanStack Start configuration
-tsconfig.json            TypeScript configuration
-vitest.config.ts         Vitest configuration
-roadmap.md               Current project follow-up items
-```
 
 ## Run locally
 
@@ -103,7 +107,7 @@ npm install
 npm run dev
 ```
 
-Use the local URL printed in the terminal to open the app in your browser. Other available scripts include:
+Open the local URL printed by the development server. Available project scripts include:
 
 ```bash
 npm run build
@@ -112,42 +116,44 @@ npm run lint
 npm test
 ```
 
-If using Bun, prefix those commands with `bun run` (for example, `bun run build`).
+If using Bun, run these as `bun run build`, `bun run preview`, `bun run lint`, or `bun test` as appropriate.
 
 ## Data, security, and limitations
 
-- The finance interface stores application data in the browser using `localStorage`; records are not confirmed to sync between devices or users.
+- Finance records are stored in browser `localStorage`; synchronization across devices or users is not confirmed.
 
-- Login does not authenticate users because no server-managed login/session API is present. The optional frontend demo session uses temporary fictional profile data only; demo registration does not create an account or persist credentials. Demo finance data is namespaced separately from existing browser finance data.
+- The prototype login does not provide server-managed identity or sessions and is not suitable for protecting real accounts or sensitive financial records.
 
-- Signup's fixed demo OTP is only for frontend navigation tests; no email is sent or verified. The `PLANPOCKET_DEMO_MODE` setting in `public/planpocket.html` controls demo registration and dashboard previews. Password-reset OTP requires a same-origin server endpoint and server-side email-provider configuration, which are not included here.
+- Registration/OTP behavior is a frontend demo. No real email or SMS OTP delivery is confirmed.
 
-- No connected MongoDB or SQL database is confirmed in the current repository.
+- Password-reset functionality may require a same-origin server endpoint and provider configuration that are not part of this repository.
 
-- The CFO Helper should be described as a scenario calculator/planning helper unless a real AI provider is separately integrated and verified.
+- No connected MongoDB or SQL database is confirmed.
 
-- Investment and business-scenario values are illustrative estimates based on inputs. They are not guarantees, professional financial advice, or a substitute for reviewing actual financial records.
+- The CFO Helper should be described as a scenario calculator/planning helper unless an AI provider is integrated and verified.
+
+- Investment and business-scenario outputs are illustrative estimates based on inputs. They are not guarantees, professional financial advice, or a substitute for reviewing actual financial records.
 
 Do not use the prototype with real passwords or sensitive financial data.
 
-## Implementation status and next steps
+## Development and testing status
 
-The repository contains the finance interface and its client-side planning tools. The React home route currently embeds the main interface from `public/planpocket.html`. The repository includes a basic automated routing test, but that test does not verify all finance workflows or calculations.
+The repository contains a basic automated routing test, but it does not verify every finance workflow, calculation, or responsive-browser interaction. Before release, test the major flows, calculations, validation, accessibility, chart labels, and mobile/desktop layouts.
 
-Suggested next steps:
+Suggested future work:
 
-1. Test the major flows and calculations across desktop and mobile browsers.
+1. Expand tests for expenses, budgets, goals, investments, reports, and CFO scenarios.
 
-1. Review input validation, error states, accessibility, and chart labels.
+1. Verify major workflows and responsive layouts in supported browsers.
 
-1. Replace demo authentication with secure server-side authentication before handling real users.
+1. Replace demo authentication with secure server-side authentication before supporting real users or private cloud data.
 
-1. Select and integrate a database if persistent, multi-user data is required.
+1. Choose and integrate a database only if multi-user or cross-device persistence is required, with server-side ownership checks.
 
-1. Add tests for budgets, expenses, goals, investment calculations, reports, and CFO scenarios.
+1. Integrate an AI provider only if AI-powered CFO analysis is intended; clearly distinguish AI-generated explanations from deterministic calculations.
 
-1. Add an AI provider only if AI-powered CFO analysis is an intended feature, and clearly distinguish model-generated guidance from calculated results.
+See [`roadmap.md`](roadmap.md) for the current tracked follow-up items.
 
 ## Acknowledgment
 
-Lovable assisted with the creation and editing of the project. The repository is maintained through GitHub.
+Lovable has assisted with development. The project is maintained through GitHub.
