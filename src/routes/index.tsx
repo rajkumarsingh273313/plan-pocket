@@ -421,7 +421,7 @@ function FeatureShowcase() {
     else if (e.key === "Home") { e.preventDefault(); go(0, true); }
     else if (e.key === "End") { e.preventDefault(); go(features.length - 1, true); }
   };
-  const f = features[active];
+  const f = features[active] ?? features[0]!;
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:gap-10">
       <div
