@@ -7,7 +7,7 @@
   
   <!-- PWA Meta Tags -->
   <meta name="description" content="Your Financial Planning Companion with CFO Helper Agent for budget scenario simulation">
-  <meta name="theme-color" content="#F3F4F2">
+  <meta name="theme-color" content="#F5F7FA">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="PLANPOCKET">
@@ -525,7 +525,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style id="pp-redesign">
     :root{
       --bg:#F5F7FA; --bg2:#FFFFFF; --card:#FFFFFF; --accent:#0F766E; --accent2:#0F766E;
@@ -1118,7 +1118,7 @@
       width: 100%;
       height: 8px;
       border-radius: 999px;
-      background: linear-gradient(to right, var(--lime) 0%, var(--lime) var(--fill, 12%), #E3E6E0 var(--fill, 12%), #E3E6E0 100%) !important;
+      background: linear-gradient(to right, var(--lime) 0%, var(--lime) var(--fill, 12%), #E4E7EC var(--fill, 12%), #E4E7EC 100%) !important;
       border: none !important;
       outline: none;
       padding: 0 !important;
@@ -1162,8 +1162,8 @@
       transition: all 0.15s ease;
     }
     .sip-chip:hover {
-      background: #ECEEEA;
-      border-color: #CDD1C9;
+      background: #EEF2F6;
+      border-color: #D0D5DD;
     }
     .sip-chip.active {
       background: var(--text) !important;
@@ -1304,11 +1304,11 @@
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
   </style>
   <style id="pp-lime">
-    :root{--bg:#F3F4F2;--bg2:#FFFFFF;--card:#FFFFFF;--text:#141612;--muted:#6B6F68;--border:#E7E9E5;
-      --lime:#6AF70F;--lime-hover:#5BE000;--lime-soft:#EEFCE3;--accent:#2E6A06;--accent2:#2E6A06;--accent-soft:#EEFCE3;
+    :root{--bg:#F5F7FA;--bg2:#FFFFFF;--card:#FFFFFF;--text:#172B4D;--muted:#667085;--border:#E4E7EC;
+      --lime:#0F766E;--lime-hover:#0B5F58;--lime-soft:#DDF3EC;--accent:#0F766E;--accent2:#0F766E;--accent-soft:#DDF3EC;
       --success:#2E7D18;--warning:#A15C07;--danger:#C0261B;--radius:18px;
       --shadow:0 1px 2px rgba(20,22,18,.04);--shadow-lg:0 14px 34px -16px rgba(20,22,18,.22)}
-    body{font-family:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif}
+    body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
     h1,h2,h3,.logo{letter-spacing:-.025em}
     .btn{background:var(--lime)!important;border-color:var(--lime)!important;color:var(--text)!important;border-radius:999px!important;font-weight:700}
     .btn:hover{background:var(--lime-hover)!important;border-color:var(--lime-hover)!important}
@@ -1318,12 +1318,12 @@
     .btn-danger,.goal-card-actions .btn[onclick*="elete"]{background:#fff!important;color:var(--danger)!important;border-color:#F3C9C4!important}
     .btn-danger:hover,.goal-card-actions .btn[onclick*="elete"]:hover{background:#FDEFED!important}
     input,select,textarea{border-radius:12px!important}
-    input:focus,select:focus,textarea:focus{border-color:var(--text)!important;box-shadow:0 0 0 3px rgba(106,247,15,.35)!important}
+    input:focus,select:focus,textarea:focus{border-color:var(--text)!important;box-shadow:0 0 0 3px rgba(15,118,110,.25)!important}
     :focus-visible{outline:2px solid var(--text)}
-    .tool-card:hover,.feature-card:hover{border-color:#D3D7CF!important}
+    .tool-card:hover,.feature-card:hover{border-color:#D0D5DD!important}
     .tool-icon,.feature-icon{background:var(--lime-soft);color:var(--text)}
-    .insight-box{border-color:#CFF3B4!important}
-    .progress-track,.report-bar-track{background:#ECEEEA!important}
+    .insight-box{border-color:#B7DED4!important}
+    .progress-track,.report-bar-track{background:#EEF2F6!important}
     .progress-track span,.report-bar-track span{background:var(--lime)!important}
     #welcomePage .tagline{color:var(--accent)}
     #ppNav{background:#fff}
@@ -1334,7 +1334,7 @@
     .activity-summary{background:var(--text)!important;border-color:var(--text)!important;color:#fff}
     .activity-summary h2{color:#fff!important}
     .activity-summary .summary-grid>div{background:rgba(255,255,255,.06)!important;border-color:rgba(255,255,255,.12)!important;box-shadow:none!important}
-    .activity-summary .summary-label{color:#B9BDB5!important}
+    .activity-summary .summary-label{color:#98A2B3!important}
     .activity-summary .summary-value,#summaryMonthlyExpenses,#summaryInvestmentValue{color:#fff!important}
     #summarySavedTotal{color:var(--lime)!important}
     .goal-card{border-radius:20px!important;padding:24px}
@@ -1342,12 +1342,12 @@
     .goal-card-right{background:var(--bg);border-radius:16px}
     .goal-progress-badge{color:var(--text);background:var(--lime-soft);border-radius:999px;padding:2px 10px;align-self:flex-start}
     .goal-legend-dot.saved{background:var(--lime)}
-    .goal-legend-dot.remaining{background:#ECEEEA}
+    .goal-legend-dot.remaining{background:#EEF2F6}
     .goal-stat-value.highlight-remaining{color:var(--text)}
     .goal-modal-dialog{border-radius:20px!important}
     #contributeModalTitle::after{content:"Personal savings tracking only — no money is moved.";display:block;margin-top:4px;font-size:.8rem;font-weight:500;color:var(--muted);letter-spacing:0}
     .cfo-group h3{color:var(--text)}
-    .cfo-field input[type=range]{background:linear-gradient(to right,var(--lime) 0 var(--fill,0%),#E3E6E0 var(--fill,0%) 100%)!important}
+    .cfo-field input[type=range]{background:linear-gradient(to right,var(--lime) 0 var(--fill,0%),#E4E7EC var(--fill,0%) 100%)!important}
     .cfo-field input[type=range]::-webkit-slider-thumb{border-color:var(--text)}
     .cfo-field input[type=range]::-moz-range-thumb{border-color:var(--text)}
 
@@ -1358,17 +1358,17 @@
     .message.error::before{content:"!";flex:0 0 18px;height:18px;border-radius:50%;background:#C0261B;color:#fff;font-size:.72rem;font-weight:800;display:grid;place-items:center;margin-top:1px}
     .message.success{background:#F0F8EC!important;border:1px solid #C7E5BA!important;color:#245F13!important}
     #companyOwnerMessage.message.info{width:fit-content;max-width:100%;margin:8px auto 0!important;padding:7px 10px!important;background:var(--accent-soft)!important;border:1px solid var(--border)!important;color:var(--text)!important;font-size:.8rem!important;font-weight:500!important}
-    input:not([type=range]):not([type=checkbox]):not([type=radio]):not(.currency-input),select,textarea{font-family:inherit!important;font-size:.95rem!important;color:var(--text)!important;background-color:#fff!important;border:1px solid var(--border,#E7E9E5)!important;border-radius:12px!important;min-height:46px;padding:10px 14px!important;transition:border-color .15s,box-shadow .15s;box-shadow:none}
-    input.currency-input{font-family:inherit!important;font-size:.95rem!important;color:var(--text)!important;background-color:#fff!important;border:1px solid var(--border,#E7E9E5)!important;border-radius:12px!important;min-height:46px;padding:10px 14px 10px 38px!important;padding-left:38px!important;transition:border-color .15s,box-shadow .15s;box-shadow:none}
-    input:not([type=range]):not([type=checkbox]):not([type=radio]):hover,select:hover,textarea:hover{border-color:#CDD1C9!important}
-    input:not([type=range]):not([type=checkbox]):not([type=radio]):focus,select:focus,textarea:focus{outline:none!important;border-color:var(--text)!important;box-shadow:0 0 0 3px rgba(106,247,15,.35)!important}
-    input:disabled,select:disabled,textarea:disabled{background-color:#F3F4F2!important;color:var(--muted)!important;cursor:not-allowed;opacity:1}
+    input:not([type=range]):not([type=checkbox]):not([type=radio]):not(.currency-input),select,textarea{font-family:inherit!important;font-size:.95rem!important;color:var(--text)!important;background-color:#fff!important;border:1px solid var(--border,#E4E7EC)!important;border-radius:12px!important;min-height:46px;padding:10px 14px!important;transition:border-color .15s,box-shadow .15s;box-shadow:none}
+    input.currency-input{font-family:inherit!important;font-size:.95rem!important;color:var(--text)!important;background-color:#fff!important;border:1px solid var(--border,#E4E7EC)!important;border-radius:12px!important;min-height:46px;padding:10px 14px 10px 38px!important;padding-left:38px!important;transition:border-color .15s,box-shadow .15s;box-shadow:none}
+    input:not([type=range]):not([type=checkbox]):not([type=radio]):hover,select:hover,textarea:hover{border-color:#D0D5DD!important}
+    input:not([type=range]):not([type=checkbox]):not([type=radio]):focus,select:focus,textarea:focus{outline:none!important;border-color:var(--text)!important;box-shadow:0 0 0 3px rgba(15,118,110,.25)!important}
+    input:disabled,select:disabled,textarea:disabled{background-color:#F5F7FA!important;color:var(--muted)!important;cursor:not-allowed;opacity:1}
     input[aria-invalid=true],select[aria-invalid=true],input:user-invalid{border-color:#C0261B!important}
-    select{appearance:none;-webkit-appearance:none;padding-right:40px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23141612' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 14px center!important;cursor:pointer}
-    select option{color:#141612;background:#fff}
+    select{appearance:none;-webkit-appearance:none;padding-right:40px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23172B4D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 14px center!important;cursor:pointer}
+    select option{color:#172B4D;background:#fff}
     input[type=date]{color-scheme:light;cursor:pointer}
     input[type=date]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.7;padding:4px;border-radius:6px}
-    input[type=date]::-webkit-calendar-picker-indicator:hover{opacity:1;background:#ECEEEA}
+    input[type=date]::-webkit-calendar-picker-indicator:hover{opacity:1;background:#EEF2F6}
 
     /* Shared PlanPocket Accessible DatePicker */
     .pp-date-wrap {
@@ -1415,7 +1415,7 @@
     }
     .pp-date-trigger:hover {
       color: var(--text);
-      background-color: #ECEEEA;
+      background-color: #EEF2F6;
     }
     .pp-date-trigger:focus-visible {
       outline: 2px solid var(--lime);
@@ -1472,8 +1472,8 @@
       transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
     }
     .pp-cal-nav:hover {
-      background: #ECEEEA;
-      border-color: #D3D7CF;
+      background: #EEF2F6;
+      border-color: #D0D5DD;
     }
     .pp-cal-nav:active {
       transform: scale(0.94);
@@ -1530,13 +1530,13 @@
     }
     .pp-cal-day.is-selected {
       background: var(--lime) !important;
-      color: #141612 !important;
+      color: #172B4D !important;
       font-weight: 700 !important;
       border-color: var(--lime) !important;
       box-shadow: 0 2px 6px rgba(106, 247, 15, 0.4);
     }
     .pp-cal-day.is-today.is-selected {
-      outline: 2px solid #141612;
+      outline: 2px solid #172B4D;
       outline-offset: -2px;
     }
     .pp-cal-day.is-disabled {
@@ -1572,7 +1572,7 @@
     }
     .pp-cal-today-action:hover {
       background: var(--lime);
-      color: #141612;
+      color: #172B4D;
     }
     .pp-cal-close-action {
       background: transparent;
@@ -1581,7 +1581,7 @@
     }
     .pp-cal-close-action:hover {
       color: var(--text);
-      background: #ECEEEA;
+      background: #EEF2F6;
     }
     .pp-cal-footer-btn:focus-visible {
       outline: 2px solid var(--lime);
@@ -1595,6 +1595,16 @@
     .currency-input-wrap input.currency-input,
     .currency-input-wrap input,
     input.currency-input{padding:10px 14px 10px 38px!important;padding-left:38px!important;font-variant-numeric:tabular-nums}
+  
+    /* Teal unification: readable text on teal surfaces */
+    .btn{color:#fff!important}
+    .btn-secondary,.btn-danger,.goal-card-actions .btn[onclick*="elete"]{color:var(--text)!important}
+    .btn-danger,.goal-card-actions .btn[onclick*="elete"]{color:var(--danger)!important}
+    #ppNav .pp-mark{background:var(--lime);color:#fff}
+    #ppNav button[aria-current="page"] svg{color:#9FE3D3}
+    #summarySavedTotal{color:#9FE3D3!important}
+    .tool-icon,.feature-icon,.goal-progress-badge{color:var(--accent)}
+    @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
   </style>
   <style id="pp-auth-navigation">
     #loginPage .auth-card {
@@ -6143,7 +6153,7 @@
                 labels: ['Saved', 'Remaining'],
                 datasets: [{
                   data: [savedChartVal, remainingChartVal],
-                  backgroundColor: [isComplete ? '#2E7D18' : '#6AF70F', '#ECEEEA'],
+                  backgroundColor: [isComplete ? '#2E7D18' : '#0F766E', '#EEF2F6'],
                   borderWidth: 0,
                   hoverOffset: 3
                 }]
@@ -6666,7 +6676,7 @@
             labels: ['Amount Invested', 'Estimated Returns'],
             datasets: [{
               data: chartData,
-              backgroundColor: ['#141612', '#6AF70F'],
+              backgroundColor: ['#172B4D', '#0F766E'],
               borderColor: '#FFFFFF',
               borderWidth: 2,
               hoverOffset: 4
@@ -6684,7 +6694,7 @@
                 display: false
               },
               tooltip: {
-                backgroundColor: '#141612',
+                backgroundColor: '#172B4D',
                 padding: 10,
                 cornerRadius: 8,
                 callbacks: {
@@ -7071,7 +7081,7 @@
             labels: ['Amount Invested', 'Estimated Returns'],
             datasets: [{
               data: chartData,
-              backgroundColor: ['#141612', '#6AF70F'],
+              backgroundColor: ['#172B4D', '#0F766E'],
               borderColor: '#FFFFFF',
               borderWidth: 2,
               hoverOffset: 4
@@ -7089,7 +7099,7 @@
                 display: false
               },
               tooltip: {
-                backgroundColor: '#141612',
+                backgroundColor: '#172B4D',
                 padding: 10,
                 cornerRadius: 8,
                 callbacks: {
@@ -7340,7 +7350,7 @@
             labels: ['Principal Amount', 'Total Interest'],
             datasets: [{
               data: chartData,
-              backgroundColor: ['#141612', '#6AF70F'],
+              backgroundColor: ['#172B4D', '#0F766E'],
               borderColor: '#FFFFFF',
               borderWidth: 2,
               hoverOffset: 4
@@ -7592,7 +7602,7 @@
             labels: ['Principal Amount', 'Total Interest'],
             datasets: [{
               data: chartData,
-              backgroundColor: ['#141612', '#6AF70F'],
+              backgroundColor: ['#172B4D', '#0F766E'],
               borderColor: '#FFFFFF',
               borderWidth: 2,
               hoverOffset: 4
@@ -7853,7 +7863,7 @@
             labels: ['Tax-Exempt HRA', 'Taxable HRA'],
             datasets: [{
               data: chartData,
-              backgroundColor: ['#6AF70F', '#141612'],
+              backgroundColor: ['#0F766E', '#172B4D'],
               borderColor: '#FFFFFF',
               borderWidth: 2,
               hoverOffset: 4
@@ -8229,7 +8239,7 @@
             labels: ['Total Invested', 'Estimated Returns'],
             datasets: [{
               data: chartData,
-              backgroundColor: ['#141612', '#6AF70F'],
+              backgroundColor: ['#172B4D', '#0F766E'],
               borderColor: '#FFFFFF',
               borderWidth: 2,
               hoverOffset: 4
@@ -8893,7 +8903,7 @@
           datasets: [{
             label: 'Monthly amount (₹)',
             data: [revenue, expenses, profit],
-            backgroundColor: ['#141612', '#B9BDB5', profit < 0 ? '#C0261B' : '#6AF70F'],
+            backgroundColor: ['#172B4D', '#98A2B3', profit < 0 ? '#C0261B' : '#0F766E'],
             borderRadius: 8, borderSkipped: false, maxBarThickness: 72
           }]
         },
