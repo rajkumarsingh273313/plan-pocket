@@ -11,7 +11,10 @@ export default defineConfig({
   nitro: {
     preset: "vercel",
     // tr46 (via mongodb) does require("punycode/"); unenv's alias turns it into an invalid path.
-    alias: { "punycode/": fileURLToPath(new URL("./node_modules/punycode/punycode.js", import.meta.url)) },
+    // `alias` is a valid Nitro option but missing from the wrapper's narrowed type.
+    ...({
+      alias: { "punycode/": fileURLToPath(new URL("./node_modules/punycode/punycode.js", import.meta.url)) },
+    } as object),
   },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
