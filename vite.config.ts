@@ -41,9 +41,9 @@ export default defineConfig({
                 try {
                   const body = chunks.length > 0 ? Buffer.concat(chunks) : undefined;
                   const webRequest = new Request(url, {
-                    method: req.method,
+                    method: req.method || "GET",
                     headers: req.headers as unknown as HeadersInit,
-                    body: req.method !== "GET" && req.method !== "HEAD" ? body : undefined,
+                    ...(body && req.method !== "GET" && req.method !== "HEAD" ? { body } : {}),
                   });
 
                   const webResponse: Response = await handleApiRequest(webRequest);

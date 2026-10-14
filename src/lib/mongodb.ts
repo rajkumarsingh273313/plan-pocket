@@ -4,7 +4,7 @@ export interface GoalContributionRecord {
   id: string;
   amount: number;
   date: string;
-  reference?: string;
+  reference?: string | undefined;
 }
 
 export interface GoalDocument {
@@ -28,10 +28,10 @@ export interface InvestmentScenarioDocument {
   id: string;
   title: string;
   type: string; // "mutual-fund" | "sip" | "lump-sum" | "elss" | "simple-interest" | "compound-interest" | "hra"
-  mode?: string; // e.g. "sip" | "lumpsum"
+  mode?: string | undefined; // e.g. "sip" | "lumpsum"
   inputs: Record<string, unknown>;
   results: Record<string, unknown>;
-  notes?: string;
+  notes?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -45,7 +45,7 @@ export interface CFOScenarioDocument {
   currency: string;
   inputs: Record<string, unknown>;
   results: Record<string, unknown>;
-  notes?: string;
+  notes?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -58,7 +58,7 @@ declare global {
 }
 
 export function isMongoConfigured(): boolean {
-  const uri = process.env.MONGODB_URI;
+  const uri = process.env["MONGODB_URI"];
   return Boolean(
     uri &&
     !uri.includes("your-cluster") &&
@@ -68,11 +68,11 @@ export function isMongoConfigured(): boolean {
 }
 
 export function getMongoDbName(): string {
-  return process.env.MONGODB_DB_NAME || "planpocket";
+  return process.env["MONGODB_DB_NAME"] || "planpocket";
 }
 
 export async function getMongoClient(): Promise<MongoClient> {
-  const uri = process.env.MONGODB_URI;
+  const uri = process.env["MONGODB_URI"];
   if (!uri || !isMongoConfigured()) {
     throw new Error(
       "MongoDB connection URI is not configured. Please set the MONGODB_URI environment variable."

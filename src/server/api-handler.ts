@@ -158,12 +158,12 @@ export async function handleApiRequest(request: Request): Promise<Response> {
 
       const rawContributions = Array.isArray(body.contributions) ? body.contributions : [];
       const contributions: GoalContributionRecord[] = rawContributions
-        .filter((c: unknown) => c && typeof c === "object" && Number((c as Record<string, unknown>).amount) > 0)
+        .filter((c: unknown) => c && typeof c === "object" && Number((c as Record<string, unknown>)["amount"]) > 0)
         .map((c: Record<string, unknown>) => ({
-          id: String(c.id || "").trim() || crypto.randomUUID(),
-          amount: Number(Number(c.amount).toFixed(2)),
-          date: String(c.date || "").trim() || new Date().toISOString().split("T")[0],
-          reference: c.reference ? String(c.reference).trim() : undefined,
+          id: String(c["id"] || "").trim() || crypto.randomUUID(),
+          amount: Number(Number(c["amount"]).toFixed(2)),
+          date: String(c["date"] || "").trim() || new Date().toISOString().slice(0, 10),
+          reference: c["reference"] ? String(c["reference"]).trim() : undefined,
         }));
 
       // Server enforces math invariant: saved = initialSaved + sum(contributions.amount)
@@ -223,18 +223,18 @@ export async function handleApiRequest(request: Request): Promise<Response> {
         const id = String(item.id || "").trim() || crypto.randomUUID();
         const initialSaved = Math.max(0, Number(item.initialSaved) || 0);
         const monthly = Math.max(0, Number(item.monthly) || 0);
-        const startDate = String(item.startDate || "").trim() || new Date().toISOString().split("T")[0];
+        const startDate = String(item.startDate || "").trim() || new Date().toISOString().slice(0, 10);
         const endDate = String(item.endDate || "").trim() || startDate;
         const durationMonths = Math.max(1, Math.round(Number(item.durationMonths) || 1));
 
         const rawContributions = Array.isArray(item.contributions) ? item.contributions : [];
         const contributions: GoalContributionRecord[] = rawContributions
-          .filter((c: unknown) => c && typeof c === "object" && Number((c as Record<string, unknown>).amount) > 0)
+          .filter((c: unknown) => c && typeof c === "object" && Number((c as Record<string, unknown>)["amount"]) > 0)
           .map((c: Record<string, unknown>) => ({
-            id: String(c.id || "").trim() || crypto.randomUUID(),
-            amount: Number(Number(c.amount).toFixed(2)),
-            date: String(c.date || "").trim() || new Date().toISOString().split("T")[0],
-            reference: c.reference ? String(c.reference).trim() : undefined,
+            id: String(c["id"] || "").trim() || crypto.randomUUID(),
+            amount: Number(Number(c["amount"]).toFixed(2)),
+            date: String(c["date"] || "").trim() || new Date().toISOString().slice(0, 10),
+            reference: c["reference"] ? String(c["reference"]).trim() : undefined,
           }));
 
         const saved = calculateSaved(initialSaved, contributions);
@@ -277,8 +277,13 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // Match /api/goals/:goalId/contributions/:contribId
     const contribDeleteMatch = path.match(/^\/api\/goals\/([^/]+)\/contributions\/([^/]+)$/);
     if (contribDeleteMatch && method === "DELETE") {
-      const goalId = decodeURIComponent(contribDeleteMatch[1]);
-      const contribId = decodeURIComponent(contribDeleteMatch[2]);
+      const rawGoalId = contribDeleteMatch[1];
+      const rawContribId = contribDeleteMatch[2];
+      if (!rawGoalId || !rawContribId) {
+        return errorResponse("Invalid goal or contribution ID.", 400);
+      }
+      const goalId = decodeURIComponent(rawGoalId);
+      const contribId = decodeURIComponent(rawContribId);
       const goalsCol = await getGoalsCollection();
       const existing = await goalsCol.findOne({ userId, id: goalId });
       if (!existing) {
@@ -307,7 +312,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // Match /api/goals/:goalId/contributions
     const contribPostMatch = path.match(/^\/api\/goals\/([^/]+)\/contributions$/);
     if (contribPostMatch && method === "POST") {
-      const goalId = decodeURIComponent(contribPostMatch[1]);
+      const rawGoalId = contribPostMatch[1];
+      if (!rawGoalId) {
+        return errorResponse("Invalid goal ID.", 400);
+      }
+      const goalId = decodeURIComponent(rawGoalId);
       const body = await request.json().catch(() => null);
       if (!body || typeof body !== "object") {
         return errorResponse("Invalid contribution payload.");
@@ -327,7 +336,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
       const newContribution: GoalContributionRecord = {
         id: String(body.id || "").trim() || crypto.randomUUID(),
         amount: Number(amount.toFixed(2)),
-        date: String(body.date || "").trim() || new Date().toISOString().split("T")[0],
+        date: String(body.date || "").trim() || new Date().toISOString().slice(0, 10),
         reference: body.reference ? String(body.reference).trim() : undefined,
       };
 
@@ -353,7 +362,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // Match /api/goals/:goalId
     const goalItemMatch = path.match(/^\/api\/goals\/([^/]+)$/);
     if (goalItemMatch) {
-      const goalId = decodeURIComponent(goalItemMatch[1]);
+      const rawGoalId = goalItemMatch[1];
+      if (!rawGoalId) {
+        return errorResponse("Invalid goal ID.", 400);
+      }
+      const goalId = decodeURIComponent(rawGoalId);
       const goalsCol = await getGoalsCollection();
 
       if (method === "GET") {
@@ -395,10 +408,10 @@ export async function handleApiRequest(request: Request): Promise<Response> {
 
         const contributions = Array.isArray(body.contributions)
           ? body.contributions.map((c: Record<string, unknown>) => ({
-              id: String(c.id || "").trim() || crypto.randomUUID(),
-              amount: Number(Number(c.amount).toFixed(2)),
-              date: String(c.date || "").trim() || new Date().toISOString().split("T")[0],
-              reference: c.reference ? String(c.reference).trim() : undefined,
+              id: String(c["id"] || "").trim() || crypto.randomUUID(),
+              amount: Number(Number(c["amount"]).toFixed(2)),
+              date: String(c["date"] || "").trim() || new Date().toISOString().slice(0, 10),
+              reference: c["reference"] ? String(c["reference"]).trim() : undefined,
             }))
           : existing.contributions;
 
@@ -496,7 +509,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // DELETE /api/investments/:id: Delete an investment scenario
     const invItemMatch = path.match(/^\/api\/investments\/([^/]+)$/);
     if (invItemMatch && method === "DELETE") {
-      const invId = decodeURIComponent(invItemMatch[1]);
+      const rawInvId = invItemMatch[1];
+      if (!rawInvId) {
+        return errorResponse("Invalid investment ID.", 400);
+      }
+      const invId = decodeURIComponent(rawInvId);
       const invCol = await getInvestmentsCollection();
       const result = await invCol.deleteOne({ userId, id: invId });
       if (result.deletedCount === 0) {
@@ -568,7 +585,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // GET /api/cfo-scenarios/:id: Retrieve a single CFO scenario
     const cfoGetMatch = path.match(/^\/api\/cfo-scenarios\/([^/]+)$/);
     if (cfoGetMatch && method === "GET") {
-      const scenarioId = decodeURIComponent(cfoGetMatch[1]);
+      const rawScenarioId = cfoGetMatch[1];
+      if (!rawScenarioId) {
+        return errorResponse("Invalid CFO scenario ID.", 400);
+      }
+      const scenarioId = decodeURIComponent(rawScenarioId);
       const cfoCol = await getCFOScenariosCollection();
       const existing = await cfoCol.findOne({ userId, id: scenarioId });
       if (!existing) {
@@ -580,7 +601,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // DELETE /api/cfo-scenarios/:id: Delete a CFO scenario
     const cfoDeleteMatch = path.match(/^\/api\/cfo-scenarios\/([^/]+)$/);
     if (cfoDeleteMatch && method === "DELETE") {
-      const scenarioId = decodeURIComponent(cfoDeleteMatch[1]);
+      const rawScenarioId = cfoDeleteMatch[1];
+      if (!rawScenarioId) {
+        return errorResponse("Invalid CFO scenario ID.", 400);
+      }
+      const scenarioId = decodeURIComponent(rawScenarioId);
       const cfoCol = await getCFOScenariosCollection();
       const result = await cfoCol.deleteOne({ userId, id: scenarioId });
       if (result.deletedCount === 0) {

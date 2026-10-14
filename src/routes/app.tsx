@@ -20,19 +20,45 @@ export const Route = createFileRoute("/app")({
   component: AppPage,
 });
 
+import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
+
 function AppPage() {
   const { page } = Route.useSearch();
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Sync route target to iframe
+  // Sync route target and supabase client to iframe
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
+
+    let authSub: { unsubscribe: () => void } | null = null;
+    if (isSupabaseConfigured()) {
+      const client = getSupabaseClient();
+      if (client) {
+        const { data } = client.auth.onAuthStateChange((event, session) => {
+          try {
+            const win = iframe.contentWindow;
+            if (win) {
+              win.postMessage({ type: "SUPABASE_AUTH_EVENT", event, session }, "*");
+            }
+          } catch {}
+        });
+        authSub = data.subscription;
+      }
+    }
 
     const syncPage = () => {
       try {
         const win = iframe.contentWindow;
         if (!win) return;
+
+        // Share Supabase client if configured
+        if (isSupabaseConfigured()) {
+          const client = getSupabaseClient();
+          if (client) {
+            (win as unknown as { supabaseClient?: typeof client }).supabaseClient = client;
+          }
+        }
 
         // Check search param or window hash
         const target =
@@ -60,6 +86,7 @@ function AppPage() {
 
     return () => {
       iframe.removeEventListener("load", syncPage);
+      authSub?.unsubscribe();
     };
   }, [page]);
 

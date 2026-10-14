@@ -4,7 +4,7 @@
 
 PLANPOCKET is a client-side financial-planning prototype that brings personal finance tools and small-business scenario planning together in one web application. It helps users organize expenses, plan budgets, track savings goals, estimate investment growth, review financial summaries, and explore hypothetical business scenarios.
 
-> **Project status:** This is a prototype. Financial records are stored in the browser using `localStorage`; the repository does not currently confirm a connected MongoDB or SQL database, production-grade server authentication, or a real OTP delivery service. The CFO Helper is a scenario-planning tool unless a live AI provider is separately integrated and verified. Calculations and scenario outputs are estimates, not financial advice or guaranteed outcomes.
+> **Project status:** PLANPOCKET integrates secure Supabase Authentication and a MongoDB-backed cloud persistence engine for financial goals and scenarios when configured with environment variables. Password recovery is supported via Supabase Auth at `/auth/reset-password`. The CFO Helper provides deterministic business scenario projections and report exports without transmitting financial data to external AI providers. Calculations and scenario outputs are transparent planning estimates, not guaranteed outcomes or financial advice.
 
 ## What the project aims to help with
 
@@ -36,7 +36,7 @@ The public landing page at `/` introduces the project and its feature set. The f
 
 - **CFO Helper:** Explore hypothetical business scenarios using available inputs such as hiring, marketing, pricing, revenue growth, and operating expenses, then review estimated results and charts. Do not describe this as AI-powered unless a real AI integration is implemented and verified.
 
-- **Account screens:** Prototype login, registration, and password-recovery/OTP flows. These are not production authentication services.
+- **Account screens:** Supabase Authentication with login, registration, and email-based password recovery at `/auth/reset-password`.
 
 Check the current application before relying on any feature description; implementations may change as the project develops.
 
@@ -45,8 +45,9 @@ Check the current application before relying on any feature description; impleme
 This project uses TanStack Start and TanStack Router file-based routing.
 
 ```
-/       Public PLANPOCKET introduction and feature landing page (src/routes/index.tsx)
-/app    Finance application rendered from public/planpocket.html (src/routes/app.tsx)
+/                      Public PLANPOCKET introduction and feature landing page (src/routes/index.tsx)
+/app                   Finance application rendered from public/planpocket.html (src/routes/app.tsx)
+/auth/reset-password   Dedicated Supabase password recovery callback page (src/routes/auth.reset-password.tsx)
 ```
 
 ```
@@ -119,22 +120,16 @@ npm test
 If using Bun, run these as `bun run build`, `bun run preview`, `bun run lint`, or `bun test` as appropriate.
 
 ## Data, security, and limitations
+ 
+- Authentication uses Supabase Auth with email/password verification and password recovery at `/auth/reset-password`. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` to connect your project.
 
-- Finance records are stored in browser `localStorage`; synchronization across devices or users is not confirmed.
+- Multi-user persistence uses a server API route backed by MongoDB (`MONGODB_URI`). Scenarios and goals are secured with server-verified Supabase session Bearer tokens.
 
-- The prototype login does not provide server-managed identity or sessions and is not suitable for protecting real accounts or sensitive financial records.
+- When running without Supabase or MongoDB environment variables, the app displays honest configuration guidance and falls back to local storage for personal budgeting.
 
-- Registration/OTP behavior is a frontend demo. No real email or SMS OTP delivery is confirmed.
+- The CFO Helper generates deterministic financial scenario forecasts using transparent business modeling formulas without external AI dependencies or third-party data transmission.
 
-- Password-reset functionality may require a same-origin server endpoint and provider configuration that are not part of this repository.
-
-- No connected MongoDB or SQL database is confirmed.
-
-- The CFO Helper should be described as a scenario calculator/planning helper unless an AI provider is integrated and verified.
-
-- Investment and business-scenario outputs are illustrative estimates based on inputs. They are not guarantees, professional financial advice, or a substitute for reviewing actual financial records.
-
-Do not use the prototype with real passwords or sensitive financial data.
+- Investment and business-scenario outputs are illustrative planning estimates based on user inputs. They are not guaranteed outcomes or professional financial advice.
 
 ## Development and testing status
 

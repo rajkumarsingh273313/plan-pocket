@@ -2,7 +2,7 @@ import { createClient, type User } from "@supabase/supabase-js";
 
 export interface AuthenticatedUser {
   userId: string;
-  email?: string;
+  email?: string | undefined;
   user: User;
 }
 
@@ -23,19 +23,19 @@ export class AuthError extends Error {
 export function getServerSupabaseConfig(): {
   url: string;
   anonKey: string;
-  serviceRoleKey?: string;
+  serviceRoleKey?: string | undefined;
 } {
   const url =
-    process.env.VITE_SUPABASE_URL ||
-    process.env.SUPABASE_URL ||
+    process.env["VITE_SUPABASE_URL"] ||
+    process.env["SUPABASE_URL"] ||
     "";
   const anonKey =
-    process.env.VITE_SUPABASE_ANON_KEY ||
-    process.env.SUPABASE_ANON_KEY ||
+    process.env["VITE_SUPABASE_ANON_KEY"] ||
+    process.env["SUPABASE_ANON_KEY"] ||
     "";
   const serviceRoleKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SECRET_KEY;
+    process.env["SUPABASE_SERVICE_ROLE_KEY"] ||
+    process.env["SUPABASE_SECRET_KEY"];
 
   return { url, anonKey, serviceRoleKey };
 }
@@ -65,11 +65,13 @@ export async function verifyAuthToken(request: Request): Promise<AuthenticatedUs
   }
 
   const parts = authHeader.trim().split(" ");
-  if (parts.length !== 2 || parts[0].toLowerCase() !== "bearer") {
+  const scheme = parts[0]?.toLowerCase();
+  const rawToken = parts[1]?.trim();
+  if (parts.length !== 2 || scheme !== "bearer" || !rawToken) {
     throw new AuthError("Invalid authorization format. Format must be 'Bearer <token>'.", 401);
   }
 
-  const token = parts[1].trim();
+  const token = rawToken;
   if (!token) {
     throw new AuthError("Authentication token cannot be empty.", 401);
   }

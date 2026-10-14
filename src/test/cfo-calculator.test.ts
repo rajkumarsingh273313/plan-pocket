@@ -66,7 +66,7 @@ describe("CFO Calculator (Deterministic No-AI Planning)", () => {
 
       const result = calculateCFOScenario(inputs);
       expect(result.salaryCapAlerts).toHaveLength(1);
-      const alert = result.salaryCapAlerts[0];
+      const alert = result.salaryCapAlerts[0]!;
       expect(alert.title).toBe("Lead Architect");
       expect(alert.plannedSalary).toBe(180000);
       expect(alert.maxAffordableSalary).toBe(150000);
@@ -102,12 +102,12 @@ describe("CFO Calculator (Deterministic No-AI Planning)", () => {
 
       const result = calculateCFOScenario(inputs);
       // Month 1 to 12: 100,000 + 50,000 = 150,000
-      expect(result.projections[0].newPayroll).toBe(150000);
-      expect(result.projections[11].newPayroll).toBe(150000);
+      expect(result.projections[0]!.newPayroll).toBe(150000);
+      expect(result.projections[11]!.newPayroll).toBe(150000);
 
       // Month 13: 100,000 * 1.10 = 110,000 + (50,000 + 5,000) = 55,000 -> 165,000
-      expect(result.projections[12].newPayroll).toBe(165000);
-      expect(result.projections[13].newPayroll).toBe(165000);
+      expect(result.projections[12]!.newPayroll).toBe(165000);
+      expect(result.projections[13]!.newPayroll).toBe(165000);
     });
 
     it("respects deferred start months for hiring and raises", () => {
@@ -128,12 +128,12 @@ describe("CFO Calculator (Deterministic No-AI Planning)", () => {
       };
 
       const result = calculateCFOScenario(inputs);
-      expect(result.projections[0].newPayroll).toBe(0); // Month 1
-      expect(result.projections[1].newPayroll).toBe(0); // Month 2
-      expect(result.projections[2].newPayroll).toBe(60000); // Month 3 (first active month)
+      expect(result.projections[0]!.newPayroll).toBe(0); // Month 1
+      expect(result.projections[1]!.newPayroll).toBe(0); // Month 2
+      expect(result.projections[2]!.newPayroll).toBe(60000); // Month 3 (first active month)
       // Raise occurs after 12 completed months of employment, i.e., in month (3 + 12) = 15
-      expect(result.projections[13].newPayroll).toBe(60000); // Month 14 (12th month of work)
-      expect(result.projections[14].newPayroll).toBe(66000); // Month 15 (13th month of work, raise applied)
+      expect(result.projections[13]!.newPayroll).toBe(60000); // Month 14 (12th month of work)
+      expect(result.projections[14]!.newPayroll).toBe(66000); // Month 15 (13th month of work, raise applied)
     });
   });
 
@@ -223,11 +223,11 @@ describe("CFO Calculator (Deterministic No-AI Planning)", () => {
 
       const result = calculateCFOScenario(inputs);
       // Month 1: 100,000
-      expect(result.projections[0].revenue).toBe(100000);
+      expect(result.projections[0]!.revenue).toBe(100000);
       // Month 2: 100,000 * 1.1 = 110,000
-      expect(result.projections[1].revenue).toBe(110000);
+      expect(result.projections[1]!.revenue).toBe(110000);
       // Month 3: 110,000 * 1.1 = 121,000
-      expect(result.projections[2].revenue).toBe(121000);
+      expect(result.projections[2]!.revenue).toBe(121000);
     });
 
     it("calculates profit and loss when baseline revenue is provided", () => {
@@ -250,9 +250,9 @@ describe("CFO Calculator (Deterministic No-AI Planning)", () => {
 
       const result = calculateCFOScenario(inputs);
       // Total costs = 100k payroll + 20k marketing + 30k opex = 150k
-      expect(result.projections[0].totalCosts).toBe(150000);
+      expect(result.projections[0]!.totalCosts).toBe(150000);
       // Profit = 200k - 150k = 50k
-      expect(result.projections[0].profitOrLoss).toBe(50000);
+      expect(result.projections[0]!.profitOrLoss).toBe(50000);
       expect(result.breakEvenMonth).toBe("already_profitable");
     });
 
@@ -282,7 +282,7 @@ describe("CFO Calculator (Deterministic No-AI Planning)", () => {
       // Month 4 cash: 90k - 70k = 20k
       // Month 5 cash: 20k - 70k = -50k (hits <= 0 in month 5)
       expect(result.cashRunwayMonths).toBe(5);
-      expect(result.projections[4].cashBalance).toBe(-50000);
+      expect(result.projections[4]!.cashBalance).toBe(-50000);
     });
 
     it("marks cash runway as infinite when business is net positive", () => {
@@ -330,9 +330,9 @@ describe("CFO Calculator (Deterministic No-AI Planning)", () => {
 
       const result = calculateCFOScenario(inputs);
       expect(result.month1Revenue).toBeNull();
-      expect(result.projections[0].revenue).toBeNull();
-      expect(result.projections[0].profitOrLoss).toBeNull();
-      expect(result.projections[0].cashBalance).toBeNull();
+      expect(result.projections[0]!.revenue).toBeNull();
+      expect(result.projections[0]!.profitOrLoss).toBeNull();
+      expect(result.projections[0]!.cashBalance).toBeNull();
       expect(result.cashRunwayMonths).toBeNull();
       expect(result.breakEvenMonth).toBeNull();
 

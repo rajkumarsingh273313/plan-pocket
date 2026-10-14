@@ -360,7 +360,8 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
   // 6. Break-Even Month Determination
   let breakEvenMonth: number | null | "already_profitable" | "never" = null;
   if (baselineRevenue !== null) {
-    if (projections[0]?.profitOrLoss !== null && projections[0].profitOrLoss >= 0) {
+    const firstMonthPL = projections[0]?.profitOrLoss;
+    if (firstMonthPL !== null && firstMonthPL !== undefined && firstMonthPL >= 0) {
       breakEvenMonth = "already_profitable";
     } else {
       const profitableIndex = projections.findIndex((p) => p.profitOrLoss !== null && p.profitOrLoss >= 0);

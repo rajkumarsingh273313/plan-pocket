@@ -1223,13 +1223,12 @@ function LandingPage() {
               </p>
               <div className="mt-6 rounded-lg border border-border bg-card px-5 py-4 text-left text-sm text-muted-foreground shadow-sm">
                 <strong className="text-foreground font-semibold">
-                  Prototype notice:
+                  Platform notice:
                 </strong>{" "}
-                Financial data is stored in your browser using localStorage.
-                Records are not confirmed to sync between devices. The prototype
-                login stores credentials in browser storage — do not use real
-                passwords or sensitive financial data. Investment and scenario
-                outputs are estimates, not financial advice.
+                PLANPOCKET uses secure Supabase Authentication and a MongoDB-backed
+                cloud persistence engine when configured with live credentials.
+                Investment calculations and scenario forecasts are transparent,
+                deterministic estimates for planning — not guaranteed financial advice.
               </div>
             </Reveal>
 
@@ -1265,7 +1264,7 @@ function LandingPage() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <Reveal className="mx-auto max-w-3xl rounded-2xl border border-border bg-card p-8 text-center shadow-sm sm:p-10">
               <span className="badge-accent-soft inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
-                Client-Side Prototype • Local Storage
+                Cloud-Ready • Supabase Auth &amp; MongoDB
               </span>
               <h2
                 id="access-heading"
@@ -1274,10 +1273,9 @@ function LandingPage() {
                 Access the PLANPOCKET Application
               </h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                PLANPOCKET operates directly in your web browser. Account credentials
-                and financial planning data are stored in your device&apos;s localStorage for
-                personal budgeting and scenario simulation. No external servers or cloud accounts
-                are required.
+                PLANPOCKET combines client-side financial calculators with cloud-backed
+                data persistence. Authenticate securely with Supabase to manage your goals,
+                track expenses, and run deterministic CFO scenario projections from any device.
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <a
