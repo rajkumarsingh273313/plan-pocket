@@ -1232,10 +1232,42 @@
         letter-spacing: -0.015em;
       }
 
-      /* Profile Icon Button & Popover */
-      .profile-icon-btn {
-        width: 42px;
-        height: 42px;
+      /* Profile Nav & Popover */
+      .pp-nav-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        padding-top: 10px;
+        margin-top: auto;
+        border-top: 1px solid var(--border);
+      }
+      .pp-nav-profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.15s ease;
+        min-height: 44px;
+        color: var(--text);
+      }
+      .pp-nav-profile-btn:hover {
+        background: var(--bg);
+        border-color: var(--border);
+      }
+      .pp-nav-profile-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .profile-nav-avatar {
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         background: linear-gradient(135deg, #0d7a70, #0f8f83);
         color: #ffffff;
@@ -1244,42 +1276,79 @@
         align-items: center;
         justify-content: center;
         font-weight: 750;
-        font-size: 0.95rem;
+        font-size: 0.88rem;
         letter-spacing: -0.02em;
         box-shadow: 0 2px 6px rgba(13, 122, 112, 0.25);
+        flex: none;
+      }
+      .pp-nav-profile-text {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+      }
+      .pp-nav-profile-name {
+        font-size: 0.86rem;
+        font-weight: 650;
+        color: var(--text);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 1.25;
+      }
+      .pp-nav-profile-status {
+        font-size: 0.72rem;
+        color: var(--muted);
+        font-weight: 500;
+        line-height: 1.2;
+      }
+      .pp-nav-profile-status.verified {
+        color: #047857;
+      }
+      .pp-nav-logout-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: none;
+        background: transparent;
+        color: var(--muted);
         cursor: pointer;
-        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-        position: relative;
+        font-weight: 600;
+        font-size: 0.88rem;
+        transition: all 0.15s ease;
+        text-align: left;
+        min-height: 40px;
       }
-      .profile-icon-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(13, 122, 112, 0.35);
+      .pp-nav-logout-btn svg {
+        width: 18px;
+        height: 18px;
+        flex: none;
       }
-      .profile-icon-btn:active {
-        transform: scale(0.96);
+      .pp-nav-logout-btn:hover {
+        background: #fef2f2 !important;
+        color: #ef4444 !important;
       }
-      .profile-icon-btn:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
-      .profile-icon-initial {
-        line-height: 1;
-      }
+
+      /* Profile Popover */
       .profile-popover {
-        position: absolute;
-        top: calc(100% + 8px);
-        right: 0;
-        width: 280px;
+        position: fixed;
+        left: 18px;
+        bottom: 84px;
+        width: 300px;
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: 14px;
-        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14), 0 3px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 16px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.06);
         padding: 18px;
-        z-index: 1000;
-        animation: ppProfileFadeIn 0.18s ease-out;
+        z-index: 9999;
+        animation: ppProfileFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
       }
       .profile-popover.hidden {
-        display: none;
+        display: none !important;
       }
       @keyframes ppProfileFadeIn {
         from {
@@ -1291,13 +1360,34 @@
           transform: translateY(0);
         }
       }
-      .profile-popover-title {
-        font-size: 1rem;
-        font-weight: 750;
-        color: var(--text);
-        margin: 0 0 14px 0;
+      .profile-popover-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 0 12px 0;
         padding-bottom: 10px;
         border-bottom: 1px solid var(--border);
+      }
+      .profile-popover-title {
+        font-size: 0.95rem;
+        font-weight: 750;
+        color: var(--text);
+        margin: 0;
+      }
+      .profile-popover-close {
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 6px;
+        line-height: 1;
+        transition: color 0.15s, background 0.15s;
+      }
+      .profile-popover-close:hover {
+        color: var(--text);
+        background: var(--bg);
       }
       .profile-popover-content {
         display: flex;
@@ -1310,14 +1400,14 @@
         gap: 4px;
       }
       .profile-popover-label {
-        font-size: 0.75rem;
+        font-size: 0.73rem;
         font-weight: 700;
         color: var(--muted);
         text-transform: uppercase;
         letter-spacing: 0.04em;
       }
       .profile-popover-value {
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         color: var(--text);
         font-weight: 600;
         word-break: break-word;
@@ -1326,9 +1416,9 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        font-size: 0.82rem;
+        font-size: 0.78rem;
         font-weight: 700;
-        padding: 4px 10px;
+        padding: 3px 9px;
         border-radius: 999px;
         width: fit-content;
       }
@@ -1338,9 +1428,94 @@
         border: 1px solid #a7f3d0;
       }
       .profile-popover-badge.unverified {
-        background: var(--bg);
-        color: var(--muted);
-        border: 1px solid var(--border);
+        background: #fffbeb;
+        color: #b45309;
+        border: 1px solid #fde68a;
+      }
+      .profile-resend-btn {
+        font-size: 0.75rem;
+        font-weight: 650;
+        color: var(--accent);
+        background: var(--accent-soft);
+        border: 1px solid rgba(13, 122, 112, 0.25);
+        border-radius: 6px;
+        padding: 3px 8px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+      }
+      .profile-resend-btn:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+      .profile-popover-message {
+        font-size: 0.76rem;
+        padding: 6px 8px;
+        border-radius: 6px;
+        margin-top: 6px;
+        line-height: 1.35;
+      }
+      .profile-popover-message.success {
+        background: #ecfdf5;
+        color: #047857;
+        border: 1px solid #a7f3d0;
+      }
+      .profile-popover-message.error {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+      }
+      @media (max-width: 900px) {
+        #ppNav .pp-nav-footer {
+          display: flex;
+          flex-direction: row;
+          padding-top: 0;
+          margin-top: 0;
+          border-top: none;
+          gap: 4px;
+          flex: 0 0 auto;
+        }
+        #ppNav .pp-nav-profile-btn {
+          flex: 0 0 auto !important;
+          flex-direction: column;
+          gap: 2px;
+          font-size: 0.65rem;
+          padding: 6px 8px;
+          min-width: 58px !important;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          min-height: auto;
+        }
+        #ppNav .pp-nav-profile-btn .pp-nav-profile-name {
+          display: none;
+        }
+        #ppNav .pp-nav-profile-btn .profile-nav-avatar {
+          width: 22px;
+          height: 22px;
+          font-size: 0.72rem;
+        }
+        #ppNav .pp-nav-profile-btn .pp-nav-profile-status {
+          font-size: 0.62rem;
+        }
+        #ppNav .pp-nav-logout-btn {
+          flex: 0 0 auto !important;
+          flex-direction: column;
+          gap: 2px;
+          font-size: 0.65rem;
+          padding: 6px 8px;
+          min-width: 54px !important;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          min-height: auto;
+        }
+        .profile-popover {
+          left: 12px !important;
+          right: 12px !important;
+          bottom: 74px !important;
+          width: auto !important;
+          max-width: calc(100vw - 24px) !important;
+        }
       }
       .dashboard-header-top {
         position: relative;
@@ -1520,7 +1695,8 @@
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
-        width: 100%;
+        width: 100% !important;
+        max-width: none !important;
         margin: 0 !important;
       }
       #dashboardPage .activity-summary h2 {
@@ -1538,7 +1714,7 @@
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
         gap: 16px !important;
-        width: 100%;
+        width: 100% !important;
       }
       #dashboardPage .summary-grid > div {
         background: var(--card) !important;
@@ -1803,20 +1979,20 @@
         margin: 0;
       }
 
-      /* Planning Tools Grid (Section 3) */
+      /* Financial Tools Grid */
       #dashboardPage .dashboard-grid {
         display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 16px !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 18px !important;
         width: 100% !important;
         margin: 0 !important;
       }
-      @media (max-width: 950px) {
+      @media (max-width: 1024px) {
         #dashboardPage .dashboard-grid {
           grid-template-columns: repeat(2, 1fr) !important;
         }
       }
-      @media (max-width: 520px) {
+      @media (max-width: 600px) {
         #dashboardPage .dashboard-grid {
           grid-template-columns: 1fr !important;
         }
@@ -1876,10 +2052,12 @@
       #dashboardPage .tool-card:hover .tool-icon {
         transform: scale(1.1) rotate(-3deg);
       }
-      #dashboardPage .tool-card:nth-child(1) .tool-icon { background: rgba(13, 122, 112, 0.12); color: #0d7a70; }
-      #dashboardPage .tool-card:nth-child(2) .tool-icon { background: rgba(16, 185, 129, 0.12); color: #059669; }
-      #dashboardPage .tool-card:nth-child(3) .tool-icon { background: rgba(99, 102, 241, 0.12); color: #4f46e5; }
-      #dashboardPage .tool-card:nth-child(4) .tool-icon { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+      #dashboardPage .tool-card:nth-child(1) .tool-icon { background: rgba(99, 102, 241, 0.12); color: #4f46e5; }
+      #dashboardPage .tool-card:nth-child(2) .tool-icon { background: rgba(244, 63, 94, 0.12); color: #e11d48; }
+      #dashboardPage .tool-card:nth-child(3) .tool-icon { background: rgba(13, 122, 112, 0.12); color: #0d7a70; }
+      #dashboardPage .tool-card:nth-child(4) .tool-icon { background: rgba(16, 185, 129, 0.12); color: #059669; }
+      #dashboardPage .tool-card:nth-child(5) .tool-icon { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+      #dashboardPage .tool-card:nth-child(6) .tool-icon { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
 
       #dashboardPage .tool-card h2 {
         font-size: 1.15rem !important;
@@ -2603,27 +2781,44 @@
         }
         #ppNav {
           inset: auto 0 0 0;
-          width: auto;
-          height: 68px;
+          width: 100%;
+          height: 66px;
           flex-direction: row;
-          padding: 6px;
+          padding: 6px 8px;
           border-right: none;
           border-top: 1px solid var(--border);
           overflow-x: auto;
-          gap: 2px;
+          overflow-y: hidden;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          gap: 4px;
+          align-items: center;
+          justify-content: flex-start;
+          background: #ffffff;
+          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+          z-index: 999;
+        }
+        #ppNav::-webkit-scrollbar {
+          display: none;
         }
         #ppNav .pp-brand,
         #ppNav .pp-spacer {
           display: none;
         }
-        #ppNav button {
+        #ppNav > button,
+        #ppNav .pp-nav-footer > button {
+          flex: 0 0 auto !important;
+          width: auto !important;
           flex-direction: column;
-          gap: 3px;
+          gap: 2px;
           font-size: 0.66rem;
-          padding: 6px 8px;
-          min-width: 64px;
+          padding: 6px 10px;
+          min-width: 60px;
           justify-content: center;
+          align-items: center;
           text-align: center;
+          white-space: nowrap;
+          border-radius: 10px;
         }
         .container {
           padding: 18px 14px;
@@ -4185,11 +4380,13 @@
       }
 
       @media (max-width: 640px) {
-        #ppNav button {
-          flex: 1 1 0 !important;
-          min-width: 0 !important;
-          padding: 6px 2px !important;
-          font-size: 0.62rem !important;
+        #ppNav > button,
+        #ppNav .pp-nav-footer > button {
+          flex: 0 0 auto !important;
+          width: auto !important;
+          min-width: 58px !important;
+          padding: 6px 8px !important;
+          font-size: 0.64rem !important;
           line-height: 1.15;
           min-height: 48px;
         }
@@ -4675,21 +4872,46 @@
         ><span>CFO Helper</span>
       </button>
       <div class="pp-spacer"></div>
-      <button type="button" onclick="logout()">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
+      <div class="pp-nav-footer">
+        <button
+          type="button"
+          id="profileIconBtn"
+          class="pp-nav-profile-btn"
+          onclick="toggleProfilePopover(event)"
+          aria-label="View account details"
+          aria-expanded="false"
+          aria-haspopup="true"
         >
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          <polyline points="16 17 21 12 16 7" />
-          <line x1="21" y1="12" x2="9" y2="12" /></svg
-        ><span>Logout</span>
-      </button>
+          <span id="profileIconInitial" class="profile-nav-avatar" aria-hidden="true">U</span>
+          <div class="pp-nav-profile-text">
+            <span id="profileNavName" class="pp-nav-profile-name">Account</span>
+            <span id="profileNavBadgeMini" class="pp-nav-profile-status">Verified</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          id="ppNavLogoutBtn"
+          class="pp-nav-logout-btn"
+          onclick="logout()"
+          aria-label="Logout"
+          title="Logout"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          <span class="pp-nav-logout-label">Logout</span>
+        </button>
+      </div>
     </nav>
     <!-- Welcome Page -->
     <div id="welcomePage" class="page">
@@ -5471,38 +5693,6 @@
                 Welcome back, <span id="dashboardUsername">there</span>. Choose your financial tool.
               </h1>
             </div>
-            <button
-              id="profileIconBtn"
-              class="profile-icon-btn"
-              onclick="toggleProfilePopover()"
-              aria-label="View account details"
-              aria-expanded="false"
-              aria-haspopup="true"
-            >
-              <span id="profileIconInitial" class="profile-icon-initial" aria-hidden="true">U</span>
-            </button>
-          </div>
-          <div
-            id="profilePopover"
-            class="profile-popover hidden"
-            role="dialog"
-            aria-labelledby="profilePopoverTitle"
-          >
-            <h3 id="profilePopoverTitle" class="profile-popover-title">Account Details</h3>
-            <div class="profile-popover-content">
-              <div class="profile-popover-row">
-                <span class="profile-popover-label">Email</span>
-                <span id="profilePopoverEmail" class="profile-popover-value">-</span>
-              </div>
-              <div class="profile-popover-row">
-                <span class="profile-popover-label">Account Type</span>
-                <span id="profilePopoverAccountType" class="profile-popover-value">Personal</span>
-              </div>
-              <div class="profile-popover-row">
-                <span class="profile-popover-label">Status</span>
-                <span id="profilePopoverStatus" class="profile-popover-badge">-</span>
-              </div>
-            </div>
           </div>
         </header>
         <section class="activity-summary" aria-labelledby="activityTitle">
@@ -5558,365 +5748,71 @@
             </div>
           </div>
         </section>
-        <section class="overview-section" aria-labelledby="overviewInvestmentTitle">
+        <section class="overview-section" aria-labelledby="overviewToolsTitle">
           <div class="overview-section-header">
             <div>
-              <h2 id="overviewInvestmentTitle" class="overview-section-title">
-                Investment Estimator
+              <h2 id="overviewToolsTitle" class="overview-section-title">
+                Financial Planning Tools
               </h2>
               <p class="overview-section-sub">
-                Estimate returns from systematic plans, lumpsum deposits, and compounding growth.
-              </p>
-            </div>
-            <button
-              class="btn btn-secondary"
-              style="width: auto; padding: 8px 16px; font-size: 0.88rem"
-              onclick="showTracker('investmentTrackerPage')"
-            >
-              Open Estimator →
-            </button>
-          </div>
-          <div class="overview-feature-card">
-            <div class="overview-feature-grid">
-              <div class="overview-metric-box">
-                <div>
-                  <div class="overview-metric-label">Last Investment Estimate</div>
-                  <div class="summary-value overview-metric-value" id="summaryInvestmentValue">
-                    ₹0
-                  </div>
-                  <p class="overview-metric-note" id="summaryInvestmentNote">
-                    Run a calculation in the estimator to see your projected wealth growth.
-                  </p>
-                </div>
-                <button
-                  class="btn btn-primary"
-                  style="
-                    width: auto;
-                    align-self: flex-start;
-                    padding: 10px 20px;
-                    font-size: 0.92rem;
-                  "
-                  onclick="showTracker('investmentTrackerPage')"
-                >
-                  Open Estimator →
-                </button>
-              </div>
-              <div class="overview-feature-list">
-                <div class="overview-feature-item">
-                  <div class="overview-feature-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-                      <polyline points="16 7 22 7 22 13" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="overview-feature-heading">Systematic Investment Planning (SIP)</div>
-                    <p class="overview-feature-desc">
-                      Model periodic contributions with annual step-up growth to reach your target
-                      wealth.
-                    </p>
-                  </div>
-                </div>
-                <div class="overview-feature-item">
-                  <div class="overview-feature-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M12 6v6l4 2" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="overview-feature-heading">Compound Interest Projections</div>
-                    <p class="overview-feature-desc">
-                      Calculate compound interest across monthly, quarterly, or annual compounding
-                      intervals.
-                    </p>
-                  </div>
-                </div>
-                <div class="overview-feature-item">
-                  <div class="overview-feature-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                      <polyline points="9 22 9 12 15 12 15 22" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="overview-feature-heading">House Rent Allowance (HRA) Exemption</div>
-                    <p class="overview-feature-desc">
-                      Estimate tax exemptions accurately based on rent paid and metro/non-metro
-                      rules.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="overview-section" aria-labelledby="overviewPlanningTitle">
-          <div class="overview-section-header">
-            <div>
-              <h2 id="overviewPlanningTitle" class="overview-section-title">
-                CFO Helper & Investment Planner
-              </h2>
-              <p class="overview-section-sub">
-                Simulate financial scenarios, define long-term savings goals, and manage monthly
-                plans.
+                Explore your complete suite of budgeting, expense tracking, investment forecasting, and CFO intelligence.
               </p>
             </div>
           </div>
           <div class="dashboard-grid">
-            <article class="tool-card" onclick="showCFOHelper()">
-              <div class="tool-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  width="22"
-                  height="22"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <line x1="12" y1="1" x2="12" y2="23" />
-                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
-              </div>
-              <h2>CFO Helper Agent</h2>
-              <p>
-                Simulate budget scenarios, revenue changes, and review data-driven financial
-                recommendations.
-              </p>
-              <button class="tool-link" onclick="event.stopPropagation(); showCFOHelper()">→ Open CFO Helper</button>
-            </article>
-            <article class="tool-card" onclick="showTracker('goalTrackerPage')">
-              <div class="tool-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  width="22"
-                  height="22"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <circle cx="12" cy="12" r="6" />
-                  <circle cx="12" cy="12" r="2" />
-                </svg>
-              </div>
-              <h2>Goal Planner</h2>
-              <p id="overviewGoalSummaryText">
-                Set savings goals, track contributions, and see your progress schedule.
-              </p>
-              <button class="tool-link" onclick="event.stopPropagation(); showTracker('goalTrackerPage')">
-                → Set & View Goals
-              </button>
-            </article>
             <article class="tool-card" onclick="showBudgetPlanner()">
               <div class="tool-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  width="22"
-                  height="22"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
-                  <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
-                  <path d="M18 12a2 2 0 0 0 0 4h4v-4z" />
-                </svg>
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" /><path d="M3 5v14a2 2 0 0 0 2 2h16v-5" /><path d="M18 12a2 2 0 0 0 0 4h4v-4z" /></svg>
               </div>
               <h2>Budget Planner</h2>
-              <p>
-                Set a monthly spending plan by category and monitor remaining balances at a glance.
-              </p>
+              <p>Set a monthly spending plan by category and monitor remaining balances at a glance.</p>
               <button class="tool-link" onclick="event.stopPropagation(); showBudgetPlanner()">→ Plan This Month</button>
             </article>
+
+            <article class="tool-card" onclick="showTracker('expenseTrackerPage')">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" /></svg>
+              </div>
+              <h2>Expense Tracker</h2>
+              <p id="overviewExpenseSummaryText">Record daily spending, organize by category, and review your spending history.</p>
+              <button class="tool-link" onclick="event.stopPropagation(); showTracker('expenseTrackerPage')">→ Track Expenses</button>
+            </article>
+
+            <article class="tool-card" onclick="showTracker('investmentTrackerPage')">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" /></svg>
+              </div>
+              <h2>Investment Estimator</h2>
+              <p id="summaryInvestmentNote">Model SIP contributions, compound interest growth, and HRA tax exemptions.</p>
+              <button class="tool-link" onclick="event.stopPropagation(); showTracker('investmentTrackerPage')">→ Open Estimator</button>
+            </article>
+
+            <article class="tool-card" onclick="showTracker('goalTrackerPage')">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
+              </div>
+              <h2>Goal Planner</h2>
+              <p id="overviewGoalSummaryText">Set savings goals, track contributions, and see your progress schedule.</p>
+              <button class="tool-link" onclick="event.stopPropagation(); showTracker('goalTrackerPage')">→ Set & View Goals</button>
+            </article>
+
             <article class="tool-card" onclick="showFinancialReports()">
               <div class="tool-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  width="22"
-                  height="22"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <line x1="18" y1="20" x2="18" y2="10" />
-                  <line x1="12" y1="20" x2="12" y2="4" />
-                  <line x1="6" y1="20" x2="6" y2="14" />
-                </svg>
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
               </div>
               <h2>Financial Reports</h2>
-              <p>
-                Understand your spending distributions, compare your plan with actuals, and export
-                reports.
-              </p>
+              <p>Understand your spending distributions, compare your plan with actuals, and export reports.</p>
               <button class="tool-link" onclick="event.stopPropagation(); showFinancialReports()">→ View Reports</button>
             </article>
-          </div>
-        </section>
-        <section class="overview-section" aria-labelledby="overviewExpenseTitle">
-          <div class="overview-section-header">
-            <div>
-              <h2 id="overviewExpenseTitle" class="overview-section-title">Expense Tracker</h2>
-              <p class="overview-section-sub">
-                Record daily spending, organize by category, and review your spending history.
-              </p>
-            </div>
-            <button
-              class="btn btn-secondary"
-              style="width: auto; padding: 8px 16px; font-size: 0.88rem"
-              onclick="showTracker('expenseTrackerPage')"
-            >
-              Track Expenses →
-            </button>
-          </div>
-          <div class="overview-feature-card">
-            <div class="overview-feature-grid">
-              <div class="overview-metric-box">
-                <div>
-                  <div class="overview-metric-label">This Month's Spending</div>
-                  <div class="summary-value overview-metric-value" id="overviewExpenseTotal">
-                    ₹0
-                  </div>
-                  <p class="overview-metric-note" id="overviewExpenseSummaryText">
-                    Record daily spending, categorize expenses, and review this month's total.
-                  </p>
-                  <div id="overviewExpenseCount" class="sr-only">
-                    0 recorded expenses this month
-                  </div>
-                </div>
-                <button
-                  class="btn btn-primary"
-                  style="
-                    width: auto;
-                    align-self: flex-start;
-                    padding: 10px 20px;
-                    font-size: 0.92rem;
-                  "
-                  onclick="showTracker('expenseTrackerPage')"
-                >
-                  Track Expenses →
-                </button>
+
+            <article class="tool-card" onclick="showCFOHelper()">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
               </div>
-              <div class="overview-feature-list">
-                <div class="overview-feature-item">
-                  <div class="overview-feature-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <rect x="2" y="5" width="20" height="14" rx="2" />
-                      <line x1="2" y1="10" x2="22" y2="10" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="overview-feature-heading">Category Tagging & Organization</div>
-                    <p class="overview-feature-desc">
-                      Assign transactions across Food, Housing, Utilities, Transportation,
-                      Entertainment, and more.
-                    </p>
-                  </div>
-                </div>
-                <div class="overview-feature-item">
-                  <div class="overview-feature-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <circle cx="11" cy="11" r="8" />
-                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="overview-feature-heading">Instant Search & Filtering</div>
-                    <p class="overview-feature-desc">
-                      Quickly find specific items by name or drill down into spending categories to
-                      audit your cash outflow.
-                    </p>
-                  </div>
-                </div>
-                <div class="overview-feature-item">
-                  <div class="overview-feature-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                      <polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="overview-feature-heading">Live Budget & Report Synchronization</div>
-                    <p class="overview-feature-desc">
-                      Every logged expense automatically syncs with your monthly budget limits and
-                      visual financial breakdown reports.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+              <h2>CFO Helper Agent</h2>
+              <p>Simulate budget scenarios, revenue changes, and review data-driven financial recommendations.</p>
+              <button class="tool-link" onclick="event.stopPropagation(); showCFOHelper()">→ Open CFO Helper</button>
+            </article>
           </div>
         </section>
       </div>
@@ -10828,6 +10724,45 @@
       </div>
     </div>
 
+    <!-- User Account Profile Popover -->
+    <div
+      id="profilePopover"
+      class="profile-popover hidden"
+      role="dialog"
+      aria-labelledby="profilePopoverTitle"
+    >
+      <div class="profile-popover-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="profilePopoverInitialLarge" class="profile-nav-avatar" style="width: 28px; height: 28px; font-size: 0.82rem;" aria-hidden="true">U</span>
+          <h3 id="profilePopoverTitle" class="profile-popover-title" style="margin: 0; padding: 0; border: none;">Account Details</h3>
+        </div>
+        <button type="button" class="profile-popover-close" onclick="toggleProfilePopover(event)" aria-label="Close profile details">✕</button>
+      </div>
+      <div class="profile-popover-content">
+        <div class="profile-popover-row">
+          <span class="profile-popover-label">Email</span>
+          <span id="profilePopoverEmail" class="profile-popover-value">-</span>
+        </div>
+        <div class="profile-popover-row">
+          <span class="profile-popover-label">Account Type</span>
+          <span id="profilePopoverAccountType" class="profile-popover-value">Personal Account</span>
+        </div>
+        <div class="profile-popover-row">
+          <span class="profile-popover-label">Email Verification</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 2px;">
+            <span id="profilePopoverStatus" class="profile-popover-badge unverified">Unverified</span>
+            <button
+              type="button"
+              id="resendVerificationBtn"
+              class="profile-resend-btn"
+              onclick="resendVerificationEmail(event)"
+            >Resend Link</button>
+          </div>
+          <div id="profilePopoverMessage" class="profile-popover-message hidden"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Custom Category Modal -->
     <div
       id="customCategoryModal"
@@ -10992,6 +10927,93 @@
         return null;
       }
 
+      function createStoredUserObject(user, extra = {}) {
+        if (!user) return null;
+        const isVerified = Boolean(
+          user.email_confirmed_at ||
+          user.confirmed_at ||
+          user.user_metadata?.email_verified ||
+          user.app_metadata?.provider === "google" ||
+          extra.emailVerified
+        );
+        const displayName =
+          extra.displayName ||
+          user.user_metadata?.display_name ||
+          user.displayName ||
+          user.email?.split("@")[0] ||
+          "User";
+        const accountType =
+          extra.accountType ||
+          user.user_metadata?.account_type ||
+          user.accountType ||
+          "personal";
+
+        return {
+          id: user.id,
+          email: user.email,
+          displayName,
+          accountType,
+          emailVerified: isVerified,
+          email_confirmed_at: user.email_confirmed_at || user.confirmed_at || null,
+        };
+      }
+
+      function updateProfileUI(user) {
+        const sbUser = user || getAuthenticatedUser();
+        if (!sbUser) return;
+        const displayName =
+          sbUser.user_metadata?.display_name ||
+          sbUser.displayName ||
+          sbUser.email?.split("@")[0] ||
+          "User";
+        const initial = (displayName[0] || "U").toUpperCase();
+        const isVerified = Boolean(
+          sbUser.emailVerified === true ||
+          sbUser.email_confirmed_at ||
+          sbUser.confirmed_at ||
+          sbUser.user_metadata?.email_verified ||
+          sbUser.app_metadata?.provider === "google"
+        );
+
+        // Update nav avatars and labels
+        document.querySelectorAll("#profileIconInitial, #profilePopoverInitialLarge").forEach((el) => {
+          el.textContent = initial;
+        });
+        const navName = document.getElementById("profileNavName");
+        if (navName) navName.textContent = displayName;
+
+        const navBadgeMini = document.getElementById("profileNavBadgeMini");
+        if (navBadgeMini) {
+          navBadgeMini.textContent = isVerified ? "Verified" : "Unverified";
+          navBadgeMini.className = isVerified ? "pp-nav-profile-status verified" : "pp-nav-profile-status unverified";
+        }
+
+        // Popover fields
+        const popEmail = document.getElementById("profilePopoverEmail");
+        if (popEmail) popEmail.textContent = sbUser.email || displayName;
+
+        const popAccType = document.getElementById("profilePopoverAccountType");
+        if (popAccType) {
+          popAccType.textContent =
+            sbUser.accountType === "company" || sbUser.user_metadata?.account_type === "company"
+              ? "Company Account"
+              : "Personal Account";
+        }
+
+        const popStatus = document.getElementById("profilePopoverStatus");
+        if (popStatus) {
+          popStatus.textContent = isVerified ? "Verified" : "Unverified";
+          popStatus.className = isVerified
+            ? "profile-popover-badge verified"
+            : "profile-popover-badge unverified";
+        }
+
+        const resendBtn = document.getElementById("resendVerificationBtn");
+        if (resendBtn) {
+          resendBtn.classList.toggle("hidden", isVerified);
+        }
+      }
+
       function updateAuthenticatedUI(user) {
         if (!user) return;
         const displayName =
@@ -11013,6 +11035,7 @@
           const indicator = identityEl.querySelector(".signup-demo-indicator");
           if (indicator) indicator.textContent = "VERIFIED";
         }
+        updateProfileUI(user);
       }
 
       // Page navigation functions
@@ -11595,12 +11618,7 @@
               sessionStorage.setItem("planpocket_supabase_token", data.session.access_token);
               sessionStorage.setItem(
                 "planpocket_supabase_user",
-                JSON.stringify({
-                  id: data.user.id,
-                  email: data.user.email,
-                  displayName: companyName,
-                  accountType: "company",
-                }),
+                JSON.stringify(createStoredUserObject(data.user, { displayName: companyName, accountType: "company" })),
               );
               sessionStorage.removeItem("planpocket_demo_profile");
               updateAuthenticatedUI(data.user);
@@ -11759,14 +11777,7 @@
               sessionStorage.setItem("planpocket_supabase_token", data.session.access_token);
               sessionStorage.setItem(
                 "planpocket_supabase_user",
-                JSON.stringify({
-                  id: data.user.id,
-                  email: data.user.email,
-                  displayName:
-                    data.user.user_metadata?.display_name ||
-                    data.user.email?.split("@")[0] ||
-                    "User",
-                }),
+                JSON.stringify(createStoredUserObject(data.user)),
               );
               sessionStorage.removeItem("planpocket_demo_profile");
               updateAuthenticatedUI(data.user);
@@ -11859,11 +11870,7 @@
               sessionStorage.setItem("planpocket_supabase_token", data.session.access_token);
               sessionStorage.setItem(
                 "planpocket_supabase_user",
-                JSON.stringify({
-                  id: data.user.id,
-                  email: data.user.email,
-                  displayName: username,
-                }),
+                JSON.stringify(createStoredUserObject(data.user, { displayName: username })),
               );
               sessionStorage.removeItem("planpocket_demo_profile");
               updateAuthenticatedUI(data.user);
@@ -12467,28 +12474,7 @@
         const usernameEl = document.getElementById("dashboardUsername");
         if (usernameEl) usernameEl.textContent = displayName;
 
-        // Populate profile icon and popover
-        const profileIconInitial = document.getElementById("profileIconInitial");
-        if (profileIconInitial) {
-          profileIconInitial.textContent = (displayName[0] || "U").toUpperCase();
-        }
-
-        const profilePopoverEmail = document.getElementById("profilePopoverEmail");
-        if (profilePopoverEmail) {
-          profilePopoverEmail.textContent = sbUser.email || displayName;
-        }
-
-        const profilePopoverAccountType = document.getElementById("profilePopoverAccountType");
-        if (profilePopoverAccountType) {
-          profilePopoverAccountType.textContent = sbUser.accountType === "company" ? "Company Account" : "Personal Account";
-        }
-
-        const profilePopoverStatus = document.getElementById("profilePopoverStatus");
-        if (profilePopoverStatus) {
-          const isVerified = sbUser.emailVerified === true || sbUser.email_confirmed_at;
-          profilePopoverStatus.textContent = isVerified ? "Verified" : "Unverified";
-          profilePopoverStatus.className = isVerified ? "profile-popover-badge verified" : "profile-popover-badge unverified";
-        }
+        updateProfileUI(sbUser);
 
         const dashPage = document.getElementById("dashboardPage");
         if (dashPage) {
@@ -12500,22 +12486,118 @@
         updateDashboardSummary();
       }
 
-      function toggleProfilePopover() {
+      function positionProfilePopover() {
+        const popover = document.getElementById("profilePopover");
+        const btn = document.getElementById("profileIconBtn");
+        if (!popover || !btn || popover.classList.contains("hidden")) return;
+
+        const rect = btn.getBoundingClientRect();
+        const isMobile = window.innerWidth <= 900;
+
+        if (isMobile) {
+          popover.style.left = "12px";
+          popover.style.right = "12px";
+          popover.style.bottom = "74px";
+          popover.style.top = "auto";
+          popover.style.maxWidth = "calc(100vw - 24px)";
+          popover.style.width = "auto";
+        } else {
+          // Desktop sidebar
+          popover.style.left = "16px";
+          popover.style.bottom = Math.max(84, window.innerHeight - rect.top + 10) + "px";
+          popover.style.top = "auto";
+          popover.style.right = "auto";
+          popover.style.maxWidth = "300px";
+        }
+      }
+
+      async function toggleProfilePopover(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
         const popover = document.getElementById("profilePopover");
         const btn = document.getElementById("profileIconBtn");
         if (!popover || !btn) return;
 
         const isHidden = popover.classList.contains("hidden");
         if (isHidden) {
+          updateProfileUI();
           popover.classList.remove("hidden");
           btn.setAttribute("aria-expanded", "true");
+          positionProfilePopover();
+
+          // Refresh live status from Supabase if connected
+          if (window.supabase && window.supabase.auth) {
+            try {
+              const { data } = await window.supabase.auth.getUser();
+              if (data && data.user) {
+                const live = data.user;
+                const isVerified = Boolean(
+                  live.email_confirmed_at ||
+                  live.confirmed_at ||
+                  live.user_metadata?.email_verified ||
+                  live.app_metadata?.provider === "google"
+                );
+                const stored = getAuthenticatedUser() || {};
+                stored.emailVerified = isVerified;
+                stored.email_confirmed_at = live.email_confirmed_at || live.confirmed_at || null;
+                sessionStorage.setItem("planpocket_supabase_user", JSON.stringify(stored));
+                updateProfileUI(stored);
+              }
+            } catch (err) {}
+          }
         } else {
           popover.classList.add("hidden");
           btn.setAttribute("aria-expanded", "false");
         }
       }
 
-      // Close profile popover when clicking outside, pressing Escape, or losing focus
+      async function resendVerificationEmail(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        const user = getAuthenticatedUser();
+        const msgEl = document.getElementById("profilePopoverMessage");
+        const btn = document.getElementById("resendVerificationBtn");
+        if (!user || !user.email) return;
+
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Sending...";
+        }
+
+        try {
+          if (window.supabase && window.supabase.auth) {
+            const { error } = await window.supabase.auth.resend({
+              type: "signup",
+              email: user.email,
+            });
+            if (error) throw error;
+          }
+          if (msgEl) {
+            msgEl.textContent = "Verification link sent! Check your inbox.";
+            msgEl.className = "profile-popover-message success";
+            msgEl.classList.remove("hidden");
+          }
+        } catch (err) {
+          if (msgEl) {
+            msgEl.textContent = err.message || "Failed to resend. Please try again.";
+            msgEl.className = "profile-popover-message error";
+            msgEl.classList.remove("hidden");
+          }
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Resend Link";
+          }
+        }
+      }
+
+      // Close profile popover when clicking outside, pressing Escape, or window resize
+      window.addEventListener("resize", positionProfilePopover);
+
       document.addEventListener("click", function(e) {
         const popover = document.getElementById("profilePopover");
         const btn = document.getElementById("profileIconBtn");
@@ -20533,14 +20615,7 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
                 sessionStorage.setItem("planpocket_supabase_token", session.access_token);
                 sessionStorage.setItem(
                   "planpocket_supabase_user",
-                  JSON.stringify({
-                    id: session.user.id,
-                    email: session.user.email,
-                    displayName:
-                      session.user.user_metadata?.display_name ||
-                      session.user.email?.split("@")[0] ||
-                      "User",
-                  }),
+                  JSON.stringify(createStoredUserObject(session.user)),
                 );
                 updateAuthenticatedUI(session.user);
                 loadGoals();
@@ -20556,14 +20631,7 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
               sessionStorage.setItem("planpocket_supabase_token", data.session.access_token);
               sessionStorage.setItem(
                 "planpocket_supabase_user",
-                JSON.stringify({
-                  id: data.session.user.id,
-                  email: data.session.user.email,
-                  displayName:
-                    data.session.user.user_metadata?.display_name ||
-                    data.session.user.email?.split("@")[0] ||
-                    "User",
-                }),
+                JSON.stringify(createStoredUserObject(data.session.user)),
               );
               updateAuthenticatedUI(data.session.user);
               await loadGoals();
@@ -21597,14 +21665,7 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
             sessionStorage.setItem("planpocket_supabase_token", session.access_token);
             sessionStorage.setItem(
               "planpocket_supabase_user",
-              JSON.stringify({
-                id: session.user.id,
-                email: session.user.email,
-                displayName:
-                  session.user.user_metadata?.display_name ||
-                  session.user.email?.split("@")[0] ||
-                  "User",
-              }),
+              JSON.stringify(createStoredUserObject(session.user)),
             );
             updateAuthenticatedUI(session.user);
             loadGoals();
