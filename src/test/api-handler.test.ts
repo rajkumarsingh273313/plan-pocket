@@ -121,15 +121,163 @@ describe("API Handler & Server Endpoints", () => {
     },
   };
 
+  let expensesStore: any[] = [];
+  let budgetsStore: any[] = [];
+  let categoriesStore: any[] = [];
+
+  const mockExpensesCol = {
+    find: (filter: any) => ({
+      sort: () => ({
+        toArray: async () =>
+          expensesStore.filter((doc) => {
+            if (filter.userId && doc.userId !== filter.userId) return false;
+            if (filter.date?.$regex) {
+              const reg = new RegExp(filter.date.$regex);
+              if (!reg.test(doc.date)) return false;
+            }
+            return true;
+          }),
+      }),
+    }),
+    findOne: async (filter: any) => {
+      return (
+        expensesStore.find(
+          (doc) =>
+            (!filter.userId || doc.userId === filter.userId) &&
+            (!filter.id || doc.id === filter.id),
+        ) || null
+      );
+    },
+    countDocuments: async (filter: any) => {
+      return expensesStore.filter((doc) => {
+        if (filter.userId && doc.userId !== filter.userId) return false;
+        if (filter.category && doc.category !== filter.category) return false;
+        return true;
+      }).length;
+    },
+    updateOne: async (filter: any, update: any, options?: any) => {
+      const idx = expensesStore.findIndex(
+        (doc) => doc.userId === filter.userId && doc.id === filter.id,
+      );
+      if (idx >= 0) {
+        expensesStore[idx] = {
+          ...expensesStore[idx],
+          ...update.$set,
+          updatedAt: new Date(),
+        };
+      } else if (options?.upsert) {
+        expensesStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+      }
+      return { acknowledged: true };
+    },
+    deleteOne: async (filter: any) => {
+      const initialLength = expensesStore.length;
+      expensesStore = expensesStore.filter(
+        (doc) => !(doc.userId === filter.userId && doc.id === filter.id),
+      );
+      return { deletedCount: initialLength - expensesStore.length };
+    },
+  };
+
+  const mockBudgetsCol = {
+    find: (filter: any) => ({
+      sort: () => ({
+        toArray: async () =>
+          budgetsStore.filter((doc) => !filter.userId || doc.userId === filter.userId),
+      }),
+    }),
+    findOne: async (filter: any) => {
+      return (
+        budgetsStore.find(
+          (doc) =>
+            (!filter.userId || doc.userId === filter.userId) &&
+            (!filter.month || doc.month === filter.month),
+        ) || null
+      );
+    },
+    updateOne: async (filter: any, update: any, options?: any) => {
+      const idx = budgetsStore.findIndex(
+        (doc) => doc.userId === filter.userId && doc.month === filter.month,
+      );
+      if (idx >= 0) {
+        budgetsStore[idx] = {
+          ...budgetsStore[idx],
+          ...update.$set,
+          updatedAt: new Date(),
+        };
+      } else if (options?.upsert) {
+        budgetsStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+      }
+      return { acknowledged: true };
+    },
+    deleteOne: async (filter: any) => {
+      const initialLength = budgetsStore.length;
+      budgetsStore = budgetsStore.filter(
+        (doc) => !(doc.userId === filter.userId && doc.month === filter.month),
+      );
+      return { deletedCount: initialLength - budgetsStore.length };
+    },
+  };
+
+  const mockCategoriesCol = {
+    find: (filter: any) => ({
+      sort: () => ({
+        toArray: async () =>
+          categoriesStore.filter((doc) => !filter.userId || doc.userId === filter.userId),
+      }),
+    }),
+    findOne: async (filter: any) => {
+      return (
+        categoriesStore.find((doc) => {
+          if (filter.userId && doc.userId !== filter.userId) return false;
+          if (filter.id && doc.id !== filter.id) return false;
+          if (filter.name?.$regex) {
+            return filter.name.$regex.test(doc.name);
+          }
+          if (filter.name && doc.name !== filter.name) return false;
+          return true;
+        }) || null
+      );
+    },
+    updateOne: async (filter: any, update: any, options?: any) => {
+      const idx = categoriesStore.findIndex(
+        (doc) => doc.userId === filter.userId && doc.id === filter.id,
+      );
+      if (idx >= 0) {
+        categoriesStore[idx] = {
+          ...categoriesStore[idx],
+          ...update.$set,
+          updatedAt: new Date(),
+        };
+      } else if (options?.upsert) {
+        categoriesStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+      }
+      return { acknowledged: true };
+    },
+    deleteOne: async (filter: any) => {
+      const initialLength = categoriesStore.length;
+      categoriesStore = categoriesStore.filter(
+        (doc) => !(doc.userId === filter.userId && doc.id === filter.id),
+      );
+      return { deletedCount: initialLength - categoriesStore.length };
+    },
+  };
+
   beforeEach(() => {
     goalsStore = [];
     investmentsStore = [];
     cfoScenariosStore = [];
+    expensesStore = [];
+    budgetsStore = [];
+    categoriesStore = [];
     vi.restoreAllMocks();
 
     vi.spyOn(mongodb, "getGoalsCollection").mockResolvedValue(mockGoalsCol as any);
     vi.spyOn(mongodb, "getInvestmentsCollection").mockResolvedValue(mockInvestmentsCol as any);
     vi.spyOn(mongodb, "getCFOScenariosCollection").mockResolvedValue(mockCfoCol as any);
+    vi.spyOn(mongodb, "getExpensesCollection").mockResolvedValue(mockExpensesCol as any);
+    vi.spyOn(mongodb, "getBudgetsCollection").mockResolvedValue(mockBudgetsCol as any);
+    vi.spyOn(mongodb, "getCategoriesCollection").mockResolvedValue(mockCategoriesCol as any);
   });
 
   describe("Public Configuration Endpoint", () => {
@@ -636,6 +784,519 @@ describe("API Handler & Server Endpoints", () => {
       const delResA = await handleApiRequest(delReqA);
       expect(delResA.status).toBe(200);
       expect(cfoScenariosStore).toHaveLength(0);
+    });
+  });
+
+  describe("Expenses Protected Endpoints", () => {
+    const userA = { userId: "user-alpha", email: "alpha@example.com", user: {} as any };
+
+    it("rejects unauthenticated requests with 401", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockRejectedValue(
+        new serverAuth.AuthError("Missing or invalid Authorization header", 401),
+      );
+
+      const getReq = new Request("http://localhost/api/expenses", { method: "GET" });
+      const getRes = await handleApiRequest(getReq);
+      expect(getRes.status).toBe(401);
+
+      const postReq = new Request("http://localhost/api/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description: "Test", amount: 100, category: "Food", date: "2026-10-01" }),
+      });
+      const postRes = await handleApiRequest(postReq);
+      expect(postRes.status).toBe(401);
+    });
+
+    it("validates expense input and rejects invalid payloads with 400", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      // Negative amount
+      const req1 = new Request("http://localhost/api/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ description: "Invalid", amount: -50, category: "Food", date: "2026-10-01" }),
+      });
+      expect((await handleApiRequest(req1)).status).toBe(400);
+
+      // More than 2 decimal places
+      const req2 = new Request("http://localhost/api/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ description: "Invalid", amount: 10.999, category: "Food", date: "2026-10-01" }),
+      });
+      expect((await handleApiRequest(req2)).status).toBe(400);
+
+      // Empty description
+      const req3 = new Request("http://localhost/api/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ description: "", amount: 100, category: "Food", date: "2026-10-01" }),
+      });
+      expect((await handleApiRequest(req3)).status).toBe(400);
+
+      // Invalid date
+      const req4 = new Request("http://localhost/api/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ description: "Valid", amount: 100, category: "Food", date: "not-a-date" }),
+      });
+      expect((await handleApiRequest(req4)).status).toBe(400);
+    });
+
+    it("performs full CRUD on expenses with month filtering and integer paise arithmetic", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      // Create
+      const postReq = new Request("http://localhost/api/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({
+          description: "Grocery run",
+          amount: 1250.5,
+          category: "Food",
+          date: "2026-10-15",
+          note: "Weekly market",
+        }),
+      });
+      const postRes = await handleApiRequest(postReq);
+      expect(postRes.status).toBe(201);
+      const postBody = await postRes.json();
+      expect(postBody.expense.description).toBe("Grocery run");
+      expect(postBody.expense.amount).toBe(1250.5);
+      expect(postBody.expense.amountPaise).toBe(125050);
+      const expenseId = postBody.expense.id;
+
+      // Filter by month
+      const getOctReq = new Request("http://localhost/api/expenses?month=2026-10", {
+        method: "GET",
+        headers: { Authorization: "Bearer token" },
+      });
+      const getOctRes = await handleApiRequest(getOctReq);
+      expect(getOctRes.status).toBe(200);
+      const getOctBody = await getOctRes.json();
+      expect(getOctBody.expenses).toHaveLength(1);
+
+      const getNovReq = new Request("http://localhost/api/expenses?month=2026-11", {
+        method: "GET",
+        headers: { Authorization: "Bearer token" },
+      });
+      const getNovRes = await handleApiRequest(getNovReq);
+      expect((await getNovRes.json()).expenses).toHaveLength(0);
+
+      // Update
+      const putReq = new Request(`http://localhost/api/expenses/${expenseId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ amount: 1500 }),
+      });
+      const putRes = await handleApiRequest(putReq);
+      expect(putRes.status).toBe(200);
+      const putBody = await putRes.json();
+      expect(putBody.expense.amount).toBe(1500);
+      expect(putBody.expense.amountPaise).toBe(150000);
+
+      // Delete
+      const delReq = new Request(`http://localhost/api/expenses/${expenseId}`, {
+        method: "DELETE",
+        headers: { Authorization: "Bearer token" },
+      });
+      const delRes = await handleApiRequest(delReq);
+      expect(delRes.status).toBe(200);
+      expect(expensesStore).toHaveLength(0);
+    });
+  });
+
+  describe("Budgets Protected Endpoints", () => {
+    const userA = { userId: "user-alpha", email: "alpha@example.com", user: {} as any };
+
+    it("saves and retrieves monthly budget plans with take-home income and category limits", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      const putReq = new Request("http://localhost/api/budgets/2026-10", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({
+          income: 50000,
+          limits: { Food: 15000, Transport: 5000 },
+        }),
+      });
+      const putRes = await handleApiRequest(putReq);
+      expect(putRes.status).toBe(200);
+      const putBody = await putRes.json();
+      expect(putBody.budget.month).toBe("2026-10");
+      expect(putBody.budget.income).toBe(50000);
+      expect(putBody.budget.limits.Food).toBe(15000);
+
+      // Retrieve by month
+      const getReq = new Request("http://localhost/api/budgets?month=2026-10", {
+        method: "GET",
+        headers: { Authorization: "Bearer token" },
+      });
+      const getRes = await handleApiRequest(getReq);
+      expect(getRes.status).toBe(200);
+      const getBody = await getRes.json();
+      expect(getBody.budget.income).toBe(50000);
+      expect(getBody.budget.limits.Food).toBe(15000);
+
+      // Retrieve non-existent month returns default empty structure
+      const getEmptyReq = new Request("http://localhost/api/budgets?month=2026-05", {
+        method: "GET",
+        headers: { Authorization: "Bearer token" },
+      });
+      const getEmptyRes = await handleApiRequest(getEmptyReq);
+      expect(getEmptyRes.status).toBe(200);
+      const getEmptyBody = await getEmptyRes.json();
+      expect(getEmptyBody.budget.month).toBe("2026-05");
+      expect(getEmptyBody.budget.limits).toEqual({});
+    });
+
+    it("rejects invalid month format and negative income with 400", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      const req1 = new Request("http://localhost/api/budgets/bad-month", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ income: 50000, limits: {} }),
+      });
+      expect((await handleApiRequest(req1)).status).toBe(400);
+
+      const req2 = new Request("http://localhost/api/budgets/2026-10", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ income: -100, limits: {} }),
+      });
+      expect((await handleApiRequest(req2)).status).toBe(400);
+    });
+  });
+
+  describe("Categories Protected Endpoints & In-Use Safety", () => {
+    const userA = { userId: "user-alpha", email: "alpha@example.com", user: {} as any };
+
+    it("creates custom categories and prevents duplicate case-insensitive names", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      const postReq1 = new Request("http://localhost/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ name: "Gym & Fitness" }),
+      });
+      const postRes1 = await handleApiRequest(postReq1);
+      expect(postRes1.status).toBe(201);
+      const cat1 = (await postRes1.json()).category;
+      expect(cat1.name).toBe("Gym & Fitness");
+
+      // Attempt duplicate with different casing
+      const postReq2 = new Request("http://localhost/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ name: "gym & fitness" }),
+      });
+      const postRes2 = await handleApiRequest(postReq2);
+      expect(postRes2.status).toBe(409);
+    });
+
+    it("prevents deleting a category in use by active expenses (Requirement 5)", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      // Create category "Freelance"
+      const postCatReq = new Request("http://localhost/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({ id: "cat-freelance", name: "Freelance" }),
+      });
+      await handleApiRequest(postCatReq);
+
+      // Create an expense assigned to "Freelance"
+      const postExpReq = new Request("http://localhost/api/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({
+          id: "exp-client-1",
+          description: "Client hosting",
+          amount: 500,
+          category: "Freelance",
+          date: "2026-10-10",
+        }),
+      });
+      await handleApiRequest(postExpReq);
+
+      // Attempt to DELETE category "Freelance" -> MUST REJECT (cannot orphan past transactions!)
+      const delCatReq = new Request("http://localhost/api/categories/cat-freelance", {
+        method: "DELETE",
+        headers: { Authorization: "Bearer token" },
+      });
+      const delCatRes = await handleApiRequest(delCatReq);
+      expect(delCatRes.status).toBe(400);
+      const delCatErr = await delCatRes.json();
+      expect(delCatErr.error).toContain("Cannot delete category");
+      expect(delCatErr.error).toContain("1 expense transaction(s) are currently assigned");
+
+      // Now delete the expense
+      const delExpReq = new Request("http://localhost/api/expenses/exp-client-1", {
+        method: "DELETE",
+        headers: { Authorization: "Bearer token" },
+      });
+      await handleApiRequest(delExpReq);
+
+      // Deleting category now succeeds!
+      const delCatRes2 = await handleApiRequest(delCatReq);
+      expect(delCatRes2.status).toBe(200);
+      expect(categoriesStore).toHaveLength(0);
+    });
+  });
+
+  describe("User Isolation & IDOR Protection across Expenses & Budgets", () => {
+    const userA = { userId: "user-alpha", email: "alpha@example.com", user: {} as any };
+    const userB = { userId: "user-beta", email: "beta@example.com", user: {} as any };
+
+    it("enforces strict user isolation on expenses and budgets", async () => {
+      // User A creates an expense and budget
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+      await handleApiRequest(
+        new Request("http://localhost/api/expenses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer token-a" },
+          body: JSON.stringify({ id: "exp-a", description: "Alpha Groceries", amount: 1000, category: "Food", date: "2026-10-01" }),
+        }),
+      );
+      await handleApiRequest(
+        new Request("http://localhost/api/budgets/2026-10", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer token-a" },
+          body: JSON.stringify({ income: 80000, limits: { Food: 20000 } }),
+        }),
+      );
+
+      // User B cannot view User A's expenses
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userB);
+      const listReqB = new Request("http://localhost/api/expenses", {
+        method: "GET",
+        headers: { Authorization: "Bearer token-b" },
+      });
+      const listResB = await handleApiRequest(listReqB);
+      expect((await listResB.json()).expenses).toHaveLength(0);
+
+      // User B cannot update User A's expense
+      const putReqB = new Request("http://localhost/api/expenses/exp-a", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token-b" },
+        body: JSON.stringify({ amount: 99999 }),
+      });
+      expect((await handleApiRequest(putReqB)).status).toBe(404);
+
+      // User B cannot delete User A's expense
+      const delExpReqB = new Request("http://localhost/api/expenses/exp-a", {
+        method: "DELETE",
+        headers: { Authorization: "Bearer token-b" },
+      });
+      expect((await handleApiRequest(delExpReqB)).status).toBe(404);
+      expect(expensesStore).toHaveLength(1);
+
+      // User B cannot delete User A's budget
+      const delBudReqB = new Request("http://localhost/api/budgets/2026-10", {
+        method: "DELETE",
+        headers: { Authorization: "Bearer token-b" },
+      });
+      expect((await handleApiRequest(delBudReqB)).status).toBe(404);
+      expect(budgetsStore).toHaveLength(1);
+    });
+  });
+
+  describe("Batch Import Endpoints", () => {
+    const userA = { userId: "user-alpha", email: "alpha@example.com", user: {} as any };
+
+    it("imports offline expense records and budget plans idempotently", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      // Import expenses
+      const importExpReq = new Request("http://localhost/api/expenses/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({
+          expenses: [
+            { id: "imp-1", description: "Import 1", amount: 100, category: "Food", date: "2026-10-01" },
+            { id: "imp-2", description: "Import 2", amount: 200, category: "Transport", date: "2026-10-02" },
+          ],
+        }),
+      });
+      const importExpRes = await handleApiRequest(importExpReq);
+      expect(importExpRes.status).toBe(200);
+      const importExpBody = await importExpRes.json();
+      expect(importExpBody.importedCount).toBe(2);
+
+      // Import budgets
+      const importBudReq = new Request("http://localhost/api/budgets/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({
+          budgets: [
+            { month: "2026-10", income: 50000, limits: { Food: 15000 } },
+            { month: "2026-11", income: 52000, limits: { Food: 16000 } },
+          ],
+        }),
+      });
+      const importBudRes = await handleApiRequest(importBudReq);
+      expect(importBudRes.status).toBe(200);
+      expect((await importBudRes.json()).importedCount).toBe(2);
+    });
+  });
+
+  describe("Investment Response Wrapper Handling (FEAT-004)", () => {
+    const userA = { userId: "user-alpha", email: "alpha@example.com", user: {} as any };
+
+    it("returns investments in { investments: [...] } wrapper format", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      // Create test investment
+      const createReq = new Request("http://localhost/api/investments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer token" },
+        body: JSON.stringify({
+          title: "Test SIP",
+          type: "sip",
+          inputs: { monthly: 5000, rate: 12, years: 10 },
+          results: { total: 1162695 },
+        }),
+      });
+      await handleApiRequest(createReq);
+
+      // Verify GET returns wrapper format
+      const getReq = new Request("http://localhost/api/investments", {
+        method: "GET",
+        headers: { Authorization: "Bearer token" },
+      });
+      const getRes = await handleApiRequest(getReq);
+      expect(getRes.status).toBe(200);
+
+      const body = await getRes.json();
+
+      // CRITICAL: Response MUST be an object with "investments" key, not a bare array
+      expect(body).toHaveProperty("investments");
+      expect(Array.isArray(body.investments)).toBe(true);
+      expect(body.investments).toHaveLength(1);
+      expect(body.investments[0].title).toBe("Test SIP");
+    });
+
+    it("client must extract .investments from response wrapper", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      investmentsStore.push({
+        userId: userA.userId,
+        id: "inv-1",
+        title: "Scenario 1",
+        type: "sip",
+        inputs: {},
+        results: {},
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      const req = new Request("http://localhost/api/investments", {
+        method: "GET",
+        headers: { Authorization: "Bearer token" },
+      });
+      const res = await handleApiRequest(req);
+      const data = await res.json();
+
+      // Simulating client-side extraction
+      const investments = data.investments;
+      expect(Array.isArray(investments)).toBe(true);
+      expect(investments[0].title).toBe("Scenario 1");
+    });
+
+    it("handles empty investments array in wrapper format", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue(userA);
+
+      const req = new Request("http://localhost/api/investments", {
+        method: "GET",
+        headers: { Authorization: "Bearer token" },
+      });
+      const res = await handleApiRequest(req);
+      const data = await res.json();
+
+      expect(data).toHaveProperty("investments");
+      expect(Array.isArray(data.investments)).toBe(true);
+      expect(data.investments).toHaveLength(0);
+    });
+  });
+
+  describe("401 Unauthorized Access Protection (FEAT-004)", () => {
+    it("returns 401 when accessing /api/goals without Authorization header", async () => {
+      const req = new Request("http://localhost/api/goals", {
+        method: "GET",
+      });
+      const res = await handleApiRequest(req);
+
+      expect(res.status).toBe(401);
+      const data = await res.json();
+      expect(data.error).toContain("Authentication token is required");
+    });
+
+    it("returns 401 when creating goal without Authorization header", async () => {
+      const req = new Request("http://localhost/api/goals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Test Goal",
+          target: 10000,
+          startDate: "2026-10-01",
+          endDate: "2027-10-01",
+        }),
+      });
+      const res = await handleApiRequest(req);
+
+      expect(res.status).toBe(401);
+      const data = await res.json();
+      expect(data.error).toBeDefined();
+    });
+
+    it("returns 401 when accessing /api/investments without token", async () => {
+      const req = new Request("http://localhost/api/investments", {
+        method: "GET",
+      });
+      const res = await handleApiRequest(req);
+
+      expect(res.status).toBe(401);
+    });
+
+    it("returns 401 when accessing /api/expenses without token", async () => {
+      const req = new Request("http://localhost/api/expenses", {
+        method: "GET",
+      });
+      const res = await handleApiRequest(req);
+
+      expect(res.status).toBe(401);
+    });
+
+    it("returns 401 with invalid Bearer token format", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockRejectedValue(
+        new serverAuth.AuthError("Invalid authorization format", 401),
+      );
+
+      const req = new Request("http://localhost/api/goals", {
+        method: "GET",
+        headers: { Authorization: "InvalidFormat" },
+      });
+      const res = await handleApiRequest(req);
+
+      expect(res.status).toBe(401);
+    });
+
+    it("returns 401 when token is expired or invalid", async () => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockRejectedValue(
+        new serverAuth.AuthError("Invalid or expired authentication session", 401),
+      );
+
+      const req = new Request("http://localhost/api/goals", {
+        method: "GET",
+        headers: { Authorization: "Bearer expired-or-invalid-token" },
+      });
+      const res = await handleApiRequest(req);
+
+      expect(res.status).toBe(401);
+      const data = await res.json();
+      expect(data.error).toContain("expired");
     });
   });
 });
