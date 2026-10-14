@@ -20650,11 +20650,29 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
             },
           });
           if (!res.ok) {
-            listEl.innerHTML =
-              '<div style="color:var(--danger); text-align:center; padding:16px;">Failed to load saved scenarios.</div>';
+            if (res.status === 401) {
+              listEl.innerHTML =
+                '<div style="color:var(--danger); text-align:center; padding:16px;">Unauthenticated: Please log in again.</div>';
+            } else {
+              listEl.innerHTML =
+                '<div style="color:var(--danger); text-align:center; padding:16px;">Failed to load saved scenarios.</div>';
+            }
             return;
           }
-          const scenarios = await res.json();
+          const data = await res.json();
+
+          // Extract investments from wrapper response
+          let scenarios = [];
+          if (data && Array.isArray(data.investments)) {
+            scenarios = data.investments;
+          } else if (Array.isArray(data)) {
+            scenarios = data;
+          } else {
+            listEl.innerHTML =
+              '<div style="color:var(--danger); text-align:center; padding:16px;">Unexpected response format from server.</div>';
+            return;
+          }
+
           if (!scenarios || scenarios.length === 0) {
             listEl.innerHTML = "";
             if (emptyEl) emptyEl.style.display = "block";
