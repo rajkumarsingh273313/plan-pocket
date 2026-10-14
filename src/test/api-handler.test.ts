@@ -9,6 +9,20 @@ describe("API Handler & Server Endpoints", () => {
   let investmentsStore: any[] = [];
   let cfoScenariosStore: any[] = [];
 
+  function assertNoUpdateConflict(update: any) {
+    if (update?.$set && update?.$setOnInsert) {
+      const setKeys = Object.keys(update.$set);
+      const setOnInsertKeys = Object.keys(update.$setOnInsert);
+      for (const key of setKeys) {
+        if (setOnInsertKeys.includes(key)) {
+          throw new Error(
+            `MongoServerError: Updating the path '${key}' would create a conflict at '${key}'`,
+          );
+        }
+      }
+    }
+  }
+
   const mockGoalsCol = {
     find: (filter: any) => ({
       sort: () => ({
@@ -26,13 +40,14 @@ describe("API Handler & Server Endpoints", () => {
       );
     },
     updateOne: async (filter: any, update: any, options?: any) => {
+      assertNoUpdateConflict(update);
       const idx = goalsStore.findIndex(
         (doc) => doc.userId === filter.userId && doc.id === filter.id,
       );
       if (idx >= 0) {
         goalsStore[idx] = { ...goalsStore[idx], ...update.$set, updatedAt: new Date() };
       } else if (options?.upsert) {
-        goalsStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+        goalsStore.push({ ...update.$setOnInsert, ...update.$set, updatedAt: new Date() });
       }
       return { acknowledged: true };
     },
@@ -62,13 +77,14 @@ describe("API Handler & Server Endpoints", () => {
       );
     },
     updateOne: async (filter: any, update: any, options?: any) => {
+      assertNoUpdateConflict(update);
       const idx = investmentsStore.findIndex(
         (doc) => doc.userId === filter.userId && doc.id === filter.id,
       );
       if (idx >= 0) {
         investmentsStore[idx] = { ...investmentsStore[idx], ...update.$set, updatedAt: new Date() };
       } else if (options?.upsert) {
-        investmentsStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+        investmentsStore.push({ ...update.$setOnInsert, ...update.$set, updatedAt: new Date() });
       }
       return { acknowledged: true };
     },
@@ -98,6 +114,7 @@ describe("API Handler & Server Endpoints", () => {
       );
     },
     updateOne: async (filter: any, update: any, options?: any) => {
+      assertNoUpdateConflict(update);
       const idx = cfoScenariosStore.findIndex(
         (doc) => doc.userId === filter.userId && doc.id === filter.id,
       );
@@ -108,7 +125,7 @@ describe("API Handler & Server Endpoints", () => {
           updatedAt: new Date(),
         };
       } else if (options?.upsert) {
-        cfoScenariosStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+        cfoScenariosStore.push({ ...update.$setOnInsert, ...update.$set, updatedAt: new Date() });
       }
       return { acknowledged: true };
     },
@@ -156,6 +173,7 @@ describe("API Handler & Server Endpoints", () => {
       }).length;
     },
     updateOne: async (filter: any, update: any, options?: any) => {
+      assertNoUpdateConflict(update);
       const idx = expensesStore.findIndex(
         (doc) => doc.userId === filter.userId && doc.id === filter.id,
       );
@@ -166,7 +184,7 @@ describe("API Handler & Server Endpoints", () => {
           updatedAt: new Date(),
         };
       } else if (options?.upsert) {
-        expensesStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+        expensesStore.push({ ...update.$setOnInsert, ...update.$set, updatedAt: new Date() });
       }
       return { acknowledged: true };
     },
@@ -196,6 +214,7 @@ describe("API Handler & Server Endpoints", () => {
       );
     },
     updateOne: async (filter: any, update: any, options?: any) => {
+      assertNoUpdateConflict(update);
       const idx = budgetsStore.findIndex(
         (doc) => doc.userId === filter.userId && doc.month === filter.month,
       );
@@ -206,7 +225,7 @@ describe("API Handler & Server Endpoints", () => {
           updatedAt: new Date(),
         };
       } else if (options?.upsert) {
-        budgetsStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+        budgetsStore.push({ ...update.$setOnInsert, ...update.$set, updatedAt: new Date() });
       }
       return { acknowledged: true };
     },
@@ -240,6 +259,7 @@ describe("API Handler & Server Endpoints", () => {
       );
     },
     updateOne: async (filter: any, update: any, options?: any) => {
+      assertNoUpdateConflict(update);
       const idx = categoriesStore.findIndex(
         (doc) => doc.userId === filter.userId && doc.id === filter.id,
       );
@@ -250,7 +270,7 @@ describe("API Handler & Server Endpoints", () => {
           updatedAt: new Date(),
         };
       } else if (options?.upsert) {
-        categoriesStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
+        categoriesStore.push({ ...update.$setOnInsert, ...update.$set, updatedAt: new Date() });
       }
       return { acknowledged: true };
     },
@@ -1297,6 +1317,395 @@ describe("API Handler & Server Endpoints", () => {
       expect(res.status).toBe(401);
       const data = await res.json();
       expect(data.error).toContain("expired");
+    });
+  });
+
+  describe("MongoDB Upsert Conflict Prevention & createdAt Preservation", () => {
+    beforeEach(() => {
+      vi.spyOn(serverAuth, "verifyAuthToken").mockResolvedValue({
+        userId: "test-user-id",
+        email: "test@example.com",
+        user: {} as any,
+      });
+    });
+
+    it("rejects an update document that sets the same field in both $set and $setOnInsert", async () => {
+      await expect(
+        mockGoalsCol.updateOne(
+          { userId: "u1", id: "g1" },
+          {
+            $set: { name: "Test", createdAt: new Date() },
+            $setOnInsert: { createdAt: new Date() },
+          },
+          { upsert: true },
+        ),
+      ).rejects.toThrow(
+        "MongoServerError: Updating the path 'createdAt' would create a conflict at 'createdAt'",
+      );
+    });
+
+    it("saves and updates goals while preserving original createdAt and excluding it from $set", async () => {
+      const initialDate = new Date("2026-01-01T00:00:00.000Z");
+      // Seed existing goal
+      goalsStore.push({
+        userId: "test-user-id",
+        id: "goal-preserve-1",
+        name: "Old Goal",
+        target: 50000,
+        saved: 10000,
+        initialSaved: 10000,
+        contributions: [],
+        monthly: 5000,
+        startDate: "2026-01-01",
+        endDate: "2026-12-31",
+        durationMonths: 12,
+        createdAt: initialDate,
+        updatedAt: initialDate,
+      });
+
+      const req = new Request("http://localhost/api/goals", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          id: "goal-preserve-1",
+          name: "Updated Goal",
+          target: 60000,
+          initialSaved: 10000,
+          startDate: "2026-01-01",
+          endDate: "2026-12-31",
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(201);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.goal.name).toBe("Updated Goal");
+      expect(new Date(body.goal.createdAt).toISOString()).toBe(initialDate.toISOString());
+
+      // Confirm in store that createdAt was not overwritten
+      const stored = goalsStore.find((g) => g.id === "goal-preserve-1");
+      expect(stored.createdAt.toISOString()).toBe(initialDate.toISOString());
+      expect(stored.name).toBe("Updated Goal");
+    });
+
+    it("imports goals without createdAt conflicts", async () => {
+      const req = new Request("http://localhost/api/goals/import", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          goals: [
+            {
+              id: "import-goal-1",
+              name: "Imported Goal",
+              target: 25000,
+              initialSaved: 5000,
+              startDate: "2026-02-01",
+              endDate: "2026-08-01",
+            },
+          ],
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(200);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.importedCount).toBe(1);
+
+      const stored = goalsStore.find((g) => g.id === "import-goal-1");
+      expect(stored).toBeDefined();
+      expect(stored.createdAt).toBeDefined();
+    });
+
+    it("saves and updates expenses while preserving original createdAt and excluding it from $set", async () => {
+      const initialDate = new Date("2026-01-01T00:00:00.000Z");
+      expensesStore.push({
+        userId: "test-user-id",
+        id: "exp-preserve-1",
+        description: "Old Expense",
+        amount: 1500,
+        amountPaise: 150000,
+        category: "Food",
+        date: "2026-03-01",
+        createdAt: initialDate,
+        updatedAt: initialDate,
+      });
+
+      const req = new Request("http://localhost/api/expenses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          id: "exp-preserve-1",
+          description: "Updated Expense",
+          amount: 2000,
+          category: "Groceries",
+          date: "2026-03-02",
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(201);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.expense.description).toBe("Updated Expense");
+      expect(new Date(body.expense.createdAt).toISOString()).toBe(initialDate.toISOString());
+
+      const stored = expensesStore.find((e) => e.id === "exp-preserve-1");
+      expect(stored.createdAt.toISOString()).toBe(initialDate.toISOString());
+      expect(stored.description).toBe("Updated Expense");
+    });
+
+    it("imports expenses without createdAt conflicts", async () => {
+      const req = new Request("http://localhost/api/expenses/import", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          expenses: [
+            {
+              id: "import-exp-1",
+              description: "Bulk Item",
+              amount: 500,
+              category: "Utilities",
+              date: "2026-04-10",
+            },
+          ],
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(200);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.importedCount).toBe(1);
+
+      const stored = expensesStore.find((e) => e.id === "import-exp-1");
+      expect(stored).toBeDefined();
+      expect(stored.createdAt).toBeDefined();
+    });
+
+    it("saves and updates budgets while preserving original createdAt and excluding it from $set", async () => {
+      const initialDate = new Date("2026-01-01T00:00:00.000Z");
+      budgetsStore.push({
+        userId: "test-user-id",
+        month: "2026-05",
+        income: 80000,
+        incomePaise: 8000000,
+        limits: { Food: 15000 },
+        limitsPaise: { Food: 1500000 },
+        createdAt: initialDate,
+        updatedAt: initialDate,
+      });
+
+      const req = new Request("http://localhost/api/budgets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          month: "2026-05",
+          income: 90000,
+          limits: { Food: 18000, Rent: 25000 },
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(200);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.budget.income).toBe(90000);
+      expect(new Date(body.budget.createdAt).toISOString()).toBe(initialDate.toISOString());
+
+      const stored = budgetsStore.find((b) => b.month === "2026-05");
+      expect(stored.createdAt.toISOString()).toBe(initialDate.toISOString());
+      expect(stored.income).toBe(90000);
+    });
+
+    it("imports budgets without createdAt conflicts", async () => {
+      const req = new Request("http://localhost/api/budgets/import", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          budgets: [
+            {
+              month: "2026-06",
+              income: 75000,
+              limits: { Travel: 10000 },
+            },
+          ],
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(200);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.importedCount).toBe(1);
+
+      const stored = budgetsStore.find((b) => b.month === "2026-06");
+      expect(stored).toBeDefined();
+      expect(stored.createdAt).toBeDefined();
+    });
+
+    it("saves and updates investments while preserving original createdAt and excluding it from $set", async () => {
+      const initialDate = new Date("2026-01-01T00:00:00.000Z");
+      investmentsStore.push({
+        userId: "test-user-id",
+        id: "inv-preserve-1",
+        title: "Old Investment",
+        type: "sip",
+        inputs: { monthly: 5000 },
+        results: {},
+        createdAt: initialDate,
+        updatedAt: initialDate,
+      });
+
+      const req = new Request("http://localhost/api/investments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          id: "inv-preserve-1",
+          title: "Updated Investment",
+          type: "sip",
+          inputs: { monthly: 10000 },
+          results: { total: 1000000 },
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(201);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.investment.title).toBe("Updated Investment");
+      expect(new Date(body.investment.createdAt).toISOString()).toBe(initialDate.toISOString());
+
+      const stored = investmentsStore.find((i) => i.id === "inv-preserve-1");
+      expect(stored.createdAt.toISOString()).toBe(initialDate.toISOString());
+      expect(stored.title).toBe("Updated Investment");
+    });
+
+    it("saves and updates CFO scenarios while preserving original createdAt and excluding it from $set", async () => {
+      const initialDate = new Date("2026-01-01T00:00:00.000Z");
+      cfoScenariosStore.push({
+        userId: "test-user-id",
+        id: "cfo-preserve-1",
+        title: "Old CFO Scenario",
+        type: "hire",
+        modelVersion: "1.0.0",
+        currency: "INR",
+        inputs: {},
+        results: {},
+        createdAt: initialDate,
+        updatedAt: initialDate,
+      });
+
+      const req = new Request("http://localhost/api/cfo-scenarios", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          id: "cfo-preserve-1",
+          title: "Updated CFO Scenario",
+          type: "hire",
+          inputs: { roles: [] },
+          results: { totalCost: 5000000 },
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(201);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.scenario.title).toBe("Updated CFO Scenario");
+      expect(new Date(body.scenario.createdAt).toISOString()).toBe(initialDate.toISOString());
+
+      const stored = cfoScenariosStore.find((c) => c.id === "cfo-preserve-1");
+      expect(stored.createdAt.toISOString()).toBe(initialDate.toISOString());
+      expect(stored.title).toBe("Updated CFO Scenario");
+    });
+
+    it("saves and updates categories while preserving original createdAt and excluding it from $set", async () => {
+      const initialDate = new Date("2026-01-01T00:00:00.000Z");
+      categoriesStore.push({
+        userId: "test-user-id",
+        id: "cat-preserve-1",
+        name: "Old Category",
+        createdAt: initialDate,
+        updatedAt: initialDate,
+      });
+
+      const req = new Request("http://localhost/api/categories", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          id: "cat-preserve-1",
+          name: "Updated Category",
+          color: "#FF5733",
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(201);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.category.name).toBe("Updated Category");
+      expect(new Date(body.category.createdAt).toISOString()).toBe(initialDate.toISOString());
+
+      const stored = categoriesStore.find((c) => c.id === "cat-preserve-1");
+      expect(stored.createdAt.toISOString()).toBe(initialDate.toISOString());
+      expect(stored.name).toBe("Updated Category");
+    });
+
+    it("imports categories without createdAt conflicts", async () => {
+      const req = new Request("http://localhost/api/categories/import", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          categories: [
+            {
+              id: "import-cat-1",
+              name: "Imported Category",
+            },
+          ],
+        }),
+      });
+
+      const res = await handleApiRequest(req);
+      expect(res.status).toBe(200);
+      const body = await res.json();
+      expect(body.success).toBe(true);
+      expect(body.importedCount).toBe(1);
+
+      const stored = categoriesStore.find((c) => c.id === "import-cat-1");
+      expect(stored).toBeDefined();
+      expect(stored.createdAt).toBeDefined();
     });
   });
 });

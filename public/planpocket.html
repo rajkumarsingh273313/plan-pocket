@@ -2653,6 +2653,250 @@
         color: var(--muted);
         font-weight: 600;
       }
+
+      /* CFO Mode Switcher and Quick Start Cards */
+      .cfo-quick-start-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .cfo-quick-start-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      .cfo-qs-btn {
+        flex: 1 1 auto;
+        min-width: 110px;
+        font-size: 0.8rem !important;
+        padding: 7px 12px !important;
+        border-radius: 8px !important;
+        text-align: center;
+        white-space: nowrap;
+      }
+      .cfo-mode-switcher-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 14px;
+        margin-bottom: 18px;
+      }
+      .cfo-mode-badge-title {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .cfo-mode-toggle-group {
+        display: inline-flex;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 3px;
+        gap: 4px;
+      }
+      .cfo-mode-toggle-btn {
+        background: transparent;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.15s ease;
+      }
+      .cfo-mode-toggle-btn:hover {
+        color: var(--text);
+      }
+      .cfo-mode-toggle-btn.active {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+      }
+
+      /* Friendly Chatbot Interface */
+      .cfo-chatbot-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .cfo-chatbot-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+      }
+      .cfo-chatbot-progress-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .cfo-chatbot-progress-bar-bg {
+        width: 120px;
+        height: 6px;
+        background: var(--border);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .cfo-chatbot-progress-bar-fill {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 99px;
+        transition: width 0.25s ease;
+      }
+      .cfo-chatbot-stream {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-height: 480px;
+        overflow-y: auto;
+        padding: 8px 4px 8px 0;
+        scroll-behavior: smooth;
+      }
+      .cfo-chat-msg-row {
+        display: flex;
+        gap: 10px;
+        animation: ppFadeIn 0.2s ease-out;
+      }
+      .cfo-chat-msg-row.assistant {
+        align-items: flex-start;
+      }
+      .cfo-chat-msg-row.user {
+        justify-content: flex-end;
+      }
+      .cfo-chat-bubble {
+        max-width: 85%;
+        border-radius: 14px;
+        padding: 12px 16px;
+        font-size: 0.92rem;
+        line-height: 1.5;
+        position: relative;
+      }
+      .cfo-chat-msg-row.assistant .cfo-chat-bubble {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-top-left-radius: 4px;
+      }
+      .cfo-chat-msg-row.user .cfo-chat-bubble {
+        background: var(--accent-soft);
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        font-weight: 500;
+        border-top-right-radius: 4px;
+      }
+      .cfo-chat-bubble-edit-btn {
+        background: none;
+        border: none;
+        color: var(--accent);
+        font-size: 0.78rem;
+        text-decoration: underline;
+        cursor: pointer;
+        margin-left: 8px;
+        opacity: 0.85;
+      }
+      .cfo-chat-bubble-edit-btn:hover {
+        opacity: 1;
+      }
+      .cfo-chat-quick-choices {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .cfo-choice-chip {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 7px 14px;
+        border-radius: 20px;
+        font-size: 0.84rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .cfo-choice-chip:hover {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+      .cfo-chat-input-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .cfo-chat-input-box {
+        flex: 1;
+        padding: 12px 16px;
+        font-size: 0.92rem;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--bg);
+        color: var(--text);
+        outline: none;
+        transition: border-color 0.15s ease;
+      }
+      .cfo-chat-input-box:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.18);
+      }
+      .cfo-chat-send-btn {
+        width: auto !important;
+        padding: 0 22px !important;
+        border-radius: 12px !important;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, var(--accent2), var(--accent)) !important;
+        color: #fff !important;
+      }
+      .cfo-chat-error-notice {
+        background: rgba(239, 71, 111, 0.12);
+        border: 1px solid var(--danger);
+        color: var(--danger);
+        font-size: 0.84rem;
+        border-radius: 10px;
+        padding: 8px 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .cfo-chatbot-review-box {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+      }
+      .cfo-chatbot-review-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        gap: 12px;
+      }
+      .cfo-chatbot-review-item:last-child {
+        border-bottom: none;
+      }
+
       /* App shell */
       #ppNav {
         display: none;
@@ -18696,7 +18940,8 @@
 
       let cfoChatState = {
         scenarioType: "hire",
-        scenarioName: "New Team Expansion Plan",
+        scenarioName: "Plan a New Hire",
+        entryMode: "chatbot", // 'chatbot' | 'manual'
         step: 0, // 0: Start, 1: Roles, 2: Salaries/Caps, 3: Raises, 4: Timeline, 5: Budget, 6: Supporting, 7: Baseline, 8: Review
         roles: [
           {
@@ -18993,6 +19238,1222 @@
         };
       }
 
+      function escapeHtml(str) {
+        if (str === null || str === undefined) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function escapeJsString(str) {
+        if (str === null || str === undefined) return "";
+        return String(str).replace(/'/g, "\\'").replace(/"/g, '\\"');
+      }
+
+      function parseNaturalNumber(str) {
+        if (typeof str === "number") return isNaN(str) ? null : str;
+        if (!str) return null;
+        const s = String(str).trim().toLowerCase();
+        if (
+          s === "none" ||
+          s === "skip" ||
+          s === "no" ||
+          s === "0" ||
+          s === "₹0" ||
+          s.includes("no extra") ||
+          s.includes("no raise") ||
+          s.includes("no cap") ||
+          s.includes("no new staff") ||
+          s.includes("existing team only")
+        ) {
+          return 0;
+        }
+
+        const cleaned = s
+          .replace(/₹|,|\$|per month|\/mo|\/month|month|person|people/g, "")
+          .trim();
+
+        // Check crore
+        let m = cleaned.match(/^([\d.]+)\s*(cr|crore|crores)$/);
+        if (m) return parseFloat(m[1]) * 10000000;
+
+        // Check lakh
+        m = cleaned.match(/^([\d.]+)\s*(l|lac|lakh|lakhs)$/);
+        if (m) return parseFloat(m[1]) * 100000;
+
+        // Check k / thousand
+        m = cleaned.match(/^([\d.]+)\s*(k|thousand|thousands)$/);
+        if (m) return parseFloat(m[1]) * 1000;
+
+        // Check percentage
+        m = cleaned.match(/^([\d.]+)\s*%?$/);
+        if (m && !isNaN(parseFloat(m[1]))) return parseFloat(m[1]);
+
+        const num = parseFloat(cleaned);
+        return isNaN(num) ? null : num;
+      }
+
+      const CFO_SCENARIO_CONFIGS = {
+        hire: {
+          id: "hire",
+          name: "Plan a New Hire",
+          questions: [
+            {
+              id: "title",
+              text: "What position or role do you want to hire for?",
+              hint: "Enter the role title you are looking to bring onto the team.",
+              placeholder: "e.g. Senior Software Engineer",
+              quickChoices: [
+                "Senior Software Engineer",
+                "Product Designer",
+                "Marketing Manager",
+                "Sales Executive",
+                "Backend Developer",
+              ],
+              validate: (val) => val && String(val).trim().length > 0,
+              errorMessage: "Please enter a role position title (e.g. Senior Software Engineer).",
+              apply: (val, state) => {
+                if (!state.roles || !state.roles.length) {
+                  state.roles = [
+                    {
+                      id: "role-1",
+                      title: String(val).trim(),
+                      headcount: 1,
+                      monthlySalary: 120000,
+                      maxSalaryCap: 135000,
+                    },
+                  ];
+                } else {
+                  state.roles[0].title = String(val).trim();
+                }
+              },
+              formatAnswer: (val, state) => state.roles[0]?.title || String(val || "").trim(),
+            },
+            {
+              id: "headcount",
+              text: "How many people are you planning to hire for this position?",
+              hint: "Enter the number of people for this role.",
+              placeholder: "e.g. 1 or 2",
+              quickChoices: ["1 person", "2 people", "3 people", "5 people"],
+              validate: (val) => {
+                const num = parseInt(val);
+                return !isNaN(num) && num >= 1;
+              },
+              errorMessage: "Please enter a valid headcount (at least 1 person).",
+              apply: (val, state) => {
+                const count = Math.max(1, parseInt(val) || 1);
+                state.roles[0].headcount = count;
+              },
+              formatAnswer: (val, state) => `${state.roles[0]?.headcount || 1} person(s)`,
+            },
+            {
+              id: "monthlySalary",
+              text: "What is the planned monthly salary per person?",
+              hint: "Enter planned monthly salary in ₹ (e.g. ₹1,20,000 or 120000).",
+              placeholder: "e.g. ₹1,20,000",
+              quickChoices: ["₹50,000", "₹80,000", "₹1,20,000", "₹1,50,000", "₹2,00,000"],
+              validate: (val) => {
+                const num = parseNaturalNumber(val);
+                return num !== null && num >= 0;
+              },
+              errorMessage: "Please enter a valid monthly salary (e.g. ₹1,20,000 or 120000).",
+              apply: (val, state) => {
+                state.roles[0].monthlySalary = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.roles[0]?.monthlySalary)}/month`,
+            },
+            {
+              id: "maxSalaryCap",
+              text: "What is the maximum affordable salary cap per person for this position?",
+              hint: "We will flag an alert if planned salary exceeds this cap. Choose Skip if no cap.",
+              placeholder: "e.g. ₹1,35,000 or Skip",
+              quickChoices: [
+                "Skip (No Cap)",
+                "Same as planned salary",
+                "10% above planned",
+                "15% above planned",
+              ],
+              validate: (val) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("skip") || s === "none" || s === "") return true;
+                const num = parseNaturalNumber(val);
+                return num !== null && num >= 0;
+              },
+              errorMessage: "Please enter a valid cap amount (e.g. ₹1,35,000) or choose Skip.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("skip") || s === "none" || s === "") {
+                  delete state.roles[0].maxSalaryCap;
+                } else if (s.includes("same")) {
+                  state.roles[0].maxSalaryCap = state.roles[0].monthlySalary;
+                } else if (s.includes("10%")) {
+                  state.roles[0].maxSalaryCap = Math.round(state.roles[0].monthlySalary * 1.1);
+                } else if (s.includes("15%")) {
+                  state.roles[0].maxSalaryCap = Math.round(state.roles[0].monthlySalary * 1.15);
+                } else {
+                  const cap = parseNaturalNumber(val);
+                  if (cap !== null && cap > 0) state.roles[0].maxSalaryCap = cap;
+                  else delete state.roles[0].maxSalaryCap;
+                }
+              },
+              formatAnswer: (val, state) =>
+                state.roles[0]?.maxSalaryCap
+                  ? `${inrFormat(state.roles[0].maxSalaryCap)}/month`
+                  : "Skipped (No Cap)",
+            },
+            {
+              id: "annualRaise",
+              text: "Will you provide an annual raise after the first 12 months?",
+              hint: "Deterministic rule: Takes effect starting Month 13 after 12 completed months.",
+              placeholder: "e.g. 10% or No raise",
+              quickChoices: [
+                "No raise",
+                "5% annual raise",
+                "10% annual raise",
+                "15% annual raise",
+                "₹10,000 fixed raise",
+              ],
+              validate: (val) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("no") || s === "none" || s === "0") return true;
+                const num = parseNaturalNumber(val);
+                return num !== null && num >= 0;
+              },
+              errorMessage: "Please choose an option or enter a percentage (e.g. 10%) or fixed amount.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("no") || s === "none" || s === "0") {
+                  state.raiseValue = 0;
+                  state.raiseType = "percent";
+                } else if (s.includes("fixed") || s.includes("₹")) {
+                  state.raiseType = "fixed";
+                  state.raiseValue = parseNaturalNumber(val) || 5000;
+                } else {
+                  state.raiseType = "percent";
+                  state.raiseValue = parseNaturalNumber(val) || 10;
+                }
+              },
+              formatAnswer: (val, state) =>
+                state.raiseValue > 0
+                  ? state.raiseType === "percent"
+                    ? `${state.raiseValue}% annual raise`
+                    : `${inrFormat(state.raiseValue)} fixed annual raise`
+                  : "No raise",
+            },
+            {
+              id: "timeline",
+              text: "When will hiring start, and what is your planning horizon?",
+              hint: "Select when employment begins and how long to project.",
+              placeholder: "e.g. Start Month 1, 12 months",
+              quickChoices: [
+                "Start Month 1, 12 months",
+                "Start Month 1, 6 months",
+                "Start Month 2, 12 months",
+                "Start Month 3, 24 months",
+              ],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please select or type a start month and horizon.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("month 2")) state.startMonth = 2;
+                else if (s.includes("month 3")) state.startMonth = 3;
+                else if (s.includes("month 6")) state.startMonth = 6;
+                else state.startMonth = 1;
+
+                if (s.includes("6 month") || s.includes("6m")) state.forecastMonths = 6;
+                else if (s.includes("18 month") || s.includes("18m")) state.forecastMonths = 18;
+                else if (s.includes("24 month") || s.includes("24m") || s.includes("2 year"))
+                  state.forecastMonths = 24;
+                else state.forecastMonths = 12;
+              },
+              formatAnswer: (val, state) =>
+                `Starts Month ${state.startMonth}, ${state.forecastMonths}-month forecast`,
+            },
+            {
+              id: "budget",
+              text: "What is your allocated hiring budget?",
+              hint: "You can specify a monthly payroll cap or a total period budget.",
+              placeholder: "e.g. ₹3,00,000 (Monthly cap)",
+              quickChoices: [
+                "₹2,50,000 (Monthly cap)",
+                "₹3,00,000 (Monthly cap)",
+                "₹36,00,000 (12-mo total)",
+                "Skip budget limit",
+              ],
+              validate: (val) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("skip") || s === "none") return true;
+                const num = parseNaturalNumber(val);
+                return num !== null && num >= 0;
+              },
+              errorMessage: "Please enter a budget amount (e.g. ₹3,00,000) or choose Skip.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("skip") || s === "none") {
+                  state.budgetAmount = 0;
+                } else {
+                  state.budgetAmount = parseNaturalNumber(val) || 0;
+                  state.budgetType = s.includes("total") ? "total_period" : "monthly_cap";
+                }
+              },
+              formatAnswer: (val, state) =>
+                state.budgetAmount > 0
+                  ? `${inrFormat(state.budgetAmount)} (${state.budgetType === "total_period" ? "Total period" : "Monthly cap"})`
+                  : "Skipped (No budget limit)",
+            },
+            {
+              id: "expenses",
+              text: "Any extra monthly marketing or operating expenses needed for this hiring plan?",
+              hint: "Enter extra monthly costs (e.g. software, onboarding), or ₹0.",
+              placeholder: "e.g. ₹0 or ₹25k marketing, ₹50k opex",
+              quickChoices: [
+                "No extra expenses (₹0)",
+                "₹25k Marketing + ₹50k OpEx",
+                "₹25,000 Marketing only",
+                "₹50,000 OpEx only",
+              ],
+              validate: (val) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("no") || s === "0" || s === "none") return true;
+                return parseNaturalNumber(val) !== null;
+              },
+              errorMessage: "Please select an option or enter an amount (e.g. 0 or ₹25,000).",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("no") || s === "0" || s === "none") {
+                  state.monthlyMarketingSpend = 0;
+                  state.monthlyOperatingExpenses = 0;
+                } else if (s.includes("25k") && s.includes("50k")) {
+                  state.monthlyMarketingSpend = 25000;
+                  state.monthlyOperatingExpenses = 50000;
+                } else if (s.includes("marketing")) {
+                  state.monthlyMarketingSpend = parseNaturalNumber(val) || 25000;
+                  state.monthlyOperatingExpenses = 0;
+                } else if (s.includes("opex") || s.includes("operating")) {
+                  state.monthlyOperatingExpenses = parseNaturalNumber(val) || 50000;
+                  state.monthlyMarketingSpend = 0;
+                } else {
+                  state.monthlyOperatingExpenses = parseNaturalNumber(val) || 0;
+                }
+              },
+              formatAnswer: (val, state) =>
+                `Marketing: ${inrFormat(state.monthlyMarketingSpend)}/mo, OpEx: ${inrFormat(state.monthlyOperatingExpenses)}/mo`,
+            },
+            {
+              id: "baseline",
+              text: "Would you like to add your current business details (cash reserves, monthly revenue, existing payroll)?",
+              hint: "This lets us calculate cash runway and break-even point. If skipped, those metrics are omitted cleanly.",
+              placeholder: "Choose Yes or No",
+              quickChoices: ["Yes, add business details", "No, skip baseline details"],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please choose whether to include business details or skip.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                state.hasBaseline = !(s.includes("no") || s.includes("skip"));
+              },
+              formatAnswer: (val, state) =>
+                state.hasBaseline ? "Included" : "Skipped (Runway omitted)",
+            },
+            {
+              id: "baselineCash",
+              condition: (state) => state.hasBaseline,
+              text: "What are your current available cash reserves (₹)?",
+              hint: "Enter your starting bank / cash balance.",
+              placeholder: "e.g. ₹12,00,000",
+              quickChoices: ["₹5,00,000", "₹10,00,000", "₹12,00,000", "₹25,00,000", "₹50,00,000"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) >= 0,
+              errorMessage: "Please enter a valid cash reserves amount (e.g. ₹12,00,000 or 1200000).",
+              apply: (val, state) => {
+                state.startingCash = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => inrFormat(state.startingCash),
+            },
+            {
+              id: "baselineRevenue",
+              condition: (state) => state.hasBaseline,
+              text: "What is your baseline monthly revenue and expected monthly growth rate?",
+              hint: "e.g. ₹2,50,000/mo with 5% monthly compounding growth.",
+              placeholder: "e.g. ₹2,50,000/mo (+5% growth)",
+              quickChoices: [
+                "₹2,50,000/mo (+5% growth)",
+                "₹5,00,000/mo (+10% growth)",
+                "₹1,00,000/mo (+0% growth)",
+                "₹0 (Pre-revenue)",
+              ],
+              validate: (val) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("pre-revenue") || s === "0") return true;
+                return parseNaturalNumber(val) !== null;
+              },
+              errorMessage: "Please choose an option or enter revenue details (e.g. ₹2,50,000).",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("pre-revenue") || s === "0") {
+                  state.monthlyRevenue = 0;
+                  state.revenueGrowthRate = 0;
+                } else {
+                  state.monthlyRevenue = parseNaturalNumber(val) || 250000;
+                  if (s.includes("10%")) state.revenueGrowthRate = 10;
+                  else if (s.includes("5%")) state.revenueGrowthRate = 5;
+                  else if (s.includes("0%")) state.revenueGrowthRate = 0;
+                  else state.revenueGrowthRate = 5;
+                }
+              },
+              formatAnswer: (val, state) =>
+                `${inrFormat(state.monthlyRevenue)}/month (+${state.revenueGrowthRate}%/mo growth)`,
+            },
+            {
+              id: "baselinePayroll",
+              condition: (state) => state.hasBaseline,
+              text: "What is your current existing monthly team payroll (before this new hire)?",
+              hint: "Enter existing monthly team payroll, or ₹0 if this is your first hire.",
+              placeholder: "e.g. ₹1,80,000 or 0",
+              quickChoices: ["₹0 (First hire)", "₹1,00,000/mo", "₹1,80,000/mo", "₹3,00,000/mo"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) >= 0,
+              errorMessage: "Please enter an amount (e.g. ₹1,80,000 or 0).",
+              apply: (val, state) => {
+                state.existingPayroll = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.existingPayroll)}/month`,
+            },
+          ],
+        },
+        marketing: {
+          id: "marketing",
+          name: "Plan Marketing Spend",
+          questions: [
+            {
+              id: "promoteGoal",
+              text: "What are you planning to promote with this marketing campaign?",
+              hint: "Tell me the product, campaign, or initiative you want to expand.",
+              placeholder: "e.g. Product Launch Campaign",
+              quickChoices: [
+                "Product Launch Campaign",
+                "Customer Acquisition Drive",
+                "Brand Awareness Campaign",
+                "Q4 Holiday Special Promotion",
+              ],
+              validate: (val) => val && String(val).trim().length > 0,
+              errorMessage: "Please enter what you are planning to promote.",
+              apply: (val, state) => {
+                state.scenarioName = String(val).trim();
+              },
+              formatAnswer: (val, state) => state.scenarioName || String(val || "").trim(),
+            },
+            {
+              id: "marketingBudget",
+              text: "What is your planned monthly marketing budget?",
+              hint: "Enter spend allocated to advertising, promotions, and acquisition per month.",
+              placeholder: "e.g. ₹50,000/mo",
+              quickChoices: ["₹25,000/mo", "₹50,000/mo", "₹1,00,000/mo", "₹2,00,000/mo"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) >= 0,
+              errorMessage: "Please enter a valid marketing spend amount (e.g. ₹50,000 or 50000).",
+              apply: (val, state) => {
+                state.monthlyMarketingSpend = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.monthlyMarketingSpend)}/month`,
+            },
+            {
+              id: "marketingTimeline",
+              text: "When should the marketing plan start, and how many months should we plan for?",
+              hint: "Select start month and campaign forecast horizon.",
+              placeholder: "e.g. Start Month 1, 12 months",
+              quickChoices: [
+                "Start Month 1, 6 months",
+                "Start Month 1, 12 months",
+                "Start Month 2, 6 months",
+                "Start Month 3, 12 months",
+              ],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please select when the plan starts and duration.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("month 2")) state.startMonth = 2;
+                else if (s.includes("month 3")) state.startMonth = 3;
+                else state.startMonth = 1;
+
+                if (s.includes("6 month") || s.includes("6m")) state.forecastMonths = 6;
+                else if (s.includes("18 month") || s.includes("18m")) state.forecastMonths = 18;
+                else if (s.includes("24 month") || s.includes("24m") || s.includes("2 year"))
+                  state.forecastMonths = 24;
+                else state.forecastMonths = 12;
+              },
+              formatAnswer: (val, state) =>
+                `Starts Month ${state.startMonth}, ${state.forecastMonths}-month forecast`,
+            },
+            {
+              id: "marketingStaff",
+              text: "Will you hire or assign dedicated marketing staff for this campaign?",
+              hint: "You can include dedicated roles or continue with existing staff.",
+              placeholder: "e.g. 1 Growth Marketing Manager or Existing team",
+              quickChoices: [
+                "1 Growth Marketing Manager (₹75k/mo)",
+                "No new staff (Existing team only)",
+                "1 Social Media Specialist (₹40k/mo)",
+              ],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please select an option or specify role details.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("no") || s.includes("existing")) {
+                  state.roles = [
+                    {
+                      id: "role-1",
+                      title: "Marketing Campaign (No New Staff)",
+                      headcount: 1,
+                      monthlySalary: 0,
+                      maxSalaryCap: 0,
+                    },
+                  ];
+                } else if (s.includes("social")) {
+                  state.roles = [
+                    {
+                      id: "role-1",
+                      title: "Social Media Specialist",
+                      headcount: 1,
+                      monthlySalary: 40000,
+                      maxSalaryCap: 45000,
+                    },
+                  ];
+                } else {
+                  state.roles = [
+                    {
+                      id: "role-1",
+                      title: "Growth Marketing Manager",
+                      headcount: 1,
+                      monthlySalary: 75000,
+                      maxSalaryCap: 85000,
+                    },
+                  ];
+                }
+              },
+              formatAnswer: (val, state) =>
+                state.roles[0]?.monthlySalary > 0
+                  ? `${state.roles[0].headcount}x ${state.roles[0].title} (${inrFormat(state.roles[0].monthlySalary)}/mo)`
+                  : "No new staff (Existing team only)",
+            },
+            {
+              id: "operatingExpenses",
+              text: "Any extra monthly marketing tools or operating expenses (ad platforms, CRM, creative assets)?",
+              hint: "Enter monthly operating overhead or ₹0.",
+              placeholder: "e.g. ₹25,000/mo or 0",
+              quickChoices: ["₹0 (None)", "₹15,000/mo", "₹25,000/mo", "₹50,000/mo"],
+              validate: (val) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("none") || s === "0") return true;
+                return parseNaturalNumber(val) !== null;
+              },
+              errorMessage: "Please enter an amount or select ₹0 (None).",
+              apply: (val, state) => {
+                state.monthlyOperatingExpenses = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.monthlyOperatingExpenses)}/month`,
+            },
+            {
+              id: "marketingBudgetCap",
+              text: "What is your overall budget limit for this marketing initiative?",
+              hint: "We will check whether total campaign costs fit within this cap.",
+              placeholder: "e.g. ₹1,50,000 (Monthly cap)",
+              quickChoices: [
+                "₹1,00,000 (Monthly cap)",
+                "₹1,50,000 (Monthly cap)",
+                "₹12,00,000 (Total period)",
+                "Skip budget limit",
+              ],
+              validate: (val) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("skip") || s === "none") return true;
+                return parseNaturalNumber(val) !== null;
+              },
+              errorMessage: "Please enter an amount or choose Skip.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("skip") || s === "none") {
+                  state.budgetAmount = 0;
+                } else {
+                  state.budgetAmount = parseNaturalNumber(val) || 0;
+                  state.budgetType = s.includes("total") ? "total_period" : "monthly_cap";
+                }
+              },
+              formatAnswer: (val, state) =>
+                state.budgetAmount > 0
+                  ? `${inrFormat(state.budgetAmount)} (${state.budgetType === "total_period" ? "Total period" : "Monthly cap"})`
+                  : "Skipped (No budget limit)",
+            },
+            {
+              id: "baseline",
+              text: "Would you like to include your current business revenue and cash reserves?",
+              hint: "Allows modeling revenue growth, cash runway, and break-even point from marketing.",
+              placeholder: "Choose Yes or No",
+              quickChoices: ["Yes, include business details", "No, skip baseline details"],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please select an option.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                state.hasBaseline = !(s.includes("no") || s.includes("skip"));
+              },
+              formatAnswer: (val, state) =>
+                state.hasBaseline ? "Included" : "Skipped (Runway omitted)",
+            },
+            {
+              id: "baselineCash",
+              condition: (state) => state.hasBaseline,
+              text: "What are your current available cash reserves (₹)?",
+              hint: "Enter your starting bank/reserve balance.",
+              placeholder: "e.g. ₹10,00,000",
+              quickChoices: ["₹5,00,000", "₹10,00,000", "₹15,00,000", "₹25,00,000"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) >= 0,
+              errorMessage: "Please enter a valid cash reserve amount (e.g. ₹10,00,000).",
+              apply: (val, state) => {
+                state.startingCash = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => inrFormat(state.startingCash),
+            },
+            {
+              id: "baselineRevenue",
+              condition: (state) => state.hasBaseline,
+              text: "What is your baseline monthly revenue and expected monthly growth rate from this campaign?",
+              hint: "e.g. ₹2,00,000/mo with 12% monthly compounding revenue growth.",
+              placeholder: "e.g. ₹2,00,000/mo (+12% growth)",
+              quickChoices: [
+                "₹2,00,000/mo (+12% growth)",
+                "₹5,00,000/mo (+15% growth)",
+                "₹1,00,000/mo (+8% growth)",
+                "₹0 (Pre-revenue)",
+              ],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please choose an option or enter revenue details.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("pre-revenue") || s === "0") {
+                  state.monthlyRevenue = 0;
+                  state.revenueGrowthRate = 0;
+                } else {
+                  state.monthlyRevenue = parseNaturalNumber(val) || 200000;
+                  if (s.includes("15%")) state.revenueGrowthRate = 15;
+                  else if (s.includes("12%")) state.revenueGrowthRate = 12;
+                  else if (s.includes("8%")) state.revenueGrowthRate = 8;
+                  else state.revenueGrowthRate = 10;
+                }
+              },
+              formatAnswer: (val, state) =>
+                `${inrFormat(state.monthlyRevenue)}/month (+${state.revenueGrowthRate}%/mo growth)`,
+            },
+            {
+              id: "baselinePayroll",
+              condition: (state) => state.hasBaseline,
+              text: "What is your existing monthly team payroll cost (₹/month)?",
+              hint: "Enter your existing payroll expense, or ₹0 if solo founder.",
+              placeholder: "e.g. ₹1,50,000 or 0",
+              quickChoices: ["₹0 (Solo founder)", "₹1,00,000/mo", "₹1,50,000/mo", "₹2,50,000/mo"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) >= 0,
+              errorMessage: "Please enter an amount (e.g. ₹1,50,000 or 0).",
+              apply: (val, state) => {
+                state.existingPayroll = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.existingPayroll)}/month`,
+            },
+          ],
+        },
+        budget: {
+          id: "budget",
+          name: "Review Monthly Budget",
+          questions: [
+            {
+              id: "budgetCap",
+              text: "What is your target monthly operating budget cap?",
+              hint: "Enter the maximum expenditure you want your monthly operations to fit within.",
+              placeholder: "e.g. ₹2,50,000/mo",
+              quickChoices: ["₹1,50,000/mo", "₹2,50,000/mo", "₹3,50,000/mo", "₹5,00,000/mo"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) > 0,
+              errorMessage: "Please enter a valid monthly budget amount (e.g. ₹2,50,000).",
+              apply: (val, state) => {
+                state.budgetAmount = parseNaturalNumber(val) || 250000;
+                state.budgetType = "monthly_cap";
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.budgetAmount)}/month`,
+            },
+            {
+              id: "teamSalary",
+              text: "What is your total monthly team salary cost?",
+              hint: "Enter current or planned monthly team payroll.",
+              placeholder: "e.g. ₹70,000/mo",
+              quickChoices: ["₹50,000/mo", "₹70,000/mo", "₹1,20,000/mo", "₹1,80,000/mo"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) >= 0,
+              errorMessage: "Please enter monthly team salary (e.g. ₹70,000 or 70000).",
+              apply: (val, state) => {
+                const sal = parseNaturalNumber(val) || 0;
+                state.roles = [
+                  {
+                    id: "role-1",
+                    title: "Team Operations",
+                    headcount: 1,
+                    monthlySalary: sal,
+                    maxSalaryCap: sal,
+                  },
+                ];
+                state.existingPayroll = sal;
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.roles[0]?.monthlySalary || 0)}/month`,
+            },
+            {
+              id: "marketingExpenses",
+              text: "Any monthly marketing or advertising expenses in your budget?",
+              hint: "Enter monthly marketing spend, or ₹0 if none.",
+              placeholder: "e.g. ₹25,000/mo or 0",
+              quickChoices: ["₹0 (None)", "₹15,000/mo", "₹25,000/mo", "₹50,000/mo"],
+              validate: (val) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("none") || s === "0") return true;
+                return parseNaturalNumber(val) !== null;
+              },
+              errorMessage: "Please enter an amount (e.g. ₹25,000 or 0).",
+              apply: (val, state) => {
+                state.monthlyMarketingSpend = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.monthlyMarketingSpend)}/month`,
+            },
+            {
+              id: "operatingExpenses",
+              text: "What are your other recurring monthly operating expenses (rent, utilities, software SaaS)?",
+              hint: "Enter recurring operational overhead per month.",
+              placeholder: "e.g. ₹35,000/mo or 0",
+              quickChoices: ["₹10,000/mo", "₹25,000/mo", "₹35,000/mo", "₹50,000/mo"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) >= 0,
+              errorMessage: "Please enter an amount (e.g. ₹35,000 or 0).",
+              apply: (val, state) => {
+                state.monthlyOperatingExpenses = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => `${inrFormat(state.monthlyOperatingExpenses)}/month`,
+            },
+            {
+              id: "duration",
+              text: "How long should we review and project this monthly budget for?",
+              hint: "Choose your forecast duration.",
+              placeholder: "e.g. 12 Months",
+              quickChoices: ["6 Months", "12 Months (1 Year)", "18 Months", "24 Months (2 Years)"],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please select a duration.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("6 month") || s.includes("6m")) state.forecastMonths = 6;
+                else if (s.includes("18 month") || s.includes("18m")) state.forecastMonths = 18;
+                else if (s.includes("24 month") || s.includes("24m") || s.includes("2 year"))
+                  state.forecastMonths = 24;
+                else state.forecastMonths = 12;
+                state.startMonth = 1;
+              },
+              formatAnswer: (val, state) => `${state.forecastMonths} months`,
+            },
+            {
+              id: "baseline",
+              text: "Would you like to include your current revenue and cash reserves?",
+              hint: "This lets us verify cash runway, net burn, and operational profitability.",
+              placeholder: "Choose Yes or No",
+              quickChoices: ["Yes, include revenue & cash", "No, skip revenue & cash (costs only)"],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please choose whether to include revenue & cash or skip.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                state.hasBaseline = !(s.includes("no") || s.includes("skip"));
+              },
+              formatAnswer: (val, state) =>
+                state.hasBaseline ? "Included" : "Skipped (Runway omitted)",
+            },
+            {
+              id: "baselineCash",
+              condition: (state) => state.hasBaseline,
+              text: "What are your current available cash reserves (₹)?",
+              hint: "Enter your starting cash reserves in bank.",
+              placeholder: "e.g. ₹8,00,000",
+              quickChoices: ["₹3,00,000", "₹5,00,000", "₹8,00,000", "₹15,00,000"],
+              validate: (val) => parseNaturalNumber(val) !== null && parseNaturalNumber(val) >= 0,
+              errorMessage: "Please enter an amount (e.g. ₹8,00,000).",
+              apply: (val, state) => {
+                state.startingCash = parseNaturalNumber(val) || 0;
+              },
+              formatAnswer: (val, state) => inrFormat(state.startingCash),
+            },
+            {
+              id: "baselineRevenue",
+              condition: (state) => state.hasBaseline,
+              text: "What is your current monthly revenue (₹/month) and expected growth rate?",
+              hint: "Enter monthly incoming revenue.",
+              placeholder: "e.g. ₹1,80,000/mo (+5% growth)",
+              quickChoices: [
+                "₹1,80,000/mo (+5% growth)",
+                "₹2,50,000/mo (+10% growth)",
+                "₹1,00,000/mo (+0% growth)",
+                "₹0 (Pre-revenue)",
+              ],
+              validate: (val) => Boolean(val),
+              errorMessage: "Please select or enter revenue details.",
+              apply: (val, state) => {
+                const s = String(val).toLowerCase();
+                if (s.includes("pre-revenue") || s === "0") {
+                  state.monthlyRevenue = 0;
+                  state.revenueGrowthRate = 0;
+                } else {
+                  state.monthlyRevenue = parseNaturalNumber(val) || 180000;
+                  if (s.includes("10%")) state.revenueGrowthRate = 10;
+                  else if (s.includes("5%")) state.revenueGrowthRate = 5;
+                  else if (s.includes("0%")) state.revenueGrowthRate = 0;
+                  else state.revenueGrowthRate = 5;
+                }
+              },
+              formatAnswer: (val, state) =>
+                `${inrFormat(state.monthlyRevenue)}/month (+${state.revenueGrowthRate}%/mo growth)`,
+            },
+          ],
+        },
+      };
+
+      let cfoChatbotState = {
+        questionIndex: 0,
+        reviewMode: false,
+        errorMessage: null,
+      };
+
+      function getActiveCFOQuestions(scenarioType) {
+        const cfg = CFO_SCENARIO_CONFIGS[scenarioType] || CFO_SCENARIO_CONFIGS.hire;
+        return cfg.questions.filter((q) => !q.condition || q.condition(cfoChatState));
+      }
+
+      function submitCFOChatbotInput(val) {
+        let rawVal = val;
+        if (rawVal === undefined || rawVal === null) {
+          const inputEl = document.getElementById("cfoChatbotInput");
+          rawVal = inputEl ? inputEl.value : "";
+        }
+        rawVal = String(rawVal).trim();
+
+        // 1. If at step 0 (Unified Chatbot Scenario Selection)
+        if (cfoChatState.step === 0) {
+          if (!rawVal) return;
+          const s = rawVal.toLowerCase();
+          if (s.includes("market") || s.includes("ad") || s.includes("promot") || s.includes("campaign") || s.includes("growth")) {
+            selectCFOQuickStart("marketing", "chatbot");
+          } else if (s.includes("budget") || s.includes("burn") || s.includes("review") || s.includes("operating") || s.includes("runway")) {
+            selectCFOQuickStart("budget", "chatbot");
+          } else {
+            selectCFOQuickStart("hire", "chatbot");
+            // If they entered a specific role title directly
+            if (!s.includes("hire") && !s.includes("new hire") && rawVal.length > 2) {
+              cfoChatState.roles[0].title = rawVal;
+              cfoChatbotState.questionIndex = 1; // already set role title
+            }
+          }
+          renderCFOHelperAssistant();
+          return;
+        }
+
+        const activeQuestions = getActiveCFOQuestions(cfoChatState.scenarioType);
+        if (!activeQuestions || activeQuestions.length === 0) return;
+
+        const qIndex = Math.min(cfoChatbotState.questionIndex, activeQuestions.length - 1);
+        const currentQ = activeQuestions[qIndex];
+
+        if (!rawVal && currentQ.placeholder && currentQ.placeholder.toLowerCase().includes("skip")) {
+          rawVal = "Skip";
+        }
+
+        if (!currentQ.validate(rawVal)) {
+          cfoChatbotState.errorMessage = currentQ.errorMessage || "Please enter a valid answer.";
+          renderCFOHelperAssistant();
+          return;
+        }
+
+        cfoChatbotState.errorMessage = null;
+        currentQ.apply(rawVal, cfoChatState);
+
+        const updatedActive = getActiveCFOQuestions(cfoChatState.scenarioType);
+
+        if (cfoChatbotState.reviewMode) {
+          renderCFOHelperAssistant();
+          return;
+        }
+
+        if (qIndex + 1 < updatedActive.length) {
+          cfoChatbotState.questionIndex = qIndex + 1;
+        } else {
+          cfoChatbotState.reviewMode = true;
+        }
+        renderCFOHelperAssistant();
+      }
+
+      function prevCFOChatbotQuestion() {
+        cfoChatbotState.errorMessage = null;
+        const activeQuestions = getActiveCFOQuestions(cfoChatState.scenarioType);
+        if (cfoChatbotState.reviewMode) {
+          cfoChatbotState.reviewMode = false;
+          cfoChatbotState.questionIndex = Math.max(0, activeQuestions.length - 1);
+        } else if (cfoChatbotState.questionIndex > 0) {
+          cfoChatbotState.questionIndex--;
+        }
+        renderCFOHelperAssistant();
+      }
+
+      function editCFOChatbotQuestion(questionId) {
+        cfoChatbotState.errorMessage = null;
+        const activeQuestions = getActiveCFOQuestions(cfoChatState.scenarioType);
+        const idx = activeQuestions.findIndex((q) => q.id === questionId);
+        if (idx >= 0) {
+          cfoChatbotState.questionIndex = idx;
+          cfoChatbotState.reviewMode = false;
+        }
+        renderCFOHelperAssistant();
+      }
+
+      function cancelCFOChatbot() {
+        resetCFOHelperAssistant();
+      }
+
+      function switchCFOEntryMode(mode) {
+        cfoChatState.entryMode = mode;
+        cfoChatbotState.errorMessage = null;
+        if (mode === "manual") {
+          if (cfoChatbotState.reviewMode) {
+            cfoChatState.step = 8;
+          } else if (cfoChatState.step === 0) {
+            cfoChatState.step = 1;
+          }
+        } else if (mode === "chatbot") {
+          if (cfoChatState.step === 8) {
+            cfoChatbotState.reviewMode = true;
+          }
+        }
+        renderCFOHelperAssistant();
+      }
+
+      function renderCFOChatbotUI(container) {
+        if (!container) return;
+
+        // 1. Initial State: Topic Selection directly in the unified chatbot
+        if (cfoChatState.step === 0) {
+          let html = `
+            <div class="cfo-mode-switcher-bar">
+              <div class="cfo-mode-badge-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>CFO Financial Planning Assistant</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <div class="cfo-mode-toggle-group" role="tablist">
+                  <button type="button" class="cfo-mode-toggle-btn active" onclick="switchCFOEntryMode('chatbot')" role="tab">
+                    💬 Unified Chatbot
+                  </button>
+                  <button type="button" class="cfo-mode-toggle-btn" onclick="switchCFOEntryMode('manual')" role="tab">
+                    📝 Manual Form
+                  </button>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="loadCFOSampleScenario()" style="width:auto; padding:6px 14px; font-size:0.82rem;">
+                  Fill Sample Values
+                </button>
+              </div>
+            </div>
+
+            <div class="cfo-chatbot-panel">
+              <div class="cfo-chatbot-stream" id="cfoChatbotStream">
+                <div class="cfo-chat-msg-row assistant">
+                  <div class="cfo-bubble-avatar">CFO</div>
+                  <div class="cfo-chat-bubble">
+                    <strong>Hi! I'm your CFO Financial Planning Assistant.</strong>
+                    <div style="font-size:0.88rem; color:var(--muted); margin-top:4px; line-height:1.5;">
+                      I can help you model and stress-test your business decisions with transparent mathematical calculations.
+                      What business decision would you like to plan today?
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin: 4px 0 8px 42px;">
+                  <div class="cfo-quick-start-card" onclick="selectCFOQuickStart('hire', 'chatbot')" style="margin:0; cursor:pointer; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); transition:all 0.15s ease;">
+                    <div style="font-weight:700; font-size:0.95rem; color:var(--accent); margin-bottom:4px;">👥 Plan a New Hire</div>
+                    <div style="font-size:0.82rem; color:var(--muted); line-height:1.4;">Headcount, roles, monthly salaries, affordable caps, and annual raises.</div>
+                  </div>
+                  <div class="cfo-quick-start-card" onclick="selectCFOQuickStart('marketing', 'chatbot')" style="margin:0; cursor:pointer; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); transition:all 0.15s ease;">
+                    <div style="font-weight:700; font-size:0.95rem; color:var(--accent); margin-bottom:4px;">📈 Plan Marketing Spend</div>
+                    <div style="font-size:0.82rem; color:var(--muted); line-height:1.4;">Campaign budget expansion, acquisition spend, dedicated staff, and revenue growth.</div>
+                  </div>
+                  <div class="cfo-quick-start-card" onclick="selectCFOQuickStart('budget', 'chatbot')" style="margin:0; cursor:pointer; padding:14px; border-radius:12px; border:1px solid var(--border); background:var(--card); transition:all 0.15s ease;">
+                    <div style="font-weight:700; font-size:0.95rem; color:var(--accent); margin-bottom:4px;">💼 Review Monthly Budget</div>
+                    <div style="font-size:0.82rem; color:var(--muted); line-height:1.4;">Operational spend, team payroll, and recurring costs against your budget cap.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Choice Options -->
+              <div style="margin-top:2px;">
+                <div style="font-size:0.8rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;">
+                  Suggested Topics (or type below):
+                </div>
+                <div class="cfo-chat-quick-choices">
+                  <button type="button" class="cfo-choice-chip" onclick="submitCFOChatbotInput('Plan a new hire')">
+                    👥 Plan a New Hire
+                  </button>
+                  <button type="button" class="cfo-choice-chip" onclick="submitCFOChatbotInput('Plan marketing spend')">
+                    📈 Plan Marketing Spend
+                  </button>
+                  <button type="button" class="cfo-choice-chip" onclick="submitCFOChatbotInput('Review monthly budget')">
+                    💼 Review Monthly Budget
+                  </button>
+                </div>
+              </div>
+
+              <!-- Input Row -->
+              <form onsubmit="event.preventDefault(); submitCFOChatbotInput();" style="margin: 6px 0 0;">
+                <div class="cfo-chat-input-row">
+                  <input
+                    type="text"
+                    id="cfoChatbotInput"
+                    class="cfo-chat-input-box"
+                    placeholder="Type your goal (e.g. 'Hire a Senior Engineer', 'Marketing Campaign', 'Review Monthly Budget')..."
+                    autocomplete="off"
+                  />
+                  <button type="submit" class="btn cfo-chat-send-btn">
+                    Send
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="22" y1="2" x2="11" y2="13"/>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                  </button>
+                </div>
+              </form>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--muted); margin-top:4px;">
+                <span>Click a topic card or type naturally to start chatting</span>
+                <button type="button" onclick="switchCFOEntryMode('manual')" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:0.78rem; text-decoration:underline;">
+                  Switch to Manual Form
+                </button>
+              </div>
+            </div>
+          `;
+          container.innerHTML = html;
+          const inputEl = document.getElementById("cfoChatbotInput");
+          if (inputEl) inputEl.focus();
+          return;
+        }
+
+        // 2. Ongoing Scenario
+        const scenarioCfg = CFO_SCENARIO_CONFIGS[cfoChatState.scenarioType] || CFO_SCENARIO_CONFIGS.hire;
+        const activeQuestions = getActiveCFOQuestions(cfoChatState.scenarioType);
+        const qIndex = Math.min(cfoChatbotState.questionIndex, activeQuestions.length - 1);
+        const currentQ = activeQuestions[qIndex];
+        const progressPercent = Math.round(((qIndex) / Math.max(1, activeQuestions.length)) * 100);
+
+        let html = "";
+
+        // Sticky Mode Switcher Bar
+        html += `
+          <div class="cfo-mode-switcher-bar">
+            <div class="cfo-mode-badge-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <span>Planning: <strong>${escapeHtml(scenarioCfg.name)}</strong></span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary" onclick="resetCFOHelperAssistant()" style="width:auto; padding:5px 12px; font-size:0.8rem;" title="Choose another scenario">
+                ↺ Change Topic
+              </button>
+              <div class="cfo-mode-toggle-group" role="tablist">
+                <button type="button" class="cfo-mode-toggle-btn active" onclick="switchCFOEntryMode('chatbot')" role="tab">
+                  💬 Unified Chatbot
+                </button>
+                <button type="button" class="cfo-mode-toggle-btn" onclick="switchCFOEntryMode('manual')" role="tab">
+                  📝 Manual Form
+                </button>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="cancelCFOChatbot()" style="width:auto; padding:5px 12px; font-size:0.8rem;">
+                &times; Cancel
+              </button>
+            </div>
+          </div>
+        `;
+
+        html += '<div class="cfo-chatbot-panel">';
+
+        if (cfoChatbotState.reviewMode) {
+          // REVIEW SCREEN
+          html += `
+            <div class="cfo-chatbot-nav">
+              <div>
+                <span class="cfo-step-pill">Review Your Details</span>
+                <div style="font-size:0.88rem; color:var(--muted); margin-top:4px;">
+                  Verify your answers below before calculating the financial impact.
+                </div>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="prevCFOChatbotQuestion()" style="width:auto; padding:6px 14px; font-size:0.82rem;">
+                &larr; Back to Questions
+              </button>
+            </div>
+
+            <div class="cfo-chatbot-review-box">
+              <div style="font-weight:700; font-size:1.05rem; margin-bottom:14px; color:var(--text); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <span>${escapeHtml(scenarioCfg.name)} Summary</span>
+                <span style="font-size:0.8rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:3px 10px; border-radius:6px;">All Answers Collected</span>
+              </div>
+              <div class="cfo-chatbot-review-list">
+          `;
+
+          activeQuestions.forEach((q) => {
+            const displayVal = q.formatAnswer ? q.formatAnswer(null, cfoChatState) : "Completed";
+            html += `
+              <div class="cfo-chatbot-review-item">
+                <div style="flex:1;">
+                  <div style="font-size:0.82rem; color:var(--muted);">${escapeHtml(q.text)}</div>
+                  <div style="font-weight:600; font-size:0.95rem; color:var(--text); margin-top:2px;">${escapeHtml(displayVal)}</div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="editCFOChatbotQuestion('${q.id}')" style="width:auto; padding:4px 12px; font-size:0.8rem; color:var(--accent); border-color:var(--accent);">
+                  Edit
+                </button>
+              </div>
+            `;
+          });
+
+          html += `
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:10px;">
+              <button type="button" class="btn btn-secondary" onclick="editCFOChatbotQuestion('${activeQuestions[0]?.id || "title"}')" style="width:auto; padding:10px 18px;">
+                &larr; Edit Answers
+              </button>
+              <button type="button" class="btn" onclick="runCFOScenarioCalculation()" style="width:auto; padding:12px 28px; font-weight:700; font-size:1rem; background:linear-gradient(135deg, var(--accent2), var(--accent));">
+                ⚡ Calculate Financial Impact &rarr;
+              </button>
+            </div>
+          `;
+        } else {
+          // QUESTION MODE
+          html += `
+            <div class="cfo-chatbot-nav">
+              <div class="cfo-chatbot-progress-wrap">
+                <span class="cfo-step-pill">
+                  Question ${qIndex + 1} of ${activeQuestions.length}
+                </span>
+                <div class="cfo-chatbot-progress-bar-bg" title="${progressPercent}% Completed">
+                  <div class="cfo-chatbot-progress-bar-fill" style="width: ${progressPercent}%;"></div>
+                </div>
+                <span style="font-size:0.8rem; color:var(--muted); font-weight:500;">${progressPercent}%</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                ${qIndex > 0 ? `<button type="button" class="btn btn-secondary" onclick="prevCFOChatbotQuestion()" style="width:auto; padding:6px 14px; font-size:0.82rem;">&larr; Back</button>` : ""}
+              </div>
+            </div>
+
+            <div class="cfo-chatbot-stream" id="cfoChatbotStream">
+              <!-- Initial opening message from Unified Chatbot -->
+              <div class="cfo-chat-msg-row assistant">
+                <div class="cfo-bubble-avatar">CFO</div>
+                <div class="cfo-chat-bubble">
+                  <strong>Hi! What business decision would you like to plan today?</strong>
+                </div>
+              </div>
+              <div class="cfo-chat-msg-row user">
+                <div class="cfo-chat-bubble">
+                  <span>${escapeHtml(scenarioCfg.name)}</span>
+                  <button type="button" class="cfo-chat-bubble-edit-btn" onclick="resetCFOHelperAssistant()" title="Change topic">Change</button>
+                </div>
+              </div>
+          `;
+
+          // Completed previous questions
+          for (let i = 0; i < qIndex; i++) {
+            const pastQ = activeQuestions[i];
+            const answerText = pastQ.formatAnswer ? pastQ.formatAnswer(null, cfoChatState) : "Completed";
+            html += `
+              <div class="cfo-chat-msg-row assistant">
+                <div class="cfo-bubble-avatar">CFO</div>
+                <div class="cfo-chat-bubble">
+                  ${escapeHtml(pastQ.text)}
+                </div>
+              </div>
+              <div class="cfo-chat-msg-row user">
+                <div class="cfo-chat-bubble">
+                  <span>${escapeHtml(answerText)}</span>
+                  <button type="button" class="cfo-chat-bubble-edit-btn" onclick="editCFOChatbotQuestion('${pastQ.id}')" title="Edit this answer">Edit</button>
+                </div>
+              </div>
+            `;
+          }
+
+          // Active question bubble
+          html += `
+              <div class="cfo-chat-msg-row assistant">
+                <div class="cfo-bubble-avatar">CFO</div>
+                <div class="cfo-chat-bubble" style="border: 2px solid var(--accent); background:var(--card);">
+                  <div style="font-weight:700; font-size:1rem; color:var(--text); margin-bottom:4px;">
+                    ${escapeHtml(currentQ?.text || "")}
+                  </div>
+                  ${currentQ?.hint ? `<div style="font-size:0.84rem; color:var(--muted); line-height:1.4;">${escapeHtml(currentQ.hint)}</div>` : ""}
+                  ${cfoChatbotState.errorMessage ? `
+                    <div class="cfo-chat-error-notice">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                      <span>${escapeHtml(cfoChatbotState.errorMessage)}</span>
+                    </div>
+                  ` : ""}
+                </div>
+              </div>
+            </div> <!-- End cfo-chatbot-stream -->
+
+            <!-- Quick Choice Options -->
+            ${currentQ?.quickChoices && currentQ.quickChoices.length > 0 ? `
+              <div style="margin-top:4px;">
+                <div style="font-size:0.8rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;">
+                  Suggested Options (or type below):
+                </div>
+                <div class="cfo-chat-quick-choices">
+                  ${currentQ.quickChoices.map(choice => `
+                    <button type="button" class="cfo-choice-chip" onclick="submitCFOChatbotInput('${escapeJsString(choice)}')">
+                      ${escapeHtml(choice)}
+                    </button>
+                  `).join("")}
+                </div>
+              </div>
+            ` : ""}
+
+            <!-- Input Box -->
+            <form onsubmit="event.preventDefault(); submitCFOChatbotInput();" style="margin: 6px 0 0;">
+              <div class="cfo-chat-input-row">
+                <input
+                  type="text"
+                  id="cfoChatbotInput"
+                  class="cfo-chat-input-box"
+                  placeholder="${escapeHtml(currentQ?.placeholder || 'Type your answer (e.g. ₹50,000, 50k, 2 people)...')}"
+                  autocomplete="off"
+                />
+                <button type="submit" class="btn cfo-chat-send-btn">
+                  Send
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--muted); margin-top:4px;">
+              <span>Supports natural text like <em>₹50,000</em>, <em>50k</em>, <em>1.5L</em>, or <em>Skip</em></span>
+              <button type="button" onclick="switchCFOEntryMode('manual')" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:0.78rem; text-decoration:underline;">
+                Switch to Manual Form
+              </button>
+            </div>
+          `;
+        }
+
+        html += '</div>'; // End cfo-chatbot-panel
+        container.innerHTML = html;
+
+        // Auto-scroll stream to bottom
+        const streamEl = document.getElementById("cfoChatbotStream");
+        if (streamEl) {
+          streamEl.scrollTop = streamEl.scrollHeight;
+        }
+        // Focus input
+        const inputEl = document.getElementById("cfoChatbotInput");
+        if (inputEl) {
+          inputEl.focus();
+        }
+      }
+
       // Step Rendering Controller
       function renderCFOHelperAssistant() {
         const container = document.getElementById("cfoAssistantContainer");
@@ -19011,7 +20472,39 @@
 
         if (!container) return;
 
+        // If in chatbot mode, render the unified single chatbot UI (handles both step 0 welcome & active scenario)
+        if (cfoChatState.entryMode === "chatbot") {
+          renderCFOChatbotUI(container);
+          return;
+        }
+
         let html = "";
+
+        // If a scenario is in progress and in manual mode, render the sticky mode switcher bar
+        if (cfoChatState.step > 0) {
+          const scenarioCfg = CFO_SCENARIO_CONFIGS[cfoChatState.scenarioType] || CFO_SCENARIO_CONFIGS.hire;
+          html += `
+            <div class="cfo-mode-switcher-bar" style="margin-bottom:16px;">
+              <div class="cfo-mode-badge-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>Scenario: <strong>${escapeHtml(scenarioCfg.name)}</strong></span>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <div class="cfo-mode-toggle-group" role="tablist">
+                  <button type="button" class="cfo-mode-toggle-btn" onclick="switchCFOEntryMode('chatbot')" role="tab">
+                    💬 Chatbot Entry
+                  </button>
+                  <button type="button" class="cfo-mode-toggle-btn active" onclick="switchCFOEntryMode('manual')" role="tab">
+                    📝 Manual Entry
+                  </button>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="cancelCFOChatbot()" style="width:auto; padding:6px 12px; font-size:0.82rem;">
+                  &times; Cancel
+                </button>
+              </div>
+            </div>
+          `;
+        }
 
         // Chat Stream: Past answered steps
         html += '<div class="cfo-chat-stream" id="cfoChatStream">';
@@ -19140,19 +20633,49 @@
               Fill Sample Values
             </button>
           </div>
-          <p style="font-size:0.95rem; margin-bottom:14px; color:var(--text);">Select a guided quick start to begin your financial scenario:</p>
+          <p style="font-size:0.95rem; margin-bottom:14px; color:var(--text);">Select a financial scenario and choose whether to enter details via <strong>Chatbot</strong> or <strong>Manual Form</strong>:</p>
           <div class="cfo-quick-starts-grid">
-            <div class="cfo-quick-start-card" onclick="selectCFOQuickStart('hire')">
-              <div style="font-weight:700; font-size:1rem; margin-bottom:4px; color:var(--accent);">Plan a new hire</div>
-              <div style="font-size:0.84rem; color:var(--muted);">Model headcount, roles, monthly salaries, affordable caps, and annual raises.</div>
+            <div class="cfo-quick-start-card" style="display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;" onclick="selectCFOQuickStart('hire', 'chatbot')">
+              <div>
+                <div style="font-weight:700; font-size:1rem; margin-bottom:4px; color:var(--accent);">Plan a new hire</div>
+                <div style="font-size:0.84rem; color:var(--muted); margin-bottom:14px;">Model headcount, roles, monthly salaries, affordable caps, and annual raises.</div>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:8px;" onclick="event.stopPropagation()">
+                <button type="button" class="btn" onclick="selectCFOQuickStart('hire', 'chatbot')" style="flex:1; padding:8px 10px; font-size:0.82rem; background:var(--accent); color:#fff; display:inline-flex; align-items:center; justify-content:center; gap:4px;">
+                  💬 Chatbot Entry
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="selectCFOQuickStart('hire', 'manual')" style="flex:1; padding:8px 10px; font-size:0.82rem; display:inline-flex; align-items:center; justify-content:center; gap:4px;">
+                  📝 Manual Entry
+                </button>
+              </div>
             </div>
-            <div class="cfo-quick-start-card" onclick="selectCFOQuickStart('marketing')">
-              <div style="font-weight:700; font-size:1rem; margin-bottom:4px; color:var(--accent);">Plan marketing spend</div>
-              <div style="font-size:0.84rem; color:var(--muted);">Model marketing budget expansion, customer acquisition spend, and support staff.</div>
+            <div class="cfo-quick-start-card" style="display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;" onclick="selectCFOQuickStart('marketing', 'chatbot')">
+              <div>
+                <div style="font-weight:700; font-size:1rem; margin-bottom:4px; color:var(--accent);">Plan marketing spend</div>
+                <div style="font-size:0.84rem; color:var(--muted); margin-bottom:14px;">Model marketing budget expansion, customer acquisition spend, and support staff.</div>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:8px;" onclick="event.stopPropagation()">
+                <button type="button" class="btn" onclick="selectCFOQuickStart('marketing', 'chatbot')" style="flex:1; padding:8px 10px; font-size:0.82rem; background:var(--accent); color:#fff; display:inline-flex; align-items:center; justify-content:center; gap:4px;">
+                  💬 Chatbot Entry
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="selectCFOQuickStart('marketing', 'manual')" style="flex:1; padding:8px 10px; font-size:0.82rem; display:inline-flex; align-items:center; justify-content:center; gap:4px;">
+                  📝 Manual Entry
+                </button>
+              </div>
             </div>
-            <div class="cfo-quick-start-card" onclick="selectCFOQuickStart('budget')">
-              <div style="font-weight:700; font-size:1rem; margin-bottom:4px; color:var(--accent);">Review monthly budget</div>
-              <div style="font-size:0.84rem; color:var(--muted);">Compare new team expansion against monthly budget caps and baseline burn.</div>
+            <div class="cfo-quick-start-card" style="display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;" onclick="selectCFOQuickStart('budget', 'chatbot')">
+              <div>
+                <div style="font-weight:700; font-size:1rem; margin-bottom:4px; color:var(--accent);">Review monthly budget</div>
+                <div style="font-size:0.84rem; color:var(--muted); margin-bottom:14px;">Compare new team expansion against monthly budget caps and baseline burn.</div>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:8px;" onclick="event.stopPropagation()">
+                <button type="button" class="btn" onclick="selectCFOQuickStart('budget', 'chatbot')" style="flex:1; padding:8px 10px; font-size:0.82rem; background:var(--accent); color:#fff; display:inline-flex; align-items:center; justify-content:center; gap:4px;">
+                  💬 Chatbot Entry
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="selectCFOQuickStart('budget', 'manual')" style="flex:1; padding:8px 10px; font-size:0.82rem; display:inline-flex; align-items:center; justify-content:center; gap:4px;">
+                  📝 Manual Entry
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -19498,8 +21021,12 @@
         container.innerHTML = html;
       }
 
-      function selectCFOQuickStart(type) {
+      function selectCFOQuickStart(type, mode = "chatbot") {
+        cfoChatState.entryMode = mode;
         cfoChatState.scenarioType = type;
+        cfoChatbotState.questionIndex = 0;
+        cfoChatbotState.reviewMode = false;
+        cfoChatbotState.errorMessage = null;
         if (type === "hire") {
           cfoChatState.scenarioName = "Hiring Expansion Scenario";
           cfoChatState.roles = [
@@ -19605,7 +21132,11 @@
       }
 
       function resetCFOHelperAssistant() {
+        cfoChatbotState.questionIndex = 0;
+        cfoChatbotState.reviewMode = false;
+        cfoChatbotState.errorMessage = null;
         cfoChatState = {
+          entryMode: "chatbot",
           scenarioType: "hire",
           scenarioName: "New Team Expansion Plan",
           step: 0,
@@ -19640,7 +21171,11 @@
       }
 
       function loadCFOSampleScenario(autoRun = false) {
+        cfoChatbotState.questionIndex = 0;
+        cfoChatbotState.reviewMode = true;
+        cfoChatbotState.errorMessage = null;
         cfoChatState = {
+          entryMode: "manual",
           scenarioType: "hire",
           scenarioName: "Q4 Product Expansion Plan",
           step: 8,

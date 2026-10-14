@@ -236,11 +236,15 @@ export async function handleApiRequest(request: Request): Promise<Response> {
       };
 
       const goalsCol = await getGoalsCollection();
+      const existing = await goalsCol.findOne({ userId, id });
+      const finalCreatedAt = existing?.createdAt || now;
+      const { createdAt, ...mutableGoal } = goalDoc;
+
       await goalsCol.updateOne(
         { userId, id },
         {
           $set: {
-            ...goalDoc,
+            ...mutableGoal,
             updatedAt: now,
           },
           $setOnInsert: {
@@ -250,7 +254,10 @@ export async function handleApiRequest(request: Request): Promise<Response> {
         { upsert: true },
       );
 
-      return jsonResponse({ success: true, goal: sanitizeGoal(goalDoc) }, 201);
+      return jsonResponse(
+        { success: true, goal: sanitizeGoal({ ...goalDoc, createdAt: finalCreatedAt }) },
+        201,
+      );
     }
 
     // POST /api/goals/import: Batch idempotent migration from localStorage
@@ -308,10 +315,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
           updatedAt: now,
         };
 
+        const { createdAt, ...mutableGoal } = goalDoc;
         await goalsCol.updateOne(
           { userId, id },
           {
-            $set: { ...goalDoc, updatedAt: now },
+            $set: { ...mutableGoal, updatedAt: now },
             $setOnInsert: { createdAt: now },
           },
           { upsert: true },
@@ -545,16 +553,23 @@ export async function handleApiRequest(request: Request): Promise<Response> {
       };
 
       const invCol = await getInvestmentsCollection();
+      const existing = await invCol.findOne({ userId, id });
+      const finalCreatedAt = existing?.createdAt || now;
+      const { createdAt, ...mutableInv } = invDoc;
+
       await invCol.updateOne(
         { userId, id },
         {
-          $set: { ...invDoc, updatedAt: now },
+          $set: { ...mutableInv, updatedAt: now },
           $setOnInsert: { createdAt: now },
         },
         { upsert: true },
       );
 
-      return jsonResponse({ success: true, investment: sanitizeInvestment(invDoc) }, 201);
+      return jsonResponse(
+        { success: true, investment: sanitizeInvestment({ ...invDoc, createdAt: finalCreatedAt }) },
+        201,
+      );
     }
 
     // DELETE /api/investments/:id: Delete an investment scenario
@@ -618,16 +633,23 @@ export async function handleApiRequest(request: Request): Promise<Response> {
       };
 
       const cfoCol = await getCFOScenariosCollection();
+      const existing = await cfoCol.findOne({ userId, id });
+      const finalCreatedAt = existing?.createdAt || now;
+      const { createdAt, ...mutableCfo } = cfoDoc;
+
       await cfoCol.updateOne(
         { userId, id },
         {
-          $set: { ...cfoDoc, updatedAt: now },
+          $set: { ...mutableCfo, updatedAt: now },
           $setOnInsert: { createdAt: now },
         },
         { upsert: true },
       );
 
-      return jsonResponse({ success: true, scenario: sanitizeCFOScenario(cfoDoc) }, 201);
+      return jsonResponse(
+        { success: true, scenario: sanitizeCFOScenario({ ...cfoDoc, createdAt: finalCreatedAt }) },
+        201,
+      );
     }
 
     // GET /api/cfo-scenarios/:id: Retrieve a single CFO scenario
@@ -728,16 +750,23 @@ export async function handleApiRequest(request: Request): Promise<Response> {
       };
 
       const expensesCol = await getExpensesCollection();
+      const existing = await expensesCol.findOne({ userId, id });
+      const finalCreatedAt = existing?.createdAt || now;
+      const { createdAt, ...mutableExpense } = expenseDoc;
+
       await expensesCol.updateOne(
         { userId, id },
         {
-          $set: { ...expenseDoc, updatedAt: now },
+          $set: { ...mutableExpense, updatedAt: now },
           $setOnInsert: { createdAt: now },
         },
         { upsert: true },
       );
 
-      return jsonResponse({ success: true, expense: sanitizeExpense(expenseDoc) }, 201);
+      return jsonResponse(
+        { success: true, expense: sanitizeExpense({ ...expenseDoc, createdAt: finalCreatedAt }) },
+        201,
+      );
     }
 
     // POST /api/expenses/import: Batch import expenses
@@ -778,10 +807,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
           updatedAt: now,
         };
 
+        const { createdAt, ...mutableExpense } = doc;
         await expensesCol.updateOne(
           { userId, id },
           {
-            $set: { ...doc, updatedAt: now },
+            $set: { ...mutableExpense, updatedAt: now },
             $setOnInsert: { createdAt: now },
           },
           { upsert: true },
@@ -950,16 +980,23 @@ export async function handleApiRequest(request: Request): Promise<Response> {
       };
 
       const budgetsCol = await getBudgetsCollection();
+      const existing = await budgetsCol.findOne({ userId, month });
+      const finalCreatedAt = existing?.createdAt || now;
+      const { createdAt, ...mutableBudget } = budgetDoc;
+
       await budgetsCol.updateOne(
         { userId, month },
         {
-          $set: { ...budgetDoc, updatedAt: now },
+          $set: { ...mutableBudget, updatedAt: now },
           $setOnInsert: { createdAt: now },
         },
         { upsert: true },
       );
 
-      return jsonResponse({ success: true, budget: sanitizeBudget(budgetDoc) });
+      return jsonResponse({
+        success: true,
+        budget: sanitizeBudget({ ...budgetDoc, createdAt: finalCreatedAt }),
+      });
     }
 
     // DELETE /api/budgets/:month: Delete a monthly budget plan
@@ -1033,10 +1070,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
           updatedAt: now,
         };
 
+        const { createdAt, ...mutableBudget } = doc;
         await budgetsCol.updateOne(
           { userId, month },
           {
-            $set: { ...doc, updatedAt: now },
+            $set: { ...mutableBudget, updatedAt: now },
             $setOnInsert: { createdAt: now },
           },
           { upsert: true },
@@ -1094,16 +1132,23 @@ export async function handleApiRequest(request: Request): Promise<Response> {
         updatedAt: now,
       };
 
+      const existingCat = await categoriesCol.findOne({ userId, id });
+      const finalCreatedAt = existingCat?.createdAt || now;
+      const { createdAt, ...mutableCategory } = catDoc;
+
       await categoriesCol.updateOne(
         { userId, id },
         {
-          $set: { ...catDoc, updatedAt: now },
+          $set: { ...mutableCategory, updatedAt: now },
           $setOnInsert: { createdAt: now },
         },
         { upsert: true },
       );
 
-      return jsonResponse({ success: true, category: sanitizeCategory(catDoc) }, 201);
+      return jsonResponse(
+        { success: true, category: sanitizeCategory({ ...catDoc, createdAt: finalCreatedAt }) },
+        201,
+      );
     }
 
     // DELETE /api/categories/:id: Delete a custom category with in-use safety check
@@ -1161,10 +1206,11 @@ export async function handleApiRequest(request: Request): Promise<Response> {
           updatedAt: now,
         };
 
+        const { createdAt, ...mutableCategory } = doc;
         await categoriesCol.updateOne(
           { userId, id },
           {
-            $set: { ...doc, updatedAt: now },
+            $set: { ...mutableCategory, updatedAt: now },
             $setOnInsert: { createdAt: now },
           },
           { upsert: true },

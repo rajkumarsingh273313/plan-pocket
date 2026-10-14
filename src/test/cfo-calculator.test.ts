@@ -351,6 +351,110 @@ describe("CFO Calculator (Deterministic No-AI Planning)", () => {
     });
   });
 
+  describe("CFO Helper Agent 3 Scenario Flows (Chatbot & Manual Mapping)", () => {
+    it("Scenario 1: Plan a New Hire calculates payroll, caps, budget, and raises", () => {
+      const inputs: CFOScenarioInputs = {
+        scenarioType: "hire",
+        forecastMonths: 12,
+        roles: [
+          {
+            id: "role-1",
+            title: "Senior Software Engineer",
+            headcount: 2,
+            monthlySalaryPerPerson: 120000,
+            maxAffordableSalaryPerPerson: 135000,
+            raiseType: "percent",
+            raiseValue: 10,
+            startMonth: 1,
+          },
+        ],
+        budgetAmount: 300000,
+        budgetType: "monthly_cap",
+        monthlyMarketingSpend: 25000,
+        monthlyOperatingExpenses: 50000,
+        currentCashReserves: 1200000,
+        baselineMonthlyRevenue: 250000,
+        existingMonthlyPayroll: 180000,
+        revenueGrowthRate: 5,
+      };
+
+      const result = calculateCFOScenario(inputs);
+      expect(result.totalHeadcount).toBe(2);
+      expect(result.initialMonthlyNewPayroll).toBe(240000); // 2 * 120k
+      expect(result.salaryCapAlerts).toHaveLength(0); // 120k < 135k
+      expect(result.budgetComparison).toBeDefined();
+      expect(result.budgetComparison?.isOverBudget).toBe(false); // 240k < 300k monthly cap
+      expect(result.budgetComparison?.remaining).toBe(60000);
+      expect(result.projections).toHaveLength(12);
+      expect(result.projections[0]!.newPayroll).toBe(240000);
+      expect(result.projections[0]!.marketing).toBe(25000);
+      expect(result.projections[0]!.operatingExpenses).toBe(50000);
+    });
+
+    it("Scenario 2: Plan Marketing Spend calculates campaign outflow and growth", () => {
+      const inputs: CFOScenarioInputs = {
+        scenarioType: "marketing",
+        forecastMonths: 12,
+        roles: [
+          {
+            id: "role-1",
+            title: "Growth Marketing Manager",
+            headcount: 1,
+            monthlySalaryPerPerson: 75000,
+            maxAffordableSalaryPerPerson: 85000,
+            startMonth: 1,
+          },
+        ],
+        monthlyMarketingSpend: 50000,
+        monthlyOperatingExpenses: 25000,
+        budgetAmount: 150000,
+        budgetType: "monthly_cap",
+        currentCashReserves: 1000000,
+        baselineMonthlyRevenue: 200000,
+        existingMonthlyPayroll: 0,
+        revenueGrowthRate: 12,
+      };
+
+      const result = calculateCFOScenario(inputs);
+      expect(result.initialMonthlyNewPayroll).toBe(75000);
+      expect(result.projections[0]!.totalCosts).toBe(150000); // 75k payroll + 50k marketing + 25k opex
+      expect(result.budgetComparison?.isOverBudget).toBe(false); // 75k payroll within 150k monthly cap
+      expect(result.budgetComparison?.remaining).toBe(75000);
+      expect(result.cashRunwayMonths).toBeDefined();
+    });
+
+    it("Scenario 3: Review Monthly Budget evaluates operations against budget cap", () => {
+      const inputs: CFOScenarioInputs = {
+        scenarioType: "budget",
+        forecastMonths: 12,
+        roles: [
+          {
+            id: "role-1",
+            title: "Team Operations",
+            headcount: 1,
+            monthlySalaryPerPerson: 70000,
+            startMonth: 1,
+          },
+        ],
+        monthlyMarketingSpend: 25000,
+        monthlyOperatingExpenses: 35000,
+        budgetAmount: 250000,
+        budgetType: "monthly_cap",
+        currentCashReserves: 800000,
+        baselineMonthlyRevenue: 180000,
+        existingMonthlyPayroll: 70000,
+        revenueGrowthRate: 0,
+      };
+
+      const result = calculateCFOScenario(inputs);
+      // Total monthly outflow: 70k (new) + 70k (existing) + 25k (marketing) + 35k (opex) = 200,000
+      expect(result.projections[0]!.totalCosts).toBe(200000);
+      expect(result.budgetComparison?.isOverBudget).toBe(false); // 70k payroll within 250k cap
+      expect(result.budgetComparison?.remaining).toBe(180000);
+      expect(result.month1Revenue).toBe(180000);
+    });
+  });
+
   describe("Utility Formatting", () => {
     it("formats Indian rupees correctly", () => {
       expect(formatINR(100000)).toMatch(/₹\s*1,00,000/);
