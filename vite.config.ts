@@ -9,6 +9,8 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig({
   nitro: {
     preset: "vercel",
+    // tr46 (via mongodb) does require("punycode/"); unenv's alias turns it into an invalid path.
+    alias: { "punycode/": "punycode/punycode.js" },
   },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
