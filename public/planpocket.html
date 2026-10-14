@@ -352,6 +352,18 @@
         display: none !important;
       }
 
+      .sr-only {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
+      }
+
       .back-link {
         text-align: center;
         margin-top: 20px;
@@ -858,6 +870,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- PlanPocket Budget & Expenses Engine -->
+    <script src="/lib/budget-expenses.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
@@ -1098,25 +1112,67 @@
       /* ══════════════════════════════════════════════════════════════════════════
        OVERVIEW / DASHBOARD ACCESSIBLE TYPOGRAPHY & RESPONSIVE LAYOUT
        ══════════════════════════════════════════════════════════════════════════ */
+      /* ── Animation Keyframes & Performance ── */
+      @keyframes ppDashFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes ppPulseDot {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 1;
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 0.85;
+          box-shadow: 0 0 0 5px rgba(16, 185, 129, 0);
+        }
+      }
+
       #dashboardPage {
         width: 100%;
         min-height: 100vh;
         background: var(--bg);
       }
       #dashboardPage .container {
-        max-width: 1160px;
+        max-width: 1180px;
         width: 100%;
         margin: 0 auto;
-        padding: 24px 20px 48px;
+        padding: 28px 24px 56px;
         display: flex;
         flex-direction: column;
-        gap: 24px;
+        gap: 26px;
       }
       @media (max-width: 768px) {
         #dashboardPage .container {
-          padding: 18px 14px 40px;
-          gap: 20px;
+          padding: 20px 16px 44px;
+          gap: 22px;
         }
+      }
+
+      /* Staggered Entrance Animations */
+      #dashboardPage:not(.hidden) .dashboard-header {
+        animation: ppDashFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      #dashboardPage:not(.hidden) .activity-summary {
+        animation: ppDashFadeIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+      }
+      #dashboardPage:not(.hidden) .overview-section:nth-of-type(1) {
+        animation: ppDashFadeIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+      }
+      #dashboardPage:not(.hidden) .overview-section:nth-of-type(2) {
+        animation: ppDashFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+      }
+      #dashboardPage:not(.hidden) .overview-section:nth-of-type(3) {
+        animation: ppDashFadeIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
       }
 
       /* Dashboard Header */
@@ -1124,7 +1180,7 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
         margin-bottom: 2px;
         text-align: left;
       }
@@ -1133,49 +1189,234 @@
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 14px;
         width: 100%;
       }
+      .dashboard-title-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
       .dashboard-title {
-        font-size: 1.85rem;
-        font-weight: 750;
+        font-size: 1.95rem;
+        font-weight: 800;
         color: var(--text);
-        letter-spacing: -0.02em;
+        letter-spacing: -0.025em;
         line-height: 1.2;
-        margin: 0 0 4px 0;
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .dashboard-title-badge {
+        font-size: 0.72rem;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 3px 9px;
+        border-radius: 6px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: 1px solid rgba(13, 122, 112, 0.2);
+        vertical-align: middle;
       }
       #dashboardPage .tagline {
-        font-size: 0.98rem;
-        color: var(--muted);
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--text);
         margin: 0;
-        font-weight: 500;
-        line-height: 1.45;
+        line-height: 1.4;
         max-width: none;
         text-align: left;
+        letter-spacing: -0.015em;
       }
+      
+      /* Profile Icon Button & Popover */
+      .profile-icon-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0d7a70, #0f8f83);
+        color: #ffffff;
+        border: 2px solid rgba(13, 148, 136, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 750;
+        font-size: 0.95rem;
+        letter-spacing: -0.02em;
+        box-shadow: 0 2px 6px rgba(13, 122, 112, 0.25);
+        cursor: pointer;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+        position: relative;
+      }
+      .profile-icon-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(13, 122, 112, 0.35);
+      }
+      .profile-icon-btn:active {
+        transform: scale(0.96);
+      }
+      .profile-icon-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .profile-icon-initial {
+        line-height: 1;
+      }
+      .profile-popover {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        width: 280px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14), 0 3px 8px rgba(0, 0, 0, 0.05);
+        padding: 18px;
+        z-index: 1000;
+        animation: ppProfileFadeIn 0.18s ease-out;
+      }
+      .profile-popover.hidden {
+        display: none;
+      }
+      @keyframes ppProfileFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .profile-popover-title {
+        font-size: 1rem;
+        font-weight: 750;
+        color: var(--text);
+        margin: 0 0 14px 0;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .profile-popover-content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .profile-popover-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .profile-popover-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .profile-popover-value {
+        font-size: 0.9rem;
+        color: var(--text);
+        font-weight: 600;
+        word-break: break-word;
+      }
+      .profile-popover-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 999px;
+        width: fit-content;
+      }
+      .profile-popover-badge.verified {
+        background: #ecfdf5;
+        color: #047857;
+        border: 1px solid #a7f3d0;
+      }
+      .profile-popover-badge.unverified {
+        background: var(--bg);
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+      .dashboard-header-top {
+        position: relative;
+      }
+      
       .pp-logout-btn {
         width: auto !important;
         padding: 8px 18px !important;
-        font-size: 0.9rem !important;
-        font-weight: 600 !important;
+        font-size: 0.88rem !important;
+        font-weight: 650 !important;
         min-height: 38px !important;
-        margin-top: 0 !important;
-        align-self: center;
+        border-radius: 10px !important;
+        border: 1px solid var(--border) !important;
+        background: var(--card) !important;
+        color: var(--text) !important;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      }
+      .pp-logout-btn:hover {
+        background: var(--bg) !important;
+        border-color: #cbd5e1 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      }
+      .pp-logout-btn:active {
+        transform: scale(0.98);
       }
 
-      /* Authenticated User Identity Strip */
+      /* Executive User Identity Bar */
       .demo-dashboard-identity {
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
         width: 100%;
-        padding: 10px 16px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
+        padding: 12px 18px;
+        background: linear-gradient(135deg, var(--card) 0%, rgba(240, 253, 250, 0.7) 100%);
+        border: 1px solid rgba(13, 148, 136, 0.2);
+        border-radius: 14px;
+        box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.04), 0 1px 3px 0 rgba(0,0,0,0.02);
+        backdrop-filter: blur(8px);
+        transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      }
+      .demo-dashboard-identity:hover {
+        border-color: rgba(13, 148, 136, 0.35);
+        box-shadow: 0 6px 18px -3px rgba(13, 148, 136, 0.08);
+      }
+      .identity-user-details {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .user-avatar-circle {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0d7a70, #0f8f83);
+        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 750;
+        font-size: 0.78rem;
+        letter-spacing: -0.02em;
+        box-shadow: 0 2px 5px rgba(13, 122, 112, 0.25);
+        flex-shrink: 0;
+      }
+      .demo-account-preview-name {
+        color: var(--text);
+        font-weight: 700;
+        font-size: 0.92rem;
+        letter-spacing: -0.01em;
       }
       .identity-badge-group {
         display: flex;
@@ -1186,27 +1427,26 @@
       .signup-demo-indicator {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        background: #e7f5ec !important;
-        color: var(--success) !important;
-        border: 1px solid #b7e1c4 !important;
-        font-size: 0.76rem;
+        gap: 6px;
+        background: #ecfdf5 !important;
+        color: #047857 !important;
+        border: 1px solid #a7f3d0 !important;
+        font-size: 0.72rem;
         font-weight: 750;
-        letter-spacing: 0.04em;
-        padding: 3px 10px;
+        letter-spacing: 0.05em;
+        padding: 4px 11px;
         border-radius: 999px;
-        line-height: 1.4;
+        line-height: 1.3;
+        box-shadow: 0 1px 2px rgba(16, 185, 129, 0.1);
       }
       .signup-demo-indicator::before {
         content: "";
         display: inline-block;
-        width: 12px;
-        height: 12px;
-        background-color: currentColor;
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
-          no-repeat center / contain;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
-          no-repeat center / contain;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: #10b981;
+        animation: ppPulseDot 2s infinite ease-in-out;
       }
       .demo-account-badge {
         display: inline-flex;
@@ -1214,23 +1454,11 @@
         background: var(--bg) !important;
         color: var(--text) !important;
         border: 1px solid var(--border) !important;
-        font-size: 0.82rem;
-        font-weight: 600;
-        padding: 3px 10px;
+        font-size: 0.78rem;
+        font-weight: 650;
+        padding: 4px 11px;
         border-radius: 999px;
-        line-height: 1.4;
-      }
-      .identity-user-details {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        color: var(--muted);
-        font-size: 0.88rem;
-      }
-      .demo-account-preview-name {
-        color: var(--text);
-        font-weight: 600;
-        font-size: 0.9rem;
+        line-height: 1.3;
       }
 
       /* Section Headings & Spacing */
@@ -1249,17 +1477,41 @@
         width: 100%;
       }
       .overview-section-title {
-        font-size: 1.22rem;
+        font-size: 1.2rem;
         font-weight: 750;
         color: var(--text);
         margin: 0 0 3px 0;
         letter-spacing: -0.015em;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
       }
       .overview-section-sub {
-        font-size: 0.92rem;
+        font-size: 0.9rem;
         color: var(--muted);
         margin: 0;
         line-height: 1.45;
+      }
+      .overview-section-header .btn-secondary {
+        border-radius: 10px !important;
+        padding: 8px 16px !important;
+        font-size: 0.86rem !important;
+        font-weight: 650 !important;
+        border: 1px solid var(--border) !important;
+        background: var(--card) !important;
+        color: var(--text) !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+        cursor: pointer;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease !important;
+      }
+      .overview-section-header .btn-secondary:hover {
+        background: var(--bg) !important;
+        border-color: #cbd5e1 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06) !important;
+      }
+      .overview-section-header .btn-secondary:active {
+        transform: scale(0.98);
       }
 
       /* Activity Summary Cards Grid (Section 1) */
@@ -1272,51 +1524,113 @@
         margin: 0 !important;
       }
       #dashboardPage .activity-summary h2 {
-        font-size: 1.22rem !important;
+        font-size: 1.2rem !important;
         font-weight: 750 !important;
         color: var(--text) !important;
         text-align: left !important;
         margin: 0 0 12px 0 !important;
         letter-spacing: -0.015em !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
       }
       #dashboardPage .summary-grid {
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
-        gap: 14px !important;
+        gap: 16px !important;
         width: 100%;
       }
       #dashboardPage .summary-grid > div {
         background: var(--card) !important;
         border: 1px solid var(--border) !important;
-        border-radius: var(--radius) !important;
-        box-shadow: var(--shadow) !important;
-        padding: 18px 16px !important;
+        border-radius: 14px !important;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(15, 23, 42, 0.03) !important;
+        padding: 18px 18px !important;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
+        justify-content: space-between;
+        min-height: 126px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease !important;
+        will-change: transform, box-shadow;
       }
+      #dashboardPage .summary-grid > div::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--accent);
+        opacity: 0.75;
+        transition: height 0.2s ease, opacity 0.2s ease;
+      }
+      #dashboardPage .summary-grid > div:nth-child(1)::before { background: #0d7a70; }
+      #dashboardPage .summary-grid > div:nth-child(2)::before { background: #6366f1; }
+      #dashboardPage .summary-grid > div:nth-child(3)::before { background: #f43f5e; }
+      #dashboardPage .summary-grid > div:nth-child(4)::before { background: #10b981; }
+
       #dashboardPage .summary-grid > div:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-lg) !important;
+        transform: translateY(-4px) translateZ(0);
+        box-shadow: 0 14px 28px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04) !important;
+        border-color: rgba(13, 148, 136, 0.35) !important;
+      }
+      #dashboardPage .summary-grid > div:hover::before {
+        height: 4px;
+        opacity: 1;
+      }
+      #dashboardPage .summary-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      #dashboardPage .summary-card-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        transition: transform 0.2s ease;
+      }
+      #dashboardPage .summary-grid > div:hover .summary-card-icon {
+        transform: scale(1.1);
+      }
+      #dashboardPage .summary-grid > div:nth-child(1) .summary-card-icon { background: rgba(13, 122, 112, 0.1); color: #0d7a70; }
+      #dashboardPage .summary-grid > div:nth-child(2) .summary-card-icon { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
+      #dashboardPage .summary-grid > div:nth-child(3) .summary-card-icon { background: rgba(244, 63, 94, 0.1); color: #f43f5e; }
+      #dashboardPage .summary-grid > div:nth-child(4) .summary-card-icon { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+
+      #dashboardPage .summary-card-pill {
+        font-size: 0.68rem;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 2px 7px;
+        border-radius: 999px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--muted);
       }
       #dashboardPage .summary-value {
-        font-size: 1.65rem !important;
-        font-weight: 750 !important;
+        font-size: 1.75rem !important;
+        font-weight: 800 !important;
         color: var(--text) !important;
-        line-height: 1.2 !important;
-        margin-bottom: 4px !important;
+        line-height: 1.15 !important;
+        margin-bottom: 3px !important;
+        letter-spacing: -0.02em;
         font-variant-numeric: tabular-nums;
       }
       #dashboardPage #summarySavedTotal {
-        color: var(--success) !important;
+        color: #059669 !important;
       }
       #dashboardPage .summary-label {
-        font-size: 0.86rem !important;
+        font-size: 0.84rem !important;
         color: var(--muted) !important;
-        font-weight: 600 !important;
+        font-weight: 650 !important;
         letter-spacing: 0.01em;
         text-transform: none;
         line-height: 1.3;
@@ -1324,6 +1638,11 @@
       @media (max-width: 900px) {
         #dashboardPage .summary-grid {
           grid-template-columns: repeat(2, 1fr) !important;
+        }
+      }
+      @media (max-width: 520px) {
+        #dashboardPage .summary-grid {
+          grid-template-columns: 1fr !important;
         }
       }
 
@@ -1334,13 +1653,19 @@
         margin: 0 !important;
         background: var(--card) !important;
         border: 1px solid var(--border) !important;
-        border-radius: var(--radius) !important;
-        box-shadow: var(--shadow) !important;
-        padding: 22px !important;
+        border-radius: 16px !important;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 6px 16px -2px rgba(15, 23, 42, 0.04) !important;
+        padding: 24px !important;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+        will-change: transform, box-shadow;
+      }
+      .overview-feature-card:hover {
+        box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.07) !important;
+        border-color: rgba(13, 148, 136, 0.28) !important;
       }
       .overview-feature-grid {
         display: grid;
-        grid-template-columns: 310px 1fr;
+        grid-template-columns: 320px 1fr;
         gap: 24px;
         align-items: stretch;
         width: 100%;
@@ -1353,72 +1678,126 @@
       }
       @media (max-width: 600px) {
         .overview-feature-card {
-          padding: 16px !important;
+          padding: 18px !important;
         }
         .overview-metric-box {
-          padding: 14px !important;
+          padding: 16px !important;
         }
       }
       .overview-metric-box {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 18px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 253, 250, 0.75));
+        border: 1px solid rgba(13, 148, 136, 0.22);
+        border-radius: 14px;
+        padding: 22px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        box-shadow: 0 2px 6px -1px rgba(13, 148, 136, 0.06);
+        position: relative;
+        overflow: hidden;
+      }
+      .overview-metric-box::after {
+        content: "";
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(13, 148, 136, 0.08) 0%, transparent 70%);
+        pointer-events: none;
       }
       .overview-metric-label {
-        font-size: 0.82rem;
-        font-weight: 700;
-        color: var(--muted);
+        font-size: 0.75rem;
+        font-weight: 750;
+        color: #0d7a70;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
-        margin-bottom: 4px;
+        letter-spacing: 0.06em;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
       }
       .overview-metric-value {
-        font-size: 1.7rem;
-        font-weight: 750;
-        color: var(--text);
-        line-height: 1.2;
-        margin-bottom: 4px;
+        font-size: 1.85rem !important;
+        font-weight: 850 !important;
+        color: var(--text) !important;
+        line-height: 1.15;
+        margin-bottom: 6px !important;
+        letter-spacing: -0.02em;
         font-variant-numeric: tabular-nums;
       }
       .overview-metric-note {
         font-size: 0.88rem;
         color: var(--muted);
         line-height: 1.45;
-        margin: 0 0 14px 0;
+        margin: 0 0 16px 0;
+      }
+      .overview-metric-box .btn-primary {
+        width: auto !important;
+        align-self: flex-start;
+        padding: 10px 20px !important;
+        font-size: 0.88rem !important;
+        font-weight: 650 !important;
+        border-radius: 10px !important;
+        box-shadow: 0 2px 6px rgba(13, 122, 112, 0.25) !important;
+        cursor: pointer;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .overview-metric-box .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(13, 122, 112, 0.35) !important;
+      }
+      .overview-metric-box .btn-primary:active {
+        transform: scale(0.98);
       }
       .overview-feature-list {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 14px;
+        gap: 10px;
       }
       .overview-feature-item {
         display: flex;
         align-items: flex-start;
-        gap: 12px;
+        gap: 14px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        background: transparent;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease;
+      }
+      .overview-feature-item:hover {
+        background: rgba(240, 253, 250, 0.6);
+        border-color: rgba(13, 148, 136, 0.18);
+        transform: translateX(4px);
       }
       .overview-feature-icon {
         width: 38px;
         height: 38px;
         flex-shrink: 0;
-        border-radius: 9px;
+        border-radius: 10px;
         background: var(--accent-soft);
         color: var(--accent);
         display: grid;
         place-items: center;
+        transition: transform 0.2s ease;
+      }
+      .overview-feature-item:hover .overview-feature-icon {
+        transform: scale(1.1) rotate(-3deg);
       }
       .overview-feature-heading {
-        font-size: 0.98rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: var(--text);
         margin-bottom: 2px;
+        line-height: 1.3;
       }
       .overview-feature-desc {
-        font-size: 0.88rem;
+        font-size: 0.86rem;
         color: var(--muted);
         line-height: 1.45;
         margin: 0;
@@ -1445,52 +1824,81 @@
       #dashboardPage .tool-card {
         width: 100% !important;
         max-width: none !important;
-        min-height: 200px !important;
+        min-height: 220px !important;
         background: var(--card) !important;
         border: 1px solid var(--border) !important;
-        border-radius: var(--radius) !important;
-        box-shadow: var(--shadow) !important;
-        padding: 20px !important;
+        border-radius: 16px !important;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(15, 23, 42, 0.03) !important;
+        padding: 22px !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease,
-          border-color 0.2s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease !important;
+        will-change: transform, box-shadow;
+      }
+      #dashboardPage .tool-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), #0f8f83);
+        opacity: 0;
+        transition: opacity 0.25s ease;
       }
       #dashboardPage .tool-card:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-lg) !important;
-        border-color: #c9d7d5 !important;
+        transform: translateY(-5px) translateZ(0);
+        box-shadow: 0 16px 32px -4px rgba(13, 122, 112, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.04) !important;
+        border-color: rgba(13, 148, 136, 0.4) !important;
+      }
+      #dashboardPage .tool-card:hover::before {
+        opacity: 1;
+      }
+      #dashboardPage .tool-card:active {
+        transform: translateY(-2px) scale(0.99);
       }
       #dashboardPage .tool-card .tool-icon {
         width: 44px;
         height: 44px;
-        border-radius: 10px;
+        border-radius: 12px;
         background: var(--accent-soft);
         color: var(--accent);
         display: grid;
         place-items: center;
         margin-bottom: 14px;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 2px 6px rgba(13, 122, 112, 0.08);
       }
+      #dashboardPage .tool-card:hover .tool-icon {
+        transform: scale(1.1) rotate(-3deg);
+      }
+      #dashboardPage .tool-card:nth-child(1) .tool-icon { background: rgba(13, 122, 112, 0.12); color: #0d7a70; }
+      #dashboardPage .tool-card:nth-child(2) .tool-icon { background: rgba(16, 185, 129, 0.12); color: #059669; }
+      #dashboardPage .tool-card:nth-child(3) .tool-icon { background: rgba(99, 102, 241, 0.12); color: #4f46e5; }
+      #dashboardPage .tool-card:nth-child(4) .tool-icon { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+
       #dashboardPage .tool-card h2 {
-        font-size: 1.12rem !important;
-        font-weight: 700 !important;
+        font-size: 1.15rem !important;
+        font-weight: 750 !important;
         color: var(--text) !important;
         margin: 0 0 6px 0 !important;
         line-height: 1.3 !important;
+        letter-spacing: -0.015em;
       }
       #dashboardPage .tool-card p {
-        font-size: 0.9rem !important;
+        font-size: 0.88rem !important;
         color: var(--muted) !important;
         line-height: 1.5 !important;
         margin: 0 0 16px 0 !important;
         flex-grow: 1;
       }
       #dashboardPage .tool-card .tool-link {
-        font-size: 0.92rem !important;
-        font-weight: 650 !important;
+        font-size: 0.9rem !important;
+        font-weight: 700 !important;
         color: var(--accent) !important;
         background: none;
         border: none;
@@ -1501,13 +1909,11 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        transition:
-          color 0.15s ease,
-          transform 0.15s ease;
+        transition: color 0.15s ease, transform 0.15s ease;
       }
-      #dashboardPage .tool-card .tool-link:hover {
+      #dashboardPage .tool-card:hover .tool-link {
         color: #0b5f58 !important;
-        transform: translateX(2px);
+        transform: translateX(4px);
       }
       #welcomePage .header {
         padding: 72px 20px 40px;
@@ -2098,6 +2504,19 @@
         align-items: center;
         gap: 10px;
         color: var(--text);
+        border: none;
+        background: none;
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+        transition: opacity 0.2s ease;
+      }
+      #ppNav .pp-brand:hover {
+        opacity: 0.85;
+      }
+      #ppNav .pp-brand:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
       }
       #ppNav .pp-mark {
         width: 30px;
@@ -2880,8 +3299,23 @@
         *,
         *::before,
         *::after {
-          animation: none !important;
-          transition: none !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        #dashboardPage .summary-grid > div,
+        #dashboardPage .tool-card,
+        .overview-feature-item,
+        .pp-logout-btn,
+        .profile-icon-btn {
+          transform: none !important;
+        }
+        #dashboardPage .summary-grid > div:hover,
+        #dashboardPage .tool-card:hover,
+        .overview-feature-item:hover,
+        .pp-logout-btn:hover,
+        .profile-icon-btn:hover {
+          transform: none !important;
         }
       }
     </style>
@@ -3854,7 +4288,9 @@
   </head>
   <body>
     <nav id="ppNav" aria-label="Main navigation">
-      <div class="pp-brand"><span class="pp-mark">P</span>PLANPOCKET</div>
+      <button type="button" class="pp-brand" onclick="showDashboard()" aria-label="Return to PLANPOCKET dashboard">
+        <span class="pp-mark">P</span>PLANPOCKET
+      </button>
       <button type="button" data-page="dashboardPage" onclick="showDashboard()">
         <svg
           viewBox="0 0 24 24"
@@ -4753,22 +5189,41 @@
         <header class="dashboard-header">
           <div class="dashboard-header-top">
             <div>
-              <h1 class="dashboard-title">PLANPOCKET Dashboard</h1>
-              <p class="tagline">
-                Welcome back, <span id="dashboardUsername">there</span>! Choose your financial
-                planning tool.
-              </p>
+              <h1 class="tagline">
+                Welcome back, <span id="dashboardUsername">there</span>. Choose your financial tool.
+              </h1>
             </div>
-            <button class="btn btn-secondary pp-logout-btn" onclick="logout()">Logout</button>
+            <button
+              id="profileIconBtn"
+              class="profile-icon-btn"
+              onclick="toggleProfilePopover()"
+              aria-label="View account details"
+              aria-expanded="false"
+              aria-haspopup="true"
+            >
+              <span id="profileIconInitial" class="profile-icon-initial" aria-hidden="true">U</span>
+            </button>
           </div>
-          <div id="demoDashboardIdentity" class="demo-dashboard-identity hidden">
-            <div class="identity-badge-group">
-              <span class="signup-demo-indicator">VERIFIED</span>
-              <span class="demo-account-badge" id="demoDashboardBadge">Personal Account</span>
-            </div>
-            <div class="identity-user-details">
-              <span>Signed in as</span>
-              <span class="demo-account-preview-name" id="demoDashboardName">user@example.com</span>
+          <div
+            id="profilePopover"
+            class="profile-popover hidden"
+            role="dialog"
+            aria-labelledby="profilePopoverTitle"
+          >
+            <h3 id="profilePopoverTitle" class="profile-popover-title">Account Details</h3>
+            <div class="profile-popover-content">
+              <div class="profile-popover-row">
+                <span class="profile-popover-label">Email</span>
+                <span id="profilePopoverEmail" class="profile-popover-value">-</span>
+              </div>
+              <div class="profile-popover-row">
+                <span class="profile-popover-label">Account Type</span>
+                <span id="profilePopoverAccountType" class="profile-popover-value">Personal</span>
+              </div>
+              <div class="profile-popover-row">
+                <span class="profile-popover-label">Status</span>
+                <span id="profilePopoverStatus" class="profile-popover-badge">-</span>
+              </div>
             </div>
           </div>
         </header>
@@ -4776,20 +5231,52 @@
           <h2 id="activityTitle" class="overview-section-title">Your Activity Summary</h2>
           <div class="summary-grid">
             <div>
-              <div class="summary-value" id="summaryGoalCount">0</div>
-              <div class="summary-label">Active Goals</div>
+              <div class="summary-card-top">
+                <span class="summary-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </span>
+                <span class="summary-card-pill">Targets</span>
+              </div>
+              <div>
+                <div class="summary-value" id="summaryGoalCount">0</div>
+                <div class="summary-label">Active Goals</div>
+              </div>
             </div>
             <div>
-              <div class="summary-value" id="summaryMonthlyBudget">Not set</div>
-              <div class="summary-label">This Month's Budget</div>
+              <div class="summary-card-top">
+                <span class="summary-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
+                </span>
+                <span class="summary-card-pill">Budget</span>
+              </div>
+              <div>
+                <div class="summary-value" id="summaryMonthlyBudget">Not set</div>
+                <div class="summary-label">This Month's Budget</div>
+              </div>
             </div>
             <div>
-              <div class="summary-value" id="summaryMonthlyExpenses">₹0</div>
-              <div class="summary-label">This Month's Expenses</div>
+              <div class="summary-card-top">
+                <span class="summary-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </span>
+                <span class="summary-card-pill">Expense</span>
+              </div>
+              <div>
+                <div class="summary-value" id="summaryMonthlyExpenses">₹0</div>
+                <div class="summary-label">This Month's Expenses</div>
+              </div>
             </div>
             <div>
-              <div class="summary-value" id="summarySavedTotal">₹0</div>
-              <div class="summary-label">Saved Toward Goals</div>
+              <div class="summary-card-top">
+                <span class="summary-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                </span>
+                <span class="summary-card-pill">Savings</span>
+              </div>
+              <div>
+                <div class="summary-value" id="summarySavedTotal">₹0</div>
+                <div class="summary-label">Saved Toward Goals</div>
+              </div>
             </div>
           </div>
         </section>
@@ -4929,7 +5416,7 @@
             </div>
           </div>
           <div class="dashboard-grid">
-            <article class="tool-card">
+            <article class="tool-card" onclick="showCFOHelper()">
               <div class="tool-icon">
                 <svg
                   viewBox="0 0 24 24"
@@ -4951,9 +5438,9 @@
                 Simulate budget scenarios, revenue changes, and review data-driven financial
                 recommendations.
               </p>
-              <button class="tool-link" onclick="showCFOHelper()">→ Open CFO Helper</button>
+              <button class="tool-link" onclick="event.stopPropagation(); showCFOHelper()">→ Open CFO Helper</button>
             </article>
-            <article class="tool-card">
+            <article class="tool-card" onclick="showTracker('goalTrackerPage')">
               <div class="tool-icon">
                 <svg
                   viewBox="0 0 24 24"
@@ -4975,11 +5462,11 @@
               <p id="overviewGoalSummaryText">
                 Set savings goals, track contributions, and see your progress schedule.
               </p>
-              <button class="tool-link" onclick="showTracker('goalTrackerPage')">
+              <button class="tool-link" onclick="event.stopPropagation(); showTracker('goalTrackerPage')">
                 → Set & View Goals
               </button>
             </article>
-            <article class="tool-card">
+            <article class="tool-card" onclick="showBudgetPlanner()">
               <div class="tool-icon">
                 <svg
                   viewBox="0 0 24 24"
@@ -5001,9 +5488,9 @@
               <p>
                 Set a monthly spending plan by category and monitor remaining balances at a glance.
               </p>
-              <button class="tool-link" onclick="showBudgetPlanner()">→ Plan This Month</button>
+              <button class="tool-link" onclick="event.stopPropagation(); showBudgetPlanner()">→ Plan This Month</button>
             </article>
-            <article class="tool-card">
+            <article class="tool-card" onclick="showFinancialReports()">
               <div class="tool-icon">
                 <svg
                   viewBox="0 0 24 24"
@@ -5026,7 +5513,7 @@
                 Understand your spending distributions, compare your plan with actuals, and export
                 reports.
               </p>
-              <button class="tool-link" onclick="showFinancialReports()">→ View Reports</button>
+              <button class="tool-link" onclick="event.stopPropagation(); showFinancialReports()">→ View Reports</button>
             </article>
           </div>
         </section>
@@ -6057,6 +6544,15 @@
                 </button>
               </div>
             </div>
+            <div class="form-group">
+              <label for="expenseNote">Note (optional)</label>
+              <input
+                id="expenseNote"
+                type="text"
+                maxlength="120"
+                placeholder="e.g. Receipt #123, tax invoice, tags"
+              />
+            </div>
             <div style="display: flex; gap: 8px">
               <button id="addExpenseBtn" class="btn" style="flex: 1" onclick="addExpense()">
                 Add Expense
@@ -6070,6 +6566,11 @@
                 Cancel
               </button>
             </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+            <button type="button" class="tool-link" style="padding: 0; font-size: 0.85rem;" onclick="showBudgetPlanner()">
+              Open Budget Planner &rarr;
+            </button>
           </div>
           <div id="expenseMessage" class="message hidden tracker-message" role="status"></div>
           <div
@@ -9378,12 +9879,26 @@
               <span>Income after spending</span
               ><strong id="budgetIncomeRemaining">Add income</strong>
             </div>
+            <div class="budget-stat">
+              <span>Budgeted spending</span><strong id="budgetBudgetedSpentTotal">₹0</strong>
+            </div>
+            <div class="budget-stat">
+              <span>Unbudgeted spending</span><strong id="budgetUnbudgetedSpentTotal">₹0</strong>
+            </div>
           </div>
+          <div id="budgetAlertsContainer" class="budget-alerts" aria-live="polite"></div>
           <div id="budgetInsight" class="insight-box" aria-live="polite">
-            Your budget is private to this browser. Add expenses in Expense Tracker to see how your
+            Your budget is synchronized with your authenticated account. Add expenses in Expense Tracker to see how your
             plan is going.
           </div>
-          <h3>Category progress</h3>
+          <div id="budgetProjectionContainer" class="projection-card"></div>
+          <div id="budgetMoMContainer" class="mom-card"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; margin-bottom: 8px;">
+            <h3 style="margin: 0;">Category progress</h3>
+            <button type="button" class="tool-link" style="padding: 0; font-size: 0.85rem;" onclick="showTracker('expenseTrackerPage')">
+              View Expenses for this Month &rarr;
+            </button>
+          </div>
           <div id="budgetCategoryList" class="tracker-list"></div>
         </section>
       </div>
@@ -10945,8 +11460,10 @@
               document.getElementById("loginPassword").value = "";
               showMessage("loginMessage", "Login successful! Loading dashboard...", "success");
               await loadGoals();
+              await loadCloudBudgetAndExpenses();
               showDashboard();
               checkLegacyGoalsMigration();
+              checkLegacyBudgetExpensesMigration();
               return;
             }
           } catch (err) {
@@ -11635,21 +12152,76 @@
         const displayName = sbUser.displayName || sbUser.email?.split("@")[0] || "User";
         const usernameEl = document.getElementById("dashboardUsername");
         if (usernameEl) usernameEl.textContent = displayName;
-        const badgeEl = document.getElementById("demoDashboardBadge");
-        if (badgeEl)
-          badgeEl.textContent =
-            sbUser.accountType === "company" ? "Company Account" : "Personal Account";
-        const nameEl = document.getElementById("demoDashboardName");
-        if (nameEl) nameEl.textContent = sbUser.email || displayName;
-        const identityEl = document.getElementById("demoDashboardIdentity");
-        if (identityEl) {
-          identityEl.classList.remove("hidden");
-          const indicator = identityEl.querySelector(".signup-demo-indicator");
-          if (indicator) indicator.textContent = "VERIFIED";
+        
+        // Populate profile icon and popover
+        const profileIconInitial = document.getElementById("profileIconInitial");
+        if (profileIconInitial) {
+          profileIconInitial.textContent = (displayName[0] || "U").toUpperCase();
+        }
+        
+        const profilePopoverEmail = document.getElementById("profilePopoverEmail");
+        if (profilePopoverEmail) {
+          profilePopoverEmail.textContent = sbUser.email || displayName;
+        }
+        
+        const profilePopoverAccountType = document.getElementById("profilePopoverAccountType");
+        if (profilePopoverAccountType) {
+          profilePopoverAccountType.textContent = sbUser.accountType === "company" ? "Company Account" : "Personal Account";
+        }
+        
+        const profilePopoverStatus = document.getElementById("profilePopoverStatus");
+        if (profilePopoverStatus) {
+          const isVerified = sbUser.emailVerified === true || sbUser.email_confirmed_at;
+          profilePopoverStatus.textContent = isVerified ? "Verified" : "Unverified";
+          profilePopoverStatus.className = isVerified ? "profile-popover-badge verified" : "profile-popover-badge unverified";
+        }
+        
+        const dashPage = document.getElementById("dashboardPage");
+        if (dashPage) {
+          dashPage.classList.remove("dash-animated");
+          void dashPage.offsetWidth;
+          dashPage.classList.add("dash-animated");
         }
         showPage("dashboardPage");
         updateDashboardSummary();
       }
+      
+      function toggleProfilePopover() {
+        const popover = document.getElementById("profilePopover");
+        const btn = document.getElementById("profileIconBtn");
+        if (!popover || !btn) return;
+        
+        const isHidden = popover.classList.contains("hidden");
+        if (isHidden) {
+          popover.classList.remove("hidden");
+          btn.setAttribute("aria-expanded", "true");
+        } else {
+          popover.classList.add("hidden");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      }
+      
+      // Close profile popover when clicking outside, pressing Escape, or losing focus
+      document.addEventListener("click", function(e) {
+        const popover = document.getElementById("profilePopover");
+        const btn = document.getElementById("profileIconBtn");
+        if (!popover || !btn) return;
+        if (!popover.classList.contains("hidden") && !popover.contains(e.target) && !btn.contains(e.target)) {
+          popover.classList.add("hidden");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+      
+      document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+          const popover = document.getElementById("profilePopover");
+          const btn = document.getElementById("profileIconBtn");
+          if (popover && !popover.classList.contains("hidden")) {
+            popover.classList.add("hidden");
+            if (btn) btn.setAttribute("aria-expanded", "false");
+          }
+        }
+      });
 
       function showTracker(pageId) {
         showPage(pageId);
@@ -11657,6 +12229,7 @@
         if (pageId === "expenseTrackerPage") {
           syncBudgetCategories();
           renderExpenses();
+          checkLegacyBudgetExpensesMigration();
         }
         if (pageId === "investmentTrackerPage") {
           const type = document.getElementById("investmentTypeSelect")
@@ -13561,11 +14134,13 @@
         const amountInput = document.getElementById("expenseAmount");
         const categoryInput = document.getElementById("expenseCategory");
         const dateInput = document.getElementById("expenseDate");
+        const noteInput = document.getElementById("expenseNote");
 
-        const description = descInput.value.trim();
-        const amount = Number(amountInput.value);
-        const category = categoryInput.value;
-        const date = dateInput.value;
+        const description = descInput ? descInput.value.trim() : "";
+        const amount = amountInput ? Number(amountInput.value) : 0;
+        const category = categoryInput ? categoryInput.value : "Food";
+        const date = dateInput ? dateInput.value.trim() : "";
+        const note = noteInput ? noteInput.value.trim() : "";
 
         if (
           !description ||
@@ -13585,30 +14160,45 @@
         }
 
         let expenses = getTrackerItems("planpocket_expenses");
+        let syncedExpense = null;
 
         if (editingExpenseId) {
           const index = expenses.findIndex((e) => e.id === editingExpenseId);
           if (index >= 0) {
-            expenses[index] = { ...expenses[index], description, amount, category, date };
+            syncedExpense = {
+              ...expenses[index],
+              description,
+              amount,
+              category,
+              date,
+              ...(note ? { note } : { note: undefined }),
+            };
+            expenses[index] = syncedExpense;
             saveTrackerItems("planpocket_expenses", expenses);
+            syncExpenseToServer(syncedExpense, "PUT");
             showTrackerMessage("expenseMessage", "Expense updated successfully.", "success");
           }
           cancelExpenseEdit();
         } else {
-          expenses.push({
+          syncedExpense = {
             id: `${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
             description,
             amount,
             category,
             date,
-          });
+            ...(note ? { note } : {}),
+          };
+          expenses.push(syncedExpense);
           saveTrackerItems("planpocket_expenses", expenses);
-          descInput.value = "";
-          amountInput.value = "";
+          syncExpenseToServer(syncedExpense, "POST");
+          if (descInput) descInput.value = "";
+          if (amountInput) amountInput.value = "";
+          if (noteInput) noteInput.value = "";
           showTrackerMessage("expenseMessage", "Expense recorded successfully.", "success");
         }
 
         renderExpenses();
+        renderBudgetOverview();
         updateDashboardSummary();
       }
 
@@ -13618,10 +14208,16 @@
         if (!expense) return;
 
         editingExpenseId = id;
-        document.getElementById("expenseDescription").value = expense.description || "";
-        document.getElementById("expenseAmount").value = expense.amount || "";
-        document.getElementById("expenseCategory").value = expense.category || "Food";
-        document.getElementById("expenseDate").value = expense.date || "";
+        const descInput = document.getElementById("expenseDescription");
+        if (descInput) descInput.value = expense.description || "";
+        const amtInput = document.getElementById("expenseAmount");
+        if (amtInput) amtInput.value = expense.amount || "";
+        const catInput = document.getElementById("expenseCategory");
+        if (catInput) catInput.value = expense.category || "Food";
+        const dateInput = document.getElementById("expenseDate");
+        if (dateInput) dateInput.value = expense.date || "";
+        const noteInput = document.getElementById("expenseNote");
+        if (noteInput) noteInput.value = expense.note || "";
 
         const addBtn = document.getElementById("addExpenseBtn");
         if (addBtn) addBtn.textContent = "Update Expense";
@@ -13630,13 +14226,17 @@
 
         const form = document.getElementById("expenseForm");
         if (form) form.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        document.getElementById("expenseDescription").focus();
+        if (descInput) descInput.focus();
       }
 
       function cancelExpenseEdit() {
         editingExpenseId = null;
-        document.getElementById("expenseDescription").value = "";
-        document.getElementById("expenseAmount").value = "";
+        const descInput = document.getElementById("expenseDescription");
+        if (descInput) descInput.value = "";
+        const amtInput = document.getElementById("expenseAmount");
+        if (amtInput) amtInput.value = "";
+        const noteInput = document.getElementById("expenseNote");
+        if (noteInput) noteInput.value = "";
         const addBtn = document.getElementById("addExpenseBtn");
         if (addBtn) addBtn.textContent = "Add Expense";
         const cancelBtn = document.getElementById("cancelExpenseEditBtn");
@@ -13674,7 +14274,12 @@
           empty.className = "tracker-empty";
           empty.style.cssText = "padding: 32px 16px; text-align: center;";
           empty.innerHTML = `
-          <div style="font-size: 2rem; margin-bottom: 8px;">💳</div>
+          <div style="display: flex; justify-content: center; margin-bottom: 8px; color: var(--accent);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+            </svg>
+          </div>
           <p style="font-weight: 600; color: var(--text); margin-bottom: 4px;">No expenses recorded yet</p>
           <p style="color: var(--muted); font-size: 0.88rem; margin: 0;">Add your first expense above to start tracking your spending.</p>
         `;
@@ -13692,7 +14297,8 @@
           const matchesQuery =
             !searchQuery ||
             (expense.description || "").toLowerCase().includes(searchQuery) ||
-            (expense.category || "").toLowerCase().includes(searchQuery);
+            (expense.category || "").toLowerCase().includes(searchQuery) ||
+            (expense.note || "").toLowerCase().includes(searchQuery);
           const matchesCategory = filterCategory === "ALL" || expense.category === filterCategory;
           return matchesQuery && matchesCategory;
         });
@@ -13731,6 +14337,14 @@
           const detail = document.createElement("span");
           detail.textContent = `${expense.category} · ${expense.date}`;
           main.append(title, detail);
+
+          if (expense.note) {
+            const noteSpan = document.createElement("span");
+            noteSpan.style.cssText = "font-size: 0.8rem; color: var(--muted); font-style: italic; margin-top: 2px;";
+            noteSpan.textContent = `Note: ${expense.note}`;
+            main.appendChild(noteSpan);
+          }
+
           const amount = document.createElement("strong");
           amount.className = "tracker-row-amount";
           amount.textContent = formatCurrency(Number(expense.amount));
@@ -13755,8 +14369,10 @@
               "planpocket_expenses",
               getTrackerItems("planpocket_expenses").filter((item) => item.id !== expense.id),
             );
+            deleteExpenseFromServer(expense.id);
             if (editingExpenseId === expense.id) cancelExpenseEdit();
             renderExpenses();
+            renderBudgetOverview();
             updateDashboardSummary();
           });
 
@@ -16020,6 +16636,7 @@
 
         existingCustom.push(raw);
         saveCustomCategories(existingCustom);
+        syncCategoryToServer(raw);
         syncBudgetCategories();
 
         if (_categoryModalCaller === "expense") {
@@ -16045,13 +16662,33 @@
         );
       }
 
-      function deleteCustomCategory(cat) {
+      async function deleteCustomCategory(cat) {
+        const expenses = getTrackerItems("planpocket_expenses");
+        const inUseCount = expenses.filter(
+          (e) => (e.category || "").trim().toLowerCase() === cat.trim().toLowerCase(),
+        ).length;
+        if (inUseCount > 0) {
+          showTrackerMessage(
+            "customCatModalMsg",
+            `Cannot delete category "${cat}": ${inUseCount} expense transaction(s) are currently assigned to this category. Please reassign or delete them first.`,
+            "error",
+          );
+          return;
+        }
+
+        const res = await deleteCategoryFromServer(cat);
+        if (res && res.success === false) {
+          showTrackerMessage("customCatModalMsg", res.error || `Failed to delete category "${cat}"`, "error");
+          return;
+        }
+
         let custom = getCustomCategories();
-        custom = custom.filter((c) => c !== cat);
+        custom = custom.filter((c) => c.toLowerCase() !== cat.toLowerCase());
         saveCustomCategories(custom);
         syncBudgetCategories();
         renderCustomCategoryChips();
         renderBudgetOverview();
+        renderExpenses();
       }
 
       function getMonthKey(date) {
@@ -16069,13 +16706,28 @@
         syncBudgetCategories();
         showPage("budgetPlannerPage");
         loadMonthlyBudget();
+        checkLegacyBudgetExpensesMigration();
       }
 
-      function loadMonthlyBudget() {
+      async function loadMonthlyBudget() {
         const month = document.getElementById("budgetMonth").value;
+        if (hasSupabaseSession()) {
+          loadServerBudgets(month).then(() => {
+            const p = getBudgetPlans()[month] || { income: "", limits: {} };
+            const incInput = document.getElementById("budgetIncome");
+            if (incInput && document.activeElement !== incInput) {
+              incInput.value = p.income === "" || p.income === null || p.income === undefined ? "" : p.income;
+            }
+            renderBudgetOverview();
+          });
+          loadServerExpenses(month).then(() => {
+            renderBudgetOverview();
+          });
+        }
         const plans = getBudgetPlans();
         const plan = plans[month] || { income: "", limits: {} };
-        document.getElementById("budgetIncome").value = plan.income === "" ? "" : plan.income;
+        document.getElementById("budgetIncome").value =
+          plan.income === "" || plan.income === null || plan.income === undefined ? "" : plan.income;
         document.getElementById("budgetLimit").value = "";
         document.getElementById("budgetMessage").classList.add("hidden");
         renderBudgetOverview();
@@ -16096,9 +16748,9 @@
         return totals;
       }
 
-      function saveMonthlyBudget() {
+      async function saveMonthlyBudget() {
         const month = document.getElementById("budgetMonth").value;
-        const incomeText = document.getElementById("budgetIncome").value;
+        const incomeText = document.getElementById("budgetIncome").value.trim();
         const income = incomeText === "" ? null : Number(incomeText);
         const category = document.getElementById("budgetCategory").value;
         const limit = Number(document.getElementById("budgetLimit").value);
@@ -16122,6 +16774,7 @@
         current.limits[category] = limit;
         plans[month] = current;
         localStorage.setItem(getPlanPocketStorageKey("planpocket_budgets"), JSON.stringify(plans));
+        syncBudgetToServer(month, current);
         document.getElementById("budgetLimit").value = "";
         showTrackerMessage(
           "budgetMessage",
@@ -16133,37 +16786,217 @@
       }
 
       function renderBudgetOverview() {
-        const month = document.getElementById("budgetMonth").value;
+        const monthInput = document.getElementById("budgetMonth");
+        const month = monthInput ? monthInput.value : getMonthKey(new Date());
         const plan = getBudgetPlans()[month] || { income: "", limits: {} };
-        const totals = getMonthlyCategoryTotals(month);
-        const spent = Object.values(totals).reduce((sum, amount) => sum + amount, 0);
-        const limits = plan.limits || {};
-        const planned = Object.values(limits).reduce((sum, amount) => sum + Number(amount || 0), 0);
-        const income = plan.income === "" ? null : Number(plan.income);
-        document.getElementById("budgetPlannedTotal").textContent = formatCurrency(planned);
-        document.getElementById("budgetSpentTotal").textContent = formatCurrency(spent);
-        document.getElementById("budgetRemainingTotal").textContent = formatCurrency(
-          planned - spent,
-        );
-        document.getElementById("budgetIncomeRemaining").textContent =
-          income === null ? "Add income" : formatCurrency(income - spent);
+        const allExpenses = getTrackerItems("planpocket_expenses");
+        const engine = window.PlanPocketBudget;
+
+        const totals = engine && typeof engine.getMonthlyCategoryTotals === "function"
+          ? engine.getMonthlyCategoryTotals(allExpenses, month, budgetCategories)
+          : getMonthlyCategoryTotals(month);
+
+        const metrics = engine && typeof engine.computeBudgetMetrics === "function"
+          ? engine.computeBudgetMetrics(plan, totals, budgetCategories)
+          : {
+              totalPlanned: Object.values(plan.limits || {}).reduce((sum, v) => sum + Number(v || 0), 0),
+              totalSpent: Object.values(totals).reduce((sum, v) => sum + Number(v || 0), 0),
+              budgetedSpent: Object.entries(totals)
+                .filter(([cat]) => Boolean(plan.limits && plan.limits[cat]))
+                .reduce((sum, [, v]) => sum + Number(v || 0), 0),
+              unbudgetedSpent: Object.entries(totals)
+                .filter(([cat]) => !Boolean(plan.limits && plan.limits[cat]))
+                .reduce((sum, [, v]) => sum + Number(v || 0), 0),
+              remainingBudget: Object.values(plan.limits || {}).reduce((sum, v) => sum + Number(v || 0), 0) -
+                Object.entries(totals)
+                  .filter(([cat]) => Boolean(plan.limits && plan.limits[cat]))
+                  .reduce((sum, [, v]) => sum + Number(v || 0), 0),
+              remainingIncome: (plan.income === "" || plan.income === null || plan.income === undefined ? 0 : Number(plan.income)) -
+                Object.values(totals).reduce((sum, v) => sum + Number(v || 0), 0),
+              overspentCategories: [],
+              categoryMetrics: {},
+            };
+
+        const income = plan.income === "" || plan.income === null || plan.income === undefined ? null : Number(plan.income);
+
+        const plannedEl = document.getElementById("budgetPlannedTotal");
+        if (plannedEl) plannedEl.textContent = formatCurrency(metrics.totalPlanned);
+
+        const spentEl = document.getElementById("budgetSpentTotal");
+        if (spentEl) spentEl.textContent = formatCurrency(metrics.totalSpent);
+
+        const remainingEl = document.getElementById("budgetRemainingTotal");
+        if (remainingEl) remainingEl.textContent = formatCurrency(metrics.remainingBudget);
+
+        const incomeRemainingEl = document.getElementById("budgetIncomeRemaining");
+        if (incomeRemainingEl) {
+          if (income === null) {
+            incomeRemainingEl.textContent = "Add income";
+            incomeRemainingEl.style.color = "var(--text)";
+          } else {
+            incomeRemainingEl.textContent = formatCurrency(metrics.remainingIncome);
+            incomeRemainingEl.style.color = metrics.remainingIncome < 0 ? "var(--danger)" : "var(--accent)";
+          }
+        }
+
+        const budgetedSpentEl = document.getElementById("budgetBudgetedSpentTotal");
+        if (budgetedSpentEl) budgetedSpentEl.textContent = formatCurrency(metrics.budgetedSpent);
+
+        const unbudgetedSpentEl = document.getElementById("budgetUnbudgetedSpentTotal");
+        if (unbudgetedSpentEl) unbudgetedSpentEl.textContent = formatCurrency(metrics.unbudgetedSpent);
+
+        // In-App Alert Banners (80% warning, 90% near-limit, 100% reached, >100% over-limit, and cash deficit)
+        const alertsContainer = document.getElementById("budgetAlertsContainer");
+        if (alertsContainer) {
+          alertsContainer.replaceChildren();
+          const alerts = engine && typeof engine.getBudgetAlerts === "function"
+            ? engine.getBudgetAlerts(metrics, income)
+            : [];
+
+          alerts.forEach((alert) => {
+            const banner = document.createElement("div");
+            const isDanger = alert.type === "over_limit" || alert.type === "deficit";
+            const isReached = alert.type === "reached";
+            const borderColor = isDanger ? "var(--danger)" : isReached ? "var(--warning)" : "var(--accent)";
+            const bgOpacity = isDanger ? "rgba(239, 71, 111, 0.12)" : isReached ? "rgba(255, 152, 0, 0.12)" : "rgba(76, 201, 240, 0.12)";
+            const textColor = isDanger ? "#ff6b8b" : isReached ? "#ffa726" : "var(--accent)";
+            banner.style.cssText = `display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; border: 1px solid ${borderColor}; background: ${bgOpacity}; font-size: 0.88rem;`;
+
+            const icon = document.createElement("span");
+            icon.style.cssText = `color: ${textColor}; display: flex; flex-shrink: 0;`;
+            icon.innerHTML = isDanger
+              ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'
+              : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+
+            const text = document.createElement("span");
+            text.style.cssText = "color: var(--text); flex: 1;";
+            text.textContent = alert.message;
+
+            banner.append(icon, text);
+            alertsContainer.appendChild(banner);
+          });
+        }
+
+        // Projection card with labeled assumptions
+        const projContainer = document.getElementById("budgetProjectionContainer");
+        if (projContainer) {
+          projContainer.replaceChildren();
+          if (engine && typeof engine.calculateMonthEndProjection === "function") {
+            try {
+              const proj = engine.calculateMonthEndProjection(allExpenses, month);
+              if (proj && proj.daysPassed > 0 && (metrics.totalSpent > 0 || metrics.totalPlanned > 0)) {
+                const titleRow = document.createElement("div");
+                titleRow.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;";
+
+                const title = document.createElement("strong");
+                title.style.cssText = "font-size: 0.92rem; color: var(--text); display: inline-flex; align-items: center; gap: 6px;";
+                title.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> End-of-Month Spending Projection';
+
+                const burnRate = document.createElement("span");
+                burnRate.style.cssText = "font-size: 0.82rem; color: var(--muted);";
+                burnRate.textContent = `${formatCurrency(proj.dailyAverage)} / day (${proj.daysPassed} of ${proj.daysInMonth} days)`;
+                titleRow.append(title, burnRate);
+
+                const statsRow = document.createElement("div");
+                statsRow.style.cssText = "display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 8px;";
+
+                const projSpent = document.createElement("div");
+                projSpent.innerHTML = `<span style="font-size: 0.8rem; color: var(--muted); display: block;">Projected Total</span><strong style="color: var(--text); font-size: 1.15rem;">${formatCurrency(proj.projectedTotal)}</strong>`;
+
+                const projPlanned = document.createElement("div");
+                if (metrics.totalPlanned > 0) {
+                  const diffPlanned = proj.projectedTotal - metrics.totalPlanned;
+                  const isUnder = diffPlanned <= 0;
+                  const compColor = isUnder ? "var(--success)" : "var(--danger)";
+                  const label = isUnder ? "Projected under plan" : "Projected over plan";
+                  projPlanned.innerHTML = `<span style="font-size: 0.8rem; color: var(--muted); display: block;">${label}</span><strong style="color: ${compColor}; font-size: 1.15rem;">${formatCurrency(Math.abs(diffPlanned))}</strong>`;
+                }
+
+                const projCash = document.createElement("div");
+                if (income !== null) {
+                  const cashDiff = income - proj.projectedTotal;
+                  const hasSurplus = cashDiff >= 0;
+                  const cashColor = hasSurplus ? "var(--accent)" : "var(--danger)";
+                  const cashLabel = hasSurplus ? "Projected cash surplus" : "Projected cash deficit";
+                  projCash.innerHTML = `<span style="font-size: 0.8rem; color: var(--muted); display: block;">${cashLabel}</span><strong style="color: ${cashColor}; font-size: 1.15rem;">${formatCurrency(Math.abs(cashDiff))}</strong>`;
+                }
+
+                statsRow.append(projSpent);
+                if (metrics.totalPlanned > 0) statsRow.append(projPlanned);
+                if (income !== null) statsRow.append(projCash);
+
+                const note = document.createElement("p");
+                note.style.cssText = "font-size: 0.78rem; color: var(--muted); margin: 0; line-height: 1.4;";
+                note.textContent = proj.assumptionNote;
+
+                projContainer.append(titleRow, statsRow, note);
+              }
+            } catch (e) {
+              console.warn("Projection error:", e);
+            }
+          }
+        }
+
+        // Month-over-Month trend and comparison
+        const momContainer = document.getElementById("budgetMoMContainer");
+        if (momContainer) {
+          momContainer.replaceChildren();
+          if (engine && typeof engine.computeMonthOverMonthComparison === "function" && typeof engine.getPreviousMonthKey === "function") {
+            try {
+              const prevMonth = engine.getPreviousMonthKey(month);
+              const mom = engine.computeMonthOverMonthComparison(allExpenses, allExpenses, month, prevMonth);
+
+              if (mom && (mom.previousTotal > 0 || mom.currentTotal > 0)) {
+                const header = document.createElement("div");
+                header.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;";
+
+                const title = document.createElement("strong");
+                title.style.cssText = "font-size: 0.92rem; color: var(--text); display: inline-flex; align-items: center; gap: 6px;";
+                title.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> Month-over-Month Trend';
+
+                const delta = document.createElement("span");
+                const isDown = mom.trend === "down";
+                const deltaColor = isDown ? "var(--success)" : mom.trend === "up" ? "var(--warning)" : "var(--muted)";
+                const arrowSvg = isDown
+                  ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="7" x2="17" y2="17"></line><polyline points="17 7 17 17 7 17"></polyline></svg>'
+                  : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="7" x2="17" y2="17"></line><polyline points="7 7 17 7 17 17"></polyline></svg>';
+                delta.style.cssText = `font-size: 0.85rem; font-weight: 600; color: ${deltaColor}; display: inline-flex; align-items: center; gap: 4px;`;
+                delta.innerHTML = `${arrowSvg} ${Math.abs(mom.diffPercent)}% (${formatCurrency(Math.abs(mom.diffAmount))})`;
+                header.append(title, delta);
+
+                const desc = document.createElement("p");
+                desc.style.cssText = "font-size: 0.82rem; color: var(--muted); margin: 0;";
+                desc.textContent = mom.previousTotal > 0
+                  ? `Current month total is ${formatCurrency(mom.currentTotal)} compared to ${formatCurrency(mom.previousTotal)} in previous month.`
+                  : "No spending recorded in previous month for comparison.";
+
+                momContainer.append(header, desc);
+              }
+            } catch (e) {
+              console.warn("MoM comparison error:", e);
+            }
+          }
+        }
+
+        // Category progress list
         const list = document.getElementById("budgetCategoryList");
         list.replaceChildren();
+
+        const limits = plan.limits || {};
         const categories = [
           ...new Set([
-            ...budgetCategories.filter((item) =>
-              Object.prototype.hasOwnProperty.call(limits, item),
-            ),
+            ...budgetCategories.filter((item) => Object.prototype.hasOwnProperty.call(limits, item)),
             ...Object.keys(totals),
           ]),
         ];
+
         if (!categories.length) {
           const empty = document.createElement("p");
           empty.className = "tracker-empty";
-          empty.textContent =
-            "No category budgets yet. Pick a category above to create your first monthly limit.";
+          empty.textContent = "No category budgets yet. Pick a category above to create your first monthly limit.";
           list.appendChild(empty);
         }
+
         categories.forEach((category) => {
           const limit = Number(limits[category] || 0);
           const actual = Number(totals[category] || 0);
@@ -16173,19 +17006,28 @@
           const fill = document.createElement("span");
           fill.style.width = `${Math.min(100, percentage)}%`;
           progress.appendChild(fill);
+
           const row = document.createElement("div");
           row.className = "budget-row";
+
           const head = document.createElement("div");
           head.className = "budget-row-head";
+
+          const titleWrap = document.createElement("div");
+          titleWrap.style.cssText = "display: flex; align-items: center; gap: 8px;";
           const title = document.createElement("strong");
           title.textContent = category;
+          titleWrap.appendChild(title);
+
           const detail = document.createElement("span");
           detail.textContent =
             limit > 0
               ? `${formatCurrency(actual)} spent · ${formatCurrency(Math.max(0, limit - actual))} left of ${formatCurrency(limit)}`
-              : `${formatCurrency(actual)} spent · No limit set yet`;
-          head.append(title, detail);
+              : `${formatCurrency(actual)} spent · No limit set`;
+
+          head.append(titleWrap, detail);
           row.append(head, progress);
+
           if (limit > 0 && actual > limit) {
             const over = document.createElement("p");
             over.style.color = "var(--danger)";
@@ -16194,23 +17036,42 @@
             row.appendChild(over);
           } else if (limit > 0 && percentage >= 80) {
             const close = document.createElement("p");
-            close.style.color = "var(--warning)";
+            close.style.color = percentage >= 90 ? "var(--danger)" : "var(--warning)";
             close.style.marginTop = "8px";
-            close.textContent = "You are getting close to this category limit.";
+            close.textContent = percentage >= 100 ? "You have reached this category limit." : "You are getting close to this category limit.";
             row.appendChild(close);
+          } else if (limit === 0 && actual > 0) {
+            const unbudgetedRow = document.createElement("div");
+            unbudgetedRow.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-top: 8px;";
+            const unbudgetedNote = document.createElement("span");
+            unbudgetedNote.style.cssText = "font-size: 0.82rem; color: var(--muted);";
+            unbudgetedNote.textContent = "Unbudgeted spending in this category.";
+            const setLimitBtn = document.createElement("button");
+            setLimitBtn.type = "button";
+            setLimitBtn.className = "btn btn-secondary";
+            setLimitBtn.style.cssText = "width: auto; padding: 4px 10px; font-size: 0.8rem; margin: 0;";
+            setLimitBtn.textContent = "+ Set Limit";
+            setLimitBtn.onclick = function () {
+              setCategoryLimitShortcut(category);
+            };
+            unbudgetedRow.append(unbudgetedNote, setLimitBtn);
+            row.appendChild(unbudgetedRow);
           }
+
           list.appendChild(row);
         });
+
         const insight = document.getElementById("budgetInsight");
-        if (!planned && !spent) {
-          insight.textContent =
-            "Start with one category that matters most. Your budget is flexible and saved on this device.";
-        } else if (spent > planned && planned > 0) {
-          insight.textContent = `You have spent ${formatCurrency(spent - planned)} beyond the category limits set so far. Check categories without limits or adjust your plan to match your needs.`;
-        } else if (planned > 0) {
-          insight.textContent = `${formatCurrency(Math.max(0, planned - spent))} remains across your planned categories. Budgets are guides; adjust them whenever your month changes.`;
-        } else {
-          insight.textContent = `You have recorded ${formatCurrency(spent)} in spending. Set category limits to compare your spending with your plan.`;
+        if (insight) {
+          if (!metrics.totalPlanned && !metrics.totalSpent) {
+            insight.textContent = "Start with one category that matters most. Your budget is synchronized and private to your account.";
+          } else if (metrics.totalSpent > metrics.totalPlanned && metrics.totalPlanned > 0) {
+            insight.textContent = `You have spent ${formatCurrency(metrics.totalSpent - metrics.totalPlanned)} beyond the category limits set so far. Check categories without limits or adjust your plan to match your needs.`;
+          } else if (metrics.totalPlanned > 0) {
+            insight.textContent = `${formatCurrency(Math.max(0, metrics.remainingBudget))} remains across your planned categories. Budgets are guides; adjust them whenever your month changes.`;
+          } else {
+            insight.textContent = `You have recorded ${formatCurrency(metrics.totalSpent)} in spending. Set category limits to compare your spending with your plan.`;
+          }
         }
       }
 
@@ -18347,6 +19208,8 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
                 );
                 updateAuthenticatedUI(session.user);
                 loadGoals();
+                loadCloudBudgetAndExpenses();
+                checkLegacyBudgetExpensesMigration();
               }
             });
           } catch (e) {}
@@ -18368,7 +19231,9 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
               );
               updateAuthenticatedUI(data.session.user);
               await loadGoals();
+              await loadCloudBudgetAndExpenses();
               checkLegacyGoalsMigration();
+              checkLegacyBudgetExpensesMigration();
 
               const hash = (window.location.hash || "").replace("#", "");
               const params = new URLSearchParams(window.location.search);
@@ -18552,6 +19417,358 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
         localStorage.setItem(migrationKey, "dismissed");
         const banner = document.getElementById("legacyMigrationBanner");
         if (banner) banner.remove();
+      }
+
+      /* ==========================================================================
+         Budget & Expenses Cloud Sync & Migration
+         ========================================================================== */
+
+      async function loadServerExpenses(month) {
+        if (!hasSupabaseSession()) return getTrackerItems("planpocket_expenses");
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return getTrackerItems("planpocket_expenses");
+        try {
+          const url = month ? "/api/expenses?month=" + encodeURIComponent(month) : "/api/expenses";
+          const res = await fetch(url, {
+            headers: { Authorization: "Bearer " + token },
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data.expenses)) {
+              if (!month) {
+                saveTrackerItems("planpocket_expenses", data.expenses);
+              } else {
+                const cached = getTrackerItems("planpocket_expenses").filter(
+                  (e) => !e.date || !e.date.startsWith(month),
+                );
+                saveTrackerItems("planpocket_expenses", [...cached, ...data.expenses]);
+              }
+              return data.expenses;
+            }
+          }
+        } catch (err) {
+          console.warn("Failed to load server expenses, using cached expenses:", err);
+        }
+        return getTrackerItems("planpocket_expenses");
+      }
+
+      async function syncExpenseToServer(expense, method) {
+        if (!hasSupabaseSession()) return;
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return;
+        try {
+          const verb = method === "PUT" ? "PUT" : "POST";
+          const url = verb === "PUT" ? "/api/expenses/" + encodeURIComponent(expense.id) : "/api/expenses";
+          await fetch(url, {
+            method: verb,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify(expense),
+          });
+        } catch (e) {
+          console.warn("Background sync of expense failed:", e);
+        }
+      }
+
+      async function deleteExpenseFromServer(expenseId) {
+        if (!hasSupabaseSession()) return;
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return;
+        try {
+          await fetch("/api/expenses/" + encodeURIComponent(expenseId), {
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token },
+          });
+        } catch (e) {
+          console.warn("Background delete of expense failed:", e);
+        }
+      }
+
+      async function loadServerBudgets(month) {
+        if (!hasSupabaseSession()) return getBudgetPlans();
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return getBudgetPlans();
+        try {
+          const url = month ? "/api/budgets?month=" + encodeURIComponent(month) : "/api/budgets";
+          const res = await fetch(url, {
+            headers: { Authorization: "Bearer " + token },
+          });
+          if (res.ok) {
+            const data = await res.json();
+            const plans = getBudgetPlans();
+            if (month && data.budget) {
+              plans[month] = {
+                income: data.budget.income !== undefined && data.budget.income !== null ? data.budget.income : "",
+                limits: data.budget.limits || {},
+              };
+              localStorage.setItem(getPlanPocketStorageKey("planpocket_budgets"), JSON.stringify(plans));
+            } else if (Array.isArray(data.budgets)) {
+              data.budgets.forEach((b) => {
+                plans[b.month] = {
+                  income: b.income !== undefined && b.income !== null ? b.income : "",
+                  limits: b.limits || {},
+                };
+              });
+              localStorage.setItem(getPlanPocketStorageKey("planpocket_budgets"), JSON.stringify(plans));
+            }
+            return plans;
+          }
+        } catch (err) {
+          console.warn("Failed to load server budgets, using cached budgets:", err);
+        }
+        return getBudgetPlans();
+      }
+
+      async function syncBudgetToServer(month, plan) {
+        if (!hasSupabaseSession()) return;
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return;
+        try {
+          await fetch("/api/budgets/" + encodeURIComponent(month), {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+              income: plan.income === "" || plan.income === null || plan.income === undefined ? null : Number(plan.income),
+              limits: plan.limits || {},
+            }),
+          });
+        } catch (e) {
+          console.warn("Background sync of budget failed:", e);
+        }
+      }
+
+      async function loadServerCategories() {
+        if (!hasSupabaseSession()) return getCustomCategories();
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return getCustomCategories();
+        try {
+          const res = await fetch("/api/categories", {
+            headers: { Authorization: "Bearer " + token },
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data.categories)) {
+              const names = data.categories.map((c) => c.name);
+              saveCustomCategories(names);
+              syncBudgetCategories();
+              return names;
+            }
+          }
+        } catch (err) {
+          console.warn("Failed to load server categories:", err);
+        }
+        return getCustomCategories();
+      }
+
+      async function syncCategoryToServer(name) {
+        if (!hasSupabaseSession()) return;
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return;
+        try {
+          await fetch("/api/categories", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ name }),
+          });
+        } catch (e) {
+          console.warn("Background sync of category failed:", e);
+        }
+      }
+
+      async function deleteCategoryFromServer(name) {
+        if (!hasSupabaseSession()) return { success: true };
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return { success: true };
+        try {
+          const catId = "cat-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+          const res = await fetch("/api/categories/" + encodeURIComponent(catId), {
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token },
+          });
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            return { success: false, error: data.error || "Failed to delete category on server" };
+          }
+          return { success: true };
+        } catch (e) {
+          console.warn("Server delete category failed:", e);
+          return { success: true };
+        }
+      }
+
+      async function loadCloudBudgetAndExpenses() {
+        if (!hasSupabaseSession()) return;
+        try {
+          await Promise.all([
+            loadServerExpenses(),
+            loadServerBudgets(),
+            loadServerCategories(),
+          ]);
+          renderExpenses();
+          renderBudgetOverview();
+          updateDashboardSummary();
+        } catch (e) {
+          console.warn("loadCloudBudgetAndExpenses failed:", e);
+        }
+      }
+
+      function checkLegacyBudgetExpensesMigration() {
+        if (!hasSupabaseSession()) return;
+        const user = getAuthenticatedUser();
+        const userId = user ? user.id : "anon";
+        const migrationKey = "planpocket_budget_expenses_migrated_" + userId;
+        if (localStorage.getItem(migrationKey)) return;
+
+        const rawExpenses = localStorage.getItem("planpocket_expenses");
+        const rawBudgets = localStorage.getItem("planpocket_budgets");
+        let expenseCount = 0;
+        let budgetCount = 0;
+        try {
+          const exp = rawExpenses ? JSON.parse(rawExpenses) : [];
+          if (Array.isArray(exp)) expenseCount = exp.length;
+        } catch (e) {}
+        try {
+          const bud = rawBudgets ? JSON.parse(rawBudgets) : {};
+          if (bud && typeof bud === "object") budgetCount = Object.keys(bud).length;
+        } catch (e) {}
+
+        if (expenseCount === 0 && budgetCount === 0) return;
+        showLegacyBudgetExpensesMigrationPrompt(expenseCount, budgetCount, migrationKey);
+      }
+
+      function showLegacyBudgetExpensesMigrationPrompt(expenseCount, budgetCount, migrationKey) {
+        if (document.getElementById("legacyBudgetMigrationBanner")) return;
+        const banner = document.createElement("div");
+        banner.id = "legacyBudgetMigrationBanner";
+        banner.className = "migration-banner";
+        banner.style.cssText =
+          "background: var(--card); border: 1px solid var(--accent); border-radius: 10px; padding: 14px 18px; margin: 16px 0; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;";
+
+        const textWrap = document.createElement("div");
+        textWrap.style.cssText = "display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 260px;";
+
+        const iconWrap = document.createElement("div");
+        iconWrap.style.cssText = "color: var(--accent); flex-shrink: 0; padding-top: 2px;";
+        iconWrap.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>';
+
+        const textBody = document.createElement("div");
+        const title = document.createElement("strong");
+        title.style.cssText = "color: var(--text); display: block; font-size: 0.95rem; margin-bottom: 2px;";
+        title.textContent = "Offline Budget & Expenses Detected";
+        const desc = document.createElement("span");
+        desc.style.cssText = "font-size: 0.86rem; color: var(--muted); line-height: 1.4;";
+        desc.textContent = `Found ${expenseCount} expense record(s) and ${budgetCount} budget plan(s) on this device. Would you like to sync them with your cloud account?`;
+        textBody.append(title, desc);
+        textWrap.append(iconWrap, textBody);
+
+        const actions = document.createElement("div");
+        actions.style.cssText = "display: flex; gap: 8px; flex-shrink: 0;";
+
+        const syncBtn = document.createElement("button");
+        syncBtn.type = "button";
+        syncBtn.className = "btn";
+        syncBtn.style.cssText = "padding: 6px 14px; font-size: 0.85rem;";
+        syncBtn.textContent = "Sync to Cloud";
+        syncBtn.onclick = function () {
+          importLegacyBudgetExpenses(migrationKey);
+        };
+
+        const dismissBtn = document.createElement("button");
+        dismissBtn.type = "button";
+        dismissBtn.className = "btn btn-secondary";
+        dismissBtn.style.cssText = "padding: 6px 14px; font-size: 0.85rem;";
+        dismissBtn.textContent = "Dismiss";
+        dismissBtn.onclick = function () {
+          localStorage.setItem(migrationKey, "dismissed");
+          const b = document.getElementById("legacyBudgetMigrationBanner");
+          if (b) b.remove();
+        };
+
+        actions.append(syncBtn, dismissBtn);
+        banner.append(textWrap, actions);
+
+        const host =
+          document.querySelector("#budgetPlannerPage .container") ||
+          document.querySelector("#expenseTrackerPage .container") ||
+          document.querySelector("#dashboardPage .container");
+        if (host) host.prepend(banner);
+      }
+
+      async function importLegacyBudgetExpenses(migrationKey) {
+        const token = sessionStorage.getItem("planpocket_supabase_token");
+        if (!token) return;
+        try {
+          const rawExpenses = localStorage.getItem("planpocket_expenses");
+          const rawBudgets = localStorage.getItem("planpocket_budgets");
+          const customCats = getCustomCategories();
+
+          if (customCats.length > 0) {
+            await fetch("/api/categories/import", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+              body: JSON.stringify({ categories: customCats.map((name) => ({ name })) }),
+            });
+          }
+
+          if (rawExpenses) {
+            const expenses = JSON.parse(rawExpenses);
+            if (Array.isArray(expenses) && expenses.length > 0) {
+              await fetch("/api/expenses/import", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+                body: JSON.stringify({ expenses }),
+              });
+            }
+          }
+
+          if (rawBudgets) {
+            const budgetPlans = JSON.parse(rawBudgets);
+            const budgetsList = Object.entries(budgetPlans).map(([month, data]) => ({
+              month,
+              income: data.income === "" || data.income === null || data.income === undefined ? null : Number(data.income),
+              limits: data.limits || {},
+            }));
+            if (budgetsList.length > 0) {
+              await fetch("/api/budgets/import", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+                body: JSON.stringify({ budgets: budgetsList }),
+              });
+            }
+          }
+
+          localStorage.setItem(migrationKey, "true");
+          const banner = document.getElementById("legacyBudgetMigrationBanner");
+          if (banner) banner.remove();
+
+          showTrackerMessage("budgetMessage", "Offline budget and expenses synced to your cloud account successfully!", "success");
+          showTrackerMessage("expenseMessage", "Offline budget and expenses synced to your cloud account successfully!", "success");
+
+          await loadCloudBudgetAndExpenses();
+        } catch (e) {
+          console.error("Migration import failed:", e);
+        }
+      }
+
+      function setCategoryLimitShortcut(cat) {
+        const select = document.getElementById("budgetCategory");
+        if (select) {
+          select.value = cat;
+          _lastSelectedBudgetCategory = cat;
+        }
+        const limitInput = document.getElementById("budgetLimit");
+        if (limitInput) {
+          limitInput.focus();
+          limitInput.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
       }
 
       async function saveCurrentInvestmentScenario() {
@@ -19034,6 +20251,8 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
             );
             updateAuthenticatedUI(session.user);
             loadGoals();
+            loadCloudBudgetAndExpenses();
+            checkLegacyBudgetExpensesMigration();
             showDashboard();
           }
         }
