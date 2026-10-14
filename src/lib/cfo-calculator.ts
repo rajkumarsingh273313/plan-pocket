@@ -165,7 +165,10 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
   }));
 
   const marketingSpend = Math.max(0, roundCurrency(Number(inputs.monthlyMarketingSpend) || 0));
-  const operatingExpenses = Math.max(0, roundCurrency(Number(inputs.monthlyOperatingExpenses) || 0));
+  const operatingExpenses = Math.max(
+    0,
+    roundCurrency(Number(inputs.monthlyOperatingExpenses) || 0),
+  );
   const growthRate = Number(inputs.monthlyRevenueGrowthRate) || 0;
   const growthRule: GrowthRule = inputs.growthRule || "compounded_monthly";
 
@@ -191,7 +194,9 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
       r.maxAffordableSalaryPerPerson !== undefined &&
       r.monthlySalaryPerPerson > r.maxAffordableSalaryPerPerson
     ) {
-      const overagePerPerson = roundCurrency(r.monthlySalaryPerPerson - r.maxAffordableSalaryPerPerson);
+      const overagePerPerson = roundCurrency(
+        r.monthlySalaryPerPerson - r.maxAffordableSalaryPerPerson,
+      );
       salaryCapAlerts.push({
         roleId: r.id,
         title: r.title,
@@ -233,12 +238,16 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
 
   const initialMonthlyNewPayroll = monthlyNewPayrolls[0] || 0;
   const totalNewPayrollOverHorizon = roundCurrency(
-    monthlyNewPayrolls.reduce((sum, val) => sum + val, 0)
+    monthlyNewPayrolls.reduce((sum, val) => sum + val, 0),
   );
 
   // 3. Budget Comparison
   let budgetComparison: BudgetComparisonResult | null = null;
-  if (inputs.budgetAmount !== undefined && inputs.budgetAmount !== null && inputs.budgetAmount > 0) {
+  if (
+    inputs.budgetAmount !== undefined &&
+    inputs.budgetAmount !== null &&
+    inputs.budgetAmount > 0
+  ) {
     const budgetAmount = roundCurrency(inputs.budgetAmount);
     const budgetType = inputs.budgetType === "total_period" ? "total_period" : "monthly_cap";
 
@@ -292,7 +301,9 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
 
     const newPayroll = monthlyNewPayrolls[m - 1] || 0;
     const existingPayrollAmount = existingPayroll ?? 0;
-    const totalCosts = roundCurrency(existingPayrollAmount + newPayroll + marketingSpend + operatingExpenses);
+    const totalCosts = roundCurrency(
+      existingPayrollAmount + newPayroll + marketingSpend + operatingExpenses,
+    );
     totalCostsSum += totalCosts;
 
     // Profit / loss
@@ -339,7 +350,9 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
       cashRunwayMonths = runwayDetectedMonth;
     } else {
       // Check if monthly net profit is positive or cash never runs out
-      const isConsistentlyNetPositive = projections.every((p) => p.profitOrLoss !== null && p.profitOrLoss >= 0);
+      const isConsistentlyNetPositive = projections.every(
+        (p) => p.profitOrLoss !== null && p.profitOrLoss >= 0,
+      );
       if (isConsistentlyNetPositive) {
         cashRunwayMonths = "infinite";
       } else {
@@ -364,7 +377,9 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
     if (firstMonthPL !== null && firstMonthPL !== undefined && firstMonthPL >= 0) {
       breakEvenMonth = "already_profitable";
     } else {
-      const profitableIndex = projections.findIndex((p) => p.profitOrLoss !== null && p.profitOrLoss >= 0);
+      const profitableIndex = projections.findIndex(
+        (p) => p.profitOrLoss !== null && p.profitOrLoss >= 0,
+      );
       if (profitableIndex >= 0) {
         breakEvenMonth = profitableIndex + 1;
       } else {
@@ -397,7 +412,8 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
   if (existingPayroll === null) {
     omittedMetrics.push({
       metric: "Company-Wide Total Payroll",
-      reason: "Existing team payroll was not provided (skipped); only new hire payroll is reflected.",
+      reason:
+        "Existing team payroll was not provided (skipped); only new hire payroll is reflected.",
       prerequisiteInput: "Existing Monthly Payroll",
     });
   }
@@ -449,4 +465,3 @@ export function calculateCFOScenario(inputs: CFOScenarioInputs): CFOCalculationR
     disclaimer,
   };
 }
-

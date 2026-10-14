@@ -120,7 +120,7 @@ npm test
 If using Bun, run these as `bun run build`, `bun run preview`, `bun run lint`, or `bun test` as appropriate.
 
 ## Data, security, and limitations
- 
+
 - Authentication uses Supabase Auth with email/password verification and password recovery at `/auth/reset-password`. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` to connect your project.
 
 - Multi-user persistence uses a server API route backed by MongoDB (`MONGODB_URI`). Scenarios and goals are secured with server-verified Supabase session Bearer tokens.

@@ -14,7 +14,7 @@ export const Route = createFileRoute("/app")({
   }),
   validateSearch: (search: Record<string, unknown>) => {
     return {
-      page: typeof search['page'] === "string" ? search['page'] : undefined,
+      page: typeof search["page"] === "string" ? search["page"] : undefined,
     };
   },
   component: AppPage,
@@ -41,7 +41,9 @@ function AppPage() {
             if (win) {
               win.postMessage({ type: "SUPABASE_AUTH_EVENT", event, session }, "*");
             }
-          } catch {}
+          } catch (err) {
+            void err;
+          }
         });
         authSub = data.subscription;
       }
@@ -62,10 +64,7 @@ function AppPage() {
 
         // Check search param or window hash
         const target =
-          page ||
-          (typeof window !== "undefined"
-            ? window.location.hash.replace("#", "")
-            : "");
+          page || (typeof window !== "undefined" ? window.location.hash.replace("#", "") : "");
 
         if (target === "signup" || target === "signupPage") {
           win.postMessage("showSignup", "*");
@@ -92,13 +91,8 @@ function AppPage() {
 
   // Compute initial src with target hash
   const initialTarget =
-    page ||
-    (typeof window !== "undefined"
-      ? window.location.hash.replace("#", "")
-      : "");
-  const iframeSrc = initialTarget
-    ? `/planpocket.html#${initialTarget}`
-    : "/planpocket.html";
+    page || (typeof window !== "undefined" ? window.location.hash.replace("#", "") : "");
+  const iframeSrc = initialTarget ? `/planpocket.html#${initialTarget}` : "/planpocket.html";
 
   return (
     <iframe

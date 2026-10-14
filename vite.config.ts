@@ -13,7 +13,9 @@ export default defineConfig({
     // tr46 (via mongodb) does require("punycode/"); unenv's alias turns it into an invalid path.
     // `alias` is a valid Nitro option but missing from the wrapper's narrowed type.
     ...({
-      alias: { "punycode/": fileURLToPath(new URL("./node_modules/punycode/punycode.js", import.meta.url)) },
+      alias: {
+        "punycode/": fileURLToPath(new URL("./node_modules/punycode/punycode.js", import.meta.url)),
+      },
     } as object),
   },
   tanstackStart: {
@@ -48,7 +50,9 @@ export default defineConfig({
 
                   const webResponse: Response = await handleApiRequest(webRequest);
                   res.statusCode = webResponse.status;
-                  webResponse.headers.forEach((val: string, key: string) => res.setHeader(key, val));
+                  webResponse.headers.forEach((val: string, key: string) =>
+                    res.setHeader(key, val),
+                  );
                   const resBody = await webResponse.arrayBuffer();
                   res.end(Buffer.from(resBody));
                 } catch (e) {

@@ -15,13 +15,7 @@ export const Route = createFileRoute("/auth/reset-password")({
   component: ResetPasswordPage,
 });
 
-type PageStatus =
-  | "checking"
-  | "ready"
-  | "invalid"
-  | "submitting"
-  | "success"
-  | "unconfigured";
+type PageStatus = "checking" | "ready" | "invalid" | "submitting" | "success" | "unconfigured";
 
 export function ResetPasswordPage() {
   const [status, setStatus] = useState<PageStatus>("checking");
@@ -46,17 +40,12 @@ export function ResetPasswordPage() {
     const hashParams = new URLSearchParams(hash.replace(/^#/, ""));
     const searchParams = new URLSearchParams(search.replace(/^\?/, ""));
 
-    const errorCode =
-      hashParams.get("error_code") || searchParams.get("error_code");
-    const errorDesc =
-      hashParams.get("error_description") ||
-      searchParams.get("error_description");
+    const errorCode = hashParams.get("error_code") || searchParams.get("error_code");
+    const errorDesc = hashParams.get("error_description") || searchParams.get("error_description");
 
     if (errorCode || errorDesc) {
       setStatus("invalid");
-      setInvalidReason(
-        errorDesc || "The password reset link is invalid or has expired.",
-      );
+      setInvalidReason(errorDesc || "The password reset link is invalid or has expired.");
       return;
     }
 
@@ -64,20 +53,18 @@ export function ResetPasswordPage() {
       const client = getSupabaseClient();
       let hasResolved = false;
 
-      const { data: authListener } = client.auth.onAuthStateChange(
-        (event, session) => {
-          if (event === "PASSWORD_RECOVERY") {
-            hasResolved = true;
-            setStatus("ready");
-          } else if (
-            event === "SIGNED_IN" &&
-            (hashParams.get("type") === "recovery" || Boolean(session))
-          ) {
-            hasResolved = true;
-            setStatus("ready");
-          }
-        },
-      );
+      const { data: authListener } = client.auth.onAuthStateChange((event, session) => {
+        if (event === "PASSWORD_RECOVERY") {
+          hasResolved = true;
+          setStatus("ready");
+        } else if (
+          event === "SIGNED_IN" &&
+          (hashParams.get("type") === "recovery" || Boolean(session))
+        ) {
+          hasResolved = true;
+          setStatus("ready");
+        }
+      });
 
       client.auth
         .getSession()
@@ -96,8 +83,7 @@ export function ResetPasswordPage() {
           }
 
           const hasRecoveryToken =
-            Boolean(hashParams.get("access_token")) ||
-            Boolean(searchParams.get("code"));
+            Boolean(hashParams.get("access_token")) || Boolean(searchParams.get("code"));
 
           if (!hasRecoveryToken) {
             hasResolved = true;
@@ -110,9 +96,7 @@ export function ResetPasswordPage() {
         .catch((err: unknown) => {
           hasResolved = true;
           setStatus("invalid");
-          setInvalidReason(
-            err instanceof Error ? err.message : "Unable to verify session.",
-          );
+          setInvalidReason(err instanceof Error ? err.message : "Unable to verify session.");
         });
 
       const timeout = setTimeout(() => {
@@ -136,9 +120,7 @@ export function ResetPasswordPage() {
     } catch (err: unknown) {
       setStatus("invalid");
       setInvalidReason(
-        err instanceof Error
-          ? err.message
-          : "Authentication service encountered an error.",
+        err instanceof Error ? err.message : "Authentication service encountered an error.",
       );
       return;
     }
@@ -154,17 +136,14 @@ export function ResetPasswordPage() {
 
   const satisfiedCount = Object.values(requirements).filter(Boolean).length;
   const allRequirementsMet = satisfiedCount === 5;
-  const passwordsMatch =
-    confirmPassword.length > 0 && password === confirmPassword;
+  const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
 
     if (!allRequirementsMet) {
-      setErrorMessage(
-        "Please meet all listed password requirements before continuing.",
-      );
+      setErrorMessage("Please meet all listed password requirements before continuing.");
       return;
     }
 
@@ -181,16 +160,12 @@ export function ResetPasswordPage() {
 
       if (error) {
         setStatus("ready");
-        setErrorMessage(
-          error.message || "Failed to update password. Please try again.",
-        );
+        setErrorMessage(error.message || "Failed to update password. Please try again.");
         return;
       }
 
       setStatus("success");
-      setSuccessMessage(
-        "Your password has been updated successfully! Redirecting you to login...",
-      );
+      setSuccessMessage("Your password has been updated successfully! Redirecting you to login...");
 
       try {
         await client.auth.signOut();
@@ -310,9 +285,7 @@ export function ResetPasswordPage() {
               <h2 className="mt-4 text-lg font-semibold text-foreground">
                 Reset Link Expired or Invalid
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {invalidReason}
-              </p>
+              <p className="mt-2 text-sm text-muted-foreground">{invalidReason}</p>
               <div className="mt-6 flex flex-col gap-2.5">
                 <a
                   href="/app?page=forgot"
@@ -442,14 +415,10 @@ export function ResetPasswordPage() {
                     <button
                       type="button"
                       aria-label={
-                        showConfirmPassword
-                          ? "Hide confirm password"
-                          : "Show confirm password"
+                        showConfirmPassword ? "Hide confirm password" : "Show confirm password"
                       }
                       aria-pressed={showConfirmPassword}
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-muted-foreground hover:text-foreground"
                     >
                       {showConfirmPassword ? "Hide" : "Show"}
@@ -463,9 +432,7 @@ export function ResetPasswordPage() {
                           : "text-destructive"
                       }`}
                     >
-                      {passwordsMatch
-                        ? "✓ Passwords match"
-                        : "✗ Passwords do not match"}
+                      {passwordsMatch ? "✓ Passwords match" : "✗ Passwords do not match"}
                     </p>
                   )}
                 </div>
@@ -475,11 +442,7 @@ export function ResetPasswordPage() {
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>Password Strength</span>
                     <span className="font-medium text-foreground">
-                      {satisfiedCount === 5
-                        ? "Strong"
-                        : satisfiedCount >= 3
-                          ? "Moderate"
-                          : "Weak"}
+                      {satisfiedCount === 5 ? "Strong" : satisfiedCount >= 3 ? "Moderate" : "Weak"}
                     </span>
                   </div>
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
@@ -497,12 +460,12 @@ export function ResetPasswordPage() {
 
                 {/* Requirements Checklist */}
                 <div className="rounded-md bg-muted/50 p-3 text-xs space-y-1 text-muted-foreground">
-                  <div className="font-medium text-foreground mb-1">
-                    Password Requirements:
-                  </div>
+                  <div className="font-medium text-foreground mb-1">Password Requirements:</div>
                   <div
                     className={`flex items-center gap-1.5 ${
-                      requirements.length ? "text-emerald-600 dark:text-emerald-400 font-medium" : ""
+                      requirements.length
+                        ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                        : ""
                     }`}
                   >
                     <span>{requirements.length ? "✓" : "•"}</span>
@@ -510,7 +473,9 @@ export function ResetPasswordPage() {
                   </div>
                   <div
                     className={`flex items-center gap-1.5 ${
-                      requirements.uppercase ? "text-emerald-600 dark:text-emerald-400 font-medium" : ""
+                      requirements.uppercase
+                        ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                        : ""
                     }`}
                   >
                     <span>{requirements.uppercase ? "✓" : "•"}</span>
@@ -518,7 +483,9 @@ export function ResetPasswordPage() {
                   </div>
                   <div
                     className={`flex items-center gap-1.5 ${
-                      requirements.lowercase ? "text-emerald-600 dark:text-emerald-400 font-medium" : ""
+                      requirements.lowercase
+                        ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                        : ""
                     }`}
                   >
                     <span>{requirements.lowercase ? "✓" : "•"}</span>
@@ -526,7 +493,9 @@ export function ResetPasswordPage() {
                   </div>
                   <div
                     className={`flex items-center gap-1.5 ${
-                      requirements.number ? "text-emerald-600 dark:text-emerald-400 font-medium" : ""
+                      requirements.number
+                        ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                        : ""
                     }`}
                   >
                     <span>{requirements.number ? "✓" : "•"}</span>
@@ -534,7 +503,9 @@ export function ResetPasswordPage() {
                   </div>
                   <div
                     className={`flex items-center gap-1.5 ${
-                      requirements.special ? "text-emerald-600 dark:text-emerald-400 font-medium" : ""
+                      requirements.special
+                        ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                        : ""
                     }`}
                   >
                     <span>{requirements.special ? "✓" : "•"}</span>
@@ -545,11 +516,7 @@ export function ResetPasswordPage() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={
-                    status === "submitting" ||
-                    !allRequirementsMet ||
-                    !passwordsMatch
-                  }
+                  disabled={status === "submitting" || !allRequirementsMet || !passwordsMatch}
                   className="mt-4 flex w-full items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {status === "submitting" ? (
@@ -568,10 +535,7 @@ export function ResetPasswordPage() {
 
         {/* Back Link */}
         <div className="mt-6 text-center text-xs text-muted-foreground">
-          <a
-            href="/app?page=login"
-            className="font-medium text-primary hover:underline"
-          >
+          <a href="/app?page=login" className="font-medium text-primary hover:underline">
             ← Back to PLANPOCKET Sign In
           </a>
         </div>

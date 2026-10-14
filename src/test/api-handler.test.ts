@@ -12,7 +12,8 @@ describe("API Handler & Server Endpoints", () => {
   const mockGoalsCol = {
     find: (filter: any) => ({
       sort: () => ({
-        toArray: async () => goalsStore.filter((doc) => !filter.userId || doc.userId === filter.userId),
+        toArray: async () =>
+          goalsStore.filter((doc) => !filter.userId || doc.userId === filter.userId),
       }),
     }),
     findOne: async (filter: any) => {
@@ -20,13 +21,13 @@ describe("API Handler & Server Endpoints", () => {
         goalsStore.find(
           (doc) =>
             (!filter.userId || doc.userId === filter.userId) &&
-            (!filter.id || doc.id === filter.id)
+            (!filter.id || doc.id === filter.id),
         ) || null
       );
     },
     updateOne: async (filter: any, update: any, options?: any) => {
       const idx = goalsStore.findIndex(
-        (doc) => doc.userId === filter.userId && doc.id === filter.id
+        (doc) => doc.userId === filter.userId && doc.id === filter.id,
       );
       if (idx >= 0) {
         goalsStore[idx] = { ...goalsStore[idx], ...update.$set, updatedAt: new Date() };
@@ -38,7 +39,7 @@ describe("API Handler & Server Endpoints", () => {
     deleteOne: async (filter: any) => {
       const initialLength = goalsStore.length;
       goalsStore = goalsStore.filter(
-        (doc) => !(doc.userId === filter.userId && doc.id === filter.id)
+        (doc) => !(doc.userId === filter.userId && doc.id === filter.id),
       );
       return { deletedCount: initialLength - goalsStore.length };
     },
@@ -56,13 +57,13 @@ describe("API Handler & Server Endpoints", () => {
         investmentsStore.find(
           (doc) =>
             (!filter.userId || doc.userId === filter.userId) &&
-            (!filter.id || doc.id === filter.id)
+            (!filter.id || doc.id === filter.id),
         ) || null
       );
     },
     updateOne: async (filter: any, update: any, options?: any) => {
       const idx = investmentsStore.findIndex(
-        (doc) => doc.userId === filter.userId && doc.id === filter.id
+        (doc) => doc.userId === filter.userId && doc.id === filter.id,
       );
       if (idx >= 0) {
         investmentsStore[idx] = { ...investmentsStore[idx], ...update.$set, updatedAt: new Date() };
@@ -74,7 +75,7 @@ describe("API Handler & Server Endpoints", () => {
     deleteOne: async (filter: any) => {
       const initialLength = investmentsStore.length;
       investmentsStore = investmentsStore.filter(
-        (doc) => !(doc.userId === filter.userId && doc.id === filter.id)
+        (doc) => !(doc.userId === filter.userId && doc.id === filter.id),
       );
       return { deletedCount: initialLength - investmentsStore.length };
     },
@@ -92,16 +93,20 @@ describe("API Handler & Server Endpoints", () => {
         cfoScenariosStore.find(
           (doc) =>
             (!filter.userId || doc.userId === filter.userId) &&
-            (!filter.id || doc.id === filter.id)
+            (!filter.id || doc.id === filter.id),
         ) || null
       );
     },
     updateOne: async (filter: any, update: any, options?: any) => {
       const idx = cfoScenariosStore.findIndex(
-        (doc) => doc.userId === filter.userId && doc.id === filter.id
+        (doc) => doc.userId === filter.userId && doc.id === filter.id,
       );
       if (idx >= 0) {
-        cfoScenariosStore[idx] = { ...cfoScenariosStore[idx], ...update.$set, updatedAt: new Date() };
+        cfoScenariosStore[idx] = {
+          ...cfoScenariosStore[idx],
+          ...update.$set,
+          updatedAt: new Date(),
+        };
       } else if (options?.upsert) {
         cfoScenariosStore.push({ ...update.$set, ...update.$setOnInsert, updatedAt: new Date() });
       }
@@ -110,7 +115,7 @@ describe("API Handler & Server Endpoints", () => {
     deleteOne: async (filter: any) => {
       const initialLength = cfoScenariosStore.length;
       cfoScenariosStore = cfoScenariosStore.filter(
-        (doc) => !(doc.userId === filter.userId && doc.id === filter.id)
+        (doc) => !(doc.userId === filter.userId && doc.id === filter.id),
       );
       return { deletedCount: initialLength - cfoScenariosStore.length };
     },
@@ -634,4 +639,3 @@ describe("API Handler & Server Endpoints", () => {
     });
   });
 });
-

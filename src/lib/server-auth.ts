@@ -25,17 +25,10 @@ export function getServerSupabaseConfig(): {
   anonKey: string;
   serviceRoleKey?: string | undefined;
 } {
-  const url =
-    process.env["VITE_SUPABASE_URL"] ||
-    process.env["SUPABASE_URL"] ||
-    "";
-  const anonKey =
-    process.env["VITE_SUPABASE_ANON_KEY"] ||
-    process.env["SUPABASE_ANON_KEY"] ||
-    "";
+  const url = process.env["VITE_SUPABASE_URL"] || process.env["SUPABASE_URL"] || "";
+  const anonKey = process.env["VITE_SUPABASE_ANON_KEY"] || process.env["SUPABASE_ANON_KEY"] || "";
   const serviceRoleKey =
-    process.env["SUPABASE_SERVICE_ROLE_KEY"] ||
-    process.env["SUPABASE_SECRET_KEY"];
+    process.env["SUPABASE_SERVICE_ROLE_KEY"] || process.env["SUPABASE_SECRET_KEY"];
 
   return { url, anonKey, serviceRoleKey };
 }
@@ -49,7 +42,7 @@ export function isServerSupabaseConfigured(): boolean {
     url &&
     anonKey &&
     !url.includes("your-supabase-project") &&
-    !anonKey.includes("your-supabase-anon-key")
+    !anonKey.includes("your-supabase-anon-key"),
   );
 }
 
@@ -80,7 +73,7 @@ export async function verifyAuthToken(request: Request): Promise<AuthenticatedUs
   if (!url || !anonKey || !isServerSupabaseConfigured()) {
     throw new AuthError(
       "Supabase Auth is not configured on the server. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
-      503
+      503,
     );
   }
 
@@ -96,7 +89,7 @@ export async function verifyAuthToken(request: Request): Promise<AuthenticatedUs
     if (error || !data.user) {
       throw new AuthError(
         error?.message || "Invalid or expired authentication session. Please sign in again.",
-        401
+        401,
       );
     }
 
@@ -109,8 +102,7 @@ export async function verifyAuthToken(request: Request): Promise<AuthenticatedUs
     if (err instanceof AuthError) throw err;
     throw new AuthError(
       `Authentication verification failed: ${err instanceof Error ? err.message : String(err)}`,
-      401
+      401,
     );
   }
 }
-

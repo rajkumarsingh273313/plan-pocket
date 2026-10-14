@@ -120,10 +120,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // GET /api/goals: List all goals for the authenticated user
     if (path === "/api/goals" && method === "GET") {
       const goalsCol = await getGoalsCollection();
-      const docs = await goalsCol
-        .find({ userId })
-        .sort({ createdAt: -1 })
-        .toArray();
+      const docs = await goalsCol.find({ userId }).sort({ createdAt: -1 }).toArray();
       return jsonResponse({ goals: docs.map(sanitizeGoal) });
     }
 
@@ -158,7 +155,10 @@ export async function handleApiRequest(request: Request): Promise<Response> {
 
       const rawContributions = Array.isArray(body.contributions) ? body.contributions : [];
       const contributions: GoalContributionRecord[] = rawContributions
-        .filter((c: unknown) => c && typeof c === "object" && Number((c as Record<string, unknown>)["amount"]) > 0)
+        .filter(
+          (c: unknown) =>
+            c && typeof c === "object" && Number((c as Record<string, unknown>)["amount"]) > 0,
+        )
         .map((c: Record<string, unknown>) => ({
           id: String(c["id"] || "").trim() || crypto.randomUUID(),
           amount: Number(Number(c["amount"]).toFixed(2)),
@@ -198,7 +198,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
             createdAt: now,
           },
         },
-        { upsert: true }
+        { upsert: true },
       );
 
       return jsonResponse({ success: true, goal: sanitizeGoal(goalDoc) }, 201);
@@ -223,13 +223,17 @@ export async function handleApiRequest(request: Request): Promise<Response> {
         const id = String(item.id || "").trim() || crypto.randomUUID();
         const initialSaved = Math.max(0, Number(item.initialSaved) || 0);
         const monthly = Math.max(0, Number(item.monthly) || 0);
-        const startDate = String(item.startDate || "").trim() || new Date().toISOString().slice(0, 10);
+        const startDate =
+          String(item.startDate || "").trim() || new Date().toISOString().slice(0, 10);
         const endDate = String(item.endDate || "").trim() || startDate;
         const durationMonths = Math.max(1, Math.round(Number(item.durationMonths) || 1));
 
         const rawContributions = Array.isArray(item.contributions) ? item.contributions : [];
         const contributions: GoalContributionRecord[] = rawContributions
-          .filter((c: unknown) => c && typeof c === "object" && Number((c as Record<string, unknown>)["amount"]) > 0)
+          .filter(
+            (c: unknown) =>
+              c && typeof c === "object" && Number((c as Record<string, unknown>)["amount"]) > 0,
+          )
           .map((c: Record<string, unknown>) => ({
             id: String(c["id"] || "").trim() || crypto.randomUUID(),
             amount: Number(Number(c["amount"]).toFixed(2)),
@@ -261,7 +265,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
             $set: { ...goalDoc, updatedAt: now },
             $setOnInsert: { createdAt: now },
           },
-          { upsert: true }
+          { upsert: true },
         );
 
         imported.push(sanitizeGoal(goalDoc));
@@ -302,7 +306,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
             saved,
             updatedAt: now,
           },
-        }
+        },
       );
 
       const updatedGoal = { ...existing, contributions: updatedContribs, saved, updatedAt: now };
@@ -352,7 +356,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
             saved,
             updatedAt: now,
           },
-        }
+        },
       );
 
       const updatedGoal = { ...existing, contributions: updatedContribs, saved, updatedAt: now };
@@ -394,8 +398,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
           body.monthly !== undefined ? Math.max(0, Number(body.monthly)) : existing.monthly;
         const startDate =
           body.startDate !== undefined ? String(body.startDate).trim() : existing.startDate;
-        const endDate =
-          body.endDate !== undefined ? String(body.endDate).trim() : existing.endDate;
+        const endDate = body.endDate !== undefined ? String(body.endDate).trim() : existing.endDate;
         const durationMonths =
           body.durationMonths !== undefined
             ? Math.max(1, Math.round(Number(body.durationMonths)))
@@ -450,10 +453,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // GET /api/investments: List saved scenarios
     if (path === "/api/investments" && method === "GET") {
       const invCol = await getInvestmentsCollection();
-      const docs = await invCol
-        .find({ userId })
-        .sort({ updatedAt: -1 })
-        .toArray();
+      const docs = await invCol.find({ userId }).sort({ updatedAt: -1 }).toArray();
       return jsonResponse({ investments: docs.map(sanitizeInvestment) });
     }
 
@@ -476,7 +476,9 @@ export async function handleApiRequest(request: Request): Promise<Response> {
         return errorResponse("Scenario title is required.");
       }
       if (!type) {
-        return errorResponse("Investment type is required (e.g. 'sip', 'lump-sum', 'elss', 'mutual-fund').");
+        return errorResponse(
+          "Investment type is required (e.g. 'sip', 'lump-sum', 'elss', 'mutual-fund').",
+        );
       }
 
       const now = new Date();
@@ -500,7 +502,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
           $set: { ...invDoc, updatedAt: now },
           $setOnInsert: { createdAt: now },
         },
-        { upsert: true }
+        { upsert: true },
       );
 
       return jsonResponse({ success: true, investment: sanitizeInvestment(invDoc) }, 201);
@@ -527,10 +529,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     // GET /api/cfo-scenarios: List saved CFO scenarios
     if (path === "/api/cfo-scenarios" && method === "GET") {
       const cfoCol = await getCFOScenariosCollection();
-      const docs = await cfoCol
-        .find({ userId })
-        .sort({ updatedAt: -1 })
-        .toArray();
+      const docs = await cfoCol.find({ userId }).sort({ updatedAt: -1 }).toArray();
       return jsonResponse({ scenarios: docs.map(sanitizeCFOScenario) });
     }
 
@@ -576,7 +575,7 @@ export async function handleApiRequest(request: Request): Promise<Response> {
           $set: { ...cfoDoc, updatedAt: now },
           $setOnInsert: { createdAt: now },
         },
-        { upsert: true }
+        { upsert: true },
       );
 
       return jsonResponse({ success: true, scenario: sanitizeCFOScenario(cfoDoc) }, 201);
@@ -624,4 +623,3 @@ export async function handleApiRequest(request: Request): Promise<Response> {
     return errorResponse(`Server error: ${message}`, 500);
   }
 }
-

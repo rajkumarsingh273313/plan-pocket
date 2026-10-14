@@ -1,5 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, useRef, useCallback, type ReactNode, type KeyboardEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  type ReactNode,
+  type KeyboardEvent,
+} from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -254,7 +261,6 @@ const audiences = [
   },
 ];
 
-
 /* ─────────────────────────────────────────────
    Motion helpers (presentation only)
 ───────────────────────────────────────────── */
@@ -281,7 +287,7 @@ function Reveal({
           }
         });
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -316,7 +322,12 @@ function FeaturePreview({ id }: { id: string }) {
     case "dashboard":
       return (
         <div className="grid grid-cols-2 gap-3">
-          {[["Active Goals", "3"], ["This Month", "₹18,450"], ["Saved", "₹42,000"], ["Investment", "₹3,12,500"]].map(([l, v]) => (
+          {[
+            ["Active Goals", "3"],
+            ["This Month", "₹18,450"],
+            ["Saved", "₹42,000"],
+            ["Investment", "₹3,12,500"],
+          ].map(([l, v]) => (
             <div key={l} className={card}>
               <div className={label}>{l}</div>
               <div className="mt-1 text-lg font-bold text-foreground">{v}</div>
@@ -327,8 +338,17 @@ function FeaturePreview({ id }: { id: string }) {
     case "expense-tracker":
       return (
         <div className="space-y-2">
-          {[["Groceries", "Food", "₹1,240"], ["Metro card", "Transport", "₹500"], ["Electricity", "Utilities", "₹2,100"], ["Movie night", "Entertainment", "₹650"]].map(([d, c, a], i) => (
-            <div key={d} className={`${card} pp-slide flex items-center justify-between`} style={{ animationDelay: `${i * 70}ms` }}>
+          {[
+            ["Groceries", "Food", "₹1,240"],
+            ["Metro card", "Transport", "₹500"],
+            ["Electricity", "Utilities", "₹2,100"],
+            ["Movie night", "Entertainment", "₹650"],
+          ].map(([d, c, a], i) => (
+            <div
+              key={d}
+              className={`${card} pp-slide flex items-center justify-between`}
+              style={{ animationDelay: `${i * 70}ms` }}
+            >
               <div>
                 <div className="text-sm font-semibold text-foreground">{d}</div>
                 <div className="text-xs text-muted-foreground">{c}</div>
@@ -341,7 +361,11 @@ function FeaturePreview({ id }: { id: string }) {
     case "budget-planner":
       return (
         <div className={`${card} space-y-4`}>
-          {[["Food", "₹6,200 / ₹8,000", 78, "primary"], ["Transport", "₹1,900 / ₹2,500", 76, "primary"], ["Shopping", "₹4,800 / ₹4,000", 100, "warn"]].map(([c, t, w, tone]) => (
+          {[
+            ["Food", "₹6,200 / ₹8,000", 78, "primary"],
+            ["Transport", "₹1,900 / ₹2,500", 76, "primary"],
+            ["Shopping", "₹4,800 / ₹4,000", 100, "warn"],
+          ].map(([c, t, w, tone]) => (
             <div key={c as string}>
               <div className="mb-1.5 flex justify-between text-xs">
                 <span className="font-semibold text-foreground">{c}</span>
@@ -357,12 +381,24 @@ function FeaturePreview({ id }: { id: string }) {
         <div className={`${card} flex items-center gap-5`}>
           <svg viewBox="0 0 42 42" className="h-24 w-24 flex-shrink-0 -rotate-90">
             <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--muted)" strokeWidth="5" />
-            <circle className="pp-ring" cx="21" cy="21" r="15.9" fill="none" stroke="var(--primary)" strokeWidth="5" strokeDasharray="68 32" strokeLinecap="round" />
+            <circle
+              className="pp-ring"
+              cx="21"
+              cy="21"
+              r="15.9"
+              fill="none"
+              stroke="var(--primary)"
+              strokeWidth="5"
+              strokeDasharray="68 32"
+              strokeLinecap="round"
+            />
           </svg>
           <div>
             <div className="font-bold text-foreground">Emergency Fund</div>
             <div className="text-xs text-muted-foreground">₹68,000 of ₹1,00,000</div>
-            <div className="badge-accent-soft mt-2 inline-block rounded-full px-2 py-0.5 text-xs font-bold">68%</div>
+            <div className="badge-accent-soft mt-2 inline-block rounded-full px-2 py-0.5 text-xs font-bold">
+              68%
+            </div>
           </div>
         </div>
       );
@@ -371,10 +407,22 @@ function FeaturePreview({ id }: { id: string }) {
         <div className={card}>
           <div className={label}>Estimated value over 10 years</div>
           <svg viewBox="0 0 200 80" className="mt-2 h-28 w-full" preserveAspectRatio="none">
-            <path d="M0 75 C 50 70, 90 58, 130 40 S 185 8, 200 4 L200 80 L0 80 Z" fill="var(--accent)" />
-            <path className="pp-draw" d="M0 75 C 50 70, 90 58, 130 40 S 185 8, 200 4" fill="none" stroke="var(--primary)" strokeWidth="2.5" />
+            <path
+              d="M0 75 C 50 70, 90 58, 130 40 S 185 8, 200 4 L200 80 L0 80 Z"
+              fill="var(--accent)"
+            />
+            <path
+              className="pp-draw"
+              d="M0 75 C 50 70, 90 58, 130 40 S 185 8, 200 4"
+              fill="none"
+              stroke="var(--primary)"
+              strokeWidth="2.5"
+            />
           </svg>
-          <div className="mt-1 text-lg font-bold text-foreground">₹3,12,500 <span className="text-xs font-medium text-muted-foreground">illustrative</span></div>
+          <div className="mt-1 text-lg font-bold text-foreground">
+            ₹3,12,500{" "}
+            <span className="text-xs font-medium text-muted-foreground">illustrative</span>
+          </div>
         </div>
       );
     case "financial-reports":
@@ -383,24 +431,41 @@ function FeaturePreview({ id }: { id: string }) {
           <div className={label}>October summary</div>
           <div className="mt-3 flex h-28 items-end gap-2">
             {[55, 80, 35, 62, 45, 28, 40].map((h, i) => (
-              <div key={i} className="pp-rise flex-1 rounded-t-md bg-primary/80" style={{ height: `${h}%`, animationDelay: `${i * 60}ms` }} />
+              <div
+                key={i}
+                className="pp-rise flex-1 rounded-t-md bg-primary/80"
+                style={{ height: `${h}%`, animationDelay: `${i * 60}ms` }}
+              />
             ))}
           </div>
-          <div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>By category</span><span className="font-semibold text-foreground">CSV ready</span></div>
+          <div className="mt-3 flex justify-between text-xs text-muted-foreground">
+            <span>By category</span>
+            <span className="font-semibold text-foreground">CSV ready</span>
+          </div>
         </div>
       );
     default:
       return (
         <div className={`${card} space-y-3`}>
-          {[["Engineers", 60], ["Marketing spend", 40], ["Price change", 70]].map(([l, w]) => (
+          {[
+            ["Engineers", 60],
+            ["Marketing spend", 40],
+            ["Price change", 70],
+          ].map(([l, w]) => (
             <div key={l as string}>
               <div className="mb-1 text-xs font-semibold text-foreground">{l}</div>
               <Bar w={w as number} />
             </div>
           ))}
           <div className="grid grid-cols-2 gap-2 pt-1 text-center">
-            <div className="rounded-md bg-muted px-2 py-2"><div className="text-sm font-bold text-foreground">14 mo</div><div className="text-[11px] text-muted-foreground">Runway</div></div>
-            <div className="rounded-md bg-muted px-2 py-2"><div className="text-sm font-bold text-foreground">₹4.8L</div><div className="text-[11px] text-muted-foreground">Monthly burn</div></div>
+            <div className="rounded-md bg-muted px-2 py-2">
+              <div className="text-sm font-bold text-foreground">14 mo</div>
+              <div className="text-[11px] text-muted-foreground">Runway</div>
+            </div>
+            <div className="rounded-md bg-muted px-2 py-2">
+              <div className="text-sm font-bold text-foreground">₹4.8L</div>
+              <div className="text-[11px] text-muted-foreground">Monthly burn</div>
+            </div>
           </div>
         </div>
       );
@@ -421,10 +486,19 @@ function FeatureShowcase() {
     }
   }, []);
   const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); go(active + 1, true); }
-    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); go(active - 1, true); }
-    else if (e.key === "Home") { e.preventDefault(); go(0, true); }
-    else if (e.key === "End") { e.preventDefault(); go(features.length - 1, true); }
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      go(active + 1, true);
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      go(active - 1, true);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      go(0, true);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      go(features.length - 1, true);
+    }
   };
   const f = features[active] ?? features[0]!;
   return (
@@ -438,7 +512,9 @@ function FeatureShowcase() {
         {features.map((t, i) => (
           <button
             key={t.id}
-            ref={(el) => { tabsRef.current[i] = el; }}
+            ref={(el) => {
+              tabsRef.current[i] = el;
+            }}
             role="tab"
             id={`tab-${t.id}`}
             aria-selected={i === active}
@@ -450,7 +526,9 @@ function FeatureShowcase() {
               i === active ? "is-active" : ""
             }`}
           >
-            <span className="pp-tab-icon flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg">{t.icon}</span>
+            <span className="pp-tab-icon flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg">
+              {t.icon}
+            </span>
             <span className="whitespace-nowrap lg:whitespace-normal">{t.title}</span>
           </button>
         ))}
@@ -466,20 +544,66 @@ function FeatureShowcase() {
         <div key={f.id} className="pp-swap grid gap-8 md:grid-cols-2 md:items-center">
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <span className="badge-accent-soft flex h-11 w-11 items-center justify-center rounded-lg">{f.icon}</span>
+              <span className="badge-accent-soft flex h-11 w-11 items-center justify-center rounded-lg">
+                {f.icon}
+              </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--pp-success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--pp-success)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--pp-success)]" aria-hidden="true" />
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-[var(--pp-success)]"
+                  aria-hidden="true"
+                />
                 Available
               </span>
             </div>
-            <h3 id={`feature-${f.id}`} className="text-2xl font-bold tracking-tight text-foreground">{f.title}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{f.summary}</p>
+            <h3
+              id={`feature-${f.id}`}
+              className="text-2xl font-bold tracking-tight text-foreground"
+            >
+              {f.title}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              {f.summary}
+            </p>
             <div className="mt-6 flex items-center gap-3">
-              <button type="button" onClick={() => go(active - 1)} aria-label="Previous feature" className="pp-arrow">
-                <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+              <button
+                type="button"
+                onClick={() => go(active - 1)}
+                aria-label="Previous feature"
+                className="pp-arrow"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width={18}
+                  height={18}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
               </button>
-              <button type="button" onClick={() => go(active + 1)} aria-label="Next feature" className="pp-arrow">
-                <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+              <button
+                type="button"
+                onClick={() => go(active + 1)}
+                aria-label="Next feature"
+                className="pp-arrow"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width={18}
+                  height={18}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
               </button>
               <span className="text-xs font-medium text-muted-foreground" aria-live="polite">
                 {active + 1} / {features.length}
@@ -488,7 +612,9 @@ function FeatureShowcase() {
           </div>
           <div className="pp-preview-wrap rounded-xl bg-muted/70 p-4 sm:p-5" aria-hidden="true">
             <FeaturePreview id={f.id} />
-            <p className="mt-3 text-center text-[11px] text-muted-foreground">Illustrative example data</p>
+            <p className="mt-3 text-center text-[11px] text-muted-foreground">
+              Illustrative example data
+            </p>
           </div>
         </div>
       </div>
@@ -512,7 +638,7 @@ function LandingPage() {
           if (entry.isIntersecting) setActiveSection(entry.target.id);
         });
       },
-      { rootMargin: "-40% 0px -55% 0px" }
+      { rootMargin: "-40% 0px -55% 0px" },
     );
     sections.forEach((id) => {
       const el = document.getElementById(id);
@@ -700,10 +826,7 @@ function LandingPage() {
           </a>
 
           {/* Desktop nav */}
-          <nav
-            className="hidden items-center gap-6 md:flex"
-            aria-label="Main navigation"
-          >
+          <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -840,10 +963,9 @@ function LandingPage() {
                 One place for all your financial planning
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                PLANPOCKET brings personal finance tools and small-business
-                scenario planning together. Track spending, build budgets, set
-                savings goals, estimate investment growth, and explore
-                hypothetical business decisions — without switching between
+                PLANPOCKET brings personal finance tools and small-business scenario planning
+                together. Track spending, build budgets, set savings goals, estimate investment
+                growth, and explore hypothetical business decisions — without switching between
                 separate apps.
               </p>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -861,90 +983,81 @@ function LandingPage() {
                 </a>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
-                Prototype — data is stored in your browser. No account
-                information leaves your device in this version.
+                Prototype — data is stored in your browser. No account information leaves your
+                device in this version.
               </p>
             </Reveal>
 
             {/* Product preview */}
             <Reveal delay={150} className="mt-14">
-            <div
-              className="pp-float overflow-hidden rounded-2xl border border-border bg-card shadow-[0_30px_60px_-30px_rgba(23,43,77,0.35)]"
-              role="img"
-              aria-label="Illustrative preview of the PLANPOCKET dashboard showing example financial data"
-            >
-              <div className="border-b border-border bg-muted/40 px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 rounded-full bg-border" />
-                  <span className="h-3 w-3 rounded-full bg-border" />
-                  <span className="h-3 w-3 rounded-full bg-border" />
-                  <span className="ml-4 text-xs font-medium text-muted-foreground">
-                    PLANPOCKET Dashboard — illustrative example data
-                  </span>
+              <div
+                className="pp-float overflow-hidden rounded-2xl border border-border bg-card shadow-[0_30px_60px_-30px_rgba(23,43,77,0.35)]"
+                role="img"
+                aria-label="Illustrative preview of the PLANPOCKET dashboard showing example financial data"
+              >
+                <div className="border-b border-border bg-muted/40 px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <span className="h-3 w-3 rounded-full bg-border" />
+                    <span className="h-3 w-3 rounded-full bg-border" />
+                    <span className="h-3 w-3 rounded-full bg-border" />
+                    <span className="ml-4 text-xs font-medium text-muted-foreground">
+                      PLANPOCKET Dashboard — illustrative example data
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-2 gap-px bg-border sm:grid-cols-4">
-                {[
-                  { label: "Active Goals", value: "3" },
-                  { label: "This Month's Expenses", value: "₹18,450" },
-                  { label: "Saved Toward Goals", value: "₹42,000" },
-                  { label: "Last Investment Estimate", value: "₹3,12,500" },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="bg-card px-4 py-5 text-center"
-                  >
-                    <div className="text-xl font-bold text-foreground">
-                      {stat.value}
+                <div className="grid grid-cols-2 gap-px bg-border sm:grid-cols-4">
+                  {[
+                    { label: "Active Goals", value: "3" },
+                    { label: "This Month's Expenses", value: "₹18,450" },
+                    { label: "Saved Toward Goals", value: "₹42,000" },
+                    { label: "Last Investment Estimate", value: "₹3,12,500" },
+                  ].map((stat) => (
+                    <div key={stat.label} className="bg-card px-4 py-5 text-center">
+                      <div className="text-xl font-bold text-foreground">{stat.value}</div>
+                      <div className="mt-1 text-xs text-muted-foreground">{stat.label}</div>
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="grid gap-px bg-border sm:grid-cols-3">
-                {[
-                  {
-                    tool: "Goal Planner",
-                    detail: "Emergency Fund — 68% complete",
-                    bar: 68,
-                  },
-                  {
-                    tool: "Budget Planner",
-                    detail: "Food ₹6,200 / ₹8,000 limit",
-                    bar: 78,
-                  },
-                  {
-                    tool: "CFO Helper",
-                    detail: "Scenario: +2 engineers, 10% price rise",
-                    bar: null,
-                  },
-                ].map((item) => (
-                  <div key={item.tool} className="bg-card px-5 py-5">
-                    <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      {item.tool}
-                    </div>
-                    <div className="text-sm font-medium text-foreground">
-                      {item.detail}
-                    </div>
-                    {item.bar !== null && (
-                      <div className="mt-3 h-2 w-full rounded-full bg-muted">
-                        <div
-                          className="pp-grow h-2 rounded-full bg-primary"
-                          style={{ width: `${item.bar}%` }}
-                          role="presentation"
-                        />
+                  ))}
+                </div>
+                <div className="grid gap-px bg-border sm:grid-cols-3">
+                  {[
+                    {
+                      tool: "Goal Planner",
+                      detail: "Emergency Fund — 68% complete",
+                      bar: 68,
+                    },
+                    {
+                      tool: "Budget Planner",
+                      detail: "Food ₹6,200 / ₹8,000 limit",
+                      bar: 78,
+                    },
+                    {
+                      tool: "CFO Helper",
+                      detail: "Scenario: +2 engineers, 10% price rise",
+                      bar: null,
+                    },
+                  ].map((item) => (
+                    <div key={item.tool} className="bg-card px-5 py-5">
+                      <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        {item.tool}
                       </div>
-                    )}
-                  </div>
-                ))}
+                      <div className="text-sm font-medium text-foreground">{item.detail}</div>
+                      {item.bar !== null && (
+                        <div className="mt-3 h-2 w-full rounded-full bg-muted">
+                          <div
+                            className="pp-grow h-2 rounded-full bg-primary"
+                            style={{ width: `${item.bar}%` }}
+                            role="presentation"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <p className="border-t border-border bg-card px-4 py-2.5 text-center text-xs text-muted-foreground">
+                  All figures shown above are illustrative example data. Your actual data will
+                  appear when you use the app.
+                </p>
               </div>
-              <p className="border-t border-border bg-card px-4 py-2.5 text-center text-xs text-muted-foreground">
-                All figures shown above are illustrative example data. Your
-                actual data will appear when you use the app.
-              </p>
-            </div>
             </Reveal>
           </div>
         </section>
@@ -967,8 +1080,8 @@ function LandingPage() {
                 Every tool, explained honestly
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
-                All features below are implemented and available in the current
-                app. Status is noted where relevant.
+                All features below are implemented and available in the current app. Status is noted
+                where relevant.
               </p>
             </Reveal>
 
@@ -978,23 +1091,19 @@ function LandingPage() {
 
             {/* Roadmap notice */}
             <div className="mt-12 rounded-xl border border-dashed border-border bg-card/60 p-6">
-              <h3 className="font-semibold text-foreground">
-                In the current roadmap
-              </h3>
+              <h3 className="font-semibold text-foreground">In the current roadmap</h3>
               <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="mt-1 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-border text-xs">
                     —
                   </span>
-                  Improve spacing and layout of the CFO Helper Scenario Controls
-                  row.
+                  Improve spacing and layout of the CFO Helper Scenario Controls row.
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-border text-xs">
                     —
                   </span>
-                  Restyle the exported CFO PDF report without changing
-                  calculations.
+                  Restyle the exported CFO PDF report without changing calculations.
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-border text-xs">
@@ -1028,10 +1137,9 @@ function LandingPage() {
                   Set a target. Track every step.
                 </h2>
                 <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                  Create a savings goal with a name, target amount, and how much
-                  you have already set aside. Choose a saving duration — 3
-                  months, 6 months, 1 year, 3 years, or a custom period — and
-                  the planner calculates the recommended monthly saving needed
+                  Create a savings goal with a name, target amount, and how much you have already
+                  set aside. Choose a saving duration — 3 months, 6 months, 1 year, 3 years, or a
+                  custom period — and the planner calculates the recommended monthly saving needed
                   to reach your target on time.
                 </p>
                 <ul className="mt-6 space-y-3">
@@ -1058,89 +1166,76 @@ function LandingPage() {
                       >
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
-                      <span className="text-sm text-muted-foreground">
-                        {point}
-                      </span>
+                      <span className="text-sm text-muted-foreground">{point}</span>
                     </li>
                   ))}
                 </ul>
                 <p className="mt-4 text-xs text-muted-foreground">
-                  Contributions are personal savings records you log yourself.
-                  There is no payment processing or bank connection.
+                  Contributions are personal savings records you log yourself. There is no payment
+                  processing or bank connection.
                 </p>
               </Reveal>
 
               {/* Goal card illustration */}
               <Reveal delay={120}>
-              <div
-                className="pp-float rounded-2xl border border-border bg-card p-6 shadow-[0_24px_50px_-28px_rgba(23,43,77,0.35)]"
-                role="img"
-                aria-label="Illustrative example of a goal card for an Emergency Fund goal"
-              >
-                <p className="mb-4 text-right text-xs text-muted-foreground">
-                  Illustrative example
-                </p>
-                <div className="mb-4 flex items-start justify-between">
-                  <div>
-                    <h3 className="font-bold text-foreground">
-                      Emergency Fund
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      Oct 10, 2026 – Apr 10, 2027
-                    </p>
-                  </div>
-                  <span className="badge-accent-soft rounded-full px-2.5 py-1 text-xs font-bold">
-                    68%
-                  </span>
-                </div>
-                <div className="mb-1 h-2.5 w-full rounded-full bg-muted">
-                  <div
-                    className="pp-grow h-2.5 rounded-full bg-primary"
-                    style={{ width: "68%" }}
-                    role="presentation"
-                  />
-                </div>
-                <div className="mt-4 grid grid-cols-3 gap-3 text-center text-xs">
-                  <div className="rounded-lg bg-muted/60 px-2 py-3">
-                    <div className="font-bold text-foreground">₹1,00,000</div>
-                    <div className="text-muted-foreground">Target</div>
-                  </div>
-                  <div className="rounded-lg bg-muted/60 px-2 py-3">
-                    <div className="font-bold text-[var(--pp-success)]">₹68,000</div>
-                    <div className="text-muted-foreground">Saved</div>
-                  </div>
-                  <div className="rounded-lg bg-muted/60 px-2 py-3">
-                    <div className="font-bold text-foreground">₹32,000</div>
-                    <div className="text-muted-foreground">Remaining</div>
-                  </div>
-                </div>
-                <div className="mt-4 border-t border-border pt-4">
-                  <p className="mb-2 text-xs font-semibold text-muted-foreground">
-                    Recent contributions
+                <div
+                  className="pp-float rounded-2xl border border-border bg-card p-6 shadow-[0_24px_50px_-28px_rgba(23,43,77,0.35)]"
+                  role="img"
+                  aria-label="Illustrative example of a goal card for an Emergency Fund goal"
+                >
+                  <p className="mb-4 text-right text-xs text-muted-foreground">
+                    Illustrative example
                   </p>
-                  {[
-                    { date: "Oct 5, 2026", amount: "₹8,000", ref: "483920104751" },
-                    { date: "Sep 4, 2026", amount: "₹10,000", ref: "712304859201" },
-                  ].map((c) => (
-                    <div
-                      key={c.ref}
-                      className="flex items-center justify-between py-1.5 text-xs"
-                    >
-                      <span className="text-muted-foreground">{c.date}</span>
-                      <span className="font-semibold text-foreground">
-                        {c.amount}
-                      </span>
-                      <span className="font-mono text-muted-foreground">
-                        #{c.ref}
-                      </span>
+                  <div className="mb-4 flex items-start justify-between">
+                    <div>
+                      <h3 className="font-bold text-foreground">Emergency Fund</h3>
+                      <p className="text-xs text-muted-foreground">Oct 10, 2026 – Apr 10, 2027</p>
                     </div>
-                  ))}
+                    <span className="badge-accent-soft rounded-full px-2.5 py-1 text-xs font-bold">
+                      68%
+                    </span>
+                  </div>
+                  <div className="mb-1 h-2.5 w-full rounded-full bg-muted">
+                    <div
+                      className="pp-grow h-2.5 rounded-full bg-primary"
+                      style={{ width: "68%" }}
+                      role="presentation"
+                    />
+                  </div>
+                  <div className="mt-4 grid grid-cols-3 gap-3 text-center text-xs">
+                    <div className="rounded-lg bg-muted/60 px-2 py-3">
+                      <div className="font-bold text-foreground">₹1,00,000</div>
+                      <div className="text-muted-foreground">Target</div>
+                    </div>
+                    <div className="rounded-lg bg-muted/60 px-2 py-3">
+                      <div className="font-bold text-[var(--pp-success)]">₹68,000</div>
+                      <div className="text-muted-foreground">Saved</div>
+                    </div>
+                    <div className="rounded-lg bg-muted/60 px-2 py-3">
+                      <div className="font-bold text-foreground">₹32,000</div>
+                      <div className="text-muted-foreground">Remaining</div>
+                    </div>
+                  </div>
+                  <div className="mt-4 border-t border-border pt-4">
+                    <p className="mb-2 text-xs font-semibold text-muted-foreground">
+                      Recent contributions
+                    </p>
+                    {[
+                      { date: "Oct 5, 2026", amount: "₹8,000", ref: "483920104751" },
+                      { date: "Sep 4, 2026", amount: "₹10,000", ref: "712304859201" },
+                    ].map((c) => (
+                      <div key={c.ref} className="flex items-center justify-between py-1.5 text-xs">
+                        <span className="text-muted-foreground">{c.date}</span>
+                        <span className="font-semibold text-foreground">{c.amount}</span>
+                        <span className="font-mono text-muted-foreground">#{c.ref}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 rounded-md bg-muted/60 px-3 py-2 text-xs text-muted-foreground">
+                    Recommended monthly saving: <strong className="text-foreground">₹10,667</strong>{" "}
+                    over 3 remaining months
+                  </div>
                 </div>
-                <div className="mt-4 rounded-md bg-muted/60 px-3 py-2 text-xs text-muted-foreground">
-                  Recommended monthly saving: <strong className="text-foreground">₹10,667</strong> over 3
-                  remaining months
-                </div>
-              </div>
               </Reveal>
             </div>
           </div>
@@ -1170,22 +1265,20 @@ function LandingPage() {
             <ol className="relative grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
               {steps.map((step, i) => (
                 <li key={step.num} className="list-none">
-                <Reveal delay={i * 80} className="h-full">
-                <div
-                  className="pp-card flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-sm"
-                >
-                  <span
-                    className="pp-step-num mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
-                    aria-hidden="true"
-                  >
-                    {step.num}
-                  </span>
-                  <h3 className="font-semibold text-foreground">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {step.desc}
-                  </p>
-                </div>
-                </Reveal>
+                  <Reveal delay={i * 80} className="h-full">
+                    <div className="pp-card flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-sm">
+                      <span
+                        className="pp-step-num mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
+                        aria-hidden="true"
+                      >
+                        {step.num}
+                      </span>
+                      <h3 className="font-semibold text-foreground">{step.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </Reveal>
                 </li>
               ))}
             </ol>
@@ -1210,43 +1303,33 @@ function LandingPage() {
                 What is PLANPOCKET?
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-                PLANPOCKET is a client-side finance-planning prototype that
-                helps you organise spending, make budgets, set savings goals,
-                estimate investment growth, review monthly summaries, and
-                explore hypothetical business scenarios — all in a single web
+                PLANPOCKET is a client-side finance-planning prototype that helps you organise
+                spending, make budgets, set savings goals, estimate investment growth, review
+                monthly summaries, and explore hypothetical business scenarios — all in a single web
                 application.
               </p>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                It is designed to be approachable for individuals managing
-                household finances and for freelancers or small-business owners
-                who want a lightweight tool to think through financial decisions.
+                It is designed to be approachable for individuals managing household finances and
+                for freelancers or small-business owners who want a lightweight tool to think
+                through financial decisions.
               </p>
               <div className="mt-6 rounded-lg border border-border bg-card px-5 py-4 text-left text-sm text-muted-foreground shadow-sm">
-                <strong className="text-foreground font-semibold">
-                  Platform notice:
-                </strong>{" "}
-                PLANPOCKET uses secure Supabase Authentication and a MongoDB-backed
-                cloud persistence engine when configured with live credentials.
-                Investment calculations and scenario forecasts are transparent,
-                deterministic estimates for planning — not guaranteed financial advice.
+                <strong className="text-foreground font-semibold">Platform notice:</strong>{" "}
+                PLANPOCKET uses secure Supabase Authentication and a MongoDB-backed cloud
+                persistence engine when configured with live credentials. Investment calculations
+                and scenario forecasts are transparent, deterministic estimates for planning — not
+                guaranteed financial advice.
               </div>
             </Reveal>
 
             {/* Audience grid */}
-            <div
-              id="audiences"
-              className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-            >
+            <div id="audiences" className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {audiences.map((a, i) => (
                 <Reveal key={a.title} delay={i * 80}>
-                <div
-                  className="pp-card h-full rounded-xl border border-border bg-card p-5 shadow-sm"
-                >
-                  <h3 className="font-semibold text-foreground">{a.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {a.desc}
-                  </p>
-                </div>
+                  <div className="pp-card h-full rounded-xl border border-border bg-card p-5 shadow-sm">
+                    <h3 className="font-semibold text-foreground">{a.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
+                  </div>
                 </Reveal>
               ))}
             </div>
@@ -1273,9 +1356,9 @@ function LandingPage() {
                 Access the PLANPOCKET Application
               </h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                PLANPOCKET combines client-side financial calculators with cloud-backed
-                data persistence. Authenticate securely with Supabase to manage your goals,
-                track expenses, and run deterministic CFO scenario projections from any device.
+                PLANPOCKET combines client-side financial calculators with cloud-backed data
+                persistence. Authenticate securely with Supabase to manage your goals, track
+                expenses, and run deterministic CFO scenario projections from any device.
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <a
@@ -1298,20 +1381,14 @@ function LandingPage() {
         {/* ══════════════════════════════════════
             FINAL CALL TO ACTION
         ══════════════════════════════════════ */}
-        <section
-          aria-labelledby="cta-heading"
-          className="px-4 py-20 sm:px-6"
-        >
+        <section aria-labelledby="cta-heading" className="px-4 py-20 sm:px-6">
           <Reveal className="pp-cta mx-auto max-w-5xl rounded-3xl px-6 py-16 text-center shadow-lg sm:px-12">
-            <h2
-              id="cta-heading"
-              className="text-3xl font-bold tracking-tight sm:text-4xl"
-            >
+            <h2 id="cta-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
               Ready to take control of your finances?
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg opacity-90">
-              Review every tool, simulate hypothetical scenarios, and plan your
-              savings goals — all right here.
+              Review every tool, simulate hypothetical scenarios, and plan your savings goals — all
+              right here.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <a
@@ -1346,16 +1423,14 @@ function LandingPage() {
                 <span className="font-extrabold tracking-tight">PLANPOCKET</span>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
-                Your financial planning companion. A client-side prototype for
-                personal finance and small-business scenario planning.
+                Your financial planning companion. A client-side prototype for personal finance and
+                small-business scenario planning.
               </p>
             </div>
 
             {/* Nav */}
             <nav aria-label="Footer navigation">
-              <h3 className="mb-3 text-sm font-semibold text-foreground">
-                Navigation
-              </h3>
+              <h3 className="mb-3 text-sm font-semibold text-foreground">Navigation</h3>
               <ul className="space-y-2 text-sm">
                 {navLinks.map((link) => (
                   <li key={link.href}>
@@ -1372,9 +1447,7 @@ function LandingPage() {
 
             {/* App links */}
             <div>
-              <h3 className="mb-3 text-sm font-semibold text-foreground">
-                App
-              </h3>
+              <h3 className="mb-3 text-sm font-semibold text-foreground">App</h3>
               <ul className="space-y-2 text-sm">
                 <li>
                   <a
@@ -1407,8 +1480,8 @@ function LandingPage() {
           <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row">
             <p>© {new Date().getFullYear()} PLANPOCKET. Prototype project.</p>
             <p>
-              Finance data is stored locally in your browser. Calculations and
-              scenario results are estimates, not financial advice.
+              Finance data is stored locally in your browser. Calculations and scenario results are
+              estimates, not financial advice.
             </p>
           </div>
         </div>

@@ -39,4 +39,3 @@ export function getSupabaseClient(): SupabaseClient {
   }
   return clientInstance;
 }
-

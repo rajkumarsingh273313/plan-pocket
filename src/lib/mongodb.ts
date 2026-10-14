@@ -51,9 +51,7 @@ export interface CFOScenarioDocument {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
-  // eslint-disable-next-line no-var
   var _mongoIndexesInitialized: boolean | undefined;
 }
 
@@ -63,7 +61,7 @@ export function isMongoConfigured(): boolean {
     uri &&
     !uri.includes("your-cluster") &&
     !uri.includes("<db_password>") &&
-    !uri.includes("placeholder")
+    !uri.includes("placeholder"),
   );
 }
 
@@ -75,7 +73,7 @@ export async function getMongoClient(): Promise<MongoClient> {
   const uri = process.env["MONGODB_URI"];
   if (!uri || !isMongoConfigured()) {
     throw new Error(
-      "MongoDB connection URI is not configured. Please set the MONGODB_URI environment variable."
+      "MongoDB connection URI is not configured. Please set the MONGODB_URI environment variable.",
     );
   }
 
@@ -100,30 +98,22 @@ export async function getMongoDb(): Promise<Db> {
   if (!global._mongoIndexesInitialized) {
     try {
       await Promise.all([
-        db.collection<GoalDocument>("goals").createIndex(
-          { userId: 1, id: 1 },
-          { unique: true, background: true }
-        ),
-        db.collection<GoalDocument>("goals").createIndex(
-          { userId: 1 },
-          { background: true }
-        ),
-        db.collection<InvestmentScenarioDocument>("investments").createIndex(
-          { userId: 1, id: 1 },
-          { unique: true, background: true }
-        ),
-        db.collection<InvestmentScenarioDocument>("investments").createIndex(
-          { userId: 1 },
-          { background: true }
-        ),
-        db.collection<CFOScenarioDocument>("cfo_scenarios").createIndex(
-          { userId: 1, id: 1 },
-          { unique: true, background: true }
-        ),
-        db.collection<CFOScenarioDocument>("cfo_scenarios").createIndex(
-          { userId: 1 },
-          { background: true }
-        ),
+        db
+          .collection<GoalDocument>("goals")
+          .createIndex({ userId: 1, id: 1 }, { unique: true, background: true }),
+        db.collection<GoalDocument>("goals").createIndex({ userId: 1 }, { background: true }),
+        db
+          .collection<InvestmentScenarioDocument>("investments")
+          .createIndex({ userId: 1, id: 1 }, { unique: true, background: true }),
+        db
+          .collection<InvestmentScenarioDocument>("investments")
+          .createIndex({ userId: 1 }, { background: true }),
+        db
+          .collection<CFOScenarioDocument>("cfo_scenarios")
+          .createIndex({ userId: 1, id: 1 }, { unique: true, background: true }),
+        db
+          .collection<CFOScenarioDocument>("cfo_scenarios")
+          .createIndex({ userId: 1 }, { background: true }),
       ]);
       global._mongoIndexesInitialized = true;
     } catch (indexError) {
@@ -149,4 +139,3 @@ export async function getCFOScenariosCollection(): Promise<Collection<CFOScenari
   const db = await getMongoDb();
   return db.collection<CFOScenarioDocument>("cfo_scenarios");
 }
-

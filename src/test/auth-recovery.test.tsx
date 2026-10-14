@@ -31,9 +31,7 @@ describe("Password Recovery Flow", () => {
 
       render(<ResetPasswordPage />);
 
-      expect(
-        await screen.findByText("Supabase Auth Not Configured"),
-      ).toBeInTheDocument();
+      expect(await screen.findByText("Supabase Auth Not Configured")).toBeInTheDocument();
       expect(
         screen.getByText(/Password recovery requires a connected Supabase project/i),
       ).toBeInTheDocument();
@@ -46,15 +44,9 @@ describe("Password Recovery Flow", () => {
 
       render(<ResetPasswordPage />);
 
-      expect(
-        await screen.findByText("Reset Link Expired or Invalid"),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText("Email link is invalid or has expired"),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("link", { name: /Request New Reset Email/i }),
-      ).toBeInTheDocument();
+      expect(await screen.findByText("Reset Link Expired or Invalid")).toBeInTheDocument();
+      expect(screen.getByText("Email link is invalid or has expired")).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: /Request New Reset Email/i })).toBeInTheDocument();
     });
 
     it("shows the password reset form when a recovery session is present", async () => {
@@ -96,9 +88,7 @@ describe("Password Recovery Flow", () => {
       ).toBeInTheDocument();
       expect(screen.getByLabelText("New Password")).toBeInTheDocument();
       expect(screen.getByLabelText("Confirm Password")).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: "Reset Password" }),
-      ).toBeDisabled();
+      expect(screen.getByRole("button", { name: "Reset Password" })).toBeDisabled();
     });
 
     it("validates password requirements and enables submit only when matching and valid", async () => {
@@ -157,9 +147,7 @@ describe("Password Recovery Flow", () => {
         });
       });
 
-      expect(
-        await screen.findByText("Password Reset Successfully"),
-      ).toBeInTheDocument();
+      expect(await screen.findByText("Password Reset Successfully")).toBeInTheDocument();
       expect(mockSignOut).toHaveBeenCalled();
     });
 
@@ -202,11 +190,8 @@ describe("Password Recovery Flow", () => {
       fireEvent.click(submitBtn);
 
       expect(
-        await screen.findByText(
-          "New password should be different from old password.",
-        ),
+        await screen.findByText("New password should be different from old password."),
       ).toBeInTheDocument();
     });
   });
 });
-
