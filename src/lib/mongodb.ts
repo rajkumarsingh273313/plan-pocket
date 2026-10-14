@@ -50,6 +50,41 @@ export interface CFOScenarioDocument {
   updatedAt: Date;
 }
 
+export interface ExpenseDocument {
+  userId: string;
+  id: string;
+  description: string;
+  amount: number;
+  amountPaise: number;
+  category: string;
+  date: string; // YYYY-MM-DD
+  note?: string | undefined;
+  type?: "essential" | "optional" | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface BudgetDocument {
+  userId: string;
+  month: string; // YYYY-MM
+  income?: number | null | undefined;
+  incomePaise?: number | null | undefined;
+  limits: Record<string, number>;
+  limitsPaise?: Record<string, number> | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CategoryDocument {
+  userId: string;
+  id: string;
+  name: string;
+  color?: string | undefined;
+  icon?: string | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined;
   var _mongoIndexesInitialized: boolean | undefined;
@@ -114,6 +149,27 @@ export async function getMongoDb(): Promise<Db> {
         db
           .collection<CFOScenarioDocument>("cfo_scenarios")
           .createIndex({ userId: 1 }, { background: true }),
+        db
+          .collection<ExpenseDocument>("expenses")
+          .createIndex({ userId: 1, id: 1 }, { unique: true, background: true }),
+        db
+          .collection<ExpenseDocument>("expenses")
+          .createIndex({ userId: 1, date: -1 }, { background: true }),
+        db
+          .collection<ExpenseDocument>("expenses")
+          .createIndex({ userId: 1, category: 1, date: -1 }, { background: true }),
+        db
+          .collection<BudgetDocument>("budgets")
+          .createIndex({ userId: 1, month: 1 }, { unique: true, background: true }),
+        db
+          .collection<BudgetDocument>("budgets")
+          .createIndex({ userId: 1 }, { background: true }),
+        db
+          .collection<CategoryDocument>("categories")
+          .createIndex({ userId: 1, id: 1 }, { unique: true, background: true }),
+        db
+          .collection<CategoryDocument>("categories")
+          .createIndex({ userId: 1, name: 1 }, { background: true }),
       ]);
       global._mongoIndexesInitialized = true;
     } catch (indexError) {
@@ -138,4 +194,19 @@ export async function getInvestmentsCollection(): Promise<Collection<InvestmentS
 export async function getCFOScenariosCollection(): Promise<Collection<CFOScenarioDocument>> {
   const db = await getMongoDb();
   return db.collection<CFOScenarioDocument>("cfo_scenarios");
+}
+
+export async function getExpensesCollection(): Promise<Collection<ExpenseDocument>> {
+  const db = await getMongoDb();
+  return db.collection<ExpenseDocument>("expenses");
+}
+
+export async function getBudgetsCollection(): Promise<Collection<BudgetDocument>> {
+  const db = await getMongoDb();
+  return db.collection<BudgetDocument>("budgets");
+}
+
+export async function getCategoriesCollection(): Promise<Collection<CategoryDocument>> {
+  const db = await getMongoDb();
+  return db.collection<CategoryDocument>("categories");
 }

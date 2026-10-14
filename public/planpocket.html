@@ -3016,24 +3016,33 @@
       }
 
       .btn-custom-category {
-        background: none;
-        border: 1px dashed var(--accent);
-        color: var(--accent);
+        background: var(--lime-soft, #ddf3ec);
+        border: 1px solid rgba(15, 118, 110, 0.25);
+        color: var(--accent, #0f766e);
         font-size: 0.8rem;
-        padding: 2px 8px;
-        border-radius: 6px;
+        padding: 4px 10px;
+        border-radius: 8px;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        transition: all 0.2s ease;
-        font-weight: 500;
-        line-height: 1.4;
+        gap: 5px;
+        transition: all 0.18s ease;
+        font-weight: 600;
+        line-height: 1.3;
+        font-family: inherit;
       }
       .btn-custom-category:hover {
-        background: rgba(76, 201, 240, 0.1);
-        border-color: var(--accent2);
-        color: var(--accent2);
+        background: var(--accent, #0f766e);
+        color: #ffffff;
+        border-color: var(--accent, #0f766e);
+        box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+        transform: translateY(-1px);
+      }
+      .btn-custom-category:active {
+        transform: translateY(0);
+      }
+      .btn-custom-category svg {
+        flex-shrink: 0;
       }
 
       /* Polished Empty state */
@@ -3665,6 +3674,222 @@
         outline: none;
         border-color: var(--accent) !important;
         box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.2) !important;
+      }
+
+      /* PlanPocket Accessible Custom Select System */
+      .pp-native-select-hidden {
+        position: absolute !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        width: 1px !important;
+        height: 1px !important;
+        margin: -1px !important;
+        padding: 0 !important;
+        border: 0 !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        clip-path: inset(50%) !important;
+        white-space: nowrap !important;
+      }
+
+      .pp-custom-select-wrap {
+        position: relative;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .pp-select-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        min-height: 42px;
+        padding: 9px 14px;
+        background: #ffffff;
+        border: 1.5px solid var(--border, #e4e7ec);
+        border-radius: 10px;
+        color: var(--text, #172b4d);
+        font-family: inherit;
+        font-size: 0.92rem;
+        font-weight: 500;
+        cursor: pointer;
+        text-align: left;
+        box-sizing: border-box;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+        user-select: none;
+      }
+
+      .pp-select-trigger:hover:not(:disabled) {
+        border-color: #cbd5e1;
+        background: #fafbfc;
+      }
+
+      .pp-select-trigger:focus,
+      .pp-select-trigger:focus-visible,
+      .pp-select-trigger.is-open {
+        outline: none;
+        border-color: var(--accent, #0f766e);
+        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.18);
+        background: #ffffff;
+      }
+
+      .pp-select-trigger:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: #f8fafc;
+      }
+
+      .pp-select-trigger-text {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.4;
+      }
+
+      .pp-select-trigger-chevron {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        color: var(--accent, #0f766e);
+        flex-shrink: 0;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .pp-select-trigger.is-open .pp-select-trigger-chevron {
+        transform: rotate(180deg);
+      }
+
+      /* Compact modifier for toolbar dropdowns */
+      .pp-custom-select-wrap.is-compact .pp-select-trigger {
+        min-height: 38px;
+        padding: 6px 12px;
+        font-size: 0.88rem;
+      }
+
+      .pp-custom-select-wrap.is-inline {
+        display: inline-block;
+        width: auto;
+        min-width: 170px;
+        vertical-align: middle;
+      }
+
+      /* Floating Popover Menu */
+      .pp-select-dropdown-popover {
+        position: fixed;
+        z-index: 3500;
+        background: #ffffff;
+        border: 1px solid var(--border, #e4e7ec);
+        border-radius: 12px;
+        box-shadow:
+          0 14px 34px -4px rgba(15, 23, 42, 0.14),
+          0 4px 12px -2px rgba(15, 23, 42, 0.05);
+        max-height: 290px;
+        overflow-y: auto;
+        padding: 6px;
+        box-sizing: border-box;
+        font-family: inherit;
+        color: var(--text, #172b4d);
+        display: none;
+        animation: ppSelectPopIn 0.14s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .pp-select-dropdown-popover.is-open {
+        display: block;
+      }
+
+      @keyframes ppSelectPopIn {
+        from {
+          opacity: 0;
+          transform: translateY(-4px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .pp-select-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: var(--text, #172b4d);
+        cursor: pointer;
+        transition: background-color 0.12s ease, color 0.12s ease;
+        user-select: none;
+        font-weight: 500;
+        line-height: 1.35;
+      }
+
+      .pp-select-option:hover,
+      .pp-select-option.is-highlighted {
+        background: var(--lime-soft, #ddf3ec);
+        color: var(--accent, #0f766e);
+      }
+
+      .pp-select-option.is-selected {
+        background: #eef8f5;
+        color: var(--accent, #0f766e);
+        font-weight: 600;
+      }
+
+      .pp-select-option.is-selected:hover {
+        background: var(--lime-soft, #ddf3ec);
+      }
+
+      .pp-select-option-text {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .pp-select-option-check {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        color: var(--accent, #0f766e);
+        flex-shrink: 0;
+      }
+
+      .pp-select-option-divider {
+        height: 1px;
+        background: #f1f5f9;
+        margin: 5px 4px;
+      }
+
+      .pp-select-option-action {
+        color: var(--accent, #0f766e);
+        font-weight: 600;
+      }
+
+      .pp-select-option-action:hover {
+        background: var(--lime-soft, #ddf3ec);
+        color: #0b5f58;
+      }
+
+      .pp-select-dropdown-popover::-webkit-scrollbar {
+        width: 6px;
+      }
+      .pp-select-dropdown-popover::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .pp-select-dropdown-popover::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .pp-select-dropdown-popover::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
       }
       .pp-cal-month-btn {
         width: 100% !important;
@@ -6408,88 +6633,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Custom Category Modal -->
-        <div
-          id="customCategoryModal"
-          class="goal-modal-backdrop hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="customCategoryModalTitle"
-        >
-          <div class="goal-modal-dialog" style="max-width: 480px">
-            <div class="goal-modal-header">
-              <h3 id="customCategoryModalTitle">Manage Custom Categories</h3>
-              <button
-                type="button"
-                class="goal-modal-close"
-                onclick="closeAddCategoryModal()"
-                aria-label="Close modal"
-              >
-                &times;
-              </button>
-            </div>
-            <p style="color: var(--muted); font-size: 0.9rem; margin: 0 0 16px; line-height: 1.5">
-              Create custom spending categories that appear across your Budget Planner, Expense
-              Tracker, and Financial Reports.
-            </p>
-            <div class="form-group" style="margin-bottom: 14px">
-              <label for="newCategoryName">Category Name</label>
-              <input
-                type="text"
-                id="newCategoryName"
-                maxlength="30"
-                placeholder="e.g. Subscriptions, Pets, Books"
-                onkeydown="
-                  if (event.key === 'Enter') {
-                    event.preventDefault();
-                    submitAddCategory();
-                  }
-                "
-              />
-            </div>
-            <div
-              id="customCatModalMsg"
-              class="message hidden tracker-message"
-              style="margin: 0 0 14px"
-            ></div>
-            <div
-              id="customCategoryChipsSection"
-              style="
-                display: none;
-                margin-bottom: 16px;
-                padding: 12px;
-                background: var(--bg);
-                border-radius: 10px;
-                border: 1px solid var(--border);
-              "
-            >
-              <span
-                style="
-                  font-size: 0.8rem;
-                  font-weight: 700;
-                  color: var(--muted);
-                  text-transform: uppercase;
-                  display: block;
-                  margin-bottom: 8px;
-                "
-                >Your Custom Categories</span
-              >
-              <div
-                id="customCategoryChipsList"
-                style="display: flex; flex-wrap: wrap; gap: 8px"
-              ></div>
-            </div>
-            <div class="goal-modal-actions">
-              <button type="button" class="btn btn-secondary" onclick="closeAddCategoryModal()">
-                Done
-              </button>
-              <button type="button" class="btn" onclick="submitAddCategory()">
-                + Add Category
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -6517,11 +6660,13 @@
                 <label for="expenseCategory" style="margin-bottom: 0">Spending category</label>
                 <button
                   type="button"
+                  id="expenseAddCustomCatBtn"
                   class="btn-custom-category"
                   onclick="openAddCategoryModal('expense')"
                   title="Set a custom category"
                 >
-                  + Set Custom
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Set Custom
                 </button>
               </div>
               <select id="expenseCategory">
@@ -9903,11 +10048,13 @@
                 <label for="budgetCategory" style="margin-bottom: 0">Spending category</label>
                 <button
                   type="button"
+                  id="budgetAddCustomCatBtn"
                   class="btn-custom-category"
                   onclick="openAddCategoryModal('budget')"
                   title="Set a custom spending category"
                 >
-                  + Set Custom
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Set Custom
                 </button>
               </div>
               <select id="budgetCategory">
@@ -10677,6 +10824,88 @@
           >
             <!-- Loaded dynamically -->
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Category Modal -->
+    <div
+      id="customCategoryModal"
+      class="goal-modal-backdrop hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="customCategoryModalTitle"
+    >
+      <div class="goal-modal-dialog" style="max-width: 480px">
+        <div class="goal-modal-header">
+          <h3 id="customCategoryModalTitle">Manage Custom Categories</h3>
+          <button
+            type="button"
+            class="goal-modal-close"
+            onclick="closeAddCategoryModal()"
+            aria-label="Close modal"
+          >
+            &times;
+          </button>
+        </div>
+        <p style="color: var(--muted); font-size: 0.9rem; margin: 0 0 16px; line-height: 1.5">
+          Create custom spending categories that appear across your Budget Planner, Expense
+          Tracker, and Financial Reports.
+        </p>
+        <div class="form-group" style="margin-bottom: 14px">
+          <label for="newCategoryName">Category Name</label>
+          <input
+            type="text"
+            id="newCategoryName"
+            maxlength="30"
+            placeholder="e.g. Subscriptions, Pets, Books"
+            onkeydown="
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                submitAddCategory();
+              }
+            "
+          />
+        </div>
+        <div
+          id="customCatModalMsg"
+          class="message hidden tracker-message"
+          style="margin: 0 0 14px"
+        ></div>
+        <div
+          id="customCategoryChipsSection"
+          style="
+            display: none;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+          "
+        >
+          <span
+            style="
+              font-size: 0.8rem;
+              font-weight: 700;
+              color: var(--muted);
+              text-transform: uppercase;
+              display: block;
+              margin-bottom: 8px;
+            "
+            >Your Custom Categories</span
+          >
+          <div
+            id="customCategoryChipsList"
+            style="display: flex; flex-wrap: wrap; gap: 8px"
+          ></div>
+        </div>
+        <div class="goal-modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeAddCategoryModal()">
+            Done
+          </button>
+          <button type="button" class="btn" onclick="submitAddCategory()">
+            + Add Category
+          </button>
         </div>
       </div>
     </div>
@@ -13243,6 +13472,347 @@
         PlanPocketDatePicker.init();
       };
 
+      /* ==========================================================================
+         PlanPocket Accessible Custom Select Component
+         ========================================================================== */
+      var PlanPocketSelect = (function () {
+        var popoverEl = null;
+        var activeSelect = null;
+        var activeTrigger = null;
+        var highlightedIndex = -1;
+        var registry = new Map();
+
+        function ensurePopover() {
+          if (popoverEl && document.body.contains(popoverEl)) return popoverEl;
+          popoverEl = document.getElementById("ppSelectDropdownPopover");
+          if (!popoverEl) {
+            popoverEl = document.createElement("div");
+            popoverEl.id = "ppSelectDropdownPopover";
+            popoverEl.className = "pp-select-dropdown-popover";
+            popoverEl.setAttribute("role", "listbox");
+            popoverEl.setAttribute("aria-hidden", "true");
+            document.body.appendChild(popoverEl);
+          }
+          return popoverEl;
+        }
+
+        function enhance(selectEl, opts) {
+          if (!selectEl) return;
+          if (typeof selectEl === "string") selectEl = document.getElementById(selectEl);
+          if (!selectEl || registry.has(selectEl)) return;
+
+          opts = opts || {};
+          ensurePopover();
+
+          var isCompact = opts.compact || selectEl.classList.contains("toolbar-select") || selectEl.id === "expenseSortSelect";
+          var isInline = opts.inline || selectEl.id === "investmentTypeSelect" || selectEl.id === "expenseSortSelect";
+
+          // Create wrapper around the native select
+          var wrapper = document.createElement("div");
+          wrapper.className = "pp-custom-select-wrap" + (isCompact ? " is-compact" : "") + (isInline ? " is-inline" : "");
+          selectEl.parentNode.insertBefore(wrapper, selectEl);
+          wrapper.appendChild(selectEl);
+
+          // Visually hide native select while keeping it active in DOM and accessibility tree
+          selectEl.classList.add("pp-native-select-hidden");
+          selectEl.setAttribute("tabindex", "-1");
+          selectEl.setAttribute("aria-hidden", "true");
+
+          // Create custom trigger button
+          var trigger = document.createElement("button");
+          trigger.type = "button";
+          trigger.className = "pp-select-trigger";
+          if (selectEl.id) trigger.id = selectEl.id + "_trigger";
+          trigger.setAttribute("aria-haspopup", "listbox");
+          trigger.setAttribute("aria-expanded", "false");
+
+          var textEl = document.createElement("span");
+          textEl.className = "pp-select-trigger-text";
+
+          var chevron = document.createElement("span");
+          chevron.className = "pp-select-trigger-chevron";
+          chevron.setAttribute("aria-hidden", "true");
+          chevron.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+
+          trigger.appendChild(textEl);
+          trigger.appendChild(chevron);
+          wrapper.appendChild(trigger);
+
+          var entry = { wrapper: wrapper, trigger: trigger, textEl: textEl };
+          registry.set(selectEl, entry);
+
+          function updateTriggerText() {
+            var selectedOpt = selectEl.options && selectEl.selectedIndex >= 0 ? selectEl.options[selectEl.selectedIndex] : null;
+            textEl.textContent = selectedOpt ? selectedOpt.textContent : (selectEl.value || "");
+          }
+          updateTriggerText();
+
+          // Keep in sync on change
+          selectEl.addEventListener("change", updateTriggerText);
+
+          // Observe option mutations
+          if (window.MutationObserver) {
+            var observer = new MutationObserver(function () {
+              updateTriggerText();
+              if (activeSelect === selectEl && popoverEl && popoverEl.classList.contains("is-open")) {
+                renderOptions(selectEl);
+                positionPopover();
+              }
+            });
+            observer.observe(selectEl, { childList: true, subtree: true, characterData: true });
+          }
+
+          // Trigger click
+          trigger.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (activeSelect === selectEl && popoverEl && popoverEl.classList.contains("is-open")) {
+              close();
+            } else {
+              open(selectEl, trigger);
+            }
+          });
+
+          // Trigger keyboard interaction
+          trigger.addEventListener("keydown", function (e) {
+            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+              e.preventDefault();
+              if (!popoverEl.classList.contains("is-open")) {
+                open(selectEl, trigger);
+              } else {
+                navigateOptions(e.key === "ArrowDown" ? 1 : -1);
+              }
+            } else if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              if (popoverEl.classList.contains("is-open")) {
+                selectHighlighted();
+              } else {
+                open(selectEl, trigger);
+              }
+            } else if (e.key === "Escape") {
+              if (popoverEl.classList.contains("is-open")) {
+                e.preventDefault();
+                close();
+              }
+            } else if (e.key === "Tab") {
+              close();
+            }
+          });
+        }
+
+        function open(selectEl, trigger) {
+          ensurePopover();
+          activeSelect = selectEl;
+          activeTrigger = trigger;
+          highlightedIndex = -1;
+
+          trigger.classList.add("is-open");
+          trigger.setAttribute("aria-expanded", "true");
+
+          renderOptions(selectEl);
+          popoverEl.classList.add("is-open");
+          popoverEl.setAttribute("aria-hidden", "false");
+          positionPopover();
+        }
+
+        function close() {
+          if (activeTrigger) {
+            activeTrigger.classList.remove("is-open");
+            activeTrigger.setAttribute("aria-expanded", "false");
+          }
+          if (popoverEl) {
+            popoverEl.classList.remove("is-open");
+            popoverEl.setAttribute("aria-hidden", "true");
+          }
+          activeSelect = null;
+          activeTrigger = null;
+          highlightedIndex = -1;
+        }
+
+        function renderOptions(selectEl) {
+          ensurePopover();
+          popoverEl.replaceChildren();
+
+          var options = Array.from(selectEl.options || []);
+          var currentVal = selectEl.value;
+
+          options.forEach(function (opt, idx) {
+            var isAction = opt.value === "__add_custom__";
+            if (isAction) {
+              var divider = document.createElement("div");
+              divider.className = "pp-select-option-divider";
+              popoverEl.appendChild(divider);
+            }
+
+            var item = document.createElement("div");
+            item.className = "pp-select-option" + (isAction ? " pp-select-option-action" : "");
+            item.setAttribute("role", "option");
+            item.setAttribute("data-value", opt.value);
+            item.setAttribute("data-index", String(idx));
+
+            var isSelected = opt.value === currentVal;
+            if (isSelected) {
+              item.classList.add("is-selected");
+              item.setAttribute("aria-selected", "true");
+              highlightedIndex = idx;
+            } else {
+              item.setAttribute("aria-selected", "false");
+            }
+
+            var text = document.createElement("span");
+            text.className = "pp-select-option-text";
+            text.textContent = opt.textContent;
+            item.appendChild(text);
+
+            if (isSelected && !isAction) {
+              var check = document.createElement("span");
+              check.className = "pp-select-option-check";
+              check.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+              item.appendChild(check);
+            } else if (isAction) {
+              var plusIcon = document.createElement("span");
+              plusIcon.className = "pp-select-option-check";
+              plusIcon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+              item.appendChild(plusIcon);
+            }
+
+            item.addEventListener("click", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              chooseOption(selectEl, opt.value);
+            });
+
+            popoverEl.appendChild(item);
+          });
+        }
+
+        function chooseOption(selectEl, val) {
+          selectEl.value = val;
+          sync(selectEl);
+          close();
+          selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+          selectEl.dispatchEvent(new Event("input", { bubbles: true }));
+          if (typeof selectEl.onchange === "function") {
+            try {
+              selectEl.onchange.call(selectEl, new Event("change", { bubbles: true }));
+            } catch (err) {
+              console.error(err);
+            }
+          }
+          var entry = registry.get(selectEl);
+          if (entry && entry.trigger) entry.trigger.focus();
+        }
+
+        function sync(selectEl) {
+          if (typeof selectEl === "string") selectEl = document.getElementById(selectEl);
+          if (!selectEl) return;
+          var entry = registry.get(selectEl);
+          if (!entry) return;
+          var selectedOpt = selectEl.options && selectEl.selectedIndex >= 0 ? selectEl.options[selectEl.selectedIndex] : null;
+          entry.textEl.textContent = selectedOpt ? selectedOpt.textContent : (selectEl.value || "");
+        }
+
+        function syncAll() {
+          registry.forEach(function (entry, selectEl) {
+            sync(selectEl);
+          });
+        }
+
+        function positionPopover() {
+          if (!popoverEl || !activeTrigger) return;
+          var rect = activeTrigger.getBoundingClientRect();
+          popoverEl.style.width = "auto";
+          popoverEl.style.minWidth = Math.max(rect.width, 210) + "px";
+          popoverEl.style.maxWidth = Math.min(360, window.innerWidth - 24) + "px";
+
+          var popoverRect = popoverEl.getBoundingClientRect();
+          var popoverWidth = popoverRect.width || Math.max(rect.width, 210);
+          var popoverHeight = Math.min(popoverEl.scrollHeight || 240, 290);
+
+          var left = rect.left;
+          if (left + popoverWidth > window.innerWidth - 12) {
+            left = Math.max(12, window.innerWidth - popoverWidth - 12);
+          }
+
+          var top = rect.bottom + 6;
+          if (top + popoverHeight > window.innerHeight - 10 && rect.top - popoverHeight - 6 > 10) {
+            top = rect.top - popoverHeight - 6;
+          }
+
+          popoverEl.style.left = left + "px";
+          popoverEl.style.top = top + "px";
+        }
+
+        function navigateOptions(dir) {
+          var items = Array.from(popoverEl.querySelectorAll(".pp-select-option"));
+          if (!items.length) return;
+          highlightedIndex += dir;
+          if (highlightedIndex < 0) highlightedIndex = items.length - 1;
+          if (highlightedIndex >= items.length) highlightedIndex = 0;
+
+          items.forEach(function (it, i) {
+            if (i === highlightedIndex) {
+              it.classList.add("is-highlighted");
+              it.scrollIntoView({ block: "nearest" });
+            } else {
+              it.classList.remove("is-highlighted");
+            }
+          });
+        }
+
+        function selectHighlighted() {
+          var items = Array.from(popoverEl.querySelectorAll(".pp-select-option"));
+          if (highlightedIndex >= 0 && highlightedIndex < items.length) {
+            var val = items[highlightedIndex].getAttribute("data-value");
+            if (activeSelect && val) chooseOption(activeSelect, val);
+          }
+        }
+
+        document.addEventListener("mousedown", function (e) {
+          if (!popoverEl || !popoverEl.classList.contains("is-open")) return;
+          if (popoverEl.contains(e.target)) return;
+          if (activeTrigger && activeTrigger.contains(e.target)) return;
+          close();
+        });
+
+        window.addEventListener("resize", function () {
+          if (popoverEl && popoverEl.classList.contains("is-open")) {
+            positionPopover();
+          }
+        });
+
+        window.addEventListener("scroll", function () {
+          if (popoverEl && popoverEl.classList.contains("is-open")) {
+            positionPopover();
+          }
+        }, true);
+
+        function initAll() {
+          var targetIds = [
+            "expenseCategory",
+            "budgetCategory",
+            "expenseSortSelect",
+            "expenseFilterCategory",
+            "investmentTypeSelect"
+          ];
+          targetIds.forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) enhance(el);
+          });
+        }
+
+        return {
+          enhance: enhance,
+          sync: sync,
+          syncAll: syncAll,
+          open: open,
+          close: close,
+          initAll: initAll
+        };
+      })();
+
+      window.PlanPocketSelect = PlanPocketSelect;
+
       /** Initialise Goal Planner date/duration controls. Called once on DOMContentLoaded. */
       function initGoalDuration() {
         var today = new Date();
@@ -14986,7 +15556,10 @@
           currentMFMode = "sip";
         }
 
-        if (select) select.value = mode;
+        if (select) {
+          select.value = mode;
+          if (window.PlanPocketSelect) window.PlanPocketSelect.sync(select);
+        }
 
         if (tabMF) {
           tabMF.classList.toggle("active", mode === "mf");
@@ -16752,6 +17325,10 @@
             filterSelect.value = "ALL";
           }
         }
+
+        if (window.PlanPocketSelect) {
+          window.PlanPocketSelect.syncAll();
+        }
       }
 
       function initCategoryDropdownListeners() {
@@ -16776,6 +17353,22 @@
             }
           });
         }
+
+        const budgetBtn = document.getElementById("budgetAddCustomCatBtn");
+        if (budgetBtn) {
+          budgetBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            openAddCategoryModal("budget");
+          });
+        }
+
+        const expenseBtn = document.getElementById("expenseAddCustomCatBtn");
+        if (expenseBtn) {
+          expenseBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            openAddCategoryModal("expense");
+          });
+        }
       }
 
       function openAddCategoryModal(caller) {
@@ -16790,13 +17383,25 @@
         if (input) input.value = "";
 
         renderCustomCategoryChips();
-        if (modal) modal.classList.remove("hidden");
-        if (input) setTimeout(() => input.focus(), 50);
+        if (modal) {
+          modal.classList.remove("hidden");
+          modal.style.display = "flex";
+          if (!modal.dataset.backdropBound) {
+            modal.dataset.backdropBound = "true";
+            modal.addEventListener("click", function (e) {
+              if (e.target === modal) closeAddCategoryModal();
+            });
+          }
+        }
+        if (input) setTimeout(() => input.focus(), 60);
       }
 
       function closeAddCategoryModal() {
         const modal = document.getElementById("customCategoryModal");
-        if (modal) modal.classList.add("hidden");
+        if (modal) {
+          modal.classList.add("hidden");
+          modal.style.display = "none";
+        }
 
         const budgetSelect = document.getElementById("budgetCategory");
         const expenseSelect = document.getElementById("expenseCategory");
@@ -16807,6 +17412,9 @@
           expenseSelect.value = _lastSelectedExpenseCategory;
         }
       }
+
+      window.openAddCategoryModal = openAddCategoryModal;
+      window.closeAddCategoryModal = closeAddCategoryModal;
 
       function renderCustomCategoryChips() {
         const section = document.getElementById("customCategoryChipsSection");
@@ -16930,6 +17538,9 @@
         renderBudgetOverview();
         renderExpenses();
       }
+
+      window.submitAddCategory = submitAddCategory;
+      window.deleteCustomCategory = deleteCustomCategory;
 
       function getMonthKey(date) {
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
@@ -20954,6 +21565,9 @@ PlanPocket calculations are for planning and estimation only. Consult a qualifie
         calculateHRA();
         calculateELSS();
         initPlanPocketDatePickers();
+        if (window.PlanPocketSelect) {
+          window.PlanPocketSelect.initAll();
+        }
 
         // Add install prompt after a delay
         setTimeout(() => {
