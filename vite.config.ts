@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 // @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
 // or the app will break with duplicate plugins:
 //   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
@@ -10,7 +11,7 @@ export default defineConfig({
   nitro: {
     preset: "vercel",
     // tr46 (via mongodb) does require("punycode/"); unenv's alias turns it into an invalid path.
-    alias: { "punycode/": "punycode/punycode.js" },
+    alias: { "punycode/": fileURLToPath(new URL("./node_modules/punycode/punycode.js", import.meta.url)) },
   },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
@@ -18,10 +19,6 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
-    resolve: {
-      // tr46 (via mongodb) does require("punycode/"); the trailing slash breaks unenv's alias.
-      alias: [{ find: /^punycode\/$/, replacement: "punycode/punycode.js" }],
-    },
     plugins: [
       {
         name: "api-dev-middleware",
