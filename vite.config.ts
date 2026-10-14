@@ -16,6 +16,10 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    resolve: {
+      // tr46 (via mongodb) does require("punycode/"); the trailing slash breaks unenv's alias.
+      alias: [{ find: /^punycode\/$/, replacement: "punycode/punycode.js" }],
+    },
     plugins: [
       {
         name: "api-dev-middleware",
