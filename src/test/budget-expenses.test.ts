@@ -258,9 +258,9 @@ describe("PlanPocket Budget & Expenses Integration", () => {
     expect(metrics.remainingBudget).toBe(-500);
     expect(metrics.totalOverspent).toBe(700); // Food is 4700 vs limit 4000 = 700 over
     expect(metrics.overspentCategories).toHaveLength(1);
-    expect(metrics.overspentCategories[0].category).toBe("Food");
-    expect(metrics.largestCategories[0].category).toBe("Food");
-    expect(metrics.largestCategories[0].amount).toBe(4700);
+    expect(metrics.overspentCategories[0]!.category).toBe("Food");
+    expect(metrics.largestCategories[0]!.category).toBe("Food");
+    expect(metrics.largestCategories[0]!.amount).toBe(4700);
   });
 
   it("updates budget metrics dynamically on adding, editing, and deleting an expense", () => {
@@ -488,14 +488,14 @@ describe("PlanPocket Budget & Expenses Integration", () => {
     expect(metrics.totalPlanned).toBe(4000);
     expect(metrics.totalOverspent).toBe(500);
     expect(metrics.overspentCategories).toHaveLength(1);
-    expect(metrics.overspentCategories[0].category).toBe("Gym & Fitness");
+    expect(metrics.overspentCategories[0]!.category).toBe("Gym & Fitness");
   });
 
   it("handles month stepping correctly across year boundaries", () => {
     function stepMonth(yearMonth: string, delta: number): string {
       const [yStr, mStr] = yearMonth.split("-");
-      let y = parseInt(yStr, 10);
-      let m = parseInt(mStr, 10) - 1 + delta;
+      let y = parseInt(yStr || "0", 10);
+      let m = parseInt(mStr || "1", 10) - 1 + delta;
       if (m < 0) {
         y -= 1;
         m = 11;
